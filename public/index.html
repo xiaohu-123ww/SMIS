@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  <meta content="webkit" name="renderer">
+   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+   <!-- <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"> -->
+<!--  <link href="<%= BASE_URL %>favicon.ico" rel="icon">-->
+  <title><%= webpackConfig.name %></title>
+  <script>
+    window.onload = function(){
+      var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      // 这里是图片的地址xxxx
+      link.href = 'https://znzz.tech/static/img/logo_favicon.png';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+  </script>
+</head>
+<body>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
+</html>

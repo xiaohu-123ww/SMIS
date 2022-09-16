@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1, .cls-4 {
+      fill: none;
+      }
+
+      .cls-1 {
+      stroke: #a3a3a3;
+      }
+
+      .cls-2 {
+      fill: #a3a3a3;
+      font-size: 16px;
+      font-family: PingFangHK-Regular, PingFang HK;
+      }
+
+      .cls-3 {
+      stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="组_116" data-name="组 116" transform="translate(738.914 -187.39)">
+    <g id="矩形_870" data-name="矩形 870" class="cls-1" transform="translate(-738.914 187.39)">
+      <rect class="cls-3" width="24" height="24" rx="5"/>
+      <rect class="cls-4" x="0.5" y="0.5" width="23" height="23" rx="4.5"/>
+    </g>
+    <text id="智" class="cls-2" transform="translate(-726.914 204.39)">
+      <tspan x="-8" y="0">智</tspan>
+    </text>
+  </g>
+</svg>

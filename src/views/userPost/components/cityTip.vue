@@ -136,7 +136,7 @@ export default {
   data () {
     return {
       statu: true,
-      xian: false,
+      xian: true,
       option: [{
         value: '选项1',
         label: '最新发布'

@@ -4,7 +4,7 @@ import request from '@/utils/request'
 // 获取列表
 export function jobList () {
   return request({
-    url: '/enterprise/positions/',
+    url: '/enterprise/positions',
     method: 'get'
   })
 }

@@ -206,7 +206,44 @@ export const constantRoutes = [
     {
       name: '我的',
       path: '/my',
-      component: () => import('@/views/my/index.vue')
+      component: () => import('@/views/my/index.vue'),
+      children: [
+        {
+          name: '个人中心',
+          path: '/my',
+          component: () => import('@/views/my/components/personage.vue')
+        },
+        {
+          name: '我的简历',
+          path: '/resume',
+          component: () => import('@/views/my/components/resume.vue')
+        },
+        {
+          name: '求职申请',
+          path: '/job',
+          component: () => import('@/views/my/components/job.vue')
+        },
+        {
+          name: '面试邀约',
+          path: '/interview',
+          component: () => import('@/views/my/components/interview.vue')
+        },
+        {
+          name: '我的收藏',
+          path: '/collection',
+          component: () => import('@/views/my/components/collection.vue')
+        },
+        {
+          name: '安全中心',
+          path: '/safety',
+          component: () => import('@/views/my/components/safety.vue')
+        },
+        {
+          name: '隐私设置',
+          path: '/privacy',
+          component: () => import('@/views/my/components/privacy.vue')
+        }
+      ]
     }
     ]
   },

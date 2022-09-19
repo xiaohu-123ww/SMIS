@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>面试邀约</div>
 </template>
 <script>
 export default {
@@ -8,7 +8,13 @@ export default {
 
     }
   },
+  computed: {
+
+  },
   mounted () {
+
+  },
+  methods: {
 
   }
 }

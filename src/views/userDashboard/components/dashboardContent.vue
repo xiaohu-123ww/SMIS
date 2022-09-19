@@ -450,6 +450,7 @@ export default {
   // width: 80%;
   box-shadow: 0px 2px 30px 0px rgba(0, 0, 0, 0.08);
   background-color: #fff;
+  overflow: hidden;
 }
 ::v-deep .el-input-group__prepend {
   background-color: #fff !important;
@@ -552,7 +553,7 @@ export default {
     width: 100%;
     height: auto;
     padding: 100px 0;
-    min-width: 1500px;
+    min-width: 1200px;
     .title {
       width: 100%;
       text-align: center;

@@ -377,17 +377,17 @@ export default {
   width: 1200px;
   height: 100px;
   // background-color: #0094ff;
-  margin: 20px 0 0 40px;
+  margin: 20px 0 0 10px;
   padding-left: 50px;
   // display: flex;
   font-size: 15px;
   span {
     // background: red;
-    margin-left: 30px;
+    margin-left: 5px;
     display: inline-block;
     width: 70px;
     height: 15px;
-    margin-top: 5px;
+    margin-top: 8px;
   }
   // .city-2 {
   //   width: 100px;

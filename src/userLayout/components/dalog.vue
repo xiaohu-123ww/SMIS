@@ -5,11 +5,11 @@
 </template>
 <script>
 export default {
-  props: ['status'],
+  // props: ['status'],
   props: {
     status: {
       type: Boolean,
-      default: 'false'
+      default: false
     }
   },
   data () {

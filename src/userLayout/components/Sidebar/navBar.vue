@@ -112,7 +112,10 @@ export default {
           this.bel = false
         }
         this.userInfo = res.data
+        console.log('res.data', res.data)
         this.circleUrl = this.disposeImg(res.data.personal.image)
+        console.log(this.disposeImg)
+        console.log(' this.circleUrl', this.circleUrl)
         if (res.data.user.first_name == '') {
           this.userInfo.name = res.data.user.username
           // console.log(this.userInfo.name);

@@ -161,10 +161,11 @@
     </div>
     <!-- 推荐岗位 -->
     <div class="recommend-box">
+      L
       <div class="title">推荐岗位</div>
       <div class="adorn" />
       <div class="list">
-        <recommend-list :cvlist="list" />
+        <recommendList :cvlist="list" />
       </div>
     </div>
     <!-- 合作伙伴 -->

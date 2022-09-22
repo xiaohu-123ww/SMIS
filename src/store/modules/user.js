@@ -11,7 +11,7 @@ const state = {
   roles: [],
   searchList: [],
   // dict:""
-  status:false
+  status: false
 
 }
 
@@ -19,7 +19,7 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_STATUS:(state, status)=>{
+  SET_STATUS: (state, status) => {
     state.status = status
   },
   SET_INTRODUCTION: (state, introduction) => {
@@ -35,7 +35,6 @@ const mutations = {
     state.roles = roles
   },
   SET_SERCHLIST: (state, searchList) => {
-
     searchList.forEach(item => {
       if (item.salary_min > 1000) {
         item.salary_min = item.salary_min / 1000 + 'K'
@@ -68,7 +67,7 @@ const actions = {
   //     })
   //   })
   // },
-  login({ commit }, userInfo) {
+  login ({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(res => {
@@ -84,7 +83,7 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo ({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
@@ -112,7 +111,7 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state, dispatch }) {
+  logout ({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
@@ -133,7 +132,7 @@ const actions = {
   },
 
   // remove token
-  resetToken({ commit }) {
+  resetToken ({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
@@ -144,7 +143,7 @@ const actions = {
   },
 
   // dynamically modify permissions
-  async changeRoles({ commit, dispatch }, role) {
+  async changeRoles ({ commit, dispatch }, role) {
     const token = role + '-token'
 
     commit('SET_TOKEN', token)

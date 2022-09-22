@@ -19,7 +19,7 @@
         </el-select>
       </div>
     </div>
-    <div v-if="xian" class="city-box">
+    <!-- <div v-if="xian" class="city-box">
       <div class="city-list">
         <span
           ><span class="now-city"
@@ -40,7 +40,7 @@
           >{{ item.label }}
         </el-button>
       </el-dialog>
-    </div>
+    </div> -->
     <div v-if="xian" class="tip-box">
       <div class="change-select">
         <el-select
@@ -174,7 +174,10 @@ export default {
       lists: [],
       cityChoices: [],
       arr: [],
-      arrs: []
+      arrs: [],
+      limit: {
+
+      }
     }
   },
   computed: {

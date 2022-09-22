@@ -223,6 +223,9 @@ module.exports = {
     'no-unused-vars': 'off',
     'vue/no-use-v-if-with-v-for': 'off',
     'vue/no-dupe-keys': 'off',
-    'no-self-assign': 'off'
+    'no-self-assign': 'off',
+    'vue/require-default-prop': 'off',
+    ' vue/no-unused-vars': 'off',
+    'require-v-for-key': 'off'
   }
 }

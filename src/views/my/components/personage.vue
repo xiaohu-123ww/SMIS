@@ -1,38 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <div class="head">
-        <div>
-          <el-avatar
-            class="left"
-            :src="circleUrl"
-            style="position: relative; top: 10px; left: 0px"
-          />
-        </div>
-        <div class="right">
-          <div class="right-i">
-            <div style="font-size: 22px; font-weight: 600">
-              {{ username ? username : 'xxx' }}
-            </div>
-            <div style="margin-left: 40px; margin-top: 5px; font-size: 16px">
-              离职-随时到岗
-            </div>
-          </div>
-          <div class="right-i">
-            <div class="right-age">23岁</div>
-            <div class="right-age">1年</div>
-            <div class="right-age">本科</div>
-          </div>
-        </div>
-      </div>
-      <div class="communication">
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          @click="$router.push('/resume')"
-          >编辑简历</el-button
-        >
-      </div>
+      <Person :flag="flag" />
     </div>
     <div class="center">
       <div class="communicate">
@@ -145,42 +114,25 @@
   </div>
 </template>
 <script>
-import { getPersonalinfo } from '@/api/user'
+import Person from './person.vue'
+// import { getPersonalinfo } from '@/api/user'
 export default {
+  components: { Person },
   data () {
     return {
-      circleUrl:
-        'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-      username: ''
+      circleUrl: '',
+      username: '',
+      flag: true
     }
   },
   mounted () {
 
   },
-  created () {
-    this.getName()
-  },
+  // created () {
+  //   this.getName()
+  // },
   methods: {
     // 转换图片格式
-    disposeImg (img) {
-      if (img !== undefined) {
-        img = String(img)
-
-        if (img.substr(0, 1) == '/') {
-          img = img.substr(1)
-        }
-
-        return 'https://znzz.tech/' + img
-      }
-    },
-    async getName () {
-      const res = await getPersonalinfo()
-      console.log('res', res.data)
-      this.circleUrl = this.disposeImg(res.data.personal.image)
-      console.log('123', this.circleUrl)
-      this.username = res.data.user.username
-      console.log('username', this.username)
-    }
   }
 }
 </script>

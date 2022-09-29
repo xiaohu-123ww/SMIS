@@ -259,7 +259,7 @@ export default {
   .job {
     height: 230px;
     // background-color: #256efd;
-    margin-bottom: 50px;
+    margin: 0 0 50px 30px;
     .job-nn {
       height: 100px;
       // background-color: pink;

@@ -111,6 +111,9 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <div>
+      <CityTip />
+    </div>
   </div>
 </template>
 <script>
@@ -118,8 +121,10 @@ import { serchs } from '../../../api/search'
 import { jobSearch } from '@/api/jobs'
 import { getUservitae } from '@/api/user'
 import { Divider } from 'element-ui'
+import CityTip from './cityTip.vue'
 
 export default {
+  components: { CityTip },
   data () {
     return {
       // 选中时的值
@@ -135,7 +140,7 @@ export default {
       flag: 1,
       tip: '',
       radioList: ['Python', '全栈工程师', 'Java', 'web前端'],
-      options: [],
+      options: JSON.parse(localStorage.getItem('option')),
       list: [],
       dict: '',
       statu: false,
@@ -147,10 +152,11 @@ export default {
       job: '',
       // 城市 行政
       changeColor: 0,
-      cityName: []
+      cityName: JSON.parse(localStorage.getItem('cityName'))
     }
   },
   created () {
+    this.getCity()
     this.serch()
     getUservitae().then((rs) => {
       this.dict = rs.data
@@ -166,7 +172,6 @@ export default {
     }
 
     this.serchJob()
-    this.getCity()
   },
   methods: {
     content_click (e) {
@@ -313,8 +318,9 @@ export default {
     serch () {
       serchs().then((res) => {
         console.log('123123123123123213213----------', res)
-        this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')
+        this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')[0].children
         console.log('options', this.options)
+        localStorage.setItem('option', JSON.stringify(this.options))
       })
     },
     changeRadio () { },
@@ -349,6 +355,7 @@ export default {
       console.log('res', res)
       this.cityName = res.data.cities_options
       console.log('cityName', this.cityName)
+      localStorage.setItem('cityName', JSON.stringify(this.cityName))
     },
     // 城市 行政  地铁
     color () {

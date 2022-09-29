@@ -2,8 +2,8 @@
 <template>
   <div>
     <div class="recom-box">
-      <div><h2 style="margin: 0">推荐岗位</h2></div>
-      <div class="change-select">
+      <!-- <div><h2 style="margin: 0">推荐岗位</h2></div> -->
+      <!-- <div class="change-select">
         <el-select
           v-model="value1"
           class="true-select"
@@ -17,7 +17,7 @@
             :value="item.label"
           />
         </el-select>
-      </div>
+      </div> -->
     </div>
     <!-- <div v-if="xian" class="city-box">
       <div class="city-list">
@@ -72,6 +72,36 @@
           />
         </el-select>
       </div>
+      <div class="change-select">
+        <el-select
+          v-model="choicesvalue"
+          class="true-select"
+          placeholder="薪资要求"
+          @change="dianji"
+        >
+          <el-option
+            v-for="item in choicesOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.idx"
+          />
+        </el-select>
+      </div>
+      <div class="change-select">
+        <el-select
+          v-model="choicesvalue"
+          class="true-select"
+          placeholder="职位类型"
+          @change="dianji"
+        >
+          <el-option
+            v-for="item in choicesOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.idx"
+          />
+        </el-select>
+      </div>
       <!-- <div class="change-select">
         <el-select class="true-select" v-model="value" placeholder="薪资要求">
           <el-option
@@ -87,7 +117,7 @@
         <el-select
           v-model="financialvalue"
           class="true-select"
-          placeholder="融资阶段"
+          placeholder="公司性质"
           @change="dianji"
         >
           <el-option
@@ -124,7 +154,7 @@
           </el-option>
         </el-select>
       </div> -->
-      <span class="clear" @click="clearSearch">清空筛选条件</span>
+      <span class="clear" @click="clearSearch">清空所有条件</span>
     </div>
   </div>
 </template>
@@ -633,7 +663,7 @@ export default {
   height: auto;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1.5px solid #ebebeb;
+  // border-bottom: 1.5px solid #ebebeb;
 }
 .city-box {
   width: 100%;
@@ -644,7 +674,7 @@ export default {
     color: #808080;
     border-bottom: 1px solid #ebebeb;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 10px;
 
     .now-city {
@@ -660,6 +690,7 @@ export default {
   margin: 0;
   padding: 0;
   width: auto;
+  // background-color: #ff8383;
   // position: absolute ;
 }
 
@@ -686,9 +717,9 @@ export default {
 }
 .tip-box {
   width: 100%;
-  height: auto;
+  height: 50px;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
 
   .change-select {
     margin: 0;
@@ -712,6 +743,9 @@ export default {
     .clear {
       color: #808080;
       padding-top: 8px;
+      margin-left: 350px;
+      font-size: 16px;
+      color: #256efd;
     }
 
     .clear:hover {

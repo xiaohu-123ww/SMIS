@@ -14,7 +14,11 @@
         >
       </el-row>
     </div>
-    <div v-if="!person" class="textare" style="white-space: pre-line">
+    <div
+      v-if="!person"
+      class="textare"
+      style="white-space: pre-line; font-size: 15px; margin-top: 15px"
+    >
       {{ text }}
     </div>
     <Personal :person="person" :text="text" @reset="reset" @writing="writing" />
@@ -26,7 +30,7 @@ export default {
   components: { Personal },
   data () {
     return {
-      text: '1.哈哈哈哈哈哈哈哈',
+      text: '1、具有较强的学习能力，认真刻苦，勤奋务实  \n2.工作责任心强，具有一定的团队合作能力、快速执行能力 \n 3、亲和力强，有耐心、沟通能力强，能很好地处理突发状况，应变能力强',
       // 个人优势
       person: false
     }

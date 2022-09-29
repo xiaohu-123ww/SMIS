@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
@@ -9,7 +10,7 @@ const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   baseURL: 'https://znzz.tech', // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 1000000// request timeout
+  timeout: 600000// request timeout
 
 })
 service.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
@@ -94,4 +95,7 @@ service.interceptors.response.use(
   }
 )
 
+service.onerror = function handleError () {
+  reject(new Error('Network Error'))
+}
 export default service

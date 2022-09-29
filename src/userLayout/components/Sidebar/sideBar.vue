@@ -58,11 +58,11 @@ export default {
         {
           name: '关于我们',
           path: '/userabout'
-        },
-        {
-          name: '联系我们',
-          path: '/usercontact'
         }
+        // {
+        //   name: '联系我们',
+        //   path: '/usercontact'
+        // }
       ]
     }
   },
@@ -148,6 +148,7 @@ export default {
   }
   .title {
     color: #000;
+    // font-size: 18px;
   }
   .el-menu {
     background-color: rgba(255, 255, 255, 0);

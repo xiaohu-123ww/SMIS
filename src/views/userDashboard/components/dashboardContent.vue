@@ -13,6 +13,7 @@
             width: 132px;
             line-height: 16px;
             height: 16px;
+            font-size: 15px;
           "
           @click="currentPanel"
           >岗位分类<i :class="iconPanel"
@@ -37,6 +38,7 @@
             color: #fff;
             font-weight: 500;
             margin-right: 44px;
+            font-size: 16px;
           "
           icon="el-icon-search"
           @click="search()"
@@ -114,9 +116,7 @@
           :key="index"
           class="recruitment-left-cont"
         >
-          <span class="recruitment—title">
-            {{ itemss.name }}
-          </span>
+          <span class="recruitment—title">{{ itemss.name }} </span>
           <span
             v-for="(items, i) in itemss.children"
             v-show="i < 3"
@@ -143,7 +143,7 @@
             class="popping_cont"
             @click="skip(itesm)"
           >
-            {{ itesm.name }}
+            <div class="text">{{ itesm.name }}</div>
           </div>
         </div>
       </div>
@@ -159,13 +159,27 @@
         </div>
       </div>
     </div>
-    <!-- 推荐岗位 -->
+    <!-- 精选岗位 -->
     <div class="recommend-box">
-      L
-      <div class="title">推荐岗位</div>
+      <div class="title">精选岗位</div>
       <div class="adorn" />
       <div class="list">
-        <recommendList :cvlist="list" />
+        <Selectposition />
+      </div>
+    </div>
+    <!-- 热门职位 -->
+    <div class="recommend-box">
+      <div class="title">热门职位</div>
+      <div class="adorn" />
+      <div class="list">
+        <Selectposition />
+      </div>
+    </div>
+    <div class="recommend-box">
+      <div class="title">热门证书</div>
+      <div class="adorn" />
+      <div class="list">
+        <Carousel />
       </div>
     </div>
     <!-- 合作伙伴 -->
@@ -189,11 +203,13 @@
   </div>
 </template>
 <script>
-import recommendList from './recommendList.vue'
+// import recommendList from './recommendList.vue'
+import Selectposition from './selectPosition.vue'
 import { serchs } from '@/api/search'
+import Carousel from './carousel.vue'
 
 export default {
-  components: { recommendList },
+  components: { Selectposition, Carousel },
   props: ['item'],
   data () {
     return {
@@ -220,7 +236,7 @@ export default {
       list: [],
       radioList: [],
       // "Python", "全栈工程师", "Java", "web前端"
-      options: [],
+      options: JSON.parse(localStorage.getItem('options')),
       partnerLogos: [
         { imgs: require('../../../assets/hzhb/wps_doc_0.png'), name: 'IBM' },
         { imgs: require('../../../assets/hzhb/wps_doc_1.png'), name: '京东' },
@@ -338,7 +354,7 @@ export default {
     },
     // 打开二级菜单
     ascertain (g) {
-      console.log(g)
+      console.log('1', g)
       this.secondLevelList = g.children
       this.disps = true
     },
@@ -408,10 +424,11 @@ export default {
     serchlist () {
       serchs().then((res) => {
         console.log('城市', res)
-        console.log(this.trees(res.data.all_pst_classes, 'id', 'parent_id'))
+        console.log('124', this.trees(res.data.all_pst_classes, 'id', 'parent_id'))
         //  (res.data.all_pst_classes);
-        this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')
-        // console.log(this.options);
+        this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')[0].children.slice(0, 9)
+        localStorage.setItem('options', JSON.stringify(this.options))
+        console.log('options', this.options)
         //  (this.options);
       })
     },
@@ -452,6 +469,7 @@ export default {
   box-shadow: 0px 2px 30px 0px rgba(0, 0, 0, 0.08);
   background-color: #fff;
   overflow: hidden;
+  font-size: 18px;
 }
 ::v-deep .el-input-group__prepend {
   background-color: #fff !important;
@@ -499,7 +517,7 @@ export default {
   background-color: #fff;
 }
 .dashboard-content {
-  width: 80%;
+  width: 1240px;
   min-width: 1000px;
   max-width: 2000px;
   margin: 30px auto;
@@ -553,7 +571,7 @@ export default {
   .recommend-box {
     width: 100%;
     height: auto;
-    padding: 100px 0;
+    padding: 50px 0;
     min-width: 1200px;
     .title {
       width: 100%;
@@ -681,12 +699,15 @@ export default {
     width: 530px;
     height: 400px;
     background-color: #f9f9f9;
+    margin-right: 30px;
 
     .recruitment-left-cont {
       display: flex;
       margin-top: 24px;
       margin-left: 23px;
       justify-content: space-between;
+      // width: 600px;
+      // background-color: pink;
       .recruitment—title {
         font-size: 16px;
         font-family: PingFangSC-Medium, PingFang SC;
@@ -700,6 +721,7 @@ export default {
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: #666666;
+        // background-color: #256efd;
       }
       .recruitment-cents:hover {
         color: #256efd;
@@ -742,7 +764,8 @@ export default {
   }
   .recruitment—right {
     // width: 1000px;
-    width: calc(100% - 570px);
+    // width: calc(100% - 570px);
+    width: 930px;
     height: 400px;
     margin-left: 35px;
   }
@@ -769,11 +792,20 @@ export default {
 ::v-deep .el-button--mini {
   margin-bottom: 40px;
 }
-.popping_cent {
-  margin-top: 25px;
-  height: 260px;
-  display: flex;
-  flex-wrap: wrap;
+.popping {
+  .popping_cent {
+    margin-top: 25px;
+    // width: 700px;
+    // height: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    // background-color: red;
+    .text {
+      width: 200px;
+      height: 30px;
+      // background-color: #256efd;
+    }
+  }
 }
 </style>
 

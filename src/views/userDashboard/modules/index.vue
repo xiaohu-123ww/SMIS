@@ -1,6 +1,8 @@
 <template>
   <div>
-    <dashboard-content :item="item" />
+    <keep-alive>
+      <dashboard-content :item="item" />
+    </keep-alive>
     <!-- <swiper-component :item="item" /> -->
   </div>
 </template>

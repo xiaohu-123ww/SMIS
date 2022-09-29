@@ -1,7 +1,6 @@
 <!-- eslint-disable no-undef -->
 <template>
   <div v-if="show">
-    123
     <div class="box">
       <el-form
         ref="rf"
@@ -123,62 +122,17 @@
         </div>
       </el-form>
     </div>
-    <el-dialog title="修改信息" :visible.sync="isShow" width="30%">
-      <div v-if="photoShow">
-        <el-form ref="rf" :model="ruleForm" label-width="80px">
-          <el-form-item label="手机号码">
-            <el-input
-              v-model="ruleForm.photo"
-              placeholder="请输入手机号码"
-              style="width: 260px"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="验证码">
-            <el-input
-              v-model="ruleForm.photoEm"
-              placeholder="请输入验证码"
-              style="width: 260px"
-            ></el-input>
-            <el-button type="primary" style="margin-left: 8px"
-              >验证码</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </div>
-      <div v-if="emialShow">
-        <el-form ref="rf" :model="ruleForm" label-width="80px">
-          <el-form-item label="邮箱">
-            <el-input
-              v-model="ruleForm.photo"
-              placeholder="请输入邮箱"
-              style="width: 260px"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="验证码">
-            <el-input
-              v-model="ruleForm.photoEm"
-              placeholder="请输入验证码"
-              style="width: 260px"
-            ></el-input>
-            <el-button type="primary" style="margin-left: 8px"
-              >验证码</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </div>
-      <div slot="footer">
-        <el-button @click="isShow = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
-      </div>
-    </el-dialog>
+    <PhotoDialog :is-show="isShow" @reset="reset" />
+    <EmailDialog :email-show="emailShow" @reset="reset" />
   </div>
 </template>
 <script>
 import { editUserdetails, getUservitae } from '@/api/user'
 import disposeImg from '@/utils/disposeImg'
+import PhotoDialog from './photoDialog.vue'
+import EmailDialog from './emailDialog.vue'
 export default {
+  components: { PhotoDialog, EmailDialog },
   props: {
     show: {
       type: Boolean
@@ -194,7 +148,7 @@ export default {
       },
       isShow: false,
       photoShow: false,
-      emialShow: false,
+      emailShow: false,
       imageUrl: '',
       circleUrl: '',
       ruleForm: {
@@ -279,13 +233,13 @@ export default {
     },
     addition () {
       this.isShow = true
-      this.photoShow = true
-      this.emialShow = false
+    },
+    reset (i) {
+      this.isShow = i
+      this.emailShow = i
     },
     emailClick () {
-      this.isShow = true
-      this.emialShow = true
-      this.photoShow = false
+      this.emailShow = true
     }
   }
 }

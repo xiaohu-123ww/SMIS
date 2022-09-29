@@ -38,7 +38,7 @@
           </div>
           <span
             v-for="(item, index) in jobDetailsaaa"
-            v-if="jobDetailsaaa != ''"
+            v-if="jobDetailsaaa !== ''"
             :key="index"
             class="fuli"
             >{{ item }}</span

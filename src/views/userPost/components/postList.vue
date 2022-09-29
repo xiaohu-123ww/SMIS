@@ -496,7 +496,7 @@ export default {
   }
   .record {
     // width: 300px;
-    height: 1000px;
+    // height: 1000px;
     background-color: #fff;
     margin: 10px 0 0 20px;
     border-radius: 20px;

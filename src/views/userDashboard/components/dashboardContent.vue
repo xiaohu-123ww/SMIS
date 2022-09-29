@@ -517,8 +517,8 @@ export default {
   background-color: #fff;
 }
 .dashboard-content {
-  width: 1240px;
-  min-width: 1000px;
+  width: 80%;
+  min-width: 800px;
   max-width: 2000px;
   margin: 30px auto;
   background-color: #fffeff;

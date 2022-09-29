@@ -42,67 +42,71 @@
       </el-dialog>
     </div> -->
     <div v-if="xian" class="tip-box">
-      <div class="change-select">
-        <el-select
-          v-model="expvalue"
-          class="true-select"
-          placeholder="工作经验"
-          @change="expchange"
-        >
-          <el-option
-            v-for="item in expoptions"
-            :key="item.idx"
-            :label="item.label"
-            :value="item.label"
-          />
-        </el-select>
-      </div>
-      <div class="change-select">
-        <el-select
-          v-model="choicesvalue"
-          class="true-select"
-          placeholder="学历要求"
-          @change="dianji"
-        >
-          <el-option
-            v-for="item in choicesOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.idx"
-          />
-        </el-select>
-      </div>
-      <div class="change-select">
-        <el-select
-          v-model="choicesvalue"
-          class="true-select"
-          placeholder="薪资要求"
-          @change="dianji"
-        >
-          <el-option
-            v-for="item in choicesOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.idx"
-          />
-        </el-select>
-      </div>
-      <div class="change-select">
-        <el-select
-          v-model="choicesvalue"
-          class="true-select"
-          placeholder="职位类型"
-          @change="dianji"
-        >
-          <el-option
-            v-for="item in choicesOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.idx"
-          />
-        </el-select>
-      </div>
-      <!-- <div class="change-select">
+      <el-row>
+        <el-col :span="21"
+          ><div class="grid-content bg-purple">
+            <div style="display: flex; padding-left: 11px">
+              <div class="change-select">
+                <el-select
+                  v-model="expvalue"
+                  class="true-select"
+                  placeholder="工作经验"
+                  @change="expchange"
+                >
+                  <el-option
+                    v-for="item in expoptions"
+                    :key="item.idx"
+                    :label="item.label"
+                    :value="item.label"
+                  />
+                </el-select>
+              </div>
+              <div class="change-select">
+                <el-select
+                  v-model="choicesvalue"
+                  class="true-select"
+                  placeholder="学历要求"
+                  @change="dianji"
+                >
+                  <el-option
+                    v-for="item in choicesOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.idx"
+                  />
+                </el-select>
+              </div>
+              <div class="change-select">
+                <el-select
+                  v-model="choicesvalue"
+                  class="true-select"
+                  placeholder="薪资要求"
+                  @change="dianji"
+                >
+                  <el-option
+                    v-for="item in choicesOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.idx"
+                  />
+                </el-select>
+              </div>
+              <div class="change-select">
+                <el-select
+                  v-model="choicesvalue"
+                  class="true-select"
+                  placeholder="职位类型"
+                  @change="dianji"
+                >
+                  <el-option
+                    v-for="item in choicesOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.idx"
+                  />
+                </el-select>
+              </div>
+              <!-- <div class="change-select">
         <el-select class="true-select" v-model="value" placeholder="薪资要求">
           <el-option
             v-for="item in options"
@@ -113,36 +117,45 @@
           </el-option>
         </el-select>
       </div> -->
-      <div class="change-select">
-        <el-select
-          v-model="financialvalue"
-          class="true-select"
-          placeholder="公司性质"
-          @change="dianji"
+              <div class="change-select">
+                <el-select
+                  v-model="financialvalue"
+                  class="true-select"
+                  placeholder="公司性质"
+                  @change="dianji"
+                >
+                  <el-option
+                    v-for="item in financialOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.idx"
+                  />
+                </el-select>
+              </div>
+              <div class="change-select">
+                <el-select
+                  v-model="staffvalue"
+                  class="true-select"
+                  placeholder="公司规模"
+                  @change="dianji"
+                >
+                  <el-option
+                    v-for="item in staffOptions"
+                    :key="item.value"
+                    :label="item.staff_size"
+                    :value="item.staff_size"
+                  />
+                </el-select>
+              </div>
+            </div></div
+        ></el-col>
+        <el-col :span="3"
+          ><div class="grid-content bg-purple-light">
+            <span class="clear" @click="clearSearch">清空所有条件</span>
+          </div></el-col
         >
-          <el-option
-            v-for="item in financialOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.idx"
-          />
-        </el-select>
-      </div>
-      <div class="change-select">
-        <el-select
-          v-model="staffvalue"
-          class="true-select"
-          placeholder="公司规模"
-          @change="dianji"
-        >
-          <el-option
-            v-for="item in staffOptions"
-            :key="item.value"
-            :label="item.staff_size"
-            :value="item.staff_size"
-          />
-        </el-select>
-      </div>
+      </el-row>
+
       <!-- <div class="change-select">
         <el-select class="true-select" v-model="value" placeholder="发布时间">
           <el-option
@@ -154,7 +167,6 @@
           </el-option>
         </el-select>
       </div> -->
-      <span class="clear" @click="clearSearch">清空所有条件</span>
     </div>
   </div>
 </template>
@@ -717,9 +729,10 @@ export default {
 }
 .tip-box {
   width: 100%;
-  height: 50px;
-  display: flex;
+  // height: 50px;
+  // display: flex;
   // justify-content: space-between;
+  // background-color: pink;
 
   .change-select {
     margin: 0;
@@ -740,17 +753,18 @@ export default {
       }
     }
 
-    .clear {
-      color: #808080;
-      padding-top: 8px;
-      margin-left: 350px;
-      font-size: 16px;
-      color: #256efd;
-    }
-
     .clear:hover {
       color: #ff8383;
     }
   }
+}
+.clear {
+  color: #808080;
+  height: 30px;
+  margin-top: 50px;
+  font-size: 16px;
+  text-align: center;
+  color: #256efd;
+  // background-color: red;
 }
 </style>

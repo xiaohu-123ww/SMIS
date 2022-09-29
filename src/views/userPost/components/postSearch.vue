@@ -1,56 +1,76 @@
 <template>
   <div class="search-box">
     <div class="left">
-      <div style="width: 600px">
-        <input
-          v-model="searchInput"
-          class="input-with-select"
-          placeholder="请输入岗位/公司"
-        />
-      </div>
-      <div>
-        <el-select v-model="mass" placeholder="行业分类 " class="hang">
-          <el-option
-            v-for="item in options"
-            :key="item.id"
-            :label="item.name"
-            :value="item.name"
-            @click.native="tradeChange(item)"
-          >
-          </el-option>
-        </el-select>
+      <el-row>
+        <el-col :span="10">
+          <div class="grid-content bg-purple">
+            <div style="width: 800px">
+              <!-- <el-input
+                v-model="searchInput"
+                class="input-with-select"
+                placeholder="请输入岗位/公司"
+              ></el-input> -->
+              <input
+                v-model="searchInput"
+                class="input-with-select"
+                placeholder="请输入岗位/公司"
+              />
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6"
+          ><div class="grid-content bg-purple-light">
+            <div>
+              <el-select v-model="mass" placeholder="行业分类 " class="hang">
+                <el-option
+                  v-for="item in options"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name"
+                  @click.native="tradeChange(item)"
+                >
+                </el-option>
+              </el-select>
 
-        <div></div>
-      </div>
-      <div>
-        <el-select v-model="job" placeholder="职业分类 " class="zhi">
-          <el-option
-            v-for="item in trade"
-            :key="item.id"
-            :label="item.name"
-            :value="item.name"
-          >
-          </el-option>
-        </el-select>
+              <div></div>
+            </div></div
+        ></el-col>
+        <el-col :span="5"
+          ><div class="grid-content bg-purple">
+            <div>
+              <el-select v-model="job" placeholder="职业分类 " class="zhi">
+                <el-option
+                  v-for="item in trade"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name"
+                >
+                </el-option>
+              </el-select>
 
-        <div></div>
-      </div>
-
-      <el-button
-        style="
-          background-color: #256efd;
-          color: #fff;
-          width: 137px;
-          height: 54px;
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
-          margin-top: 13px;
-          margin-left: 500px;
-        "
-        icon="el-icon-search"
-        @click="serchJob()"
-        >搜索
-      </el-button>
+              <div></div>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="1"
+          ><div class="grid-content bg-purple-light">
+            <el-button
+              style="
+                background-color: #256efd;
+                color: #fff;
+                width: 137px;
+                height: 54px;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                margin-top: 13px;
+              "
+              icon="el-icon-search"
+              @click="serchJob()"
+              >搜索
+            </el-button>
+          </div></el-col
+        >
+      </el-row>
     </div>
     <div class="city">
       <div
@@ -381,7 +401,7 @@ export default {
 }
 
 .district {
-  width: 1200px;
+  width: 100%;
   height: 100px;
   // background-color: #0094ff;
   margin: 20px 0 0 10px;
@@ -407,6 +427,8 @@ export default {
   color: #448ef7;
 }
 .city {
+  width: 100%;
+  // background-color: red;
   margin-top: 20px;
   font-size: 15px;
   display: flex;
@@ -417,7 +439,7 @@ export default {
 }
 .el-select {
   margin-top: 15px;
-  position: absolute;
+  // position: absolute;
   clip: rect(2px 200px 30px 2px);
   line-height: 28px;
   font-size: 15px;
@@ -426,10 +448,10 @@ export default {
 }
 
 .hang {
-  left: 600px;
+  // left: 600px;
 }
 .zhi {
-  left: 850px;
+  // left: 850px;
 }
 .search-box {
   width: 100%;
@@ -441,8 +463,8 @@ export default {
     height: 80px;
   }
   .left {
-    display: flex;
-    position: relative;
+    // display: flex;
+    // position: relative;
   }
   .input-with-select {
     height: 65px;

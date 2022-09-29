@@ -1,33 +1,41 @@
 <template>
   <div class="resume">
-    <div class="resume-left">
-      <div class="resume-on-line">在线简历</div>
-      <div class="personal-details">
-        <Person :flag="flag" />
-      </div>
-      <div class="resume-job">
-        <ResumePage />
-      </div>
-      <div class="preponderance">
-        <Personal />
-      </div>
-      <div class="work">
-        <Work />
-      </div>
-      <div class="personal-details">
-        <Education />
-      </div>
-      <div class="project">
-        <Project />
-      </div>
-      <div class="personal-details">
-        <Credentials />
-      </div>
-    </div>
-    <div class="resume-right">
-      <!-- <el-button type="primary" icon="el-icon-sell">上传简历</el-button> -->
-      <Curriculum />
-    </div>
+    <el-row>
+      <el-col :span="18"
+        ><div class="grid-content bg-purple">
+          <div class="resume-left">
+            <div class="resume-on-line">在线简历</div>
+            <div class="personal-details">
+              <Person :flag="flag" />
+            </div>
+            <div class="resume-job">
+              <ResumePage />
+            </div>
+            <div class="preponderance">
+              <Personal />
+            </div>
+            <div class="work">
+              <Work />
+            </div>
+            <div class="personal-details">
+              <Education />
+            </div>
+            <div class="project">
+              <Project />
+            </div>
+            <div class="personal-details">
+              <Credentials />
+            </div>
+          </div></div
+      ></el-col>
+      <el-col :span="4"
+        ><div class="grid-content bg-purple-light">
+          <div class="resume-right">
+            <!-- <el-button type="primary" icon="el-icon-sell">上传简历</el-button> -->
+            <Curriculum />
+          </div></div
+      ></el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -67,12 +75,12 @@ export default {
 </script>
 <style scoped lang="scss">
 .resume {
-  display: flex;
+  // display: flex;
   // border-right: 1px solid #e6e3e3;
   margin: 0;
   padding: 0;
   .resume-left {
-    width: 900px;
+    width: 100%;
     // height: 1000px;
     // background-color: red;
     border-right: 1px solid #e6e3e3;
@@ -105,7 +113,7 @@ export default {
   }
   .resume-right {
     // background-color: pink;
-    flex: 1;
+    // flex: 1;
   }
 }
 </style>

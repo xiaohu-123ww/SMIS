@@ -765,7 +765,7 @@ export default {
   .recruitment—right {
     // width: 1000px;
     // width: calc(100% - 570px);
-    width: 930px;
+    width: 100%;
     height: 400px;
     margin-left: 35px;
   }

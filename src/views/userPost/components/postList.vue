@@ -41,88 +41,110 @@
     <!-- 沟通 -->
     <!-- -->
     <div class="postList-one">
-      <div class="postList">
-        <div v-for="item in job" :key="item.id" class="job-job">
-          <div class="job-mechanical">
-            <div class="mechanical">
-              {{ item.position }} {{ item.address }}
-              <el-button type="primary" round class="el-bt">立即沟通</el-button>
-            </div>
-            <div class="machan">
-              <div class="machan-aa">{{ item.money }} . {{ item.salary }}</div>
-              <div class="machan-bb" style="border-right: 1px solid #e6e3e3">
-                {{ item.education }}
-              </div>
-              <div class="machan-bb">{{ item.school }}</div>
-            </div>
-            <div class="equipment">
-              <div
-                v-for="(itemss, index) in item.equipment"
-                :key="index"
-                class="equiment-ff"
-              >
-                {{ itemss }}
-              </div>
-            </div>
-            <div></div>
-          </div>
-          <div>
-            <div class="job-mechanical">
-              <div class="mechanical">{{ item.company }}</div>
-              <div class="machan">
-                <div class="machan-cc">{{ item.specialty }}</div>
-                <div class="machan-cc" style="border-right: 1px solid #e6e3e3">
-                  {{ item.financing }}
+      <el-row>
+        <el-col :span="18"
+          ><div class="grid-content bg-purple">
+            <div class="postList">
+              <div v-for="item in job" :key="item.id" class="job-job">
+                <div class="job-mechanical">
+                  <div class="mechanical">
+                    {{ item.position }} {{ item.address }}
+                    <el-button type="primary" round class="el-bt"
+                      >立即沟通</el-button
+                    >
+                  </div>
+                  <div class="machan">
+                    <div class="machan-aa">
+                      {{ item.money }} . {{ item.salary }}
+                    </div>
+                    <div
+                      class="machan-bb"
+                      style="border-right: 1px solid #e6e3e3"
+                    >
+                      {{ item.education }}
+                    </div>
+                    <div class="machan-bb">{{ item.school }}</div>
+                  </div>
+                  <div class="equipment">
+                    <div
+                      v-for="(itemss, index) in item.equipment"
+                      :key="index"
+                      class="equiment-ff"
+                    >
+                      {{ itemss }}
+                    </div>
+                  </div>
+                  <div></div>
                 </div>
+                <div>
+                  <div class="job-mechanical">
+                    <div class="mechanical">{{ item.company }}</div>
+                    <div class="machan">
+                      <div class="machan-cc">{{ item.specialty }}</div>
+                      <div
+                        class="machan-cc"
+                        style="border-right: 1px solid #e6e3e3"
+                      >
+                        {{ item.financing }}
+                      </div>
 
-                <div class="machan-cc">{{ item.people }}</div>
+                      <div class="machan-cc">{{ item.people }}</div>
+                    </div>
+                    <div
+                      style="
+                        padding-top: 12px;
+                        font-size: 12px;
+                        color: #878484;
+                        margin-left: 70px;
+                      "
+                    >
+                      {{ item.weal }}
+                    </div>
+                  </div>
+                </div>
+                <div class="machan-sss">1</div>
               </div>
-              <div
-                style="
-                  padding-top: 12px;
-                  font-size: 12px;
-                  color: #878484;
-                  margin-left: 70px;
-                "
+              <el-pagination
+                style="margin: 20px 0 0 150px"
+                :current-page="query.pagenum"
+                :page-sizes="[2, 3, 5, 10]"
+                :page-size="query.pagesize"
+                layout="sizes, prev, pager, next, jumper, total"
+                :total="total"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
               >
-                {{ item.weal }}
+              </el-pagination>
+            </div></div
+        ></el-col>
+        <el-col :span="6"
+          ><div class="grid-content bg-purple-light">
+            <div class="record">
+              <div class="record-aa">浏览记录</div>
+              <div v-for="item in record" :key="item.id" class="record-box">
+                <div class="record-row">
+                  <el-row>
+                    <el-col :span="12"
+                      ><div class="grid-content bg-purple">
+                        {{ item.position }}
+                      </div></el-col
+                    >
+                    <el-col :span="12"
+                      ><div
+                        class="grid-content bg-purple-light"
+                        style="color: red"
+                      >
+                        {{ item.money }} .{{ item.salary }}
+                      </div></el-col
+                    >
+                  </el-row>
+                </div>
+                <div style="color: #878484">{{ item.company }}</div>
               </div>
             </div>
-          </div>
-          <div class="machan-sss">1</div>
-        </div>
-        <el-pagination
-          style="margin: 20px 0 0 150px"
-          :current-page="query.pagenum"
-          :page-sizes="[2, 3, 5, 10]"
-          :page-size="query.pagesize"
-          layout="sizes, prev, pager, next, jumper, total"
-          :total="total"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
+          </div></el-col
         >
-        </el-pagination>
-      </div>
-      <div class="record">
-        <div class="record-aa">浏览记录</div>
-        <div v-for="item in record" :key="item.id" class="record-box">
-          <div class="record-row">
-            <el-row>
-              <el-col :span="12"
-                ><div class="grid-content bg-purple">
-                  {{ item.position }}
-                </div></el-col
-              >
-              <el-col :span="12"
-                ><div class="grid-content bg-purple-light" style="color: red">
-                  {{ item.money }} .{{ item.salary }}
-                </div></el-col
-              >
-            </el-row>
-          </div>
-          <div style="color: #878484">{{ item.company }}</div>
-        </div>
-      </div>
+      </el-row>
     </div>
   </div>
 </template>
@@ -152,6 +174,59 @@ export default {
         },
         {
           id: 2,
+          name: '罗先生',
+          job: '人事',
+          state: '今日活跃',
+          position: '机械工程师',
+          address: '北京.海淀.西小口',
+          money: '8000-15000',
+          salary: '13薪',
+          school: '本科',
+          company: '北京智能智造科技有限公司',
+          specialty: '互联网',
+          financing: '未融资',
+          people: '20-99人',
+          education: '1-3年',
+          equipment: ['机械设备', '机械组装', '电器设置', '机械一体化'],
+          weal: '五险一金，年终奖，节日福利，带薪休假'
+        },
+        {
+          id: 3,
+          name: '罗先生',
+          job: '人事',
+          state: '今日活跃',
+          position: '机械工程师',
+          address: '北京.海淀.西小口',
+          money: '8000-15000',
+          salary: '13薪',
+          school: '本科',
+          company: '北京智能智造科技有限公司',
+          specialty: '互联网',
+          financing: '未融资',
+          people: '20-99人',
+          education: '1-3年',
+          equipment: ['机械设备', '机械组装', '电器设置', '机械一体化'],
+          weal: '五险一金，年终奖，节日福利，带薪休假'
+        },
+        {
+          id: 4,
+          name: '罗先生',
+          job: '人事',
+          state: '今日活跃',
+          position: '机械工程师',
+          address: '北京.海淀.西小口',
+          money: '8000-15000',
+          salary: '13薪',
+          school: '本科',
+          company: '北京智能智造科技有限公司',
+          specialty: '互联网',
+          financing: '未融资',
+          people: '20-99人',
+          education: '1-3年',
+          equipment: ['机械设备', '机械组装', '电器设置', '机械一体化'],
+          weal: '五险一金，年终奖，节日福利，带薪休假'
+        }, {
+          id: 5,
           name: '罗先生',
           job: '人事',
           state: '今日活跃',
@@ -321,11 +396,13 @@ export default {
 //   }
 // }
 .postList-one {
-  display: flex;
+  // display: flex;
+  width: 100%;
+  position: relation;
+  margin: 0 auto;
   .postList {
     margin-top: 10px;
-    width: 1000px;
-    height: 600px;
+    height: 100%;
     // background-color: #fff;
     .job-job {
       height: 140px;
@@ -418,7 +495,7 @@ export default {
     }
   }
   .record {
-    width: 300px;
+    // width: 300px;
     height: 1000px;
     background-color: #fff;
     margin: 10px 0 0 20px;
@@ -432,7 +509,7 @@ export default {
       color: #256efd;
     }
     .record-box {
-      height: 80px;
+      // height: 80px;
       // background-color: pink;
       padding: 12px;
       font-size: 16px;

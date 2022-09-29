@@ -141,6 +141,7 @@ export default {
   height: 200px;
   // background-color: aqua;
   display: flex;
+  overflow: hidden;
   // justify-content: space-around;
   .head {
     width: 1100px;
@@ -203,8 +204,8 @@ export default {
     .communicate-1 {
       width: 100%;
       height: 70px;
-      background-color: #1890ff;
-      line-height: 70px;
+      // background-color: #1890ff;
+      line-height: 30px;
       text-align: center;
       font-size: 20px;
       color: #fff;

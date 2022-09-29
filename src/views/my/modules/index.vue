@@ -10,7 +10,7 @@
           background-color="#fff"
           text-color="black"
           active-text-color="#409EFF"
-          style="height: 1000px"
+          style="height: 100%"
           unique-opened
           router
         >
@@ -89,14 +89,21 @@ export default {
 </script>
 <style scoped lang="scss">
 .myHome {
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
   display: flex;
   margin: 0;
   padding: 0;
+  background-color: #1890ff;
+  width: 100%;
+  height: 100%;
+  min-width: 800px;
+  max-width: 2000px;
+  margin: 40px auto;
+  background-color: #f4f6f9;
 }
 .left {
-  height: 1000px;
+  height: 100%;
   background: #fff;
 }
 .el-aside {
@@ -108,7 +115,7 @@ export default {
 }
 .right {
   flex: 1;
-  height: 1000px;
+  height: 100%;
   background-color: #fff;
 }
 </style>

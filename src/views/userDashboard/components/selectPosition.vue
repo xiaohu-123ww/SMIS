@@ -1,20 +1,26 @@
 <template>
   <div>
     <div class="select">
-      <div v-for="item in list" :key="item.id" class="position-b">
-        <div class="position-machine">
-          <span style="font-size: 18px; margin-top: 20px">
-            {{ item.name }}
-          </span>
-          <span style="margin-left: 90px; color: red; font-size: 15px">{{
-            item.money
-          }}</span>
-        </div>
-        <div v-for="bt in item.education" :key="bt" class="position-city">
-          <button class="position-btn">{{ bt }}</button>
-        </div>
-        <div class="position-firm">{{ item.company }}</div>
-      </div>
+      <el-row>
+        <el-col v-for="item in list" :key="item.id" :span="8"
+          ><div class="grid-content bg-purple">
+            <div class="position-b">
+              <div class="position-machine">
+                <span style="font-size: 18px; margin-top: 20px">
+                  {{ item.name }}
+                </span>
+                <span style="margin-left: 90px; color: red; font-size: 15px">{{
+                  item.money
+                }}</span>
+              </div>
+              <div v-for="bt in item.education" :key="bt" class="position-city">
+                <button class="position-btn">{{ bt }}</button>
+              </div>
+              <div class="position-firm">{{ item.company }}</div>
+            </div>
+          </div></el-col
+        >
+      </el-row>
     </div>
     <div class="listChange"><i class="el-icon-refresh-left"></i>换一批</div>
   </div>
@@ -83,8 +89,10 @@ export default {
   display: inline-block;
   height: 400px;
   display: flex;
-  flex-flow: wrap;
-  justify-content: space-between;
+  // flex-flow: wrap;
+  // flex-flow: wrap;
+  // width: 100%;
+  // justify-content: space-between;
   align-items: center;
   // background-color: red;
 
@@ -94,6 +102,7 @@ export default {
     border-radius: 10px;
     border: 1px solid #e6e3e3;
     // background-color: blueviolet;
+    margin-right: 10px;
     overflow: hidden;
     .position-machine {
       height: 40px;
@@ -120,10 +129,11 @@ export default {
   }
 }
 .listChange {
-  width: 80px;
+  // width: 80px;
   height: 30px;
   // background-color: aqua;
   font-size: 18px;
-  margin-left: 600px;
+  // margin-left: 600px;
+  text-align: center;
 }
 </style>

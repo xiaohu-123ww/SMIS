@@ -27,8 +27,14 @@ export default {
   overflow: hidden;
 
   .postSearch-content {
+    // width: 80%;
+    // min-width: 1000px;
+    // margin: 40px auto;
+    // background-color: #f4f6f9;
     width: 80%;
-    min-width: 1000px;
+    height: 100%;
+    min-width: 800px;
+    max-width: 2000px;
     margin: 40px auto;
     background-color: #f4f6f9;
   }

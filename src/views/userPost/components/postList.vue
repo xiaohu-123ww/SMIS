@@ -46,63 +46,75 @@
           ><div class="grid-content bg-purple">
             <div class="postList">
               <div v-for="item in job" :key="item.id" class="job-job">
-                <div class="job-mechanical">
-                  <div class="mechanical">
-                    {{ item.position }} {{ item.address }}
-                    <el-button type="primary" round class="el-bt"
-                      >立即沟通</el-button
-                    >
-                  </div>
-                  <div class="machan">
-                    <div class="machan-aa">
-                      {{ item.money }} . {{ item.salary }}
-                    </div>
-                    <div
-                      class="machan-bb"
-                      style="border-right: 1px solid #e6e3e3"
-                    >
-                      {{ item.education }}
-                    </div>
-                    <div class="machan-bb">{{ item.school }}</div>
-                  </div>
-                  <div class="equipment">
-                    <div
-                      v-for="(itemss, index) in item.equipment"
-                      :key="index"
-                      class="equiment-ff"
-                    >
-                      {{ itemss }}
-                    </div>
-                  </div>
-                  <div></div>
-                </div>
-                <div>
-                  <div class="job-mechanical">
-                    <div class="mechanical">{{ item.company }}</div>
-                    <div class="machan">
-                      <div class="machan-cc">{{ item.specialty }}</div>
-                      <div
-                        class="machan-cc"
-                        style="border-right: 1px solid #e6e3e3"
-                      >
-                        {{ item.financing }}
-                      </div>
+                <el-row>
+                  <el-col :span="21"
+                    ><div class="grid-content bg-purple">
+                      <div style="display: flex">
+                        <div class="job-mechanical">
+                          <div class="mechanical">
+                            {{ item.position }} {{ item.address }}
+                            <el-button type="primary" round class="el-bt"
+                              >立即沟通</el-button
+                            >
+                          </div>
+                          <div class="machan">
+                            <div class="machan-aa">
+                              {{ item.money }} . {{ item.salary }}
+                            </div>
+                            <div
+                              class="machan-bb"
+                              style="border-right: 1px solid #e6e3e3"
+                            >
+                              {{ item.education }}
+                            </div>
+                            <div class="machan-bb">{{ item.school }}</div>
+                          </div>
+                          <div class="equipment">
+                            <div
+                              v-for="(itemss, index) in item.equipment"
+                              :key="index"
+                              class="equiment-ff"
+                            >
+                              {{ itemss }}
+                            </div>
+                          </div>
+                          <div></div>
+                        </div>
+                        <div>
+                          <div class="job-mechanical">
+                            <div class="mechanical">{{ item.company }}</div>
+                            <div class="machan">
+                              <div class="machan-cc">{{ item.specialty }}</div>
+                              <div
+                                class="machan-cc"
+                                style="border-right: 1px solid #e6e3e3"
+                              >
+                                {{ item.financing }}
+                              </div>
 
-                      <div class="machan-cc">{{ item.people }}</div>
-                    </div>
-                    <div
-                      style="
-                        padding-top: 12px;
-                        font-size: 12px;
-                        color: #878484;
-                        margin-left: 70px;
-                      "
-                    >
-                      {{ item.weal }}
-                    </div>
-                  </div>
-                </div>
-                <div class="machan-sss">1</div>
+                              <div class="machan-cc">{{ item.people }}</div>
+                            </div>
+                            <div
+                              style="
+                                padding-top: 12px;
+                                font-size: 12px;
+                                color: #878484;
+                                margin-left: 70px;
+                              "
+                            >
+                              {{ item.weal }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div></el-col
+                  >
+                  <el-col :span="1"
+                    ><div class="grid-content bg-purple-light">
+                      <div class="machan-sss">1</div>
+                    </div></el-col
+                  >
+                </el-row>
               </div>
               <el-pagination
                 style="margin: 20px 0 0 150px"
@@ -408,7 +420,7 @@ export default {
       height: 140px;
       border: 1px solid #e6e3e3;
       background-color: #fff;
-      display: flex;
+      // display: flex;
       // justify-content: space-evenly;
       border-radius: 20px;
       padding-top: 20px;
@@ -422,20 +434,19 @@ export default {
         width: 100px;
         height: 28px;
         line-height: 4px;
-        margin-left: 70px;
+        margin-left: 50px;
       }
       .job-mechanical {
-        width: 430px;
+        width: 100%;
         height: 80px;
         // background-color: aqua;
         .equipment {
           height: 38px;
           // background-color: #256efd;
           display: flex;
-          justify-content: space-evenly;
-
+          // padding-left: 20px;
           .equiment-ff {
-            width: 70px;
+            // width: 70px;
             height: 20px;
             line-height: 20px;
             text-align: center;
@@ -443,6 +454,7 @@ export default {
             background-color: rgba(230, 227, 238, 0.836) 4;
             margin-top: 9px;
             color: #878484;
+            margin-left: 40px;
           }
         }
 

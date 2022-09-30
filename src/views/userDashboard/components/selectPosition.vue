@@ -102,7 +102,7 @@ export default {
     border-radius: 10px;
     border: 1px solid #e6e3e3;
     // background-color: blueviolet;
-    margin-right: 10px;
+    margin: 0 10px 10px 0;
     overflow: hidden;
     .position-machine {
       height: 40px;

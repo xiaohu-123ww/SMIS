@@ -99,7 +99,7 @@
                                 padding-top: 12px;
                                 font-size: 12px;
                                 color: #878484;
-                                margin-left: 70px;
+                                margin-left: 30px;
                               "
                             >
                               {{ item.weal }}

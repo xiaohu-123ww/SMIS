@@ -204,11 +204,11 @@ export default {
     .communicate-1 {
       width: 100%;
       height: 70px;
-      // background-color: #1890ff;
       line-height: 30px;
       text-align: center;
-      font-size: 20px;
-      color: #fff;
+      font-size: 25px;
+      color: #1890ff;
+      padding-top: 20px;
     }
     .communicate-2 {
       background: #fff;

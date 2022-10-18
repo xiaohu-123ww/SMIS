@@ -2,7 +2,7 @@
   <div class="swiper-container">
     <el-carousel height="600px">
       <el-carousel-item
-        v-for="item in listCarousels"
+        v-for="item in listCarousel"
         :key="item"
         style="height: 600px"
       >
@@ -12,12 +12,18 @@
   </div>
 </template>
 <script>
+import { getCarousel } from '@/api/user'
 export default {
   components: {},
-  props: ['item'],
+  props: {
+    item: {
+      type: Object
+    }
+  },
   data () {
     return {
-      listCarousel: [],
+      listCarousel: [
+      ],
       listCarousels: []
     }
   },
@@ -26,17 +32,18 @@ export default {
       this.listCarousel = item.carousel
       this.listCarousel.forEach((rs) => {
         this.listCarousels.push(this.disposeImg(rs))
+        console.log('111s', this.listCarousels)
       })
     }
   },
   created () {
+
   },
   mounted () {
-  },
-  methods: {
-
   }
-};
+
+}
+
 </script>
 <style lang="scss" scoped>
 .swiper-container {

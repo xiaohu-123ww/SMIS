@@ -214,9 +214,9 @@ export default {
   data () {
     return {
       carousels: [
-        'http://www.zhinengzhizaozhaopin.com/static/img/sys-img/crs-01.jpg',
-        'http://www.zhinengzhizaozhaopin.com/static/img/sys-img/crs-02.jpg',
-        'http://www.zhinengzhizaozhaopin.com/static/img/sys-img/crs-03.jpg'
+        'https://znzz.tech/static/img/sys-img/crs-01.jpg',
+        ' https://znzz.tech/static/img/sys-img/crs-02.jpg',
+        ' https://znzz.tech/static/img/sys-img/crs-03.jpg'
       ],
       disps: false,
       // 二级菜单列表

@@ -29,7 +29,7 @@
       <div v-if="!show" class="resume-job-two" style="margin-top: 20px">
         <el-row>
           <el-col :span="17"
-            ><div class="grid-content bg-purple">职位名称</div></el-col
+            ><div class="grid-content bg-purple">机械臂控制工程师</div></el-col
           >
           <el-col :span="2"
             ><div class="grid-content bg-purple-light">
@@ -47,12 +47,14 @@
         </el-row>
         <div class="resum-jobs">
           <el-row>
-            <el-col :span="12"><div class="grid">期望薪资：</div></el-col>
-            <el-col :span="12"><div class="grid">期望城市：</div></el-col>
+            <el-col :span="12"
+              ><div class="grid">期望薪资：8000-10000</div></el-col
+            >
+            <el-col :span="12"><div class="grid">期望城市：北京</div></el-col>
           </el-row>
           <el-row>
-            <el-col :span="12"><div class="grid">期望薪资：</div></el-col>
-            <el-col :span="12"><div class="grid">期望城市：</div></el-col>
+            <el-col :span="12"><div class="grid">工作性质：全职</div></el-col>
+            <el-col :span="12"><div class="grid">期望行业：电子</div></el-col>
           </el-row>
         </div>
       </div>

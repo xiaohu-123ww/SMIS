@@ -38,7 +38,14 @@
         </el-row>
       </div>
       <div class="describe">工作描述:</div>
-      <div class="description">{{ list.text }}</div>
+      <div class="description">
+        <p>
+          1. 负责开发或生产任务中机械结构技术投入的研究评审、验证、编制工作;
+        </p>
+        <p>
+          2、负责开发或生产任务中机械零件、设备、工装的设计、分析、制造、测试、测试等工作
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +55,7 @@ export default {
     list: {
       type: Object
     }
+
   },
   data () {
     return {
@@ -100,7 +108,7 @@ export default {
   .description {
     height: 200px;
     // background-color: pink;
-    padding: 15px;
+    padding: 15px 15px 0;
     font-size: 15px;
   }
 }

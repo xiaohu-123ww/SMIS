@@ -19,7 +19,9 @@
       class="textare"
       style="white-space: pre-line; font-size: 15px; margin-top: 15px"
     >
-      {{ text }}
+      <p>1、具有较强的学习能力，认真刻苦，勤奋务实</p>
+      <p>2、工作责任心强，具有一定的团队合作能力、快速执行能力</p>
+      <p>3、亲和力强，有耐心、沟通能力强，能很好地处理突发状况，应变能力强</p>
     </div>
     <Personal :person="person" :text="text" @reset="reset" @writing="writing" />
   </div>
@@ -76,6 +78,6 @@ export default {
   // background-color: #256efd;
   padding: 30px 80px;
   font-size: 14px;
-  padding-top: 10px;
+  // padding-top: 10px;
 }
 </style>

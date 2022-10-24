@@ -1,3 +1,5 @@
+
+// 图片处理
 export function disposeImg (img) {
   if (img !== undefined) {
     img = String(img)

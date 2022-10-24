@@ -1,18 +1,19 @@
 <template>
   <div>
     <el-carousel :interval="4000" type="card" height="300px">
-      <el-carousel-item v-for="item in 6" :key="item">
-        <img
-          src="../../../assets/imgs/zhengshu.png"
-          alt=""
-          style="width: 700px"
-        />
+      <el-carousel-item v-for="item in certificate" :key="item">
+        <img :src="item" alt="" style="width: 650px; height: 300px" />
       </el-carousel-item>
     </el-carousel>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    certificate: {
+      type: Array
+    }
+  },
   data () {
     return {
 

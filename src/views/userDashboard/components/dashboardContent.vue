@@ -161,10 +161,14 @@
     </div>
     <!-- 精选岗位 -->
     <div class="recommend-box">
-      <div class="title">精选岗位</div>
+      <div class="title">精选职位</div>
       <div class="adorn" />
       <div class="list">
-        <Selectposition />
+        <Selectposition
+          :position-job="pickJob"
+          :show="show"
+          @changePick="changePick"
+        />
       </div>
     </div>
     <!-- 热门职位 -->
@@ -172,14 +176,14 @@
       <div class="title">热门职位</div>
       <div class="adorn" />
       <div class="list">
-        <Selectposition />
+        <Selectposition :position-job="positionJob" @changeHot="changeHot" />
       </div>
     </div>
     <div class="recommend-box">
       <div class="title">热门证书</div>
       <div class="adorn" />
       <div class="list">
-        <Carousel />
+        <Carousel :certificate="certificate" />
       </div>
     </div>
     <!-- 合作伙伴 -->
@@ -207,17 +211,15 @@
 import Selectposition from './selectPosition.vue'
 import { serchs } from '@/api/search'
 import Carousel from './carousel.vue'
-import { getposition } from '@/api/position'
+import { getPosition, getPositionJob, getHandpickJob, getHandpickJobChange, getCertificate, getSerchlist, getSlideshow } from '@/api/position'
+import disposeImg from '@/utils/disposeImg'
 export default {
   components: { Selectposition, Carousel },
   props: ['item'],
   data () {
     return {
-      carousels: [
-        'https://znzz.tech/static/img/sys-img/crs-01.jpg',
-        ' https://znzz.tech/static/img/sys-img/crs-02.jpg',
-        ' https://znzz.tech/static/img/sys-img/crs-03.jpg'
-      ],
+      show: true,
+      carousels: [],
       disps: false,
       // 二级菜单列表
       secondLevelList: [],
@@ -307,7 +309,11 @@ export default {
       ],
       // partnerLogo: []
       // "@/assets/imgs/2.jpeg","@/assets/imgs/3.jpg","@/assets/imgs/4.webp","@/assets/imgs/5.jpg","@/assets/imgs/6.jpg","@/assets/imgs/7.png","@/assets/imgs/8.jpg","@/assets/imgs/9.png","@/assets/imgs/10.webp"
-      limit: 6
+      limit: 6,
+      positionJob: [],
+      offset: 6,
+      pickJob: [],
+      certificate: []
     }
   },
   watch: {
@@ -327,6 +333,10 @@ export default {
     this.serchlist()
     // this.Carousel();
     this.getJob()
+    this.gethandpick()
+    this.getcertificateList()
+    this.setList()
+    this.getSlideshow()
   },
   mounted () {
     // 如果本地存储的数据radioList有值，直接赋值给data中的radioList
@@ -456,21 +466,52 @@ export default {
         this.iconPanel = 'el-icon-caret-bottom'
       }
     },
+    // 热门职位
     async getJob () {
-      console.log(1)
-      // const res = await getposition(this.limit)
-      // console.log('1223', res)
-      // const { data } = await serchs()
-      // console.log('11212', data)
-      getposition(this.limit).then((res) => {
-        console.log('城市1', res.data)
-        // console.log('124', this.trees(res.data.all_pst_classes, 'id', 'parent_id'))
-        // //  (res.data.all_pst_classes);
-        // this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')[0].children.slice(0, 9)
-        // localStorage.setItem('options', JSON.stringify(this.options))
-        // console.log('options', this.options)
-        //  (this.options);
-      })
+      const { data } = await getPosition(this.limit)
+      console.log('121231', data)
+      this.positionJob = data.results
+      console.log('12123122', this.positionJob)
+    },
+    // 热门职位 换一批
+    async changeHot (i) {
+      const { data } = await getPositionJob(this.limit, this.offset * i)
+      console.log('刷新下一页', data.results)
+      this.positionJob = data.results
+    },
+    // 精选职位
+    async gethandpick () {
+      const { data } = await getHandpickJob(this.limit)
+      console.log('精选职位', data.results)
+      this.pickJob = data.results
+    },
+    // 刷新精选职位
+    async changePick (i) {
+      const { data } = await getHandpickJobChange(this.limit, this.offset * i)
+      console.log('精选职位刷新下一页', data.results)
+      this.pickJob = data.results
+    },
+    // 证书
+    async getcertificateList () {
+      const { data } = await getCertificate()
+      console.log('证书', data)
+      const image = data.map(item => this.disposeImg(item.sample))
+      console.log('image', image)
+      this.certificate = image
+    },
+    // 岗位
+    async setList () {
+      const { data } = await getSerchlist()
+      console.log('岗位', data)
+      const aa = JSON.stringify(data)
+      console.log('aa', JSON.parse(aa))
+    },
+    // 轮播图
+    async getSlideshow () {
+      const { data } = await getSlideshow()
+      console.log('轮播图', data)
+      this.carousels = data.map(item => this.disposeImg(item))
+      console.log('轮播图', this.carousels)
     }
   }
 }

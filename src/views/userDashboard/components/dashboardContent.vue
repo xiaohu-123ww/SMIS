@@ -207,7 +207,7 @@
 import Selectposition from './selectPosition.vue'
 import { serchs } from '@/api/search'
 import Carousel from './carousel.vue'
-
+import { getposition } from '@/api/position'
 export default {
   components: { Selectposition, Carousel },
   props: ['item'],
@@ -304,9 +304,10 @@ export default {
         { imgs: require('../../../assets/hzhb/wps_doc_62.png'), name: '好未来' },
         { imgs: require('../../../assets/hzhb/wps_doc_63.jpg'), name: '中国电子进出口总公司' },
         { imgs: require('../../../assets/hzhb/wps_doc_64.webp'), name: '中国联合网络通信集团有限公司' }
-      ]
+      ],
       // partnerLogo: []
       // "@/assets/imgs/2.jpeg","@/assets/imgs/3.jpg","@/assets/imgs/4.webp","@/assets/imgs/5.jpg","@/assets/imgs/6.jpg","@/assets/imgs/7.png","@/assets/imgs/8.jpg","@/assets/imgs/9.png","@/assets/imgs/10.webp"
+      limit: 6
     }
   },
   watch: {
@@ -325,6 +326,7 @@ export default {
   created () {
     this.serchlist()
     // this.Carousel();
+    this.getJob()
   },
   mounted () {
     // 如果本地存储的数据radioList有值，直接赋值给data中的radioList
@@ -453,9 +455,25 @@ export default {
         this.flag = 1
         this.iconPanel = 'el-icon-caret-bottom'
       }
+    },
+    async getJob () {
+      console.log(1)
+      // const res = await getposition(this.limit)
+      // console.log('1223', res)
+      // const { data } = await serchs()
+      // console.log('11212', data)
+      getposition(this.limit).then((res) => {
+        console.log('城市1', res.data)
+        // console.log('124', this.trees(res.data.all_pst_classes, 'id', 'parent_id'))
+        // //  (res.data.all_pst_classes);
+        // this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')[0].children.slice(0, 9)
+        // localStorage.setItem('options', JSON.stringify(this.options))
+        // console.log('options', this.options)
+        //  (this.options);
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

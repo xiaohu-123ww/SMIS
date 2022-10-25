@@ -8,19 +8,6 @@
       >
         <el-button
           slot="prepend"
-          style="
-            background-color: #fff;
-            width: 132px;
-            line-height: 16px;
-            height: 16px;
-            font-size: 15px;
-          "
-          @click="currentPanel"
-          >岗位分类<i :class="iconPanel"
-        /></el-button>
-
-        <el-button
-          slot="prepend"
           size="mini"
           style="width: 20px; height: 20px; line-height: 60px"
           ><img
@@ -45,29 +32,7 @@
           >搜索
         </el-button>
       </el-input>
-      <div v-show="showPanel" class="classify">
-        <el-tabs
-          v-model="selected"
-          :tab-position="tabPosition"
-          style="height: auto; background-color: #fff"
-        >
-          <el-tab-pane
-            v-for="(item, index) in jobList"
-            :key="index"
-            :label="index"
-            :name="index"
-          >
-            <p
-              v-for="(i, d) in item"
-              :key="d"
-              class="classify_content"
-              @click="content_click(d)"
-            >
-              {{ d }}
-            </p>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
+
       <!-- <el-cascader-panel
         v-show="showPanel"
         v-model="selectOptions"
@@ -110,37 +75,63 @@
     </el-button>
     <!-- 招聘新时代 -->
     <div class="recruitment—box" @mouseleave="occlude()">
-      <div class="recruitment—left">
-        <div
+      <div class="recruitment—left" style="background-color: #f9f9f9">
+        <div :class="{ roll: number === 1 }" style="height: 400px">
+          <div v-for="(item, index) in jobList" :key="index" class="left">
+            <el-row>
+              <el-col :span="22">{{ index }}</el-col>
+              <el-col :span="2"
+                ><i
+                  class="el-icon-arrow-right boult"
+                  @mouseenter="ascertain(item)"
+              /></el-col>
+            </el-row>
+          </div>
+        </div>
+
+        <!-- <div
           v-for="(item, index) in jobList"
           :key="index"
           class="recruitment-left-cont"
+          @click="changejob(item, index)"
         >
-          <span class="recruitment—title">{{ index }} </span>
+          <div class="recruitment—title">{{ index }}</div>
 
           <span
-            v-for="(i, d) in item"
-            v-show="d < 3"
-            :key="d"
-            class="classify_content"
-            >{{ i }}
-          </span>
-
-          <i class="el-icon-arrow-right boult" @mouseenter="ascertain(item)" />
-          <!-- <i class="el-icon-arrow-right boult" @click="occlude(itemss)" /> -->
-        </div>
+            v-for="(items, index) in item"
+            v-show="index < 3"
+            :key="index"
+            class="recruitment—cents"
+            style="width: 20px; background-color: pink"
+            >{{ index }}</span
+          > -->
+        <!-- <i class="el-icon-arrow-right boult" @mouseenter="ascertain(item)" /> -->
+        <!-- <i class="el-icon-arrow-right boult" @click="occlude(itemss)" /> -->
+        <!-- </div> -->
         <p class="more" @click="more">查看更多</p>
       </div>
       <!-- 弹出层 -->
       <div v-if="disps" class="popping">
-        <div class="popping_cent">
-          <div
-            v-for="(item, index) in secondLevelList"
-            :key="index"
-            class="popping_cont"
-            @click="skip(item)"
-          >
-            <div class="text">{{ index }}</div>
+        <div
+          v-for="(item, index) in secondLevelList"
+          :key="index"
+          class="popping_cent"
+        >
+          <div style="font-size: 16px; line-height: 30px; padding-left: 15px">
+            {{ index }}
+          </div>
+          <div style="display: flex; flex-flow: row wrap; font-size: 15px">
+            <div
+              v-for="(items, index) in item"
+              :key="index"
+              style="
+                color:#999
+                line-height: 30px;
+                padding: 10px 15px;
+              "
+            >
+              {{ items }}
+            </div>
           </div>
         </div>
       </div>
@@ -217,8 +208,8 @@ export default {
   data () {
     return {
       show: true,
-      carousels: [],
-      disps: false,
+      carousels: JSON.parse(localStorage.getItem('carousels')) || [],
+      disps: true,
       // 二级菜单列表
       secondLevelList: {},
       // 选中时的值
@@ -308,11 +299,15 @@ export default {
       // partnerLogo: []
       // "@/assets/imgs/2.jpeg","@/assets/imgs/3.jpg","@/assets/imgs/4.webp","@/assets/imgs/5.jpg","@/assets/imgs/6.jpg","@/assets/imgs/7.png","@/assets/imgs/8.jpg","@/assets/imgs/9.png","@/assets/imgs/10.webp"
       limit: 6,
-      positionJob: [],
+      positionJob: JSON.parse(localStorage.getItem('positionjob')) || [],
       offset: 6,
-      pickJob: [],
-      certificate: [],
-      jobList: {}
+      pickJob: JSON.parse(localStorage.getItem('pickJob')) || [],
+      certificate: JSON.parse(localStorage.getItem(' certificate')) || [],
+      jobList: JSON.parse(localStorage.getItem('jobObject')) || {},
+      jobObject: JSON.parse(localStorage.getItem('jobList')) || {},
+      station: {},
+      jobStation: [],
+      number: 0
     }
   },
 
@@ -330,7 +325,7 @@ export default {
     }
   },
   created () {
-    this.serchlist()
+    // this.serchlist()
     // this.Carousel();
     this.getJob()
     this.gethandpick()
@@ -345,11 +340,38 @@ export default {
     }
   },
   methods: {
+    profession (item) {
+      this.searchInput = item
+    },
+    changeState (item, i) {
+      console.log('item', item)
+      this.jobStation = item
+      this.number = i
+    },
+    changejob (index, i) {
+      console.log('index', index, i)
+      var newData = {}
+      var newDatas = {}
+      const newKeys = Object.keys(index)
+      newKeys.map((item, idx) => {
+        if (idx < 3) {
+          newData[item] = index[item]
+        }
+      })
+      for (const key in newData) {
+        const newKey = key.substring(0, 3)
+        newDatas[newKey] = newData[key]
+      }
+      console.log('new', newDatas)
+      this.station = newDatas
+      // this.number = i
+    },
     //     amount: 10
     // })
     // 跳转到更多
     more () {
-      this.$router.push('/userpost')
+      this.jobList = JSON.parse(localStorage.getItem('jobList'))
+      this.number = 1
     },
     // 跳转页面
     skip (e) {
@@ -421,13 +443,13 @@ export default {
         return
       }
     },
-    content_click (e) {
-      this.showPanel = false
-      console.log('城市', e)
-      // this.searchInput = e;
-      this.searchInput = e
-      // this.searchInput = `${this.selected}/${this.searchInput}`;
-    },
+    // content_click (e) {
+    //   this.showPanel = false
+    //   console.log('城市', e)
+    //   // this.searchInput = e;
+    //   this.searchInput = e
+    //   // this.searchInput = `${this.selected}/${this.searchInput}`;
+    // },
     // Carousel() {
     //   getCarousel().then((res) => {
     //     //  (res.data);
@@ -435,19 +457,22 @@ export default {
     //   });
     // },
     // 级联面板是否显示
-    serchlist () {
-      serchs().then((res) => {
-        console.log('城市', res)
-        console.log('124', this.trees(res.data.all_pst_classes, 'id', 'parent_id'))
-        //  (res.data.all_pst_classes);
-        this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')[0].children.slice(0, 9)
-        localStorage.setItem('options', JSON.stringify(this.options))
-        console.log('options', this.options)
-        //  (this.options);
-      })
-    },
+    // serchlist () {
+    //   serchs().then((res) => {
+    //     console.log('城市', res)
+    //     console.log('124', this.trees(res.data.all_pst_classes, 'id', 'parent_id'))
+    //     //  (res.data.all_pst_classes);
+    //     this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')[0].children.slice(0, 9)
+    //     localStorage.setItem('options', JSON.stringify(this.options))
+    //     console.log('options', this.options)
+    //     //  (this.options);
+    //   })
+    // },
+
+    // 搜索图标
     currentPanel () {
       // const classify = document.getElementsByClassName('classify')[0];
+      // console.log(100)
       if (this.flag == 1) {
         this.showPanel = true
         // this.classify.style.display = 'block';
@@ -474,6 +499,7 @@ export default {
       console.log('121231', data)
       this.positionJob = data.results
       console.log('12123122', this.positionJob)
+      localStorage.setItem('positionjob', JSON.stringify(data.results))
     },
     // 热门职位 换一批
     async changeHot (i) {
@@ -486,6 +512,7 @@ export default {
       const { data } = await getHandpickJob(this.limit)
       console.log('精选职位', data.results)
       this.pickJob = data.results
+      localStorage.setItem('pickJob', JSON.stringify(data.results))
     },
     // 刷新精选职位
     async changePick (i) {
@@ -500,12 +527,13 @@ export default {
       const image = data.map(item => this.disposeImg(item.sample))
       console.log('image', image)
       this.certificate = image
+      localStorage.setItem('certificate', JSON.stringify(image))
     },
     // 岗位
     async setList () {
       const { data } = await getSerchlist()
       console.log('岗位', data)
-
+      this.jobObject = data
       var newData = {}
       var newDatas = {}
       const newKeys = Object.keys(data)
@@ -520,13 +548,17 @@ export default {
       }
       console.log('newDatas', newDatas)
       this.jobList = newDatas
+      localStorage.setItem('jobList', JSON.stringify(data))
+      localStorage.setItem('jobObject', JSON.stringify(newDatas))
     },
     // 轮播图
     async getSlideshow () {
       const { data } = await getSlideshow()
       console.log('轮播图', data)
-      this.carousels = data.map(item => this.disposeImg(item))
+      const image = data.map(item => this.disposeImg(item))
+      this.carousels = image
       console.log('轮播图', this.carousels)
+      localStorage.getItem('carousels', JSON.stringify(image))
     },
     add (index) {
       console.log('index', index)
@@ -751,8 +783,47 @@ export default {
 }
 .classify {
   width: 100%;
-  // height: 400px;
-  // background-color: pink;
+  height: 470px;
+  background-color: #fff;
+  display: flex;
+  .classify-job {
+    height: 480px;
+    width: 16%;
+    // background-color: #256efd;
+    overflow: auto;
+    .job {
+      width: 100%;
+      height: 40px;
+      // background-color: pink;
+      text-align: center;
+
+      font-size: 15px;
+      line-height: 40px;
+    }
+  }
+  .classify-jobWork {
+    height: 480px;
+    // width: 160px;
+    width: 68%;
+    // background-color: #729cf0;
+    display: flex;
+    // flex-direction: column;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    padding: 20px;
+    .jobwork {
+      // width: 100px;
+      // height: 30px;
+      padding: 10px;
+      // background-color: green;
+      font-size: 15px;
+      color: #999;
+      margin: 10px;
+    }
+    .work {
+      border-right: 1px solid black;
+    }
+  }
 }
 .el-tab-pane {
   display: flex;
@@ -773,56 +844,36 @@ export default {
 }
 .recruitment—box {
   display: flex;
+  // background-color: #239327;
   .recruitment—left {
-    width: 530px;
+    width: 350px;
     height: 400px;
-    background-color: #f9f9f9;
-    margin-right: 30px;
+    // background-color: #932323;
+    // margin-right: 30px;
 
-    .recruitment-left-cont {
-      display: flex;
-      margin-top: 24px;
-      margin-left: 23px;
-      justify-content: space-between;
-      // width: 600px;
-      // background-color: pink;
-      .recruitment—title {
-        font-size: 16px;
-        font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 500;
-        color: #222222;
-        width: 120px;
-      }
-      span {
-        width: 120px;
-        font-size: 16px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #666666;
-        // background-color: #256efd;
-      }
-      .recruitment-cents:hover {
-        color: #256efd;
-      }
-      .boult {
-        color: #333333;
-        font-weight: 600;
-        padding-right: 10px;
-      }
+    .left {
+      width: 300px;
+      height: 44px;
+      // background-color: #233093;
+      // text-align: center;
+      padding-left: 20px;
+      line-height: 44px;
+      font-size: 16px;
     }
   }
   .popping {
     width: 900px;
     height: 400px;
     background-color: #f9f9f9;
-
+    overflow: auto;
     // padding: 10px;
     span:hover {
       color: #256efd;
     }
     .popping_cont {
-      width: 15%;
+      width: 100px;
       height: 50px;
+      background-color: p;
       line-height: 10px;
       text-align: center;
       font-size: 16px;
@@ -871,19 +922,29 @@ export default {
   margin-bottom: 40px;
 }
 .popping {
+  // background-color: red;
+  width: 700px;
+  height: 500px;
+
   .popping_cent {
-    margin-top: 25px;
-    // width: 700px;
-    // height: 200px;
-    display: flex;
-    flex-wrap: wrap;
-    // background-color: red;
-    .text {
-      width: 200px;
-      height: 30px;
-      // background-color: #256efd;
-    }
+    // width: 870px;
+    // height: 90px;
+    // background-color: pink;
+    margin-bottom: 10px;
   }
+}
+.jobbackground {
+  background-color: #256efd;
+  color: #fff;
+}
+::v-deep .element.style {
+  display: 0;
+}
+.recruitment {
+  display: flex;
+}
+.roll {
+  overflow: auto;
 }
 </style>
 

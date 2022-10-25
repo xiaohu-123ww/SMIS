@@ -52,18 +52,18 @@
           style="height: auto; background-color: #fff"
         >
           <el-tab-pane
-            v-for="(itemss, index) in options"
+            v-for="(item, index) in jobList"
             :key="index"
-            :label="itemss.name"
-            :name="itemss.name"
+            :label="index"
+            :name="index"
           >
             <p
-              v-for="(items, i) in itemss.children"
-              :key="i"
+              v-for="(i, d) in item"
+              :key="d"
               class="classify_content"
-              @click="content_click(items.name)"
+              @click="content_click(d)"
             >
-              {{ items.name }}
+              {{ d }}
             </p>
           </el-tab-pane>
         </el-tabs>
@@ -112,24 +112,21 @@
     <div class="recruitment—box" @mouseleave="occlude()">
       <div class="recruitment—left">
         <div
-          v-for="(itemss, index) in options"
+          v-for="(item, index) in jobList"
           :key="index"
           class="recruitment-left-cont"
         >
-          <span class="recruitment—title">{{ itemss.name }} </span>
+          <span class="recruitment—title">{{ index }} </span>
+
           <span
-            v-for="(items, i) in itemss.children"
-            v-show="i < 3"
-            :key="i"
-            class="recruitment-cents"
-            @click="skip(items)"
-          >
-            {{ items.name }}
+            v-for="(i, d) in item"
+            v-show="d < 3"
+            :key="d"
+            class="classify_content"
+            >{{ i }}
           </span>
-          <i
-            class="el-icon-arrow-right boult"
-            @mouseenter="ascertain(itemss)"
-          />
+
+          <i class="el-icon-arrow-right boult" @mouseenter="ascertain(item)" />
           <!-- <i class="el-icon-arrow-right boult" @click="occlude(itemss)" /> -->
         </div>
         <p class="more" @click="more">查看更多</p>
@@ -138,12 +135,12 @@
       <div v-if="disps" class="popping">
         <div class="popping_cent">
           <div
-            v-for="(itesm, indexsa) in secondLevelList"
-            :key="indexsa"
+            v-for="(item, index) in secondLevelList"
+            :key="index"
             class="popping_cont"
-            @click="skip(itesm)"
+            @click="skip(item)"
           >
-            <div class="text">{{ itesm.name }}</div>
+            <div class="text">{{ index }}</div>
           </div>
         </div>
       </div>
@@ -208,6 +205,7 @@
 </template>
 <script>
 // import recommendList from './recommendList.vue'
+import { mapState } from 'vuex'
 import Selectposition from './selectPosition.vue'
 import { serchs } from '@/api/search'
 import Carousel from './carousel.vue'
@@ -222,7 +220,7 @@ export default {
       carousels: [],
       disps: false,
       // 二级菜单列表
-      secondLevelList: [],
+      secondLevelList: {},
       // 选中时的值
       selected: '互联网IT',
       // 岗位分类
@@ -313,7 +311,14 @@ export default {
       positionJob: [],
       offset: 6,
       pickJob: [],
-      certificate: []
+      certificate: [],
+      jobList: {}
+    }
+  },
+  computed: {
+    positionJob () {
+      console.log('21312321', this.$store.state.positionJob)
+      return this.$store.state.cat.positionJob
     }
   },
   watch: {
@@ -332,11 +337,12 @@ export default {
   created () {
     this.serchlist()
     // this.Carousel();
-    this.getJob()
+    // this.getJob()
     this.gethandpick()
     this.getcertificateList()
     this.setList()
     this.getSlideshow()
+    this.change()
   },
   mounted () {
     // 如果本地存储的数据radioList有值，直接赋值给data中的radioList
@@ -345,6 +351,11 @@ export default {
     }
   },
   methods: {
+    change () {
+      this.$store.dispatch('cat/getJob', this.limit)
+    },
+    //     amount: 10
+    // })
     // 跳转到更多
     more () {
       this.$router.push('/userpost')
@@ -367,7 +378,7 @@ export default {
     // 打开二级菜单
     ascertain (g) {
       console.log('1', g)
-      this.secondLevelList = g.children
+      this.secondLevelList = g
       this.disps = true
     },
     // 搜索
@@ -503,8 +514,21 @@ export default {
     async setList () {
       const { data } = await getSerchlist()
       console.log('岗位', data)
-      const aa = JSON.stringify(data)
-      console.log('aa', JSON.parse(aa))
+
+      var newData = {}
+      var newDatas = {}
+      const newKeys = Object.keys(data)
+      newKeys.map((item, idx) => {
+        if (idx < 9) {
+          newData[item] = data[item]
+        }
+      })
+      for (const key in newData) {
+        const newKey = key.substring(0, 8)
+        newDatas[newKey] = newData[key]
+      }
+      console.log('newDatas', newDatas)
+      this.jobList = newDatas
     },
     // 轮播图
     async getSlideshow () {
@@ -512,6 +536,9 @@ export default {
       console.log('轮播图', data)
       this.carousels = data.map(item => this.disposeImg(item))
       console.log('轮播图', this.carousels)
+    },
+    add (index) {
+      console.log('index', index)
     }
   }
 }

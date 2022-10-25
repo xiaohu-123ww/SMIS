@@ -315,12 +315,7 @@ export default {
       jobList: {}
     }
   },
-  computed: {
-    positionJob () {
-      console.log('21312321', this.$store.state.positionJob)
-      return this.$store.state.cat.positionJob
-    }
-  },
+
   watch: {
     item (item) {
       this.list = item
@@ -337,12 +332,11 @@ export default {
   created () {
     this.serchlist()
     // this.Carousel();
-    // this.getJob()
+    this.getJob()
     this.gethandpick()
     this.getcertificateList()
     this.setList()
     this.getSlideshow()
-    this.change()
   },
   mounted () {
     // 如果本地存储的数据radioList有值，直接赋值给data中的radioList
@@ -351,9 +345,6 @@ export default {
     }
   },
   methods: {
-    change () {
-      this.$store.dispatch('cat/getJob', this.limit)
-    },
     //     amount: 10
     // })
     // 跳转到更多
@@ -761,6 +752,7 @@ export default {
 .classify {
   width: 100%;
   // height: 400px;
+  // background-color: pink;
 }
 .el-tab-pane {
   display: flex;

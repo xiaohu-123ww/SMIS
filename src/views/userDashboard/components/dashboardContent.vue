@@ -209,7 +209,7 @@ export default {
     return {
       show: true,
       carousels: JSON.parse(localStorage.getItem('carousels')) || [],
-      disps: true,
+      disps: false,
       // 二级菜单列表
       secondLevelList: {},
       // 选中时的值
@@ -340,32 +340,32 @@ export default {
     }
   },
   methods: {
-    profession (item) {
-      this.searchInput = item
-    },
-    changeState (item, i) {
-      console.log('item', item)
-      this.jobStation = item
-      this.number = i
-    },
-    changejob (index, i) {
-      console.log('index', index, i)
-      var newData = {}
-      var newDatas = {}
-      const newKeys = Object.keys(index)
-      newKeys.map((item, idx) => {
-        if (idx < 3) {
-          newData[item] = index[item]
-        }
-      })
-      for (const key in newData) {
-        const newKey = key.substring(0, 3)
-        newDatas[newKey] = newData[key]
-      }
-      console.log('new', newDatas)
-      this.station = newDatas
-      // this.number = i
-    },
+    // profession (item) {
+    //   this.searchInput = item
+    // },
+    // changeState (item, i) {
+    //   console.log('item', item)
+    //   this.jobStation = item
+    //   this.number = i
+    // },
+    // changejob (index, i) {
+    //   console.log('index', index, i)
+    //   var newData = {}
+    //   var newDatas = {}
+    //   const newKeys = Object.keys(index)
+    //   newKeys.map((item, idx) => {
+    //     if (idx < 3) {
+    //       newData[item] = index[item]
+    //     }
+    //   })
+    //   for (const key in newData) {
+    //     const newKey = key.substring(0, 3)
+    //     newDatas[newKey] = newData[key]
+    //   }
+    //   console.log('new', newDatas)
+    //   this.station = newDatas
+    //   // this.number = i
+    // },
     //     amount: 10
     // })
     // 跳转到更多

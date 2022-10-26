@@ -1,51 +1,16 @@
 <template>
   <div class="post-list">
-    <!-- <div
-      v-for="(item, index) in searchList"
-      :key="index"
-      class="post-info"
-      @click="jobDetails(item)"
-    >
-      <!标题 -->
-    <!-- <div v-if="item.options" class="title">
-        <span style="cursor: pointer">{{ item.position.pst_class.name }}</span>
-      </div> -->
-    <!-- 薪资待遇 -->
-    <!-- <div class="suffer" style="padding: 0 0 5px 20px; color: #666666">
-        <span
-          style="
-            color: #fe6b49;
-            margin: 0;
-            font-size: 20px;
-            padding-right: 10px;
-          "
-          >{{ item.salary_min }}-{{ item.salary_max }}</span
-        >
-        {{ item.job_experience }} | {{ item.education }}
-      </div> -->
-    <!-- 右边头像 -->
-    <!-- <div class="logo">
-        <div v-if="item.position" class="picture">
-          <img
-            :src="item.enterprise.logo"
-            alt
-            height="100%"
-            srcset
-            width="100%"
-          />
-        </div>
-        <div v-if="item.enterprise" class="company">
-          <div class="name">{{ item.enterprise.name }}</div>
-        </div>
-      </div> -->
-    <!-- 沟通 -->
-    <!-- -->
     <div class="postList-one">
       <el-row>
         <el-col :span="18"
           ><div class="grid-content bg-purple">
             <div class="postList">
-              <div v-for="item in job" :key="item.id" class="job-job">
+              <div
+                v-for="item in job"
+                :key="item.id"
+                class="job-job"
+                @click="particulars"
+              >
                 <el-row>
                   <el-col :span="21"
                     ><div class="grid-content bg-purple">
@@ -161,10 +126,19 @@
   </div>
 </template>
 <script>
+import { getPostList } from '@/api/postlist'
 export default {
   data () {
     return {
       list: ['', '', ''],
+      serchList: {
+        qw: ''
+      },
+      empty: {},
+      // 页数
+      limit: 10,
+      offset: 10,
+      jobListings: {},
       job: [
         {
           id: 1,
@@ -257,11 +231,9 @@ export default {
         }
       ],
       query: {
-        pagenum: 1, // 页码
-        pagesize: 2, // 每页数据条数回所有数据
-        // 分类和状态默认为空，反
-        cate_id: '', // 文章分类ID
-        state: '' // 文章发布状态
+        page: 1, // 页码
+        offset: 2 // 每页数据条数回所有数据
+
       },
       total: 10,
       record: [{
@@ -289,7 +261,7 @@ export default {
     // }
   },
   watch: {},
-  created () { },
+  created () { this.getPostList() },
   methods: {
     jobDetails (item) {
       this.$router.push({
@@ -314,6 +286,27 @@ export default {
       // this.query.pagenum = currPage
       // // 2.根据最新页码重新查询列表收据
       // this.getArticleList()
+    },
+    // 列表数据
+    async getPostList () {
+      // 首页检索跳转
+      if (this.$route.query.inputValue) {
+        this.serchList.qw = this.$route.query.inputValue
+        console.log('this.serchList.input', this.serchList.input)
+        const { data } = await getPostList(this.serchList, this.limit)
+        console.log('列表数据', data)
+        this.jobListings = data
+        this.total = data.count
+      } else {
+        // 没有查询条件的列表
+        const { data } = await getPostList(this.empty, this.limit)
+        console.log('未查询列表数据', data)
+        this.jobListings = data
+        this.total = data.count
+      }
+    },
+    particulars () {
+      console.log('简历详情')
     }
   }
 };
@@ -412,6 +405,7 @@ export default {
   width: 100%;
   position: relation;
   margin: 0 auto;
+
   .postList {
     margin-top: 10px;
     height: 100%;

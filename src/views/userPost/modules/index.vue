@@ -2,21 +2,24 @@
   <div class="post-box">
     <div class="postSearch-content">
       <postSearch />
-      <postList />
+      <!-- <postList /> -->
     </div>
   </div>
 </template>
 <script>
 import postSearch from '../components/postSearch.vue'
-import cityTip from '../components/cityTip.vue'
-import postList from '@/views/userPost/components/postList'
+
+// import postList from '@/views/userPost/components/postList'
 
 export default {
-  components: { postSearch, cityTip, postList },
+  components: { postSearch },
   data () {
-    return {}
+    return {
+
+    }
   }
-};
+
+}
 </script>
 <style lang="scss" scoped>
 .post-box {

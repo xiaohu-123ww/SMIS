@@ -1,139 +1,158 @@
 <template>
-  <div class="search-box">
-    <div class="left">
-      <el-row>
-        <el-col :span="10">
-          <div class="grid-content bg-purple">
-            <div style="width: 800px">
-              <!-- <el-input
-                v-model="searchInput"
-                class="input-with-select"
-                placeholder="请输入岗位/公司"
-              ></el-input> -->
-              <input
-                v-model="searchInput"
-                class="input-with-select"
-                placeholder="请输入岗位/公司"
-              />
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="6"
-          ><div class="grid-content bg-purple-light">
-            <div>
-              <el-select v-model="mass" placeholder="行业分类 " class="hang">
-                <el-option
-                  v-for="item in options"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.name"
-                  @click.native="tradeChange(item)"
-                >
-                </el-option>
-              </el-select>
+  <div>
+    <div class="search-box">
+      <div class="left">
+        <div class="serleft">
+          <el-row>
+            <el-col :span="7">
+              <div class="grid-content bg-purple">
+                <div>
+                  <el-select
+                    v-model="serchPost.job"
+                    placeholder="行业分类 "
+                    class="hang"
+                  >
+                    <el-option
+                      v-for="(item, index) in options"
+                      :key="index"
+                      :label="index"
+                      :value="index"
+                      @click.native="tradeChange(item)"
+                    >
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="7"
+              ><div class="grid-content bg-purple-light">
+                <div>
+                  <el-select
+                    v-model="serchPost.position"
+                    placeholder="职位分类 "
+                    class="hang"
+                  >
+                    <el-option
+                      v-for="(item, index) in trade"
+                      :key="index"
+                      :label="index"
+                      :value="index"
+                      @click.native="serchPostChange(item)"
+                    >
+                    </el-option>
+                  </el-select>
 
-              <div></div>
-            </div></div
-        ></el-col>
-        <el-col :span="5"
-          ><div class="grid-content bg-purple">
-            <div>
-              <el-select v-model="job" placeholder="职业分类 " class="zhi">
-                <el-option
-                  v-for="item in trade"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.name"
-                >
-                </el-option>
-              </el-select>
+                  <div></div>
+                </div></div
+            ></el-col>
+            <el-col :span="8"
+              ><div class="grid-content bg-purple">
+                <div>
+                  <el-select
+                    v-model="serchPost.qw"
+                    placeholder="职位 "
+                    class="zhi"
+                  >
+                    <el-option
+                      v-for="item in positionJob"
+                      :key="item"
+                      :label="item"
+                      :value="item"
+                    >
+                    </el-option>
+                  </el-select>
 
-              <div></div>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="1"
-          ><div class="grid-content bg-purple-light">
-            <el-button
-              style="
-                background-color: #256efd;
-                color: #fff;
-                width: 137px;
-                height: 54px;
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-                margin-top: 13px;
-              "
-              icon="el-icon-search"
-              @click="serchJob()"
-              >搜索
-            </el-button>
-          </div></el-col
-        >
-      </el-row>
-    </div>
-    <div class="city">
-      <div
-        class="city-1"
-        :class="{ change: changeColor === '11' }"
-        @click="color"
-      >
-        城市 ∨
+                  <div></div>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="1"
+              ><div
+                class="grid-content bg-purple-light"
+                style="color: #fff; width: 100px; height: 40px"
+              >
+                <el-button
+                  style="
+                    background-color: #256efd;
+                    color: #fff;
+                    width: 100px;
+                    height: 40px;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                  "
+                  icon="el-icon-search"
+                  @click="serchJob()"
+                  >搜索
+                </el-button>
+              </div></el-col
+            >
+          </el-row>
+        </div>
       </div>
-      <div
-        class="city-1"
-        :class="{ change: changeColor === '22' }"
-        @click="tradeColor"
-      >
-        行政区 ∨
-      </div>
-      <div
-        class="city-1"
-        :class="{ change: changeColor === '33' }"
-        @click="sunbwayColor"
-      >
-        地铁沿线 ∨
-      </div>
-    </div>
-    <div class="district">
-      <a href="javascript:;">
-        <span
-          v-for="(item, index) in cityName"
-          :key="item.idx"
-          class="city-2"
-          :class="changeColor === index ? 'change' : ''"
-          @click="cityColor(index)"
+      <div class="city">
+        <div
+          class="city-1"
+          :class="{ change: changeColor === '11' }"
+          @click="color"
         >
-          {{ item.label }}
-        </span></a
-      >
-    </div>
-    <div v-show="showPanel" class="classify">
-      <el-tabs
-        v-model="selected"
-        :tab-position="tabPosition"
-        style="height: auto; background-color: #fff"
-      >
-        <el-tab-pane
-          v-for="(itemss, index) in options"
-          :key="index"
-          :label="itemss.name"
-          :name="itemss.name"
+          城市 ∨
+        </div>
+        <div
+          class="city-1"
+          :class="{ change: changeColor === '22' }"
+          @click="tradeColor"
         >
-          <p
-            v-for="(items, i) in itemss.children"
-            :key="i"
-            class="classify_content"
-            @click="content_click(items.name)"
+          行政区 ∨
+        </div>
+        <div
+          class="city-1"
+          :class="{ change: changeColor === '33' }"
+          @click="sunbwayColor"
+        >
+          地铁沿线 ∨
+        </div>
+      </div>
+      <div class="district">
+        <a href="javascript:;">
+          <span
+            v-for="(item, index) in cityName"
+            :key="item.idx"
+            class="city-2"
+            :class="changeColor === index ? 'change' : ''"
+            @click="cityColor(index)"
           >
-            {{ items.name }}
-          </p>
-        </el-tab-pane>
-      </el-tabs>
+            {{ item.label }}
+          </span></a
+        >
+      </div>
+      <div v-show="showPanel" class="classify">
+        <el-tabs
+          v-model="selected"
+          :tab-position="tabPosition"
+          style="height: auto; background-color: #fff"
+        >
+          <el-tab-pane
+            v-for="(itemss, index) in options"
+            :key="index"
+            :label="itemss.name"
+            :name="itemss.name"
+          >
+            <p
+              v-for="(items, i) in itemss.children"
+              :key="i"
+              class="classify_content"
+              @click="content_click(items.name)"
+            >
+              {{ items.name }}
+            </p>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+      <div>
+        <CityTip />
+      </div>
     </div>
-    <div>
-      <CityTip />
-    </div>
+    <PostList />
   </div>
 </template>
 <script>
@@ -142,17 +161,16 @@ import { jobSearch } from '@/api/jobs'
 import { getUservitae } from '@/api/user'
 import { Divider } from 'element-ui'
 import CityTip from './cityTip.vue'
-
+import PostList from './postList.vue'
+import { getSerchlist } from '@/api/position'
 export default {
-  components: { CityTip },
+  components: { CityTip, PostList },
   data () {
     return {
       // 选中时的值
       selected: '互联网IT',
       // 岗位分类
       tabPosition: 'left',
-      // 搜索框内容s
-      searchInput: '',
       // 搜索筛选
       selectOptions: [],
       showPanel: false,
@@ -160,38 +178,50 @@ export default {
       flag: 1,
       tip: '',
       radioList: ['Python', '全栈工程师', 'Java', 'web前端'],
-      options: JSON.parse(localStorage.getItem('option')),
+      options: JSON.parse(localStorage.getItem('options')) || {},
       list: [],
       dict: '',
       statu: false,
-      // 行业
-      mass: '',
-      // 职业
-      trade: {},
-      // 职业下拉框
-      job: '',
+      // 搜索
+      serchPost: {
+        job: '',
+        position: '',
+        qw: ''
+      },
+      // 职业分类
+      trade: '',
+      // 职位
+      positionJob: '',
+
       // 城市 行政
-      changeColor: 0,
+      changeColor: '11',
       cityName: JSON.parse(localStorage.getItem('cityName'))
+
+    }
+  },
+  computed: {
+    userId () {
+      return this.$route.query.inputValue// $route获取到正在活跃的路由
     }
   },
   created () {
-    this.getCity()
+    // this.getCity()
     this.serch()
-    getUservitae().then((rs) => {
-      this.dict = rs.data
-    })
+    // this.getPostList()
+    // getUservitae().then((rs) => {
+    //   this.dict = rs.data
+    // })
 
-    if (this.$route.query.inputValue) {
-      console.log('this.$route.query.inputValue', this.$route.query.inputValue)
-      this.searchInput = this.$route.query.inputValue
-      this.serchJob()
-    } else {
-      this.searchInput = this.searchInput
-      // jobSearch(this.searchInput)
-    }
+    // if (this.$route.query.inputValue) {
+    //   console.log('this.$route.query.inputValue', this.$route.query.inputValue)
+    //   this.searchInput = this.$route.query.inputValue
+    //   this.serchJob()
+    // } else {
+    //   this.searchInput = this.searchInput
+    //   // jobSearch(this.searchInput)
+    // }
 
-    this.serchJob()
+    // this.serchJob()
   },
   methods: {
     content_click (e) {
@@ -335,13 +365,11 @@ export default {
         //  (this.$store.state.user.status);
       })
     },
-    serch () {
-      serchs().then((res) => {
-        console.log('123123123123123213213----------', res)
-        this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')[0].children
-        console.log('options', this.options)
-        localStorage.setItem('option', JSON.stringify(this.options))
-      })
+    async serch () {
+      const { data } = await getSerchlist()
+      console.log('岗位', data)
+      this.options = data
+      localStorage.getItem('options', JSON.stringify(data))
     },
     changeRadio () { },
     // 级联面板是否显示
@@ -364,11 +392,15 @@ export default {
         this.iconPanel = 'el-icon-caret-bottom'
       }
     },
-    // 职业下拉框
-    tradeChange (item) {
-      console.log(item)
-      this.trade = item.children
-      console.log(this.trade)
+    // 行业下拉框
+    tradeChange (index) {
+      console.log('index', index)
+      this.trade = index
+    },
+    // 职业下拉
+    serchPostChange (index) {
+      console.log('index1', index)
+      this.positionJob = index
     },
     async getCity () {
       const res = await jobSearch(this.$route.query.name)
@@ -390,8 +422,9 @@ export default {
     cityColor (index) {
       this.changeColor = index
     }
+
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .el-input__inner {
@@ -465,11 +498,21 @@ export default {
   .left {
     // display: flex;
     // position: relative;
+    width: 100%;
+    height: 70px;
+    // background-color: pink;
+    padding: 15px 33px;
+    .serleft {
+      width: 100%;
+      height: 42px;
+      // background-color: #0094ff;
+      // border: 1px solid #0094ff;
+    }
   }
   .input-with-select {
     height: 65px;
     width: 600px;
-    padding-left: 30px;
+    padding: 14px 0 0 20px;
     font-size: 15px;
     border: none;
     outline: none;
@@ -542,5 +585,13 @@ export default {
   button {
     margin-right: 44px;
   }
+}
+::v-deep .el-select[data-v-2e155517] {
+  margin-top: 0px;
+}
+
+::v-deep input.el-input__inner {
+  border: 1px solid #448ef7;
+  border-radius: 0px;
 }
 </style>

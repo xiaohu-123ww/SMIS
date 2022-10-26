@@ -6,37 +6,46 @@
           ><div class="grid-content bg-purple">
             <div class="postList">
               <div
-                v-for="item in job"
+                v-for="item in jobListings"
                 :key="item.id"
                 class="job-job"
                 @click="particulars"
               >
                 <el-row>
-                  <el-col :span="21"
-                    ><div class="grid-content bg-purple">
+                  <el-col :span="22">
+                    <div class="grid-content bg-purple">
                       <div style="display: flex">
-                        <div class="job-mechanical">
-                          <div class="mechanical">
-                            {{ item.position }} {{ item.address }}
+                        <div class="job-mechanical" style="width: 500px">
+                          <div
+                            class="mechanical"
+                            style="width: 450px; display: flex"
+                          >
+                            <div style="width: 320px; padding-left: 30px">
+                              {{ item.fullname }} {{ item.city.second }}.{{
+                                item.city.third
+                              }}
+                            </div>
+
                             <el-button type="primary" round class="el-bt"
                               >立即沟通</el-button
                             >
                           </div>
                           <div class="machan">
                             <div class="machan-aa">
-                              {{ item.money }} . {{ item.salary }}
+                              {{ item.salary_min }}-{{ item.salary_max }} .
+                              {{ item.salary_unit }}薪
                             </div>
                             <div
                               class="machan-bb"
                               style="border-right: 1px solid #e6e3e3"
                             >
-                              {{ item.education }}
+                              {{ item.job_experience }}
                             </div>
-                            <div class="machan-bb">{{ item.school }}</div>
+                            <div class="machan-bb">{{ item.education }}</div>
                           </div>
                           <div class="equipment">
                             <div
-                              v-for="(itemss, index) in item.equipment"
+                              v-for="(itemss, index) in item.tag"
                               :key="index"
                               class="equiment-ff"
                             >
@@ -47,44 +56,57 @@
                         </div>
                         <div>
                           <div class="job-mechanical">
-                            <div class="mechanical">{{ item.company }}</div>
-                            <div class="machan">
-                              <div class="machan-cc">{{ item.specialty }}</div>
+                            <div class="mechanical" style="width: 500px">
+                              {{ item.enterprise_info.name }}
+                            </div>
+                            <div class="machan" style="width: 500px">
+                              <div
+                                class="machan-cc"
+                                style="padding: 0 10px 0 0"
+                              >
+                                {{ item.enterprise_info.field.field_name }}
+                              </div>
                               <div
                                 class="machan-cc"
                                 style="border-right: 1px solid #e6e3e3"
                               >
-                                {{ item.financing }}
+                                {{ item.enterprise_info.finance }}
                               </div>
 
-                              <div class="machan-cc">{{ item.people }}</div>
+                              <div style="padding: 0 20px 0 5px">
+                                {{ item.enterprise_info.size }}
+                              </div>
                             </div>
                             <div
                               style="
                                 padding-top: 12px;
                                 font-size: 12px;
                                 color: #878484;
-                                margin-left: 30px;
                               "
                             >
-                              {{ item.weal }}
+                              五险一金，年终奖，节日福利，带薪休假
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div></el-col
-                  >
+                    </div>
+                  </el-col>
                   <el-col :span="1"
                     ><div class="grid-content bg-purple-light">
-                      <div class="machan-sss">1</div>
-                    </div></el-col
-                  >
+                      <div class="machan-sss">
+                        <img
+                          :src="disposeImg(item.enterprise_info.logo)"
+                          alt=""
+                          style="width: 60px; height: 60px"
+                        />
+                      </div></div
+                  ></el-col>
                 </el-row>
               </div>
               <el-pagination
                 style="margin: 20px 0 0 150px"
                 :current-page="query.pagenum"
-                :page-sizes="[2, 3, 5, 10]"
+                :page-sizes="[5, 10, 20]"
                 :page-size="query.pagesize"
                 layout="sizes, prev, pager, next, jumper, total"
                 :total="total"
@@ -98,38 +120,49 @@
           ><div class="grid-content bg-purple-light">
             <div class="record">
               <div class="record-aa">浏览记录</div>
-              <div v-for="item in record" :key="item.id" class="record-box">
-                <div class="record-row">
-                  <el-row>
-                    <el-col :span="12"
-                      ><div class="grid-content bg-purple">
-                        {{ item.position }}
-                      </div></el-col
-                    >
-                    <el-col :span="12"
-                      ><div
-                        class="grid-content bg-purple-light"
-                        style="color: red"
+              <el-empty v-if="flagShow === 0" :image-size="100"></el-empty>
+              <div v-else>
+                <div v-for="item in history" :key="item.id" class="record-box">
+                  <div class="record-row">
+                    <el-row>
+                      <el-col :span="14"
+                        ><div class="grid-content bg-purple">
+                          {{ item.position_info.name }}
+                        </div></el-col
                       >
-                        {{ item.money }} .{{ item.salary }}
-                      </div></el-col
-                    >
-                  </el-row>
+                      <el-col :span="9"
+                        ><div
+                          class="grid-content bg-purple-light"
+                          style="color: red; font-size: 13px"
+                        >
+                          {{ item.position_info.salary }}.{{
+                            item.position_info.salary_unit
+                          }}薪
+                        </div></el-col
+                      >
+                    </el-row>
+                  </div>
+                  <div style="color: #878484">
+                    {{ item.position_info.enterprise_name }}
+                  </div>
                 </div>
-                <div style="color: #878484">{{ item.company }}</div>
               </div>
             </div>
-          </div></el-col
-        >
+          </div>
+        </el-col>
       </el-row>
     </div>
   </div>
 </template>
 <script>
-import { getPostList } from '@/api/postlist'
+import { getPostList, getbrowsingHistory, getPostListOne } from '@/api/postlist'
+import disposeImg from '@/utils/disposeImg'
+import { constantRoutes } from '@/router'
 export default {
+
   data () {
     return {
+
       list: ['', '', ''],
       serchList: {
         qw: ''
@@ -139,118 +172,16 @@ export default {
       limit: 10,
       offset: 10,
       jobListings: {},
-      job: [
-        {
-          id: 1,
-          name: '罗先生',
-          job: '人事',
-          state: '今日活跃',
-          position: '机械工程师',
-          address: '北京.海淀.西小口',
-          money: '8000-15000',
-          salary: '13薪',
-          school: '本科',
-          company: '北京智能智造科技有限公司',
-          specialty: '互联网',
-          financing: '未融资',
-          people: '20-99人',
-          education: '1-3年',
-          equipment: ['机械设备', '机械组装', '电器设置', '机械一体化'],
-          weal: '五险一金，年终奖，节日福利，带薪休假'
-        },
-        {
-          id: 2,
-          name: '罗先生',
-          job: '人事',
-          state: '今日活跃',
-          position: '机械工程师',
-          address: '北京.海淀.西小口',
-          money: '8000-15000',
-          salary: '13薪',
-          school: '本科',
-          company: '北京智能智造科技有限公司',
-          specialty: '互联网',
-          financing: '未融资',
-          people: '20-99人',
-          education: '1-3年',
-          equipment: ['机械设备', '机械组装', '电器设置', '机械一体化'],
-          weal: '五险一金，年终奖，节日福利，带薪休假'
-        },
-        {
-          id: 3,
-          name: '罗先生',
-          job: '人事',
-          state: '今日活跃',
-          position: '机械工程师',
-          address: '北京.海淀.西小口',
-          money: '8000-15000',
-          salary: '13薪',
-          school: '本科',
-          company: '北京智能智造科技有限公司',
-          specialty: '互联网',
-          financing: '未融资',
-          people: '20-99人',
-          education: '1-3年',
-          equipment: ['机械设备', '机械组装', '电器设置', '机械一体化'],
-          weal: '五险一金，年终奖，节日福利，带薪休假'
-        },
-        {
-          id: 4,
-          name: '罗先生',
-          job: '人事',
-          state: '今日活跃',
-          position: '机械工程师',
-          address: '北京.海淀.西小口',
-          money: '8000-15000',
-          salary: '13薪',
-          school: '本科',
-          company: '北京智能智造科技有限公司',
-          specialty: '互联网',
-          financing: '未融资',
-          people: '20-99人',
-          education: '1-3年',
-          equipment: ['机械设备', '机械组装', '电器设置', '机械一体化'],
-          weal: '五险一金，年终奖，节日福利，带薪休假'
-        }, {
-          id: 5,
-          name: '罗先生',
-          job: '人事',
-          state: '今日活跃',
-          position: '机械工程师',
-          address: '北京.海淀.西小口',
-          money: '8000-15000',
-          salary: '13薪',
-          school: '本科',
-          company: '北京智能智造科技有限公司',
-          specialty: '互联网',
-          financing: '未融资',
-          people: '20-99人',
-          education: '1-3年',
-          equipment: ['机械设备', '机械组装', '电器设置', '机械一体化'],
-          weal: '五险一金，年终奖，节日福利，带薪休假'
-        }
-      ],
       query: {
-        page: 1, // 页码
-        offset: 2 // 每页数据条数回所有数据
-
+        pagenum: 1,
+        pagesize: 10
       },
       total: 10,
-      record: [{
-        id: '1',
-        position: '机械视觉工程师',
-        money: '8000-15000',
-        salary: '13薪',
-        company: '北京智能智造科技有限公司'
-      },
-      {
-        id: '2',
-        position: '机械视觉工程师',
-        money: '8000-15000',
-        salary: '13薪',
-        company: '北京智能智造科技有限公司'
-      }
-      ]
+      history: [],
+      flagShow: 0,
+      logo: [],
+      offset: 10,
+      list: {}
     }
   },
   computed: {
@@ -261,7 +192,10 @@ export default {
     // }
   },
   watch: {},
-  created () { this.getPostList() },
+  created () {
+    this.getPostList()
+    this.browsingHistory()
+  },
   methods: {
     jobDetails (item) {
       this.$router.push({
@@ -272,20 +206,20 @@ export default {
     },
     handleSizeChange (newSize) {
       console.log('每页条数', newSize)
-      // // 修改后台接口查询参数pagesize每页条数
-      // this.query.pagesize = newSize
-      // // 重置页码为第一页
-      // this.pagenum = 1
-      // // 根据最新页码重新查询列表收据
-      // this.getArticleList()
+      this.limit = newSize
+      this.getPostList()
     },
-    handleCurrentChange (currPage) {
-      // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
-      console.log('当前页码', currPage)
-      // // 修改后台接口查询参数pagenum页码
-      // this.query.pagenum = currPage
-      // // 2.根据最新页码重新查询列表收据
-      // this.getArticleList()
+    async handleCurrentChange (i) {
+      console.log('当前页码', i)
+      if (this.$route.query.inputValue) {
+        const { data } = await getPostListOne(this.serchList, this.limit, this.offset * i)
+        console.log('翻页', data)
+        this.jobListings = data.results
+      } else {
+        const { data } = await getPostListOne(this.list, this.limit, this.offset * i)
+        console.log('翻页', data)
+        this.jobListings = data.results
+      }
     },
     // 列表数据
     async getPostList () {
@@ -295,15 +229,22 @@ export default {
         console.log('this.serchList.input', this.serchList.input)
         const { data } = await getPostList(this.serchList, this.limit)
         console.log('列表数据', data)
-        this.jobListings = data
+        this.jobListings = data.results
         this.total = data.count
       } else {
         // 没有查询条件的列表
         const { data } = await getPostList(this.empty, this.limit)
         console.log('未查询列表数据', data)
-        this.jobListings = data
+        this.jobListings = data.results
         this.total = data.count
       }
+    },
+    // 浏览记录
+    async browsingHistory () {
+      const { data } = await getbrowsingHistory()
+      console.log('浏览记录', data)
+      this.history = data
+      this.flagShow = data.length
     },
     particulars () {
       console.log('简历详情')
@@ -312,94 +253,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// .post-list {
-//   width: 100%;
-//   height: auto;
-//   padding-top: 30px;
-//   overflow: hidden;
-//   display: flex;
-//   justify-content: space-between;
-//   flex-wrap: wrap;
-//   .post-info:hover {
-//     z-index: 2;
-//     -webkit-box-shadow: 0 15px 30px rgb(0 0 0 / 10%);
-//     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-//     -webkit-transform: translate3d(0, -2px, 0);
-//     transform: translate3d(0, -2px, 0);
-//   }
-//   .post-info .suffer:hover {
-//     color: #4e93f7 !important;
-//   }
-//   .post-info .title span:hover {
-//     color: #4e93f7;
-//   }
-//   .company div:hover {
-//     color: #4e93f7 !important;
-//   }
-//   .post-info {
-//     width: 49%;
-//     min-width: 450px;
-//     height: 248px;
-//     position: relative;
-//     border: 1px solid #cecece;
-//     border-radius: 10px;
-//     margin-bottom: 20px;
-//     background-color: #fff;
-//     .title {
-//       width: 100%;
-//       padding: 40px 20px 12px 20px;
-//       font-size: 28px;
-//       font-family: PingFang HK;
-//       font-weight: 600;
-//       color: #2f2f2f;
-//       display: flex;
-//       justify-content: space-between;
-//     }
-
-//     .logo {
-//       position: absolute;
-//       right: 40px;
-//       top: 50px;
-//       width: 40%;
-
-//       .picture {
-//         width: 68px;
-//         height: 68px;
-//         overflow: hidden;
-//         margin: 0 auto;
-//       }
-
-//       .company > .name {
-//         font-size: 12px;
-//         font-family: PingFang HK;
-//         font-weight: 400;
-//         color: #666666;
-//         padding: 10px 0;
-//         text-align: center;
-//       }
-//     }
-//     .communication {
-//       width: 137px;
-//       text-align: center;
-//       background-color: #256efd;
-//       position: absolute;
-//       padding: 8px 0;
-//       border-radius: 4px;
-//       left: 20px;
-//       margin-top: 24px;
-//       // top: 120px;
-//       font-size: 16px;
-//       font-weight: 600;
-//       color: #ffffff;
-//     }
-//   }
-//   .adorn {
-//     width: 100%;
-//     height: 1px;
-//     background: #f8f8f8;
-//     margin-top: 80px;
-//   }
-// }
 .postList-one {
   // display: flex;
   width: 100%;
@@ -428,7 +281,8 @@ export default {
         width: 100px;
         height: 28px;
         line-height: 4px;
-        margin-left: 50px;
+        margin-top: 5px;
+        // margin-left: 50px;
       }
       .job-mechanical {
         width: 100%;
@@ -457,7 +311,7 @@ export default {
           // background-color: #256efd;
           font-size: 16px;
           line-height: 40px;
-          padding-left: 30px;
+          // padding-left: 30px;
           color: #256efd;
           font-weight: 700;
         }
@@ -472,6 +326,7 @@ export default {
           border-bottom: 1px solid #e6e3ee;
           display: flex;
           font-size: 15px;
+          // padding-top: 10px;
           .machan-aa {
             width: 170px;
             height: 20px;
@@ -480,6 +335,7 @@ export default {
             line-height: 20px;
             padding-left: 30px;
             // color: red;
+            line-height: 20px;
           }
           .machan-bb {
             width: 70px;
@@ -489,12 +345,13 @@ export default {
             padding-left: 20px;
           }
           .machan-cc {
-            width: 100px;
+            // width: 100px;
             height: 20px;
             // background-color: #256efd;
             border-right: 1px solid #e6e3e3;
             line-height: 20px;
-            padding-left: 30px;
+            font-size: 14px;
+            padding: 0 20px 0 5px;
           }
         }
       }
@@ -527,6 +384,21 @@ export default {
         font-size: 15px;
       }
     }
+  }
+}
+.boxJob {
+  background-color: #fff;
+  margin: 10px 0 0 20px;
+  border-radius: 20px;
+  width: 300px;
+  height: 300px;
+  .record-aa {
+    height: 45px;
+    // background-color: #256efd;
+    border-bottom: 1px solid #e6e3e3;
+    font-size: 18px;
+    padding: 12px;
+    color: #256efd;
   }
 }
 </style>

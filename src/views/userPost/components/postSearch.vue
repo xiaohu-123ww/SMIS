@@ -112,16 +112,45 @@
           地铁沿线 ∨
         </div>
       </div>
-      <div class="district">
+      <div v-if="administrativeShow" class="district">
         <a href="javascript:;">
           <span
-            v-for="(item, index) in cityName"
-            :key="item.idx"
+            v-for="item in cityName"
+            :key="item.id"
             class="city-2"
-            :class="changeColor === index ? 'change' : ''"
-            @click="cityColor(index)"
+            :class="tinct === item.adcode ? 'change' : ''"
+            @click="
+              cityColor(item.adcode, item.first ? item.first : item.second)
+            "
           >
-            {{ item.label }}
+            {{ item.first ? item.first : item.second }}
+          </span></a
+        >
+      </div>
+      <div v-if="show" class="district">
+        <a href="javascript:;">
+          <span
+            v-for="item in clerk"
+            :key="item.id"
+            class="city-2"
+            :class="tinct === item.adcode ? 'change' : ''"
+            @click="clerkChange(item.adcode, item.third)"
+          >
+            {{ item.third }}
+          </span></a
+        >
+      </div>
+      <div v-if="flagShow" class="district">
+        <a href="javascript:;">
+          <span
+            v-for="(item, index) in administrative"
+            :key="index"
+            style="width: 150px"
+            class="city-2"
+            :class="tinct === item ? 'change' : ''"
+            @click="administrativeChange(item)"
+          >
+            {{ item }}
           </span></a
         >
       </div>
@@ -149,7 +178,7 @@
         </el-tabs>
       </div>
       <div>
-        <CityTip />
+        <CityTip @reset="reset" />
       </div>
     </div>
     <PostList />
@@ -163,6 +192,7 @@ import { Divider } from 'element-ui'
 import CityTip from './cityTip.vue'
 import PostList from './postList.vue'
 import { getSerchlist } from '@/api/position'
+import { getPostcity, getPostMetro, getPostadministrative } from '@/api/postlist'
 export default {
   components: { CityTip, PostList },
   data () {
@@ -186,16 +216,29 @@ export default {
       serchPost: {
         job: '',
         position: '',
-        qw: ''
+        qw: '',
+        city: '',
+        admin: '',
+        subway: ''
       },
       // 职业分类
       trade: '',
       // 职位
       positionJob: '',
-
-      // 城市 行政
+      // 城市 颜色
       changeColor: '11',
-      cityName: JSON.parse(localStorage.getItem('cityName'))
+      // 热门城市
+      cityName: JSON.parse(localStorage.getItem('cityName')) || [],
+      // 行政区域
+      adcode: 0,
+      // 行政 颜色
+      tinct: 0,
+      clerk: {},
+      // 地铁
+      administrativeShow: true,
+      administrative: [],
+      show: false,
+      flagShow: false
 
     }
   },
@@ -205,9 +248,8 @@ export default {
     }
   },
   created () {
-    // this.getCity()
     this.serch()
-    // this.getPostList()
+    this.hotCity()
     // getUservitae().then((rs) => {
     //   this.dict = rs.data
     // })
@@ -365,6 +407,7 @@ export default {
         //  (this.$store.state.user.status);
       })
     },
+    // 岗位分类
     async serch () {
       const { data } = await getSerchlist()
       console.log('岗位', data)
@@ -372,18 +415,7 @@ export default {
       localStorage.getItem('options', JSON.stringify(data))
     },
     changeRadio () { },
-    // 级联面板是否显示
-    currentPanel () {
-      if (this.flag == 1) {
-        this.showPanel = true
-        this.flag = 0
-        this.iconPanel = 'el-icon-caret-top'
-      } else if (this.flag == 0) {
-        this.showPanel = false
-        this.flag = 1
-        this.iconPanel = 'el-icon-caret-bottom'
-      }
-    },
+
     optionChange (e) {
       this.searchInput = e.join('/')
       if (e.length == 2 && this.flag == 0) {
@@ -402,25 +434,63 @@ export default {
       console.log('index1', index)
       this.positionJob = index
     },
-    async getCity () {
-      const res = await jobSearch(this.$route.query.name)
-      console.log('res', res)
-      this.cityName = res.data.cities_options
-      console.log('cityName', this.cityName)
-      localStorage.setItem('cityName', JSON.stringify(this.cityName))
-    },
+
     // 城市 行政  地铁
     color () {
       this.changeColor = '11'
+      this.hotCity()
+      this.administrativeShow = true
+      this.show = false
+      this.flagShow = false
     },
-    tradeColor (i) {
+    async tradeColor (i) {
       this.changeColor = '22'
+      this.show = true
+      this.flagShow = false
+      this.administrativeShow = false
+      const { data } = await getPostadministrative(this.adcode)
+      console.log('行政区域', data)
+      this.clerk = data
     },
-    sunbwayColor () {
+    async sunbwayColor () {
       this.changeColor = '33'
+      this.flagShow = true
+      this.show = false
+      this.administrativeShow = false
+      const { data } = await getPostMetro(this.adcode)
+      console.log('地铁', data)
+      this.administrativeShow = false
+      this.administrative = data
     },
-    cityColor (index) {
-      this.changeColor = index
+    cityColor (index, name) {
+      console.log('城市', index)
+      this.tinct = index
+      this.adcode = index
+      this.serchPost.city = name
+    },
+    clerkChange (index, name) {
+      this.tinct = index
+      this.serchPost.admin = name
+    },
+    administrativeChange (name) {
+      this.tinct = name
+      this.serchPost.subway = name
+    },
+    // 其他条件
+    // 热门城市
+    async hotCity () {
+      const { data } = await getPostcity()
+      console.log('热门城市', data)
+      this.cityName = data
+      localStorage.getItem('cityName', JSON.stringify(data))
+    },
+    reset () {
+      this.serchPost.job = ''
+      this.serchPost.position = ''
+      this.serchPost.qw = ''
+      this.serchPost.city = ''
+      this.admin = ''
+      this.subway = ''
     }
 
   }
@@ -435,12 +505,13 @@ export default {
 
 .district {
   width: 100%;
-  height: 100px;
+  // height: 100px;
   // background-color: #0094ff;
-  margin: 20px 0 0 10px;
+  margin: 20px 0 20px 10px;
   padding-left: 50px;
   // display: flex;
   font-size: 15px;
+
   span {
     // background: red;
     margin-left: 5px;

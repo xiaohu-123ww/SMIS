@@ -39,7 +39,11 @@
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select v-model="money" placeholder="薪资要求">
+                <el-select
+                  v-model="money"
+                  placeholder="薪资要求"
+                  @change="moneyChange"
+                >
                   <el-option
                     v-for="(item, index) in moneyList"
                     :key="index"
@@ -50,7 +54,11 @@
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select v-model="profession" placeholder="职位类型">
+                <el-select
+                  v-model="profession"
+                  placeholder="职位类型"
+                  @change="professionChange"
+                >
                   <el-option
                     v-for="(item, index) in options"
                     :key="index"
@@ -61,18 +69,26 @@
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select v-model="companyNature" placeholder="公司性质">
+                <el-select
+                  v-model="companyNature"
+                  placeholder="公司性质"
+                  @change="companyNatureChange"
+                >
                   <el-option
                     v-for="(item, index) in companyNatureList"
                     :key="index"
                     :label="index"
-                    :value="index"
+                    :value="item"
                     >{{ index }}</el-option
                   >
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select v-model="people" placeholder="公司规模">
+                <el-select
+                  v-model="people"
+                  placeholder="公司规模"
+                  @change="peopleChange"
+                >
                   <el-option
                     v-for="(item, index) in peopleList"
                     :key="index"
@@ -124,7 +140,7 @@ export default {
         education: 0,
         enterpriseNature: 0,
         salary: 0,
-        qw: '',
+        qq: '',
         staffSize: 0
       },
       // 工作经验
@@ -175,13 +191,38 @@ export default {
     experienceChange (i) {
       console.log('aa', i)
       this.list.jobExperience = i
+      this.$emit('experienceChange', i)
     },
     // 学历要求
     educationalChange (i) {
       console.log('bb', i)
       this.list.education = i
-    }
+      this.$emit('educationalChange', i)
+    },
     // 薪资要求
+    moneyChange (i) {
+      console.log('cc', i)
+      this.list.salary = i
+      this.$emit('moneyChange', i)
+    },
+    // 职位类型
+    professionChange (i) {
+      console.log('dd', i)
+      this.qq = i
+      this.$emit('professionChange', i)
+    },
+    // 公司性质
+    companyNatureChange (i) {
+      console.log('ee', i)
+      // this.list.enterpriseNature = i
+      this.$emit('companyNatureChange', i)
+    },
+    // 公司规模
+    peopleChange (i) {
+      console.log('ff', i)
+      this.list.salary = i
+      this.$emit('peopleChange', i)
+    }
   }
 };
 </script>

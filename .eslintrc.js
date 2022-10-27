@@ -227,6 +227,7 @@ module.exports = {
     'vue/require-default-prop': 'off',
     ' vue/no-unused-vars': 'off',
     'require-v-for-key': 'off',
-    'no-dupe-keys': 'off'
+    'no-dupe-keys': 'off',
+    'no-undef': 'off'
   }
 }

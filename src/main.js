@@ -30,16 +30,21 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
+import BaiduMap from 'vue-baidu-map'
+import { VueJsonp } from 'vue-jsonp'
 // 全局注册富文本编辑器
 Vue.use(VueQuillEditor)
-
+Vue.use(VueJsonp)
 Vue.use(ElementUI)
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
   // locale: enLang // 如果使用中文，无需设置，请删除
 })
 Vue.use(Radio)
+Vue.use(BaiduMap, {
 
+  ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK'
+})
 // register global utility filters
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

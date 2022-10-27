@@ -178,10 +178,18 @@
         </el-tabs>
       </div>
       <div>
-        <CityTip @reset="reset" />
+        <CityTip
+          @reset="reset"
+          @experienceChange="experienceChange"
+          @educationalChange="educationalChange"
+          @moneyChange="moneyChange"
+          @professionChange="professionChange"
+          @companyNatureChange="companyNatureChange"
+          @peopleChange="peopleChange"
+        />
       </div>
     </div>
-    <PostList />
+    <PostList ref="rf" />
   </div>
 </template>
 <script>
@@ -219,7 +227,13 @@ export default {
         qw: '',
         city: '',
         admin: '',
-        subway: ''
+        subway: '',
+        jobExperience: 0,
+        education: 0,
+        enterpriseNature: '',
+        salary: 0,
+        qq: '',
+        staffSize: 0
       },
       // 职业分类
       trade: '',
@@ -283,129 +297,10 @@ export default {
       const timestamp = date.getTime()
       return timestamp
     },
+    // 搜索
     serchJob () {
-      //  (this.searchInput);
-      // console.log('获取页面路由', this.$route.query.name);
-      // constb = this.$route.query.name;
-
-      jobSearch(this.searchInput).then((res) => {
-        //  (res.data);
-        //  (this.dict);
-        // console.log(res.data)
-        // 单位salary_unit
-        this.list = res.data.post_list
-        console.log('这是this。list', this.list)
-        //  (this.list)
-        this.list.forEach((item) => {
-          // console.log(item);
-          item.salary_min = parseInt(item.salary_min)
-          item.salary_max = parseInt(item.salary_max)
-          item.enterprise.logo = this.disposeImg(item.enterprise.logo)
-          item.datatime = this.dateToTimestamp(item.post_limit_time)
-          // 工资单位
-          res.data.salary_unit_options.forEach((unit) => {
-            if (item.salary_unit == unit.idx && item.salary_unit) {
-              item.salary_unit = unit.label
-            }
-          })
-          // 融资
-
-          res.data.financial_options.forEach((financial) => {
-            if (financial.idx == item.enterprise.financing_status && item.enterprise.financing_status) {
-              item.enterprise.financing_status = financial.label
-              //  (this.userVitaed);
-            }
-          })
-          // 工作性质
-          res.data.job_nature_options.forEach((nature) => {
-            if (nature.idx == item.job_nature && item.job_nature) {
-              item.job_nature = nature.label
-              //  (this.userVitaed);
-            }
-          })
-          // 工作经验 job_experience
-          res.data.exp_options.forEach((exp) => {
-            if (exp.idx == item.job_experience && item.job_experience) {
-              item.job_experience = exp.label
-              item.jobid = exp.idx
-              //  (this.userVitaed);
-            }
-          })
-
-          if (this.dict) {
-            // 地址
-            this.dict.province_choices.forEach((choices) => {
-              if (choices.idx == item.city && item.city) {
-                item.city = choices.label
-                //  (this.userVitaed);
-              }
-            })
-            // 学历
-            this.dict.education_choices.forEach((education) => {
-              if (education.idx == item.education && item.education) {
-                item.education = education.label
-                item.educationid = education.idx
-              }
-            })
-          }
-
-          if (item.position.job_content.indexOf(';') > 0) {
-            item.position.jobContent = item.position.job_content.split(';')
-            item.position.jobContent = item.position.jobContent.filter((rs) => {
-              return rs && rs.trim() // 注：IE9(不包含IE9)以下的版本没有trim()方法
-            })
-          } else {
-            return (item.position.jobContent = [item.position.job_content])
-          }
-          if (item.position.job_content.indexOf('') > 0) {
-            item.position.jobContent = item.position.job_content.split('')
-            // item.position.jobContent=item.position.job_content
-          } else {
-            return (item.position.jobContent = [item.position.job_content])
-            //  ();
-          }
-          if (item.position.requirement.indexOf(';') > 0) {
-            item.position.jobrequirement =
-              item.position.requirement.split(';')
-            if (item.position.jobContent > 0) {
-              item.position.jobrequirement = item.position.requirement.filter(
-                (rs) => {
-                  return rs && rs.trim() // 注：IE9(不包含IE9)以下的版本没有trim()方法
-                }
-              )
-            }
-          } else {
-            return (item.position.jobrequirement = [item.position.requirement])
-          }
-          if (item.position.requirement.indexOf(' ') > 0) {
-            item.position.jobrequirement = item.position.requirement.split(' ')
-            // item.position.jobContent=item.position.job_content
-          } else {
-            return (item.position.jobrequirement = [item.position.requirement])
-            //  ();
-          }
-
-          // let a = "1.努力 2.上进 3.有潜力"
-          //  (item.position.job_content.indexOf(" "));
-          // if(item.position.job_content.indexOf(" ")){
-          //    item.position.jobContent = item.position.job_content.split(" ");
-          //    item.position.jobContent = item.position.jobContent.filter(rs=> {
-          //   return rs && rs.trim(); // 注：IE9(不包含IE9)以下的版本没有trim()方法
-          // });
-          // }
-
-          //  (item.position.jobContent);
-          if (item.salary_min > 1000) {
-            item.salary_min = item.salary_min / 1000 + 'K'
-          }
-          if (item.salary_max > 1000) {
-            item.salary_max = item.salary_max / 1000 + 'K'
-          }
-        })
-        this.$store.commit('user/SET_SERCHLIST', this.list)
-        this.$store.commit('user/SET_STATUS', this.statu)
-        //  (this.$store.state.user.status);
-      })
+      console.log('搜索条件', this.serchPost)
+      this.$refs.rf.sendItem(this.serchPost)
     },
     // 岗位分类
     async serch () {
@@ -484,6 +379,7 @@ export default {
       this.cityName = data
       localStorage.getItem('cityName', JSON.stringify(data))
     },
+    // 清除
     reset () {
       this.serchPost.job = ''
       this.serchPost.position = ''
@@ -491,6 +387,36 @@ export default {
       this.serchPost.city = ''
       this.admin = ''
       this.subway = ''
+    },
+    // 其他条件
+    experienceChange (i) {
+      console.log('aa', i)
+      this.serchPost.jobExperience = i
+    },
+    // 学历要求
+    educationalChange (i) {
+      console.log('bb', i)
+      this.serchPost.education = i
+    },
+    // 薪资要求
+    moneyChange (i) {
+      console.log('cc', i)
+      this.serchPost.salary = i
+    },
+    // 职位类型
+    professionChange (i) {
+      console.log('dd', i)
+      this.serchPost.qq = i
+    },
+    // 公司性质
+    companyNatureChange (i) {
+      console.log('ee', i)
+      this.serchPost.enterpriseNature = i
+    },
+    // 公司规模
+    peopleChange (i) {
+      console.log('ff', i)
+      this.serchPost.staffSize = i
     }
 
   }

@@ -9,7 +9,7 @@
                 v-for="item in jobListings"
                 :key="item.id"
                 class="job-job"
-                @click="particulars"
+                @click="particulars(item)"
               >
                 <el-row>
                   <el-col :span="22">
@@ -133,7 +133,7 @@
                       <el-col :span="9"
                         ><div
                           class="grid-content bg-purple-light"
-                          style="color: red; font-size: 15px"
+                          style="color: red; font-size: 14px"
                         >
                           {{ item.position_info.salary }}.{{
                             item.position_info.salary_unit
@@ -181,7 +181,8 @@ export default {
       flagShow: 0,
       logo: [],
       offset: 10,
-      list: {}
+      list: {},
+      searchingList: {}
     }
   },
   computed: {
@@ -196,14 +197,9 @@ export default {
     this.getPostList()
     this.browsingHistory()
   },
+
   methods: {
-    jobDetails (item) {
-      this.$router.push({
-        path: '/postdes',
-        name: 'postdes',
-        query: { id: item.id }
-      })
-    },
+
     handleSizeChange (newSize) {
       console.log('每页条数', newSize)
       this.limit = newSize
@@ -221,6 +217,14 @@ export default {
         this.jobListings = data.results
       }
     },
+    async sendItem (i) {
+      console.log('父传过来的数据', i)
+      this.searchingList = i
+      const { data } = await getPostList(i, this.limit)
+      console.log('本页查询列表数据', data)
+      this.jobListings = data.results
+      this.total = data.count
+    },
     // 列表数据
     async getPostList () {
       // 首页检索跳转
@@ -231,12 +235,15 @@ export default {
         console.log('列表数据', data)
         this.jobListings = data.results
         this.total = data.count
-      } else {
+      } else if (this.$route.query.inputValue === undefined) {
         // 没有查询条件的列表
+        console.log('this.$route.query.inputValue', this.$route.query.inputValue)
         const { data } = await getPostList(this.empty, this.limit)
         console.log('未查询列表数据', data)
         this.jobListings = data.results
         this.total = data.count
+      } else {
+
       }
     },
     // 浏览记录
@@ -246,8 +253,13 @@ export default {
       this.history = data
       this.flagShow = data.length
     },
-    particulars () {
-      console.log('简历详情')
+    particulars (item) {
+      console.log('简历详情', item)
+      this.$router.push({
+        path: '/postdes',
+        name: 'postdes',
+        query: { id: item.id }
+      })
     }
   }
 };

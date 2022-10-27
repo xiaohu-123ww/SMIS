@@ -9,23 +9,31 @@
           ><div class="grid-content bg-purple">
             <div style="display: flex; padding-left: 11px">
               <div class="change-select">
-                <el-select v-model="experience" placeholder="工作经验">
+                <el-select
+                  v-model="experience"
+                  placeholder="工作经验"
+                  @change="experienceChange"
+                >
                   <el-option
                     v-for="(item, index) in experienceList"
                     :key="index"
                     :label="index"
-                    :value="index"
+                    :value="item"
                     >{{ index }}</el-option
                   >
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select v-model="requirements" placeholder="学历要求">
+                <el-select
+                  v-model="requirements"
+                  placeholder="学历要求"
+                  @change="educationalChange"
+                >
                   <el-option
                     v-for="(item, index) in educationalRequirements"
                     :key="index"
                     :label="index"
-                    :value="index"
+                    :value="item"
                     >{{ index }}</el-option
                   >
                 </el-select>
@@ -148,6 +156,7 @@ export default {
       this.companyNatureList = data.enterprise_nature
       this.peopleList = data.staff_size
     },
+    // 清除所有条件
     clearSearch () {
       this.experience = ''
       this.requirements = ''
@@ -157,14 +166,22 @@ export default {
       this.people = ''
       this.$emit('reset')
     },
-    change () {
-      console.log('职业类型')
-    },
     async serch () {
       const { data } = await getSerchlist()
       console.log('岗位2', data)
       this.options = data
+    },
+    // 工作经验
+    experienceChange (i) {
+      console.log('aa', i)
+      this.list.jobExperience = i
+    },
+    // 学历要求
+    educationalChange (i) {
+      console.log('bb', i)
+      this.list.education = i
     }
+    // 薪资要求
   }
 };
 </script>

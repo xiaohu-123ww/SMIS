@@ -133,7 +133,7 @@
                       <el-col :span="9"
                         ><div
                           class="grid-content bg-purple-light"
-                          style="color: red; font-size: 13px"
+                          style="color: red; font-size: 15px"
                         >
                           {{ item.position_info.salary }}.{{
                             item.position_info.salary_unit

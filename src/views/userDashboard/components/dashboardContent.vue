@@ -200,7 +200,8 @@ import { mapState } from 'vuex'
 import Selectposition from './selectPosition.vue'
 import { serchs } from '@/api/search'
 import Carousel from './carousel.vue'
-import { getPosition, getPositionJob, getHandpickJob, getHandpickJobChange, getCertificate, getSerchlist, getSlideshow } from '@/api/position'
+import { getCertificate, getSerchlist, getSlideshow } from '@/api/position'
+import { getPosition, getPositionJob, getHandpickJob, getHandpickJobChange } from '@/api/cat'
 import disposeImg from '@/utils/disposeImg'
 export default {
   components: { Selectposition, Carousel },

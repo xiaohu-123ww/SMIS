@@ -413,4 +413,7 @@ export default {
     color: #256efd;
   }
 }
+::v-deep span.el-pagination__total {
+  margin: 2px 15px;
+}
 </style>

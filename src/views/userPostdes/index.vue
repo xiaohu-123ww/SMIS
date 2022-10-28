@@ -19,17 +19,15 @@
                     font-weight: 700;
                   "
                 >
-                  {{ resume.enterprise_info.name }}
+                  {{ resume.name }}
                 </div>
                 <div class="postJob">
-                  <div class="text">
-                    {{ resume.enterprise_info.field.field_name }}
-                  </div>
+                  <div class="text">{{ resume.financing_status }}</div>
                   <div class="text" style="padding-left: 15px">
-                    {{ resume.enterprise_info.finance }}
+                    {{ resume.staff_size }}
                   </div>
                   <div class="text" style="padding-left: 15px; border: 0">
-                    {{ resume.enterprise_info.size }}
+                    {{ resume.field.field_name }}
                   </div>
                 </div>
               </div>
@@ -45,7 +43,7 @@
                     color: #256efd;
                   "
                 >
-                  7
+                  {{ resume.count_of_opening_position }}
                 </div>
                 <div style="font-size: 18px; padding-left: 22px; color: #fff">
                   在招职位
@@ -80,22 +78,7 @@
               公司介绍
             </div>
             <p style="line-height: 30px; font-size: 14px">
-              北京智能智造科技有限公司
-              成立于2018年12月28日，注册在北京市海淀区西小口路10号。
-              中关村东园66号北领地2号楼B - 1层C102B(东胜区)，法定代表人孙守海。
-              业务范围包括技术开发、技术推广、技术转让、技术咨询、技术服务;
-              软件开发; 软件咨询; 产品设计; 模型设计; 教育咨询(不含中介服务);
-              组织文化艺术交流活动(不含营业性演出); 文艺创作; 企业策划、设计;
-              设计、制作、代理、广告; 市场调查; 企业管理; 会议服务;
-              承办展览陈列; 企业管理咨询; 租办公空间;
-              销售自主开发的产品、电子产品、通讯设备、计算机、软件及辅助设备、机械设备;
-              物业管理; 机械设备租赁(不含汽车租赁); 版权代理、版权转让;
-              房地产开发; 从事互联网文化活动; 出版物零售; 广播电视节目制作;
-              电信业务; 人力资源服务。
-              (市场主体选择自己的经营项目，依法开展经营活动;
-              人力资源和人力资源服务。
-              并且必须按照项目批准，经有关部门批准后，按照批准的内容开展经营活动;
-              不得从事国家和本市产业政策禁止和限制的项目经营活动
+              {{ resume.introduction }}
             </p>
           </el-card>
 
@@ -122,22 +105,23 @@
             >
               公司优势
             </div>
-            <div
-              style="width: 100%; height: 100px; padding: 30px; display: flex"
-            >
+            <div class="tags">
               <div
-                v-for="item in resume.tag"
-                :key="item"
+                v-for="item in resume.tags"
+                :key="item.name"
                 style="
-                  width: 120px;
-                  height: 40px;
+                  width: 90px;
+                  height: 30px;
                   background-color: rgb(233, 243, 255);
                   border: 1px solid rgb(71, 156, 255);
                   color: rbg(56, 148, 255);
                   margin-right: 30px;
+                  text-aligin: center;
+                  line-height: 30px;
+                  margin-bottom: 10px;
                 "
               >
-                {{ item }}
+                {{ item.name }}
               </div>
             </div>
           </el-card>
@@ -156,12 +140,14 @@
               <el-row>
                 <el-col :span="12"
                   >公司名称：<span style="color: #999">{{
-                    resume.enterprise_info.name
+                    resume.name
                   }}</span></el-col
                 >
                 <el-col :span="12"
-                  >成立事时间：<span style="color: #999"></span
-                ></el-col>
+                  >成立时间：<span style="color: #999">{{
+                    resume.establish_year
+                  }}</span></el-col
+                >
               </el-row>
             </div>
             <div class="firm">
@@ -239,7 +225,21 @@
               :in-recruit-list="inRecruitList"
               :firm="firm"
               :image="image"
+              :nature="nature"
+              :size="size"
+              :text="text"
             />
+            <el-pagination
+              style="margin: 20px 0 0 150px"
+              :current-page="query.pagenum"
+              :page-sizes="[5, 10, 20]"
+              :page-size="query.pagesize"
+              layout="sizes, prev, pager, next, total"
+              :total="total"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            >
+            </el-pagination>
           </el-card>
         </el-col>
         <el-col :span="6">
@@ -258,7 +258,7 @@
             <!-- data.work_city.second + data.work_city.third + data.work_city.first -->
             <div style="font-size: 16px; margin-top: 10px">
               {{ addressVal }}
-              <el-button type="text" @click="btn">搜索</el-button>
+              <!-- <el-button type="text" @click="btn">搜索</el-button> -->
             </div>
             <baidu-map
               class="box_map"
@@ -281,12 +281,18 @@ import disposeImg from '@/utils/disposeImg'
 import { getParticulars } from '@/api/particulars'
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
 import { getRequirement } from '@/api/postlist'
-import { getInRecruit } from '@/api/particulars'
+import { getInRecruit, getPositionDetails } from '@/api/particulars'
 import List from './components/list.vue'
 export default {
   components: { List },
   data () {
     return {
+
+      query: {
+        pagenum: 1, // 页码
+        pagesize: 2 // 每页数据条数回所有数据
+
+      },
       id: 0,
       resume: {},
       image: '',
@@ -313,7 +319,13 @@ export default {
       // 城市
       cityList: {},
       inRecruitList: [],
-      firm: ''
+      firm: '',
+      nature: '',
+      size: '',
+      limit: 5,
+      offset: 5,
+      total: 0,
+      text: ''
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -338,20 +350,32 @@ export default {
     // console.log(this);
   },
   methods: {
+    handleSizeChange (newSize) {
+      console.log('每页条数', newSize)
+      this.limit = newSize
+      this.inRecruit()
+    },
+    handleCurrentChange (currPage) {
+      console.log('当前页码', currPage)
+      this.offset = currPage
+      this.inRecruit()
+    },
 
-    // 简历详情
+    // 公司详情
     async getparticulars () {
-      console.log(this.$route.query.id)
-      this.id = this.$route.query.id
-      const { data } = await getParticulars(this.id)
-      console.log('简历详情', data)
-      this.resume = data
-      console.log('简历详情', this.resume)
-      this.image = this.disposeImg(data.enterprise_info.logo)
-      console.log('logo', this.image)
+      const res = await getPositionDetails(32)
+      console.log('公司详情', res)
+      this.resume = res.data
+      this.image = this.disposeImg(res.data.logo)
+      // console.log('logo', this.image)
       this.show = true
-      this.addressVal = data.work_city.second + data.work_city.third + data.work_city.first
-      this.firm = data.enterprise_info.name
+      this.addressVal = res.data.address
+      this.firm = res.data.name
+      this.nature = res.data.nature
+      this.size = res.data.staff_size
+      const aa = res.data.tags.map(item => item.name)
+      this.text = aa.toLocaleString()
+      console.log('内容', aa.toLocaleString())
     },
     // 公司介绍
     companyIntroduction () {
@@ -406,10 +430,11 @@ export default {
       this.educationalRequirements = data.education
     },
     async inRecruit () {
-      const { data } = await getInRecruit(32, this.serchPost)
+      const { data } = await getInRecruit(33, this.serchPost, this.limit, this.offset)
       console.log('在招列表', data)
       this.cityList = data.city_list
-      this.inRecruitList = data.result
+      this.total = data.result.count
+      this.inRecruitList = data.result.results
     }
 
   }
@@ -648,5 +673,16 @@ button {
       color: #ff8383;
     }
   }
+}
+::v-deep i.el-icon.el-icon-arrow-left {
+  margin-left: 10px;
+}
+.tags {
+  width: 100%;
+  height: 100px;
+  padding: 30px;
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
 }
 </style>

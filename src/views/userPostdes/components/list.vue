@@ -5,13 +5,30 @@
         <el-col :span="24"
           ><div class="grid-content bg-purple">
             <div class="postList">
-              <div v-for="item in inRecruitList" :key="item.id" class="job-job">
+              <div
+                v-for="(item, index) in inRecruitList"
+                :key="index"
+                class="job-job"
+              >
                 <div class="grid-content bg-purple">
                   <div style="display: flex">
                     <div class="job-mechanical" style="width: 500px">
-                      <div class="mechanical">
-                        {{ item.fullname }} {{ item.city }}
-                        <el-button type="primary" round class="el-bt"
+                      <div
+                        class="mechanical"
+                        style="
+                          width: 500px;
+
+                          display: flex;
+                        "
+                      >
+                        <div style="width: 240px">
+                          {{ item.fullname }} {{ item.city }}
+                        </div>
+                        <el-button
+                          type="primary"
+                          round
+                          class="el-bt"
+                          style="margin-top: 5px"
                           >立即沟通</el-button
                         >
                       </div>
@@ -29,7 +46,8 @@
                         >
                           {{ item.job_experience }}
                         </div>
-                        <div class="machan-bb">{{ item.education }}</div>
+                        <div class="machan-bb">1233</div>
+                        {{ item.education }}
                       </div>
                       <div class="equipment">
                         <div
@@ -59,19 +77,22 @@
                             class="machan-bb"
                             style="border-right: 1px solid #e6e3e3"
                           >
-                            为融资
+                            {{ nature }}
                           </div>
-                          <div class="machan-bb">99人</div>
+                          <div class="machan-bb" style="width: 120px">
+                            {{ size }}人
+                          </div>
                         </div>
                         <div class="equipment">
                           <div
                             style="
-                              padding-top: 12px;
+                              padding-top: 5px;
                               font-size: 12px;
                               color: #878484;
+                              padding-left: 30px;
                             "
                           >
-                            五险一金，年终奖，节日福利，带薪休假
+                            {{ text }}
                           </div>
                         </div>
                       </div>
@@ -85,8 +106,8 @@
                       >
                         <img
                           alt=""
-                          :src="image"
                           style="width: 60px; height: 60px"
+                          :src="image"
                         />
                       </div>
                     </div>
@@ -96,18 +117,6 @@
             </div></div></el-col
       ></el-row>
     </div>
-
-    <!-- <el-pagination
-      style="margin: 20px 0 0 150px"
-      :current-page="query.pagenum"
-      :page-sizes="[2, 3, 5, 10]"
-      :page-size="query.pagesize"
-      layout="sizes, prev, pager, next, jumper, total"
-      :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    >
-    </el-pagination> -->
   </div>
 </template>
 <script>
@@ -122,71 +131,29 @@ export default {
     },
     image: {
       type: String
+    },
+    nature: {
+      type: String
+    },
+    size: {
+      type: String
+    },
+    text: {
+      type: String
     }
   },
   data () {
     return {
-      list: ['', '', ''],
 
-      query: {
-        pagenum: 1, // 页码
-        pagesize: 2, // 每页数据条数回所有数据
-        // 分类和状态默认为空，反
-        cate_id: '', // 文章分类ID
-        state: '' // 文章发布状态
-      },
-      total: 10,
-      record: [{
-        id: '1',
-        position: '机械视觉工程师',
-        money: '8000-15000',
-        salary: '13薪',
-        company: '北京智能智造科技有限公司'
-      },
-      {
-        id: '2',
-        position: '机械视觉工程师',
-        money: '8000-15000',
-        salary: '13薪',
-        company: '北京智能智造科技有限公司'
-      }
-      ]
     }
   },
   computed: {
-    // searchList () {
-    //   //  (this.$store.state.user.searchList);
-    //   // console.log(this.$store.state.user.searchList);
-    //   return this.$store.state.user.searchList
-    // }
+
   },
   watch: {},
   created () { },
   methods: {
-    jobDetails (item) {
-      this.$router.push({
-        path: '/postdes',
-        name: 'postdes',
-        query: { id: item.id }
-      })
-    },
-    handleSizeChange (newSize) {
-      console.log('每页条数', newSize)
-      // // 修改后台接口查询参数pagesize每页条数
-      // this.query.pagesize = newSize
-      // // 重置页码为第一页
-      // this.pagenum = 1
-      // // 根据最新页码重新查询列表收据
-      // this.getArticleList()
-    },
-    handleCurrentChange (currPage) {
-      // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
-      console.log('当前页码', currPage)
-      // // 修改后台接口查询参数pagenum页码
-      // this.query.pagenum = currPage
-      // // 2.根据最新页码重新查询列表收据
-      // this.getArticleList()
-    }
+
   }
 };
 </script>
@@ -262,7 +229,7 @@ export default {
           display: flex;
           font-size: 15px;
           .machan-aa {
-            width: 170px;
+            width: 200px;
             height: 20px;
             // background-color: #256efd;
             border-right: 1px solid #e6e3e3;
@@ -271,11 +238,12 @@ export default {
             // color: red;
           }
           .machan-bb {
-            width: 70px;
+            width: 100px;
             height: 20px;
             // background-color: greenyellow;
             line-height: 20px;
             padding-left: 20px;
+            // margin-right: 10px;
           }
           .machan-cc {
             width: 100px;

@@ -2,342 +2,335 @@
   <div class="postdes-box">
     <div class="top">
       <div class="post-name">
-        <div class="post-name-logo">
-          <img :src="ceshi" alt height="100%" srcset width="100%" />
-        </div>
-        <div class="name-left">
-          <div v-if="jobDetails.position" class="title">
-            <span v-if="jobDetails.position.fullname">{{
-              jobDetails.position.fullname
-            }}</span>
-            <span v-else>{{ jobDetails.position.pst_class.name }}</span>
-            <span
-              style="
-                color: #fe6b49;
-                padding-top: 10px;
-                font-size: 36px;
-                font-weight: 500;
-                display: block;
-              "
-            >
-              {{ jobDetails.salary_min }} - {{ jobDetails.salary_max }}
-              <span
-                v-if="jobDetails.city != ''"
-                style="
-                  font-size: 14px;
-                  font-weight: 500;
-                  color: #fff;
-                  height: 20px;
-                  line-height: 20px;
-                "
-              >
-                {{ jobDetails.city }} / {{ jobDetails.job_experience }} /
-                {{ jobDetails.education }}
-              </span>
-            </span>
-          </div>
-          <span
-            v-for="(item, index) in jobDetailsaaa"
-            :key="index"
-            class="fuli"
-            >{{ item }}</span
-          >
-        </div>
-        <div class="name-right">
-          <el-button
-            :disabled="userPosted"
-            :type="userPosted ? 'info' : 'primary'"
-            round
-            style="
-              padding: 10px 30px;
-              width: 212px;
-              height: 36px;
-              background: #256efd;
-              border-radius: 4px;
-            "
-            @click="open"
-          >
-            <span>{{ cvTitle }}</span>
-          </el-button>
+        <div class="name">
+          <el-row>
+            <el-col :span="20">
+              <div class="postdes">
+                <div class="fullname">{{ resume.fullname }}</div>
+                <div class="money">
+                  {{ resume.salary_min }} - {{ resume.salary_max }}.{{
+                    resume.salary_unit
+                  }}薪
+                </div>
+                <div class="city">
+                  <div class="text" style="padding-left: 0">
+                    {{ city }} - {{ third }}
+                  </div>
+                  <div class="text">{{ resume.job_experience }}</div>
+                  <div class="text" style="border: 0">
+                    {{ resume.education }}
+                  </div>
+                </div>
+                <div class="tags">
+                  <div v-for="item in resume.tag" :key="item" class="tag">
+                    {{ item }}
+                  </div>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="4" class="btn">
+              <el-button class="postdes-btn" icon="el-icon-star-off">{{
+                resume.is_collected ? '已收藏' : '收藏'
+              }}</el-button>
+              <el-button type="primary">我有意向</el-button>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </div>
-    <!-- 底部内容 -->
-    <div class="vita-box">
-      <div class="left_right">
-        <div class="left">
-          <div v-if="jobDetails.position" class="post-des">
-            <div style="font-size: 23px">岗位描述</div>
-            <div class="adorn" />
-            <div style="font-size: 15px; padding-bottom: 10px">职位简介</div>
-            <div
-              v-for="(jobcon, index) in jobDetails.position.jobContent"
-              :key="index"
-              style="color: #666"
-              v-html="jobcon"
-            />
-          </div>
-          <div v-if="jobDetails.position" class="post-tip">
-            <div style="font-size: 15px; padding-bottom: 10px">公司简介</div>
-            <div
-              v-for="(requirement, index) in jobDetails.position.jobrequirement"
-              :key="index"
-            >
-              {{ requirement }}
+    <div class="footer">
+      <div class="footer-conter">
+        <el-row>
+          <el-col :span="18">
+            <div class="imag">
+              <el-row>
+                <el-col :span="3">
+                  <div class="image">
+                    <img :src="img" alt="" style="width: 80px; height: 80px" />
+                  </div>
+                </el-col>
+                <el-col :span="21" class="hr">
+                  <div style="margin-bottom: 10px; color: black">
+                    {{ hr.name }}
+                  </div>
+                  <div>{{ hr.identification }}.{{ hr.active }}活跃</div>
+                </el-col>
+              </el-row>
             </div>
-          </div>
-        </div>
-        <div class="right">
-          <div v-if="jobDetails.enterprise" class="up">
-            <div class="logo">
-              <img
-                :src="jobDetails.enterprise.logo"
-                alt
-                height="100%"
-                srcset
-                width="100%"
-              />
+            <div class="job">
+              <div class="textone">职位描述</div>
+              <div class="commendContent" v-html="commendContent"></div>
             </div>
-            <div style="padding-top: 30px; font-size: 26px">
-              {{ jobDetails.enterprise.name }}
-            </div>
-            <div style="padding: 30px 0">
-              {{ jobDetails.enterprise.field.name }}
-              {{ jobDetails.enterprise.financing }} | {{ min_number }} -
-              {{ max_number }}人
-            </div>
-            <div
-              style="
-                padding: 10px 20px;
-                text-align: left;
-                font-size: 16px;
-                font-family: PingFangSC-Regular, PingFang SC;
-                font-weight: 400;
-                color: #666666;
-                margin-left: 70px;
-              "
-            >
-              <p v-if="qiyeinfo.address">
-                <i class="el-icon-office-building" style="margin-right: 10px" />
-                {{ qiyeinfo.address }}
-              </p>
-              <p v-if="qiyeinfo.site_url">
-                <i class="el-icon-link" style="margin-right: 10px" />
-                {{ qiyeinfo.site_url }}
-              </p>
-              <p v-if="qiyeinfo.id">
-                <i class="el-icon-message" style="margin-right: 10px" />
-                {{ qiyeinfo.id.email }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            <div class="job">
+              <div class="textone">证书要求</div>
 
-    <el-dialog :visible.sync="dialogVisible" title="简历列表" width="30%">
-      <p>选择你要投递的简历</p>
-      <el-radio-group v-model="radio">
-        <el-radio
-          v-for="(item, index) in cvsList"
-          :key="index"
-          style="margin-top: 20px"
-          border
-          :label="item.id"
-          >求职意向：{{ item.get_intention }} 上次更新：{{
-            item.update_time
-          }}</el-radio
-        >
-      </el-radio-group>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="postCv">确认投递</el-button>
-        <el-button @click="dialogVisible = false">取 消</el-button>
-      </span>
-      <!-- <p
-        v-for="item in cvsList"
-        @click="postCv(item.id)"
-        style="cursor: pointer; margin-top: 20px"
-      >
-        学科：{{ item.major }} 的简历
-      </p>-->
-    </el-dialog>
+              <div v-for="item in resume.cert" :key="item.id" class="cert">
+                <img
+                  :src="disposeImg(item.cert_sample)"
+                  alt=""
+                  style="width: 240px; height: 150px"
+                />
+                <div style="margin-top: 5px">{{ item.cert_name }}</div>
+              </div>
+            </div>
+            <div class="job">
+              <div class="textone">公司介绍</div>
+              <div class="name">{{ name.name }}</div>
+              <div
+                class="commendContent"
+                style="line-height: 25px; font-size: 16px"
+                v-html="name.introduction"
+              ></div>
+            </div>
+            <div class="job">
+              <div class="textone">工作地点</div>
+              <div class="name">
+                {{ addressVal }}
+              </div>
+              <baidu-map
+                class="box_map"
+                :center="locations"
+                :zoom="zoom"
+                :scroll-wheel-zoom="true"
+                @ready="handler"
+              >
+              </baidu-map>
+            </div>
+            <div class="job">
+              <div class="textone">精选职位</div>
+              <div class="SelectPosition">
+                <div v-for="item in handpickJob" :key="item.id" class="select">
+                  <div style="display: flex">
+                    <div style="padding-bottom: 20px; margin-right: 60px">
+                      {{ item.fullname ? item.fullname : '再无职业名称' }}
+                    </div>
+                    <span style="color: red"
+                      >{{ item.salary_min }} - {{ item.salary_max }}.{{
+                        item.salary_unit
+                      }}薪</span
+                    >
+                  </div>
+                  <div style="color: #999">{{ item.enterprise_name }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="job">
+              <div class="textone">推荐证书</div>
+              <div class="carousel">
+                <el-carousel
+                  :interval="3000"
+                  type="card"
+                  height="200px"
+                  width:200px
+                >
+                  <el-carousel-item v-for="item in slideshow" :key="item.id">
+                    <img
+                      :src="disposeImg(item.sample)"
+                      alt=""
+                      style="width: 470px; height: 200px"
+                    />
+                  </el-carousel-item>
+                </el-carousel>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div class="firm">
+              <div class="firm-job" @click="open(name.enterprise_id)">
+                <div class="textone">公司详情</div>
+                <div class="firm-image">
+                  <div class="img">
+                    <img
+                      :src="imgJob"
+                      alt=""
+                      style="width: 50px; height: 50px"
+                    />
+                  </div>
+                  <div style="margin: 15px 7px">{{ name.name }}</div>
+                </div>
+                <div class="Icon">
+                  <i class="el-icon-guide Icon" style="margin-right: 10px"></i
+                  >{{ field }}
+                </div>
+                <div class="Icon">
+                  <i class="el-icon-data-line" style="margin-right: 10px"></i
+                  >{{ name.finance }}
+                </div>
+                <div class="Icon">
+                  <i class="el-icon-user" style="margin-right: 10px"></i
+                  >{{ name.size }}
+                </div>
+              </div>
+              <div class="list" style="padding-left: 20px">
+                <div class="textone" style="margin-bottom: 18px">相似职位</div>
+                <div v-if="flagShow">
+                  <div
+                    v-for="item in resemblance"
+                    :key="item.id"
+                    class="ankjij"
+                  >
+                    <div class="text">
+                      {{ item.fullname }}
+                      <div style="margin-left: 50px; color: red">
+                        {{ item.salary }}.{{ item.salary_unit }}薪
+                      </div>
+                    </div>
+                    <div style="color: #999">{{ item.enterprise_name }}</div>
+                  </div>
+                </div>
+                <el-empty v-else :image-size="100"></el-empty>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-import { jobDetail, jobSearch, postJob } from '@/api/jobs'
+import { getParticulars, getList } from '@/api/particulars'
+import disposeImg from '@/utils/disposeImg'
+import { getHandpickJob } from '@/api/cat'
+import { getCertificate } from '@/api/position'
 export default {
   data () {
     return {
       ceshi: '',
-      radio: '',
-      cvTitle: '',
-      jobDetails: '',
-      jobDetailsaaa: '',
-      cvsList: [],
-      dialogVisible: false,
-      userPosted: false,
-      qiyeinfo: {},
-      ids: '',
-      max_number: '',
-      min_number: ''
+      id: 0,
+      resume: {},
+      city: '',
+      third: '',
+      img: '',
+      hr: {},
+      content: '',
+      name: {},
+      locations: {
+        // 红色标点的经纬度需要设一个初始值，不然地图无法渲染处理
+        lng: 0,
+        lat: 0
+      },
+      zoom: 0,
+      addressVal: '',
+      limit: 4,
+      handpickJob: [],
+      slideshow: [],
+      imgJob: '',
+      field: '',
+      resemblance: [],
+      flagShow: false
+
     }
   },
-  beforeRouteEnter (to, from, next) {
-    // ...
-    next((vm) => {
-      // console.log(to.query.item);
-      vm.ids = to.query.id
-      // console.log(vm);
-      // console.log(this);
-      // this.item = vm.item
-    })
+  computed: {
+    commendContent () {
+      // this.commend.content是后端传回来的文本数据，就是要对这个数据进行处理
+      const arr = this.content.split('')
+      return arr.map((item) => {
+        return item === '\n' ? '<br>' : item
+      }).join('')
+    }
   },
+
   created () {
-    // this.beforeRouteEnter()
-    // console.log(this);
-    // this.searchs();
     this.getlist()
+    this.geoTest()
+    this.btn()
+    this.getJobList()
+    this.getSlideshow()
+    this.getJob()
   },
   mounted () {
-    // console.log(this);
+
   },
+
   methods: {
-    searchs () {
-      jobSearch().then((rs) => {
-        // console.log(112313, rs);
-        // rs.enterprise.logo
-        // console.log(this.jobDetails);
-        // 城市
-        rs.data.cities_options.forEach((item) => {
-          // console.log('123123123123213123qweqweqweqw', item);
-          // console.log('我是地区', this.jobDetails);
-          if (item.idx === this.jobDetails.city) {
-            this.jobDetails.city = item.label
-          }
-        })
-        // 工作经验exp_options
-        rs.data.exp_options.forEach((item) => {
-          if (item.idx == this.jobDetails.job_experience) {
-            //  (item.label);
-            this.jobDetails.job_experience = item.label
-          }
-        })
-        // 融资 financial_options
-        rs.data.financial_options.forEach((item) => {
-          // console.log(this.jobDetails);
-          if (this.jobDetails.enterprise != undefined) {
-            if (item.idx == this.jobDetails.enterprise.financing_status) {
-              //  (item.label);
-              this.jobDetails.enterprise.financing = item.label
-            }
-          }
-        })
-        // 人数 staff_size_options
-        // 地点 cities_options
-        // 学历 education_choices education
-        rs.data.education_choices.forEach((item) => {
-          if (item.idx == this.jobDetails.education) {
-            //  (item.label);
-            this.jobDetails.education = item.label
-          }
-        })
+    // 简历详情
+    async getlist () {
+      console.log('id', this.$route.query.id)
+      this.id = this.$route.query.id
+      const { data } = await getParticulars(this.id)
+      console.log('简历', data)
+      this.resume = data
+      this.city = data.work_city.second
+      this.third = data.work_city.third
+      this.img = this.disposeImg(data.hr_info.avatar)
+      this.hr = data.hr_info
+      this.content = data.job_content
+      this.name = data.enterprise_info
+      this.addressVal = data.work_city.second + data.work_city.third
+      this.imgJob = this.disposeImg(this.name.logo)
+      console.log('imgJob', this.imgJob)
+      this.field = this.name.field.field_name
+    },
+    open (i) {
+      console.log('1233333', i)
+      this.$router.push({
+        path: '/postdes',
+        name: 'postdes',
+        query: { id: i }
       })
     },
-    getlist () {
-      // console.log(this.$route.query);
-      jobDetail(this.$route.query.id).then((rs) => {
-        // console.log(1111111111, rs);
-        this.qiyeinfo = rs.data.this_enterprise
-        this.userPosted = rs.data.is_user_posted
-        // console.log(rs.data.is_user_posted);
-        if (this.userPosted == false) {
-          this.cvTitle = '立即投递'
-        } else {
-          this.cvTitle = '已投递'
-        }
-        this.cvsList = rs.data.cvs
-        // console.log(this.cvsList);
-        this.cvsList.forEach((rs) => {
-          rs.update_time = rs.update_time.split('T')[0]
+    // 地图
+    handler ({ BMap, map }) {
+      // this.btn()
+      console.log(55, BMap, map)
+      // this.center = ''
+      this.zoom = 15
+      const geolocation = new BMap.Geolocation()
+      geolocation.getCurrentPosition((res) => {
+        // IP地址赋值给locations对象
+        console.log('112', res)
+        this.locations.lng = res.point.lng
+        this.locations.lat = res.point.lat
+      })
+
+      this.btn()
+      // this.geoTest()
+    },
+
+    async geoTest () {
+      // console.log('地址', this.addressVal)
+      // 调用百度地图API,根据地址获取经纬度
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.addressVal,
+        output: 'json',
+        ak: '0dZK03G6kSF0M16RXLWrrLkWWORcLsyV' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json success:`, json)
+          this.locations = json.result.location
         })
-        this.jobDetails = rs.data.this_rcm
-        this.searchs()
-        if (rs.data.this_rcm.enterprise.staff_size) {
-          this.min_number = rs.data.this_rcm.enterprise.staff_size.min_number
-          this.max_number = rs.data.this_rcm.enterprise.staff_size.max_number
-        } else {
-          this.min_number = '未知'
-          this.max_number = '未知'
-        }
-        this.jobDetailsaaa = this.jobDetails.position.extra_info.split('、')
-        // console.log(this.jobDetailsaaa);
-        if (this.jobDetails.enterprise.logo.indexOf('/www.zhineng') < 0) {
-          this.jobDetails.enterprise.logo = this.disposeImg(
-            this.jobDetails.enterprise.logo
-          )
-          this.ceshi = this.jobDetails.enterprise.logo
-        }
-        if (this.jobDetails.salary_min > 1000) {
-          this.jobDetails.salary_min = this.jobDetails.salary_min / 1000 + 'K'
-          console.log(this.jobDetails)
-        }
-        if (this.jobDetails.salary_max > 1000) {
-          this.jobDetails.salary_max = this.jobDetails.salary_max / 1000 + 'K'
-        }
-        if (this.jobDetails.position.job_content.indexOf(';') > 0) {
-          this.jobDetails.position.jobContent =
-            this.jobDetails.position.job_content.split(';')
-          this.jobDetails.position.jobContent =
-            this.jobDetails.position.jobContent.filter((rs) => {
-              return rs && rs.trim() // 注：IE9(不包含IE9)以下的版本没有trim()方法
-            })
-        } else if (this.jobDetails.position.job_content.indexOf(' ') > 0) {
-          this.jobDetails.position.jobContent =
-            this.jobDetails.position.job_content.split(' ')
-          // item.position.jobContent=item.position.job_content
-        } else {
-          return (this.jobDetails.position.jobContent = [
-            this.jobDetails.position.job_content
-          ])
-          //  ();
-        }
-        if (this.jobDetails.position.requirement.indexOf(';') > 0) {
-          this.jobDetails.position.jobrequirement =
-            this.jobDetails.position.requirement.split(';')
-          if (this.jobDetails.position.jobContent > 0) {
-            this.jobDetails.position.jobrequirement =
-              this.jobDetails.position.requirement.filter((rs) => {
-                return rs && rs.trim() // 注：IE9(不包含IE9)以下的版本没有trim()方法
-              })
-          }
-        } else if (this.jobDetails.position.requirement.indexOf(' ') > 0) {
-          this.jobDetails.position.jobrequirement =
-            this.jobDetails.position.requirement.split(' ')
-          // item.position.jobContent=item.position.job_content
-        } else {
-          return (this.jobDetails.position.jobrequirement = [
-            this.jobDetails.position.requirement
-          ])
-          //  ();
-        }
-        // this.searchs();
-        // console.log(this.cvsList);
-      })
+        .catch((err) => {
+          console.log(`json err:`, err)
+        })
+      // this.btn()
     },
-    open () {
-      this.dialogVisible = true
+    btn () {
+      this.geoTest()
     },
-    postCv () {
-      // console.log(this.$route.query);
-      postJob(this.$route.query.id, {
-        type: '101',
-        result: String(this.radio)
-      }).then((rs) => {
-        //  (rs)
-        // console.log(rs.data);
-        this.getlist()
-        this.dialogVisible = false
-      })
+    // 精选职位
+    async getJobList () {
+      const { data } = await getHandpickJob(this.limit)
+      console.log('精选职位', data)
+      this.handpickJob = data.results
+      console.log('this.handpickJob', this.handpickJob)
+    },
+    // 证书
+    async getSlideshow () {
+      const { data } = await getCertificate()
+      console.log('证书', data)
+      this.slideshow = data
+    },
+    // 相似职位
+    async getJob () {
+      const res = await getList(53)
+      console.log('相似职位', res)
+      this.resemblance = res.data
+      if (this.resemblance.length === 0) {
+        this.flagShow = false
+      } else {
+        this.flagShow = true
+      }
     }
   }
 };
@@ -348,148 +341,234 @@ export default {
   // max-width: 2000px;
   width: 100%;
   height: auto;
-  background-color: #fff;
+  background-color: rgb(244, 246, 249);
   overflow: hidden;
   .top {
     .post-name {
       width: 100%;
-      position: relative;
-      margin: 0 auto;
-      height: 222px;
+      padding: 30px 80px;
+      height: 240px;
       display: flex;
-      padding-bottom: 30px;
+
       background-color: rgb(21, 37, 50);
-      .post-name-logo {
-        height: 60%;
-        position: absolute;
-        top: 40px;
-        left: 70px;
-        img {
-          width: 140px;
-          height: 140px;
-          border-radius: 5px;
-        }
-      }
-    }
-    .name-left {
-      position: absolute;
-      left: 300px;
-      width: 40%;
-      padding: 40px 0 10px 30px;
-      .title {
-        padding-bottom: 20px;
-        font-size: 28px;
-        font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 500;
-        color: #ffffff;
-      }
-      .fuli {
-        margin-right: 10px;
-        padding: 5px;
-        color: #ffffff;
-        border-radius: 10px;
-        border: 1px solid #999999;
-      }
-    }
-    .name-right {
-      position: absolute;
-      right: 15%;
-      width: 35%;
-      text-align: right;
-      padding-top: 80px;
-    }
-  }
-  .post-des {
-    width: 100%;
-    padding: 30px;
-    line-height: 30px;
-  }
-  .post-tip {
-    width: 100%;
-    padding: 30px;
-    line-height: 30px;
-  }
-  .vita-box {
-    width: 72%;
-    min-width: 1000px;
-    height: auto;
-    border-radius: 10px;
-    margin: 0px auto 20px;
-    color: #2f2f2f;
-    // display: flex;
-  }
-  .left_right {
-    display: flex;
-    .left {
-      margin: 20px 0;
-      width: 70%;
-      min-width: 640px;
-      height: auto;
-      border-right: 1px solid #979797;
-    }
-    .right {
-      width: 25%;
-      min-width: 360px;
-      height: auto;
-      .up {
+      .name {
         width: 100%;
-        height: auto;
-        padding-top: 40px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        .logo {
-          // border-radius: 50%;
-          margin: 0 auto;
-          overflow: hidden;
-          img {
-            width: 140px;
-            height: 140px;
-            border-radius: 10px;
+        height: 100%;
+        // background-color: pink;
+        .postdes {
+          // width: 300px;
+          height: 180px;
+          // background-color: aqua;
+          .fullname {
+            height: 40px;
+            // background-color: blue;
+            font-size: 22px;
+            line-height: 40px;
+            color: #256efd;
+            font-weight: 700;
+          }
+          .money {
+            height: 40px;
+            // background-color: rgb(95, 95, 233);
+            color: red;
+            font-size: 20px;
+            line-height: 40px;
+            margin-bottom: 10px;
+          }
+          .city {
+            height: 30px;
+            // background-color: rgb(95, 95, 233);
+            display: flex;
+            .text {
+              // width: 100px;
+              height: 25px;
+              // background-color: pink;
+              padding: 0 15px;
+              border-right: 1px solid #999;
+              font-size: 14px;
+              color: #fff;
+              line-height: 25px;
+            }
+          }
+          .tags {
+            height: 30px;
+            margin-top: 15px;
+            // background-color: pink;
+            display: flex;
+            .tag {
+              width: 100px;
+              height: 30px;
+              padding: 0 20px;
+              line-height: 30px;
+              background-color: rgb(233, 243, 255);
+              border: 1px solid rgb(71, 156, 255);
+              color: rbg(56, 148, 255);
+              margin-right: 20px;
+            }
+          }
+        }
+        .btn {
+          padding-top: 140px;
+          .postdes-btn {
+            background-color: rgb(233, 243, 255);
+            border: 1px solid rgb(71, 156, 255);
+            color: rbg(56, 148, 255);
           }
         }
       }
-      .down {
-        height: auto;
-        width: 100%;
-        padding: 40px 30px;
-        .sub {
+    }
+  }
+  .footer {
+    // height: 800px;
+    // background-color: pink;
+    padding: 0 80px;
+    .footer-conter {
+      // background-color: green;
+      height: 800px;
+      .imag {
+        height: 100px;
+        background-color: #fff;
+        border-bottom: 1px solid #d7d5d5;
+        .image {
           width: 80px;
-          height: 28px;
-          font-size: 18px;
-          border-bottom: 3px solid #cecece;
+          height: 80px;
+          // background-color: #256efd;
+          margin-top: 8px;
+          border-radius: 100px;
+          overflow: hidden;
         }
-        .post-list {
-          width: 100%;
-          height: auto;
+        .hr {
           padding-top: 30px;
+          font-size: 15px;
+          color: #999;
+        }
+      }
+      .job {
+        // height: 400px;
+        background-color: #fff;
+        padding: 15px 0 30px 15px;
+        border-bottom: 1px solid #d7d5d5;
+        .textone {
+          font-size: 18px;
+          padding-bottom: 10px;
+          border-bottom: 3px solid #256efd;
+          width: 75px;
+        }
+        .commendContent {
+          font-size: 16px;
+          margin: 20px 50px;
+        }
+        .cert {
+          margin: 20px;
+          width: 240px;
+          height: 180px;
+          // background-color: #256efd;
+          font-size: 15px;
+          text-align: center;
+          color: #999;
+        }
+        .name {
+          font-size: 16px;
+          color: #999;
+          margin: 10px 20px;
+        }
+        .SelectPosition {
+          // height: 200px;
+          // background-color: pink;
+          margin-top: 20px;
+          padding: 30px 60px;
+          display: flex;
+          flex-wrap: wrap;
+          .select {
+            width: 400px;
+            height: 100px;
+            border: 1px solid #d7d5d5;
+            margin: 0 50px 20px 0;
+            padding: 20px 50px;
+            font-size: 16px;
+          }
+        }
+        .carousel {
+          padding: 20px 30px;
+        }
+      }
+      .firm {
+        // width: 100%;
+        // height: 500px;
+        background-color: #fff;
+        border: 1px solid #d7d5d5;
+        margin-left: 20px;
+        .firm-job {
+          // height: 200px;
+          // background-color: pink;
+          padding: 20px;
+          .firm-image {
+            height: 70px;
+            // background-color: #256efd;
+            margin-top: 10px;
+            display: flex;
+            padding: 10px;
+            font-size: 14px;
+            color: #999;
+            .img {
+              width: 50px;
+              // height: 50px;
+              background-color: pink;
+              border-radius: 100px;
+              overflow: hidden;
+            }
+          }
         }
       }
     }
   }
 }
-.describe {
+.box_map {
+  // margin: 30px auto;
+  margin: 20px;
+  width: 800px;
+  height: 200px;
+  background-color: #f0f;
   position: relative;
 }
-.describe:after {
-  background: #f0f0f0;
-  content: '';
-  display: inline-block;
-  height: 1px;
-  position: absolute;
-  right: -28px;
-  top: 15px;
-  width: 89%;
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
 }
-.adorn {
-  width: 50px;
-  height: 4px;
-  background: #256efd;
-  margin-top: 15px;
-  margin-bottom: 40px;
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
 }
-::v-deep .el-dialog {
-  min-width: 550px;
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}
+.textone {
+  font-size: 18px;
+  padding-bottom: 10px;
+  // border-bottom: 3px solid #256efd;
+  width: 75px;
+}
+.Icon {
+  height: 30px;
+  // background-color: #256efd;
+  font-size: 14px;
+  // margin: 10px;
+}
+.ankjij {
+  height: 70px;
+  width: 300px;
+  // background-color: #f0f;
+  padding: 10px 10px;
+  font-size: 13px;
+  border: 1px solid #d3dce6;
+  margin-bottom: 20px;
+  .text {
+    margin-bottom: 10px;
+    display: flex;
+  }
 }
 </style>

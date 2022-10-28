@@ -43,7 +43,7 @@ Vue.use(Element, {
 Vue.use(Radio)
 Vue.use(BaiduMap, {
 
-  ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK'
+  ak: '0dZK03G6kSF0M16RXLWrrLkWWORcLsyV'
 })
 // register global utility filters
 Object.keys(filters).forEach(key => {

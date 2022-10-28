@@ -84,7 +84,8 @@
                                 color: #878484;
                               "
                             >
-                              五险一金，年终奖，节日福利，带薪休假
+                              <!-- 福利 -->
+                              {{ item.enterprise_info.tags }}
                             </div>
                           </div>
                         </div>
@@ -256,8 +257,8 @@ export default {
     particulars (item) {
       console.log('简历详情', item)
       this.$router.push({
-        path: '/postdes',
-        name: 'postdes',
+        path: '/resume',
+        name: 'resume',
         query: { id: item.id }
       })
     }

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 /**
- * 企业详情
+ * 岗位详情
  * @param {*} id
  * @returns
  */
@@ -21,7 +21,12 @@ export function getInRecruit (id, data, limit, offset) {
   })
 }
 
-// 岗位详情
+// 企业详情
 export function getPositionDetails (id) {
   return request.get(`/user/enterprise-details/${id}/`)
+}
+
+// 相似职位
+export function getList (id) {
+  return request.get(`/user/similar-position/${id}/`)
 }

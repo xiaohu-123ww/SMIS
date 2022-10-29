@@ -77,9 +77,10 @@
             >
               公司介绍
             </div>
-            <p style="line-height: 30px; font-size: 14px">
-              {{ resume.introduction }}
-            </p>
+            <div
+              style="line-height: 30px; font-size: 14px"
+              v-html="resume.introduction"
+            ></div>
           </el-card>
 
           <el-card style="margin: 20px 50px 20px 0">
@@ -177,7 +178,11 @@
             </div>
             <div class="table" style="display: flex">
               <div class="change-select">
-                <el-select v-model="city" placeholder="工作城市">
+                <el-select
+                  v-model="city"
+                  placeholder="工作城市"
+                  @change="cityChange"
+                >
                   <el-option
                     v-for="(item, index) in cityList"
                     :key="index"
@@ -188,7 +193,11 @@
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select v-model="experience" placeholder="工作经验">
+                <el-select
+                  v-model="experience"
+                  placeholder="工作经验"
+                  @change="experienceChange"
+                >
                   <el-option
                     v-for="(item, index) in experienceList"
                     :key="index"
@@ -199,7 +208,11 @@
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select v-model="requirements" placeholder="学历要求">
+                <el-select
+                  v-model="requirements"
+                  placeholder="学历要求"
+                  @change="requirementsChange"
+                >
                   <el-option
                     v-for="(item, index) in educationalRequirements"
                     :key="index"
@@ -210,7 +223,11 @@
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select v-model="money" placeholder="薪资要求">
+                <el-select
+                  v-model="money"
+                  placeholder="薪资要求"
+                  @change="moneyChange"
+                >
                   <el-option
                     v-for="(item, index) in moneyList"
                     :key="index"
@@ -221,25 +238,32 @@
                 </el-select>
               </div>
             </div>
-            <List
-              :in-recruit-list="inRecruitList"
-              :firm="firm"
-              :image="image"
-              :nature="nature"
-              :size="size"
-              :text="text"
-            />
-            <el-pagination
-              style="margin: 20px 0 0 150px"
-              :current-page="query.pagenum"
-              :page-sizes="[5, 10, 20]"
-              :page-size="query.pagesize"
-              layout="sizes, prev, pager, next, total"
-              :total="total"
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-            >
-            </el-pagination>
+
+            <div>
+              <el-empty v-if="showOne" :image-size="100"></el-empty>
+              <div v-else>
+                <List
+                  :in-recruit-list="inRecruitList"
+                  :firm="firm"
+                  :image="image"
+                  :nature="nature"
+                  :size="size"
+                  :text="text"
+                />
+
+                <el-pagination
+                  style="margin: 20px 0 0 150px"
+                  :current-page="query.pagenum"
+                  :page-sizes="[5, 10, 20]"
+                  :page-size="query.pagesize"
+                  layout="sizes, prev, pager, next, total"
+                  :total="total"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                >
+                </el-pagination>
+              </div>
+            </div>
           </el-card>
         </el-col>
         <el-col :span="6">
@@ -281,7 +305,7 @@ import disposeImg from '@/utils/disposeImg'
 import { getParticulars } from '@/api/particulars'
 import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
 import { getRequirement } from '@/api/postlist'
-import { getInRecruit, getPositionDetails } from '@/api/particulars'
+import { getInRecruit, getPositionDetails, getRecruit } from '@/api/particulars'
 import List from './components/list.vue'
 export default {
   components: { List },
@@ -315,7 +339,13 @@ export default {
       experienceList: {},
       // 学历要求
       educationalRequirements: {},
-      serchPost: {},
+      post: {},
+      serchPost: {
+        adcode: '0000',
+        job_experience: 0,
+        education: 0,
+        salary: 0
+      },
       // 城市
       cityList: {},
       inRecruitList: [],
@@ -323,9 +353,10 @@ export default {
       nature: '',
       size: '',
       limit: 5,
-      offset: 5,
+      offset: 0,
       total: 0,
-      text: ''
+      text: '',
+      showOne: false
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -350,20 +381,25 @@ export default {
     // console.log(this);
   },
   methods: {
-    handleSizeChange (newSize) {
+    async handleSizeChange (newSize) {
       console.log('每页条数', newSize)
       this.limit = newSize
+      this.query.pagesize = newSize
       this.inRecruit()
     },
     handleCurrentChange (currPage) {
       console.log('当前页码', currPage)
       this.offset = currPage
+      this.query.pagenum = currPage
       this.inRecruit()
     },
 
     // 公司详情
     async getparticulars () {
-      const res = await getPositionDetails(32)
+      console.log(this.$route.query.id)
+      this.id = this.$route.query.id
+      console.log('this.id', this.id)
+      const res = await getPositionDetails(this.id)
       console.log('公司详情', res)
       this.resume = res.data
       this.image = this.disposeImg(res.data.logo)
@@ -388,22 +424,6 @@ export default {
       this.flagShow = false
     },
     // 地图
-    handler ({ BMap, map }) {
-      console.log(55, BMap, map)
-      // this.center = ''
-      this.zoom = 15
-      const geolocation = new BMap.Geolocation()
-      geolocation.getCurrentPosition((res) => {
-        // IP地址赋值给locations对象
-        console.log('112', res)
-
-        this.locations.lng = res.point.lng
-        this.locations.lat = res.point.lat
-      })
-      this.geoTest()
-      this.btn()
-    },
-
     async geoTest () {
       console.log('地址', this.addressVal)
       // 调用百度地图API,根据地址获取经纬度
@@ -415,11 +435,28 @@ export default {
         .then((json) => {
           console.log(`json success:`, json)
           this.locations = json.result.location
+          this.geoTest()
+          // this.handler()
         })
         .catch((err) => {
           console.log(`json err:`, err)
         })
     },
+    handler ({ BMap, map }) {
+      console.log(55, BMap, map)
+      // this.center = ''
+      this.zoom = 15
+      const geolocation = new BMap.Geolocation()
+      geolocation.getCurrentPosition((res) => {
+        // IP地址赋值给locations对象
+        console.log('112', res)
+
+        this.locations.lng = res.point.lng
+        this.locations.lat = res.point.lat
+        this.btn()
+      })
+    },
+
     btn () {
       this.geoTest()
     },
@@ -430,11 +467,48 @@ export default {
       this.educationalRequirements = data.education
     },
     async inRecruit () {
-      const { data } = await getInRecruit(33, this.serchPost, this.limit, this.offset)
+      const { data } = await getInRecruit(this.id, this.post, this.limit, this.offset)
       console.log('在招列表', data)
       this.cityList = data.city_list
       this.total = data.result.count
       this.inRecruitList = data.result.results
+      if (data.result.results.length === 0) {
+        console.log('1121345556')
+        this.showOne = true
+      } else {
+        console.log(33)
+        this.showOne = false
+      }
+    },
+    async root () {
+      const { data } = await getInRecruit(33, this.serchPost, this.limit, this.offset)
+      console.log('在招列表122', data)
+
+      if (data.length === 0) {
+        console.log('1121345556')
+        this.$message.error('再无此信息')
+      } else {
+        console.log(33)
+      }
+    },
+    // 检索条件
+    cityChange (i) {
+      // console.log('1', i)
+      this.adcode = i.toString
+      this.root()
+      //   this.inRecruit()
+    },
+    experienceChange (i) {
+      this.serchPost.job_experience = i
+      this.root()
+    },
+    requirementsChange (i) {
+      this.serchPost.education = i
+      this.root()
+    },
+    moneyChange (i) {
+      this.serchPost.salary = i
+      this.root()
     }
 
   }

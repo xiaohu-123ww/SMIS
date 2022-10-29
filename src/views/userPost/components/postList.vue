@@ -79,13 +79,27 @@
                             </div>
                             <div
                               style="
-                                padding-top: 12px;
-                                font-size: 12px;
+                                padding-top: 10px;
+                                font-size: 11px;
                                 color: #878484;
+                                display: flex;
+                                flex-wrap: wrap;
                               "
                             >
                               <!-- 福利 -->
-                              {{ item.enterprise_info.tags }}
+                              <div
+                                v-for="(items, index) in item.enterprise_info
+                                  .tags"
+                                :key="index"
+                                style="
+                                  height: 15px;
+                                  background-color: rgb(245, 245, 245);
+                                  border: 1px solid rgb(220, 220, 220);
+                                  margin: 2px;
+                                "
+                              >
+                                {{ items.name }}
+                              </div>
                             </div>
                           </div>
                         </div>

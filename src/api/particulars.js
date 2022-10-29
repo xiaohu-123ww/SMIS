@@ -13,13 +13,9 @@ export function getParticulars (id) {
 //   return request.post(`/user/position-opening/${id}/`, data)
 // }
 // 企业在招列表分页
-export function getInRecruit (id, data, limit, offset) {
-  return request.post(`/user/position-opening/${id}/`, data, {
-    params: {
-      limit, offset
-    }
-  })
-}
+// export function getInRecruit (id, data) {
+//   return request.post(`/user/position-opening/${id}/`, data)
+// }
 
 // 企业详情
 export function getPositionDetails (id) {
@@ -29,4 +25,11 @@ export function getPositionDetails (id) {
 // 相似职位
 export function getList (id) {
   return request.get(`/user/similar-position/${id}/`)
+}
+export function getInRecruit (id, data, limit, offset) {
+  return request.post(`/user/position-opening/${id}/`, data, {
+    params: {
+      limit, offset
+    }
+  })
 }

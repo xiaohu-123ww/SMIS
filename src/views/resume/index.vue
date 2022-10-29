@@ -86,6 +86,7 @@
               <div class="textone">工作地点</div>
               <div class="name">
                 {{ addressVal }}
+                <el-button type="text" @click="btn"></el-button>
               </div>
               <baidu-map
                 class="box_map"
@@ -234,7 +235,7 @@ export default {
   created () {
     this.getlist()
     this.geoTest()
-    this.btn()
+    // this.btn()
     this.getJobList()
     this.getSlideshow()
     this.getJob()
@@ -258,6 +259,7 @@ export default {
       this.content = data.job_content
       this.name = data.enterprise_info
       this.addressVal = data.work_city.second + data.work_city.third
+
       this.imgJob = this.disposeImg(this.name.logo)
       console.log('imgJob', this.imgJob)
       this.field = this.name.field.field_name
@@ -269,6 +271,25 @@ export default {
         name: 'postdes',
         query: { id: i }
       })
+    },
+    async geoTest () {
+      // console.log('地址', this.addressVal)
+      // 调用百度地图API,根据地址获取经纬度
+
+      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+        address: this.addressVal,
+        output: 'json',
+        ak: '0dZK03G6kSF0M16RXLWrrLkWWORcLsyV' // 你的AK秘钥
+      })
+        .then((json) => {
+          console.log(`json success:`, json)
+          this.locations = json.result.location
+          this.geoTest()
+          // this.handler()
+        })
+        .catch((err) => {
+          console.log(`json err:`, err)
+        })
     },
     // 地图
     handler ({ BMap, map }) {
@@ -282,29 +303,10 @@ export default {
         console.log('112', res)
         this.locations.lng = res.point.lng
         this.locations.lat = res.point.lat
+        this.btn()
       })
-
-      this.btn()
-      // this.geoTest()
     },
 
-    async geoTest () {
-      // console.log('地址', this.addressVal)
-      // 调用百度地图API,根据地址获取经纬度
-      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
-        address: this.addressVal,
-        output: 'json',
-        ak: '0dZK03G6kSF0M16RXLWrrLkWWORcLsyV' // 你的AK秘钥
-      })
-        .then((json) => {
-          console.log(`json success:`, json)
-          this.locations = json.result.location
-        })
-        .catch((err) => {
-          console.log(`json err:`, err)
-        })
-      // this.btn()
-    },
     btn () {
       this.geoTest()
     },
@@ -323,7 +325,7 @@ export default {
     },
     // 相似职位
     async getJob () {
-      const res = await getList(53)
+      const res = await getList(this.id)
       console.log('相似职位', res)
       this.resemblance = res.data
       if (this.resemblance.length === 0) {

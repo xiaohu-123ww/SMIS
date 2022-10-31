@@ -18,54 +18,63 @@
         >
       </el-row>
     </div>
-    <div v-for="(item, index) in list" :key="index" class="work">
-      <div v-if="!show">
-        <div class="school">
-          <el-row>
-            <el-col :span="14"
-              ><div class="grid-content bg" style="margin-left: 20px">
-                {{ list.company ? list.company : '北京智能制造大学' }}
-              </div></el-col
-            >
-            <el-col :span="3"
-              ><div class="grid-content bg-purple-light">
-                {{ list.data ? list.data : '工作时间' }}
-              </div></el-col
-            >
-            <el-col :span="3">
-              <div class="grid-content bg-purple">
-                <el-button
-                  type="primary"
-                  icon="el-icon-edit"
-                  @click="edit(list)"
-                  >编辑
-                </el-button>
-              </div>
-            </el-col>
-            <el-col :span="2"
-              ><div class="grid-content bg-purple-light">
-                <el-button type="success" icon="el-icon-delete">删除</el-button>
-              </div></el-col
-            >
-          </el-row>
-        </div>
-        <div class="education">
-          <el-row>
-            <el-col :span="2" style="border-right: 1px solid #e3e6e6"
-              >本科</el-col
-            >
-            <el-col :span="7" style="margin-left: 15px"
-              >机器智造与自动化</el-col
-            >
-          </el-row>
+    <div>
+      <div v-if="empty">
+        <div v-for="(item, index) in list" :key="index" class="work">
+          <div v-if="!show">
+            <div class="school">
+              <el-row>
+                <el-col :span="14"
+                  ><div class="grid-content bg" style="margin-left: 20px">
+                    {{ list.company ? list.company : '北京智能制造大学' }}
+                  </div></el-col
+                >
+                <el-col :span="3"
+                  ><div class="grid-content bg-purple-light">
+                    {{ list.data ? list.data : '工作时间' }}
+                  </div></el-col
+                >
+                <el-col :span="3">
+                  <div class="grid-content bg-purple">
+                    <el-button
+                      type="primary"
+                      icon="el-icon-edit"
+                      @click="edit(list)"
+                      >编辑
+                    </el-button>
+                  </div>
+                </el-col>
+                <el-col :span="2"
+                  ><div class="grid-content bg-purple-light">
+                    <el-button type="success" icon="el-icon-delete"
+                      >删除</el-button
+                    >
+                  </div></el-col
+                >
+              </el-row>
+            </div>
+            <div class="education">
+              <el-row>
+                <el-col :span="2" style="border-right: 1px solid #e3e6e6"
+                  >本科</el-col
+                >
+                <el-col :span="7" style="margin-left: 15px"
+                  >机器智造与自动化</el-col
+                >
+              </el-row>
+            </div>
+          </div>
         </div>
       </div>
+      <el-empty v-else :image-size="150" description="再无教育经历"></el-empty>
     </div>
+
     <Education :show="show" @reset="reset" />
   </div>
 </template>
 <script>
 import Education from './education'
+import { geteducation } from '@/api/my/resume'
 export default {
   components: { Education },
   data () {
@@ -85,7 +94,8 @@ export default {
         specialty: '',
         text: ''
       }
-      ]
+      ],
+      empty: true
     }
   },
   computed: {
@@ -94,12 +104,23 @@ export default {
   mounted () {
 
   },
+
+  created () {
+    this.getList()
+  },
   methods: {
     edit () {
       this.show = true
     },
     reset (i) {
       this.show = i
+    },
+    async getList () {
+      const { data } = await geteducation()
+      console.log('教育经历列表', data)
+      if (data.results.length === 0) {
+        this.empty = false
+      }
     }
   }
 }

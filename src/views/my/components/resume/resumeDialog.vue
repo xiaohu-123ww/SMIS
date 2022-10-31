@@ -35,7 +35,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="薪资要求" required>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item prop="beforeMoney">
             <el-select
               v-model="ruleForm.beforeMoney"
@@ -47,7 +47,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col class="line" :span="2">——</el-col>
+        <el-col class="line" :span="1" style="color: rgb(194, 194, 204)"
+          >——</el-col
+        >
         <el-col :span="12">
           <el-form-item prop="money">
             <el-select v-model="ruleForm.money" placeholder="10k">

@@ -204,8 +204,8 @@ export const constantRoutes = [
       component: () => import('@/views/userPostdes/index.vue')
     },
     {
-      name: 'resume',
-      path: '/resume',
+      name: 'state',
+      path: '/state',
       component: () => import('@/views/resume/index.vue')
     },
     {

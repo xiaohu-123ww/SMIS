@@ -1,40 +1,44 @@
 <template>
-  <div>
+  <div v-if="hidden">
     <div v-if="showHidden" class="head" :class="flag === false ? 'btn' : ''">
       <div>
         <el-avatar
           class="left"
-          :src="list.circleUrl"
+          :src="circleUrl"
           style="position: relative; top: 10px; left: 0px"
         />
       </div>
       <div class="right">
         <div class="right-i">
           <div style="font-size: 22px; font-weight: 600">
-            {{ list.username }}
+            {{ num.name ? num.name : 'XXXX' }}
           </div>
           <div style="margin-left: 40px; margin-top: 5px; font-size: 16px">
-            {{ list.state ? list.state : '求职状态' }}
+            {{ num.status }}
           </div>
         </div>
         <div class="right-i">
-          <div class="right-age">{{ list.sex ? list.sex : '性别' }}</div>
-          <div class="right-age">{{ list.age ? list.age : '年龄' }}</div>
-          <div v-if="flag === false" class="right-age">
-            {{ list.work ? list.work : '工作经验' }}
+          <div class="right-age">
+            {{ num.sex }}
           </div>
-          <div class="right-age">{{ list.school ? list.school : '学校' }}</div>
+          <div class="right-age">{{ num.age ? num.age : '无' }}</div>
+          <div v-if="flag === false" class="right-age">
+            {{ num.year ? num.year : '工作经验' }}
+          </div>
+          <div class="right-age">
+            {{ num.education ? num.education : '学历' }}
+          </div>
         </div>
         <div v-if="flag === false" class="phone">
           <el-row>
             <el-col :span="9"
               ><div class="grid-content bg-purple">
-                {{ list.photo ? list.photo : '联系方式' }}
+                {{ num.phone_number }}
               </div></el-col
             >
             <el-col :span="12"
               ><div class="grid-content bg-purple">
-                {{ list.email ? list.email : '电子邮箱' }}
+                {{ num.email }}
               </div></el-col
             >
           </el-row>
@@ -55,12 +59,19 @@
       </div>
       <!-- </div> -->
     </div>
-    <Dialog :show="show" :list="list" @reset="reset" />
+    <Dialog
+      :show="show"
+      :list="list"
+      :num="num"
+      :circle-url="circleUrl"
+      @reset="reset"
+    />
   </div>
 </template>
 <script>
-import { getPersonalinfo } from '@/api/user'
+import { getMessage } from '@/api/user'
 import Dialog from './resume/dialog.vue'
+import disposeImg from '@/utils/disposeImg'
 export default {
   components: {
     Dialog
@@ -89,7 +100,11 @@ export default {
         state: ''
       },
       show: false,
-      showHidden: true
+      showHidden: true,
+      name: {},
+      hidden: false,
+      circleUrl: '',
+      num: {}
     }
   },
   mounted () {
@@ -100,33 +115,13 @@ export default {
   },
   methods: {
 
-    disposeImg (img) {
-      if (img !== undefined) {
-        img = String(img)
-
-        if (img.substr(0, 1) == '/') {
-          img = img.substr(1)
-        }
-
-        return 'https://znzz.tech/' + img
-      }
-    },
     async getName () {
-      const res = await getPersonalinfo()
-      console.log('res', res.data)
-      // 头像处理
-      this.list.circleUrl = this.disposeImg(res.data.personal.image)
-      console.log('123', this.circleUrl)
-      // 用户名
-      if (res.data.user.first_name === '') {
-        this.list.username = res.data.user.username
-      } else {
-        this.list.username =
-          res.data.user.last_name + res.data.user.first_name
-      }
-      console.log('username', this.username)
-      this.list.photo = res.data.personal.phone_number
-      this.list.email = res.data.user.email
+      const res = await getMessage()
+      console.log('用户信息12', res)
+      this.hidden = true
+      this.num = res.data.data
+
+      this.circleUrl = this.disposeImg(res.data.data.image)
     },
     // 点击编辑
     redact () {

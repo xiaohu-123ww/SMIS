@@ -15,15 +15,16 @@
       </el-row>
     </div>
     <div v-if="!work">
-      <WorkText :list="list" />
+      <WorkText v-if="empty" :list="list" />
+      <el-empty v-else :image-size="150" description="再无工作经历"></el-empty>
     </div>
-
     <Work :work="work" @reset="reset" />
   </div>
 </template>
 <script>
 import Work from './work.vue'
 import WorkText from './work-text.vue'
+import { getexperiences } from '@/api/my/resume'
 export default {
   components: { Work, WorkText },
   data () {
@@ -31,12 +32,9 @@ export default {
       // 工作经历
       work: false,
       list: {
-        company: '',
-        data: '',
-        subject: '',
-        specialty: '',
-        text: ''
-      }
+
+      },
+      empty: true
     }
   },
   computed: {
@@ -45,7 +43,18 @@ export default {
   mounted () {
 
   },
+  created () {
+    this.getList()
+  },
   methods: {
+    async getList () {
+      const { data } = await getexperiences()
+      console.log('工作经历', data)
+      this.list = data.results
+      if (data.results.length === 0) {
+        this.empty = false
+      }
+    },
     reset (i) {
       this.work = i
     },
@@ -63,6 +72,7 @@ export default {
 .preponderance-one {
   height: 50px;
   // background-color: aqua;
+  margin-top: 10px;
   .bg-purple {
     color: #256efd;
     font-weight: 600;

@@ -1,5 +1,5 @@
 <template>
-  <div class="postdes-box">
+  <div v-if="bold" class="postdes-box">
     <div class="top">
       <div class="post-name">
         <div class="name">
@@ -218,7 +218,8 @@ export default {
       imgJob: '',
       field: '',
       resemblance: [],
-      flagShow: false
+      flagShow: false,
+      bold: false
 
     }
   },
@@ -251,6 +252,7 @@ export default {
       this.id = this.$route.query.id
       const { data } = await getParticulars(this.id)
       console.log('简历', data)
+      this.bold = true
       this.resume = data
       this.city = data.work_city.second
       this.third = data.work_city.third

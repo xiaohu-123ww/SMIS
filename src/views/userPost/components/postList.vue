@@ -271,8 +271,8 @@ export default {
     particulars (item) {
       console.log('简历详情', item)
       this.$router.push({
-        path: '/resume',
-        name: 'resume',
+        path: '/state',
+        name: 'state',
         query: { id: item.id }
       })
     }

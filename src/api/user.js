@@ -181,3 +181,13 @@ export function getposition (limit) {
     }
   })
 }
+
+// 用户信息
+export function personal () {
+  return request.get('/user/navigation/')
+}
+// 个人信息
+
+export function getMessage () {
+  return request.get('/user/self-information/')
+}

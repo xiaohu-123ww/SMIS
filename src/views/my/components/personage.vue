@@ -6,19 +6,25 @@
     <div class="center">
       <div class="communicate">
         <div class="communicate-1">已沟通</div>
-        <div class="communicate-1 communicate-2">1</div>
+        <div class="communicate-1 communicate-2">
+          {{ list.num_of_communication }}
+        </div>
       </div>
       <div class="communicate">
         <div class="communicate-1">已投递</div>
-        <div class="communicate-1 communicate-2">1</div>
+        <div class="communicate-1 communicate-2">{{ list.num_of_post }}</div>
       </div>
       <div class="communicate">
         <div class="communicate-1">面试</div>
-        <div class="communicate-1 communicate-2">1</div>
+        <div class="communicate-1 communicate-2">
+          {{ list.num_of_interview }}
+        </div>
       </div>
       <div class="communicate">
         <div class="communicate-1">收藏</div>
-        <div class="communicate-1 communicate-2">1</div>
+        <div class="communicate-1 communicate-2">
+          {{ list.num_of_collection }}
+        </div>
       </div>
       <!-- <div>2</div>
       <div>3</div> -->
@@ -37,34 +43,14 @@
           </div>
         </div>
         <div class="credential-d">
-          <div class="credential-dd">
+          <div v-for="item in credential" :key="item.id" class="credential-dd">
             <img
-              src="../../../assets/imgs/zhengshu.png"
+              :src="disposeImg(item.sample)"
               alt=""
               style="width: 300px; height: 180px"
             />
             <p style="font-size: 14px; padding-left: 45px">
-              机器视觉智能检测技术应用-初级
-            </p>
-          </div>
-          <div class="credential-dd">
-            <img
-              src="../../../assets/imgs/zhengshu.png"
-              alt=""
-              style="width: 300px; height: 180px"
-            />
-            <p style="font-size: 14px; padding-left: 45px">
-              机器视觉智能检测技术应用-初级
-            </p>
-          </div>
-          <div class="credential-dd">
-            <img
-              src="../../../assets/imgs/zhengshu.png"
-              alt=""
-              style="width: 300px; height: 180px"
-            />
-            <p style="font-size: 14px; padding-left: 45px">
-              机器视觉智能检测技术应用-初级
+              {{ item.name }}
             </p>
           </div>
         </div>
@@ -72,41 +58,32 @@
       <div class="position">
         <div class="position-a">精选职位</div>
         <div class="position-footer">
-          <div class="position-b">
+          <div v-for="item in job" :key="item.id" class="position-b">
             <div class="position-machine">
-              <span style="font-size: 20px; margin-top: 20px">
-                机器视觉工程师
-              </span>
+              <div
+                style="
+                  font-size: 20px;
+
+                  width: 240px;
+                  margin-left: 20px;
+                "
+              >
+                {{ item.fullname ? item.fullname : '再无职业' }}
+              </div>
               <span style="margin-left: 90px; color: red; font-size: 15px"
-                >8000-15000.12薪</span
+                >{{ item.salary_min }} - {{ item.salary_max }}.{{
+                  item.salary_unit
+                }}薪</span
               >
             </div>
             <div class="position-city">
-              <button class="position-btn">北京</button>
-              <button class="position-btn">1-3年</button>
-              <button class="position-btn">本科</button>
+              <button class="position-btn">{{ item.city }}</button>
+              <button class="position-btn">{{ item.job_experience }}</button>
+              <button class="position-btn">{{ item.education }}</button>
               <!-- <button>1-3年</button>
             <button>本科</button> -->
             </div>
-            <div class="position-firm">北京智能智造科技有限公司</div>
-          </div>
-          <div class="position-b">
-            <div class="position-machine">
-              <span style="font-size: 20px; margin-top: 20px">
-                机器视觉工程师
-              </span>
-              <span style="margin-left: 90px; color: red; font-size: 15px"
-                >8000-15000.12薪</span
-              >
-            </div>
-            <div class="position-city">
-              <button class="position-btn">北京</button>
-              <button class="position-btn">1-3年</button>
-              <button class="position-btn">本科</button>
-              <!-- <button>1-3年</button>
-            <button>本科</button> -->
-            </div>
-            <div class="position-firm">北京智能智造科技有限公司</div>
+            <div class="position-firm">{{ item.enterprise_name }}</div>
           </div>
         </div>
       </div>
@@ -115,24 +92,50 @@
 </template>
 <script>
 import Person from './person.vue'
-// import { getPersonalinfo } from '@/api/user'
+import { getList } from '@/api/my/my'
+import { getCertificate } from '@/api/position'
+import { getHandpickJob } from '@/api/cat'
+import disposeImg from '@/utils/disposeImg'
 export default {
   components: { Person },
   data () {
     return {
       circleUrl: '',
       username: '',
-      flag: true
+      flag: true,
+      list: {},
+      credential: {},
+      limit: 4,
+      job: []
     }
   },
   mounted () {
 
   },
-  // created () {
-  //   this.getName()
-  // },
+  created () {
+    this.getName()
+    this.getCertificateList()
+    this.getJob()
+  },
   methods: {
-    // 转换图片格式
+    // 用户数据
+    async getName () {
+      const { data } = await getList()
+      console.log('用户数据', data)
+      this.list = data
+    },
+    // 证书
+    async getCertificateList () {
+      const { data } = await getCertificate()
+      console.log('证书', data.slice(0, 3))
+      this.credential = data.slice(0, 3)
+    },
+    // 精选职位
+    async getJob () {
+      const { data } = await getHandpickJob(this.limit)
+      console.log('精选职位', data)
+      this.job = data.results
+    }
   }
 }
 </script>
@@ -268,6 +271,7 @@ export default {
     .position-footer {
       display: flex;
       justify-content: space-around;
+      flex-wrap: wrap;
       .position-b {
         width: 500px;
         height: 160px;
@@ -275,12 +279,14 @@ export default {
         border: 1px solid #e6e3e3;
         // background-color: blueviolet;
         overflow: hidden;
+        margin-bottom: 20px;
         .position-machine {
           height: 40px;
           // background-color: aqua;
-          text-align: center;
+          // text-align: center;
           line-height: 40px;
           border-bottom: 1px solid #e6e3e3;
+          display: flex;
         }
         .position-city {
           height: 80px;

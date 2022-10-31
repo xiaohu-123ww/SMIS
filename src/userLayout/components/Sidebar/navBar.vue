@@ -9,10 +9,10 @@
           <div class="avatar-wrapper">
             <div class="avatar-wrapperL">
               <el-avatar
-                :src="circleUrl"
+                :src="circurl"
                 style="position: relative; top: 10px; left: 0px"
               />
-              <p class="avatar-wrapper-p">{{ userInfo.name }}</p>
+              <p class="avatar-wrapper-p">{{ userInfo.username }}</p>
             </div>
             <div class="avatar-wrapperR">
               <img src="@/assets/images/Grid.png" class="avatar-wrapper-img" />
@@ -61,15 +61,15 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import { getPersonalinfo } from '../../../api/user'
+import { getPersonalinfo, personal } from '../../../api/user'
 import { getToken } from '@/utils/auth'
+import disposeImg from '@/utils/disposeImg'
 export default {
   components: {},
   data () {
     return {
-      circleUrl:
-        'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-      userInfo: '',
+
+      userInfo: {},
       token: '',
       dis: '',
       loginout: true,
@@ -86,14 +86,16 @@ export default {
         type: [],
         resource: '',
         desc: ''
+
       },
-      bel: false
+      bel: false,
+      circurl: ''
     }
   },
   computed: {
     ...mapGetters(['sidebar', 'avatar', 'device', 'navbar'])
   },
-  created () {
+  async created () {
     this.token = getToken()
     if (this.token == null) {
       this.dis = false
@@ -102,28 +104,11 @@ export default {
     }
     console.log(this.token)
     if (this.token) {
-      getPersonalinfo().then((res) => {
-        // console.log();
-        if (res.data.user.is_active == true && res.data.user.is_staff == true) {
-          // console.log(1);
-          this.bel = true
-        } else {
-          // console.log(2);
-          this.bel = false
-        }
-        this.userInfo = res.data
-        console.log('res.data', res.data)
-        this.circleUrl = this.disposeImg(res.data.personal.image)
-        console.log(this.disposeImg)
-        console.log(' this.circleUrl', this.circleUrl)
-        if (res.data.user.first_name == '') {
-          this.userInfo.name = res.data.user.username
-          // console.log(this.userInfo.name);
-        } else {
-          this.userInfo.name =
-            res.data.user.last_name + res.data.user.first_name
-        }
-      })
+      const { data } = await personal()
+      console.log('用户信息', data)
+      this.userInfo = data
+      this.circurl = this.disposeImg(data.avatar)
+      console.log('this.circurl', this.circurl)
     }
   },
   methods: {

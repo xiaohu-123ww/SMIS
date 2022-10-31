@@ -19,22 +19,24 @@
       class="textare"
       style="white-space: pre-line; font-size: 15px; margin-top: 15px"
     >
-      <p>1、具有较强的学习能力，认真刻苦，勤奋务实</p>
-      <p>2、工作责任心强，具有一定的团队合作能力、快速执行能力</p>
-      <p>3、亲和力强，有耐心、沟通能力强，能很好地处理突发状况，应变能力强</p>
+      <div style="line-height: 30px" v-html="list.text"></div>
     </div>
-    <Personal :person="person" :text="text" @reset="reset" @writing="writing" />
+    <Personal :person="person" :list="list" @reset="reset" />
   </div>
 </template>
 <script>
 import Personal from './personal.vue'
+import { getpersonal } from '@/api/my/resume'
 export default {
   components: { Personal },
   data () {
     return {
-      text: '1、具有较强的学习能力，认真刻苦，勤奋务实  \n2.工作责任心强，具有一定的团队合作能力、快速执行能力 \n 3、亲和力强，有耐心、沟通能力强，能很好地处理突发状况，应变能力强',
+      list: {
+        text: ''
+      },
       // 个人优势
       person: false
+
     }
   },
   computed: {
@@ -49,16 +51,23 @@ export default {
   mounted () {
 
   },
+  created () {
+    this.getText()
+  },
   methods: {
+    async getText () {
+      const { data } = await getpersonal()
+      console.log('个人优势', data)
+
+      this.list.text = data.self_evaluation
+    },
     reset (i) {
       this.person = i
     },
     edit () {
       this.person = true
-    },
-    writing (i) {
-      this.text = i
     }
+
   }
 }
 </script>

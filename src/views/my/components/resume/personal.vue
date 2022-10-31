@@ -3,7 +3,7 @@
     <el-form ref="form" :model="form" label-width="80px">
       <el-form-item label="活动形式">
         <el-input
-          v-model="text"
+          v-model="list.text"
           type="textarea"
           :rows="5"
           style="width: 800px"
@@ -19,14 +19,15 @@
   </div>
 </template>
 <script>
+import { getpersonalAdvantage } from '@/api/my/resume'
 export default {
   props: {
     person: {
       type: Boolean,
       default: false
     },
-    text: {
-      type: String
+    list: {
+      type: Object
     }
   },
   data () {
@@ -43,9 +44,11 @@ export default {
 
   },
   methods: {
-    onSubmit () {
+    async onSubmit () {
       this.$emit('reset', false)
-      this.$emit('writing', this.text)
+
+      const res = await getpersonalAdvantage(this.list)
+      console.log('个人优势', res)
     },
     resets () {
       this.$emit('reset', false)

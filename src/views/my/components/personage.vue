@@ -77,9 +77,11 @@
               >
             </div>
             <div class="position-city">
-              <button class="position-btn">{{ item.city }}</button>
-              <button class="position-btn">{{ item.job_experience }}</button>
-              <button class="position-btn">{{ item.education }}</button>
+              <button class="position-btn">{{ item.city.name }}</button>
+              <button class="position-btn">
+                {{ item.job_experience.name }}
+              </button>
+              <button class="position-btn">{{ item.education.name }}</button>
               <!-- <button>1-3年</button>
             <button>本科</button> -->
             </div>

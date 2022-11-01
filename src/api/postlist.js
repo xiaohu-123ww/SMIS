@@ -76,3 +76,18 @@ export function getRequirement () {
 export function getbrowsingHistory () {
   return request.get('/user/history-steps-list/')
 }
+
+/**
+ * 岗位分类列表
+ * @returns
+ */
+export function getQuarters () {
+  return request.get('/enterprise/show-pst-class/v1.0.1/')
+}
+/**
+ * 行业领域列表
+ * @returns
+ */
+export function getIndustryField () {
+  return request.get('/enterprise/show-field/v1.0.1/')
+}

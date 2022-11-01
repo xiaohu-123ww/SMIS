@@ -39,9 +39,11 @@
                               class="machan-bb"
                               style="border-right: 1px solid #e6e3e3"
                             >
-                              {{ item.job_experience }}
+                              {{ item.job_experience.name }}
                             </div>
-                            <div class="machan-bb">{{ item.education }}</div>
+                            <div class="machan-bb">
+                              {{ item.education.name }}
+                            </div>
                           </div>
                           <div class="equipment">
                             <div

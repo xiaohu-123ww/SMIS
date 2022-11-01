@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="textarea">
+    <div v-for="item in list" :key="item.id" class="textarea">
       <div class="work">
         <el-row>
           <el-col :span="14"
             ><div class="grid-content bg">
-              {{ list.company ? list.company : 'XXXXXXX' }}
+              {{ list.enterprise }}
             </div></el-col
           >
           <el-col :span="3"
             ><div class="grid-content bg-purple-light">
-              {{ list.data ? list.data : '工作时间' }}
+              {{ item.start_date }}-{{ item.end_date }}
             </div></el-col
           >
           <el-col :span="3">
@@ -30,21 +30,14 @@
       <div class="specialty">
         <el-row>
           <el-col :span="4" style="border-right: 1px solid #e6e3e3">{{
-            list.subject ? list.subject : '机械工程师'
+            item.position_nam
           }}</el-col>
-          <el-col :span="6" class="row">{{
-            list.specialty ? list.specialty : '智能制造'
-          }}</el-col>
+          <el-col :span="6" class="row">{{ item.field_name }}</el-col>
         </el-row>
       </div>
       <div class="describe">工作描述:</div>
       <div class="description">
-        <p>
-          1. 负责开发或生产任务中机械结构技术投入的研究评审、验证、编制工作;
-        </p>
-        <p>
-          2、负责开发或生产任务中机械零件、设备、工装的设计、分析、制造、测试、测试等工作
-        </p>
+        <div v-html="item.job_desc">123</div>
       </div>
     </div>
   </div>
@@ -63,7 +56,13 @@ export default {
     }
   },
   computed: {
-
+    commendContent () {
+      // this.commend.content是后端传回来的文本数据，就是要对这个数据进行处理
+      const arr = this.list.job_desc
+      return arr.map((item) => {
+        return item === '\n' ? '<br>' : item
+      }).join('')
+    }
   },
   mounted () {
 

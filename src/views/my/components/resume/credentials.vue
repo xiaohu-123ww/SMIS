@@ -1,18 +1,36 @@
 <template>
   <div v-if="show">
-    <el-form ref="rf" :model="form" label-width="80px" :rules="rules">
-      <el-form-item label="资格证书" prop="value">
-        <el-cascader
-          v-model="value"
-          :options="options"
-          :props="{ multiple: true, checkStrictly: true }"
-          @change="handleChange"
-        ></el-cascader>
+    <el-form ref="rf" label-width="80px" :rules="rules">
+      <el-form-item label="资格证书">
+        <el-select v-model="value" placeholder="请选择资格证书">
+          <div style="display: flex">
+            <div style="width: 150px">
+              <el-option
+                v-for="(item, index) in options"
+                :key="index"
+                :label="index"
+                :value="index"
+                @mousemove.native="industryChange(item)"
+              >
+              </el-option>
+            </div>
+            <div>
+              <el-option
+                v-for="item in field"
+                :key="item.cert_id"
+                :label="item.cert_name"
+                :value="item.cert_id"
+                @mousemove.native="fieldChange(item.cert_id)"
+                >{{ item.cert_name }}-{{ item.cert_level }}
+              </el-option>
+            </div>
+          </div>
+        </el-select>
       </el-form-item>
       <el-form-item label="活动时间" required>
-        <el-form-item prop="date1">
+        <el-form-item>
           <el-date-picker
-            v-model="form.date1"
+            v-model="date1"
             type="date"
             placeholder="选择日期"
             style="width: 500px"
@@ -27,7 +45,7 @@
   </div>
 </template>
 <script>
-
+import { getCertList, getCertification } from '@/api/my/resume'
 export default {
   props: {
     show: {
@@ -37,64 +55,17 @@ export default {
   data () {
     return {
       value: [],
-      options: [
-        {
-          value: 'zhinan',
-          label: '指南',
-          children: [{
-            value: 'yizhi',
-            label: '一致'
-          }, {
-            value: 'fankui',
-            label: '反馈'
-          }, {
-            value: 'xiaolv',
-            label: '效率'
-          }, {
-            value: 'kekong',
-            label: '可控'
-          }, {
-            value: 'daohang',
-            label: '导航'
-          }]
-        },
-        {
-          value: 'zujian',
-          label: '组件',
-          children: [{
-            value: 'basic',
-            label: 'Basic'
-          }, {
-            value: 'form',
-            label: 'Form'
-          }, {
-            value: 'data',
-            label: 'Data'
-
-          }, {
-            value: 'notice',
-            label: 'Notice'
-
-          }, {
-            value: 'navigation',
-            label: 'Navigation'
-
-          }, {
-            value: 'others',
-            label: 'Others'
-          }]
-
-        }],
-      form: {
-        date1: ''
-      },
+      options: {},
+      date1: '',
       rules: {
-        value: [
-          { required: true, message: '请输入活动名称', trigger: 'blur change' }
-        ],
-        date1: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-        ]
+
+      },
+      field: [],
+      list:
+      {
+        cert_id: 0,
+        cert_date: ''
+
       }
     }
   },
@@ -118,16 +89,36 @@ export default {
   mounted () {
 
   },
+  created () {
+    this.getCert()
+  },
   methods: {
     handleChange () {
       console.log(this.value)
     },
-    onSubmit () {
-      this.$refs.rf.validate()
+    async onSubmit () {
+      this.list.cert_date = new Date(this.date1).toLocaleDateString().slice().replace(/\//g, '-')
+      const res = await getCertification(this.list)
+      console.log('绑定', res)
+      this.$message.success('绑定成功')
+      this.$emit('reset', false)
     },
     resetSubmit () {
       this.$emit('reset', false)
+    },
+    async getCert () {
+      const { data } = await getCertList()
+      console.log('系统证书列表', data)
+      this.options = data
+    },
+    industryChange (item) {
+      console.log(item)
+      this.field = item
+    },
+    fieldChange (item) {
+      this.list.cert_id = item
     }
+
   }
 }
 </script>

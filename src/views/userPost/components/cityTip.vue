@@ -54,18 +54,39 @@
                 </el-select>
               </div>
               <div class="change-select">
-                <el-select
-                  v-model="profession"
-                  placeholder="职位类型"
-                  @change="professionChange"
-                >
-                  <el-option
-                    v-for="(item, index) in options"
-                    :key="index"
-                    :label="index"
-                    :value="index"
-                    >{{ index }}</el-option
-                  >
+                <el-select v-model="profession" placeholder="请选择职位类型">
+                  <div style="display: flex">
+                    <div>
+                      <el-option
+                        v-for="(item, index) in options"
+                        :key="index"
+                        :label="index"
+                        :value="index"
+                        @mousemove.native="tradeChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                    <div>
+                      <el-option
+                        v-for="(item, index) in tradelist"
+                        :key="index"
+                        :label="index"
+                        :value="index"
+                        @mousemove.native="serchPostChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                    <div>
+                      <el-option
+                        v-for="(item, index) in positionJobList"
+                        :key="index"
+                        :label="index"
+                        :value="index"
+                        @click.native="jobChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                  </div>
                 </el-select>
               </div>
               <div class="change-select">
@@ -93,7 +114,7 @@
                     v-for="(item, index) in peopleList"
                     :key="index"
                     :label="index"
-                    :value="index"
+                    :value="item"
                     >{{ index }}</el-option
                   >
                 </el-select>
@@ -123,7 +144,7 @@
   </div>
 </template>
 <script>
-import { getRequirement } from '@/api/postlist'
+import { getRequirement, getQuarters } from '@/api/postlist'
 import { getSerchlist } from '@/api/position'
 export default {
 
@@ -154,7 +175,11 @@ export default {
       // 公司性质
       companyNatureList: {},
       // 公司规模
-      peopleList: {}
+      peopleList: {},
+      // 职业分类
+      tradelist: {},
+      // 职位
+      positionJobList: {}
     }
   },
   created () {
@@ -182,10 +207,26 @@ export default {
       this.people = ''
       this.$emit('reset')
     },
+    // 职位分类
     async serch () {
-      const { data } = await getSerchlist()
-      console.log('岗位2', data)
+      const { data } = await getQuarters()
+      console.log('岗位', data)
       this.options = data
+      localStorage.getItem('options', JSON.stringify(data))
+    },
+    // 职位下拉框
+    tradeChange (index) {
+      console.log('index', index)
+      this.tradelist = index
+    },
+
+    serchPostChange (index) {
+      console.log('index1', index)
+      this.positionJobList = index
+    },
+    jobChange (item) {
+      console.log('123', item, this.job_class)
+      this.$emit('professionChange', item)
     },
     // 工作经验
     experienceChange (i) {
@@ -209,7 +250,6 @@ export default {
     professionChange (i) {
       console.log('dd', i)
       this.qq = i
-      this.$emit('professionChange', i)
     },
     // 公司性质
     companyNatureChange (i) {

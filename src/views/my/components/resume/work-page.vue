@@ -54,6 +54,7 @@ export default {
       if (data.results.length === 0) {
         this.empty = false
       }
+      this.list = data.results
     },
     reset (i) {
       this.work = i

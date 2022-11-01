@@ -111,13 +111,13 @@ export default {
   methods: {
     // 确定
     async emailClose () {
-      this.$refs.rf.validate()
+      console.log(this.ruleForm)
       const res = await getEmailBound(this.ruleForm)
       console.log('邮箱', res)
-      if (res.code === 200) {
-        this.$message.success('邮箱绑定成功')
-        this.$emit('submit', false, this.ruleForm.email)
-      }
+      // if (res.code === 200) {
+      //   this.$message.success('邮箱绑定成功')
+      //   this.$emit('submit', false, this.ruleForm.email)
+      // }
     }, // 取消
     handleClose () {
       this.$confirm('确定取微信绑定吗', '提示', {
@@ -133,7 +133,14 @@ export default {
     async getCode () {
       if (this.ruleForm.email) {
         const res = await getEmail(this.ruleForm)
-        if (res.code == 200) {
+        console.log('res', res)
+        if (res === undefined) {
+          this.$message({
+            message: '该账号已被绑定',
+            type: 'error',
+            center: true
+          })
+        } else {
           this.$message({
             message: '验证码已发送，请稍候...',
             type: 'success',
@@ -161,6 +168,7 @@ export default {
     }
   }
 }
+
 </script>
 <style scoped lang="scss">
 .el-button.disabled-style {

@@ -19,11 +19,11 @@
         </div>
         <div class="right-i">
           <div class="right-age">
-            {{ num.sex }}
+            {{ num.sex === 0 ? '女' : '男' }}
           </div>
           <div class="right-age">{{ num.age ? num.age : '无' }}</div>
           <div v-if="flag === false" class="right-age">
-            {{ num.year ? num.year : '工作经验' }}
+            {{ num.year ? num.year : '工作经验' }}工作经验
           </div>
           <div class="right-age">
             {{ num.education ? num.education : '学历' }}

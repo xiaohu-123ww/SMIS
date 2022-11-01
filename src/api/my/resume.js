@@ -14,7 +14,7 @@ export function getverification (data) {
  * @returns
  */
 export function getphoto (data) {
-  return request.get('/user/bind-number/v1.0.0/', data)
+  return request.post('/user/bind-number/v1.0.0/', data)
 }
 
 /**
@@ -31,7 +31,7 @@ export function getEmail (data) {
  * @returns
  */
 export function getEmailBound (data) {
-  return request.get('/user/bind-email/v1.0.0/', data)
+  return request.post('/user/bind-email/v1.0.0/', data)
 }
 
 /**
@@ -72,4 +72,56 @@ export function getexperiences () {
 
 export function geteducation () {
   return request.get('/user/education-experiences/')
+}
+
+/**
+ * 城市三级选择
+ * @returns
+ */
+export function getcity () {
+  return request.get('/user/adcode/v1.0.1/')
+}
+/**
+ * 求职意向
+ * @returns
+ */
+
+export function getjobIntention () {
+  return request.get('/cv/career-objective/')
+}
+/**
+ * 新增求职意向
+ * @param {*} data
+ * @returns
+ */
+export function getjobIntentionList (data) {
+  return request.post('/cv/career-objective/', data)
+}
+/**
+ *删除求职意向
+ */
+export function getjobIntentionDelete (id) {
+  return request.delete(`/cv/career-objective/${id}/`)
+}
+/**
+ * 证书
+ * @param {*} id
+ * @returns
+ */
+export function getcertificate () {
+  return request.get(`/user/certification/`)
+}
+// 系统证书列表
+
+export function getCertList () {
+  return request.get(`/user/cert-list/`)
+}
+
+/**
+ * 绑定证书
+ * @param {*} data
+ * @returns
+ */
+export function getCertification (data) {
+  return request.post('/user/certification/', data)
 }

@@ -8,42 +8,129 @@
       class="demo-ruleForm"
       style="margin-top: 20px"
     >
-      <el-form-item label="期望职位" prop="job">
-        <el-select v-model="ruleForm.job" placeholder="请选择职位" class="box">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+      <el-form-item label="期望职业" prop="pst_class_id">
+        <el-select v-model="ruleForm.pst_class_id" placeholder="请选择职位类型">
+          <div style="display: flex">
+            <div>
+              <el-option
+                v-for="(item, index) in options"
+                :key="index"
+                :label="index"
+                :value="index"
+                @mousemove.native="tradeChange(item)"
+              >
+              </el-option>
+            </div>
+            <div>
+              <el-option
+                v-for="(item, index) in tradelist"
+                :key="index"
+                :label="index"
+                :value="index"
+                @mousemove.native="serchPostChange(item)"
+              >
+              </el-option>
+            </div>
+            <div>
+              <el-option
+                v-for="(item, index) in positionJobList"
+                :key="index"
+                :label="index"
+                :value="index"
+                @click.native="jobChange(item, index)"
+              >
+              </el-option>
+            </div>
+          </div>
         </el-select>
       </el-form-item>
-      <el-form-item label="期望行业" prop="profession">
-        <el-select
-          v-model="ruleForm.profession"
-          placeholder="请选择活期望行业"
-          class="box"
-        >
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+      <el-form-item label="期望行业" prop="field">
+        <el-select v-model="ruleForm.field" placeholder="请选择行业类型">
+          <div style="display: flex">
+            <div style="width: 150px">
+              <el-option
+                v-for="(item, index) in IndustryList"
+                :key="index"
+                :label="index"
+                :value="index"
+                @mousemove.native="industryChange(item)"
+              >
+              </el-option>
+            </div>
+            <div>
+              <el-option
+                v-for="(item, index) in field"
+                :key="index"
+                :label="index"
+                :value="index"
+                @mousemove.native="fieldChange(item)"
+              >
+              </el-option>
+            </div>
+          </div>
         </el-select>
       </el-form-item>
-      <el-form-item label="期望城市" prop="city">
-        <el-select
-          v-model="ruleForm.city"
-          placeholder="请选择活期望城市"
-          class="box"
-        >
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-        </el-select>
+
+      <el-form-item label="期望城市" prop="province">
+        <el-col :span="8">
+          <el-form-item>
+            <el-select v-model="ruleForm.province" placeholder="请选择省">
+              <el-option
+                v-for="item in city"
+                :key="item.key"
+                :label="item.name"
+                :value="item.adcode"
+                @click.native="provinceChange(item)"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col class="line" :span="8">
+          <el-form-item prop="city">
+            <el-select v-model="ruleForm.city" placeholder="请选择市">
+              <el-option
+                v-for="item in cityList"
+                :key="item.key"
+                :label="item.name"
+                :value="item.adcode"
+                @click.native="cityChange(item)"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="region">
+            <el-select v-model="ruleForm.region" placeholder="请选择区">
+              <el-option
+                v-for="item in regionList"
+                :key="item.key"
+                :label="item.name"
+                :value="item.adcode"
+                @click.native="regionChange(item)"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-form-item>
       <el-form-item label="薪资要求" required>
         <el-col :span="6">
-          <el-form-item prop="beforeMoney">
+          <el-form-item prop="salary_min">
             <el-select
-              v-model="ruleForm.beforeMoney"
-              placeholder="1k"
+              v-model="ruleForm.salary_min"
+              placeholder="2000"
               class="money"
             >
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+              <el-option
+                v-for="(item, index) in money"
+                :key="index"
+                :label="item"
+                :value="item"
+                @click.native="moneyChange(item)"
+                >{{ item }}</el-option
+              >
             </el-select>
           </el-form-item>
         </el-col>
@@ -51,19 +138,32 @@
           >——</el-col
         >
         <el-col :span="12">
-          <el-form-item prop="money">
-            <el-select v-model="ruleForm.money" placeholder="10k">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item prop="salary_max">
+            <el-select
+              v-model="ruleForm.salary_max"
+              placeholder="4000"
+              class="money"
+            >
+              <el-option
+                v-for="(item, index) in lastMoney"
+                :key="index"
+                :label="item"
+                :value="item"
+                @click.native="lastMoneyChange(item)"
+                >{{ item }}</el-option
+              >
             </el-select>
           </el-form-item>
         </el-col>
       </el-form-item>
-      <el-form-item label="工作性质" prop="work">
-        <el-radio-group v-model="ruleForm.work">
-          <el-radio label="全职"></el-radio>
-          <el-radio label="兼职"></el-radio>
-          <el-radio label="实习"></el-radio>
+      <el-form-item label="工作性质" prop="job_nature">
+        <el-radio-group v-model="ruleForm.job_nature">
+          <el-radio
+            v-for="(item, index) in work"
+            :key="item"
+            :label="index"
+            @click.native="workChange(item)"
+          ></el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item>
@@ -74,6 +174,10 @@
   </div>
 </template>
 <script>
+
+import { getQuarters, getIndustryField } from '@/api/postlist'
+import { getcity, getjobIntentionList } from '@/api/my/resume'
+import { getRequirement } from '@/api/postlist'
 export default {
   props: {
     show: {
@@ -83,43 +187,191 @@ export default {
   data () {
     return {
       ruleForm: {
-        job: '',
-        profession: '',
         city: '',
-        beforeMoney: '',
-        money: '',
-        work: ''
+        salary_min: '',
+        salary_max: '',
+        pst_class_id: null,
+        field: null,
+        job_nature: null,
+        job: null,
+        province: null,
+        region: null
       },
       rules: {
-        job: [
+        region: [
+          { required: true, message: '请选择期望行业', trigger: 'change' }
+        ],
+        province: [
+          { required: true, message: '请选择期望行业', trigger: 'change' }
+        ],
+        field: [
+          { required: true, message: '请选择期望行业', trigger: 'change' }
+        ],
+        pst_class_id: [
           { required: true, message: '请选择职位', trigger: 'change' }
         ],
-        profession: [
-          { required: true, message: '请选择期望行业', trigger: 'change' }
+        job: [
+          { required: true, message: '请选择职业', trigger: 'change' }
         ],
         city: [
           { required: true, message: '请选择期望城市', trigger: 'change' }
         ],
-        money: [
+        salary_min: [
           { required: true, message: '请选择期望薪资', trigger: 'change' }
         ],
-        beforeMoney: [
+        salary_max: [
           { required: true, message: '请选择期望薪资', trigger: 'change' }
         ],
-        work: [
+        job_nature: [
           { required: true, message: '请至少选择一个工作性质', trigger: 'change' }
         ]
-      }
+      },
+      fieldList: {},
+      options: {},
+      tradelist: {},
+      positionJobList: {},
+      IndustryList: {},
+      field: {},
+      profession: '',
+      job_class: '',
+      city: [],
+      cityList: [],
+      regionList: [],
+      list: {
+        city: '',
+        salary_min: '',
+        salary_max: '',
+        position_class_id: 0,
+        field: 0,
+        job_nature: 0,
+        position_class: ''
+
+      },
+      money: ['2000', '4000', '8000', '12000', '16000', '20000', '24000', '28000'],
+      lastMoney: ['4000', '8000', '12000', '16000', '20000', '24000', '28000', '32000'],
+      work: []
     }
   },
+  created () {
+    this.getIndustry()
+    this.serch()
+    this.getList()
+    this.jobRequirement()
+  },
   methods: {
-    submitForm () {
+    async submitForm () {
       this.$refs.rf.validate()
+      const res = await getjobIntentionList(this.list)
+      console.log('新增', res)
+      if (res.code === 200) {
+        this.$message.success('新增成功')
+        this.$emit('reset', false)
+        this.getjobList()
+      }
     },
     resetForm () {
       console.log(1)
-      this.$emit('reset', false)
+
+      this.$confirm('确定取消添加吗?', '提示', {
+
+        confirmButtonText: '确定',
+
+        cancelButtonText: '取消',
+
+        type: 'warning'
+
+      }).then(() => {
+        this.$emit('reset', false)
+      })
+    },
+
+    fieldChange (index) {
+      console.log('index', index)
+    },
+    async serch () {
+      const { data } = await getQuarters()
+      console.log('岗位', data)
+      this.options = data
+      localStorage.getItem('options', JSON.stringify(data))
+    },
+    // 职位下拉框
+    tradeChange (index) {
+      console.log('index', index)
+      this.tradelist = index
+    },
+
+    serchPostChange (index) {
+      console.log('index1', index)
+      this.positionJobList = index
+    },
+    jobChange (item, i) {
+      console.log('123', item)
+      this.list.position_class_id = item
+      // this.list.position_class = i
+    },
+
+    // 行业领域分类
+    async getIndustry () {
+      const { data } = await getIndustryField()
+      console.log('行业领域', data)
+      this.IndustryList = data
+    },
+    industryChange (item) {
+      this.field = item
+    },
+    fieldChange (item) {
+      console.log('hangye', item)
+      // this.serchPost.field = item
+      this.list.field = item
+    },
+    async getList () {
+      const res = await getcity()
+      console.log('城市', res)
+      this.city = res.data.data
+      console.log('this.city', this.city)
+    },
+    provinceChange (item) {
+      console.log('item', item)
+      this.cityList = item.children
+    },
+    cityChange (item) {
+      console.log('市', item)
+
+      this.regionList = item.children
+    },
+    regionChange (item) {
+      console.log('区', item.adcode, item)
+      this.list.city = item.adcode
+    },
+    moneyChange (i) {
+      console.log('money', i)
+      this.list.salary_min = i
+    },
+    lastMoneyChange (item) {
+      this.list.salary_max = item
+    },
+    // 其他条件
+    async jobRequirement () {
+      const { data } = await getRequirement()
+      console.log('其他要求', data)
+      this.work = data.job_nature
+    },
+    workChange (item) {
+      this.list.job_nature = item
+    },
+    // 新增
+    getjobList () {
+      this.ruleForm.city = ''
+      this.ruleForm.salary_min = ''
+      this.ruleForm.salary_max = ''
+      this.ruleForm.pst_class_id = null
+      this.ruleForm.field = null
+      this.ruleForm.job_nature = null
+      this.ruleForm.job = null
+      this.ruleForm.province = null
+      this.ruleForm.region = null
     }
+
   }
 }
 </script>

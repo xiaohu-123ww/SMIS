@@ -19,7 +19,7 @@
       </el-row>
     </div>
     <div v-if="!show">
-      <WorkText :list="list" />
+      <!-- <WorkText :list="list" /> -->
     </div>
     <Project :show="show" @reset="reset" />
   </div>

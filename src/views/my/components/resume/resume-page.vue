@@ -12,6 +12,7 @@
                 v-if="!show"
                 type="primary"
                 icon="el-icon-plus"
+                :disabled="list.length === 3"
                 @click="add"
                 >添加</el-button
               >
@@ -26,50 +27,90 @@
           >
         </el-row>
       </div>
-      <div v-if="!show" class="resume-job-two" style="margin-top: 20px">
-        <el-row>
-          <el-col :span="17"
-            ><div class="grid-content bg-purple">机械臂控制工程师</div></el-col
-          >
-          <el-col :span="2"
-            ><div class="grid-content bg-purple-light">
-              <el-button type="primary" icon="el-icon-edit">编辑</el-button>
-            </div></el-col
-          >
-          <el-col :span="3"
-            ><div
-              class="grid-content bg-purple-light"
-              style="margin-left: 30px"
-            >
-              <el-button type="success" icon="el-icon-delete">删除</el-button>
-            </div></el-col
-          >
-        </el-row>
-        <div class="resum-jobs">
-          <el-row>
-            <el-col :span="12"
-              ><div class="grid">期望薪资：8000-10000</div></el-col
-            >
-            <el-col :span="12"><div class="grid">期望城市：北京</div></el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12"><div class="grid">工作性质：全职</div></el-col>
-            <el-col :span="12"><div class="grid">期望行业：电子</div></el-col>
-          </el-row>
+      <div>
+        <div v-if="!show" class="resume-job-two" style="margin: 20px 0">
+          <div>
+            <div v-if="empty">
+              <div v-for="item in list" :key="item.id">
+                <el-row>
+                  <el-col :span="17"
+                    ><div
+                      class="grid-content bg-purple"
+                      style="font-weight: 700"
+                    >
+                      {{ item.position_class }}
+                    </div></el-col
+                  >
+                  <el-col :span="2"
+                    ><div class="grid-content bg-purple-light">
+                      <el-button type="primary" icon="el-icon-edit"
+                        >编辑</el-button
+                      >
+                    </div></el-col
+                  >
+                  <el-col :span="3"
+                    ><div
+                      class="grid-content bg-purple-light"
+                      style="margin-left: 30px"
+                    >
+                      <el-button
+                        type="success"
+                        icon="el-icon-delete"
+                        @click="deleteList(item.id)"
+                        >删除</el-button
+                      >
+                    </div></el-col
+                  >
+                </el-row>
+                <div class="resum-jobs">
+                  <el-row>
+                    <el-col :span="12"
+                      ><div class="grid">
+                        期望薪资：{{ item.salary_min }} - {{ item.salary_max }}
+                      </div></el-col
+                    >
+                    <el-col :span="12"
+                      ><div class="grid">期望城市：{{ item.city }}</div></el-col
+                    >
+                  </el-row>
+                  <el-row>
+                    <el-col :span="12"
+                      ><div class="grid">
+                        工作性质：{{ item.job_nature }}
+                      </div></el-col
+                    >
+                    <el-col :span="12"
+                      ><div class="grid">
+                        期望行业：{{ item.field }}
+                      </div></el-col
+                    >
+                  </el-row>
+                </div>
+              </div>
+            </div>
+            <el-empty
+              v-else
+              :image-size="150"
+              description="再无求职意向列表"
+            ></el-empty>
+          </div>
         </div>
       </div>
+      <ResumeDialog :show="show" @reset="reset" />
     </div>
-    <ResumeDialog :show="show" @reset="reset" />
   </div>
 </template>
 <script>
 import ResumeDialog from './resumeDialog.vue'
+import { getjobIntention, getjobIntentionDelete } from '@/api/my/resume'
 export default {
   components: { ResumeDialog },
   data () {
     return {
       // 求职意向
-      show: false
+      show: false,
+      empty: true,
+      list: []
     }
   },
   computed: {
@@ -78,12 +119,38 @@ export default {
   mounted () {
 
   },
+  created () {
+    this.getJobList()
+  },
   methods: {
     add () {
       this.show = true
     },
     reset (i) {
       this.show = i
+      this.getJobList()
+    },
+    async getJobList () {
+      const { data } = await getjobIntention()
+      console.log('求职意向列表', data)
+      if (data.results.length === 0) {
+        this.empty = false
+      }
+      this.list = data.results
+    },
+    // 删除
+    deleteList (id) {
+      this.$confirm('是否删除此数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(async () => {
+        const res = await getjobIntentionDelete(id)
+        console.log(res)
+        this.$message.success('删除成功')
+        this.getJobList()
+      })
     }
   }
 }

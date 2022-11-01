@@ -4,66 +4,80 @@
       <div class="left">
         <div class="serleft">
           <el-row>
-            <el-col :span="7">
+            <el-col :span="12">
               <div class="grid-content bg-purple">
                 <div>
-                  <el-select
-                    v-model="serchPost.job"
-                    placeholder="行业分类 "
-                    class="hang"
-                  >
-                    <el-option
-                      v-for="(item, index) in options"
-                      :key="index"
-                      :label="index"
-                      :value="index"
-                      @click.native="tradeChange(item)"
-                    >
-                    </el-option>
-                  </el-select>
+                  <el-input
+                    v-model="serchPost.qw"
+                    placeholder="请输入岗位/公司"
+                  ></el-input>
                 </div>
               </div>
             </el-col>
-            <el-col :span="7"
-              ><div class="grid-content bg-purple-light">
-                <div>
-                  <el-select
-                    v-model="serchPost.position"
-                    placeholder="职位分类 "
-                    class="hang"
-                  >
-                    <el-option
-                      v-for="(item, index) in trade"
-                      :key="index"
-                      :label="index"
-                      :value="index"
-                      @click.native="serchPostChange(item)"
-                    >
-                    </el-option>
-                  </el-select>
-
-                  <div></div>
-                </div></div
-            ></el-col>
-            <el-col :span="8"
+            <el-col :span="4">
+              <div class="grid-content bg-purple-light">
+                <el-select v-model="job_class" placeholder="请选择职位类型">
+                  <div style="display: flex">
+                    <div>
+                      <el-option
+                        v-for="(item, index) in options"
+                        :key="index"
+                        :label="index"
+                        :value="index"
+                        @mousemove.native="tradeChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                    <div>
+                      <el-option
+                        v-for="(item, index) in tradelist"
+                        :key="index"
+                        :label="index"
+                        :value="index"
+                        @mousemove.native="serchPostChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                    <div>
+                      <el-option
+                        v-for="(item, index) in positionJobList"
+                        :key="index"
+                        :label="index"
+                        :value="index"
+                        @click.native="jobChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                  </div>
+                </el-select>
+              </div>
+            </el-col>
+            <el-col :span="5"
               ><div class="grid-content bg-purple">
-                <div>
-                  <el-select
-                    v-model="serchPost.qw"
-                    placeholder="职位 "
-                    class="zhi"
-                  >
-                    <el-option
-                      v-for="item in positionJob"
-                      :key="item"
-                      :label="item"
-                      :value="item"
-                    >
-                    </el-option>
-                  </el-select>
-
-                  <div></div>
-                </div>
+                <el-select v-model="profession" placeholder="请选择行业类型">
+                  <div style="display: flex">
+                    <div style="width: 150px">
+                      <el-option
+                        v-for="(item, index) in IndustryList"
+                        :key="index"
+                        :label="index"
+                        :value="index"
+                        @mousemove.native="industryChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                    <div>
+                      <el-option
+                        v-for="(item, index) in field"
+                        :key="index"
+                        :label="index"
+                        :value="index"
+                        @mousemove.native="fieldChange(item)"
+                      >
+                      </el-option>
+                    </div>
+                  </div>
+                </el-select>
               </div>
             </el-col>
             <el-col :span="1"
@@ -199,8 +213,8 @@ import { getUservitae } from '@/api/user'
 import { Divider } from 'element-ui'
 import CityTip from './cityTip.vue'
 import PostList from './postList.vue'
-import { getSerchlist } from '@/api/position'
-import { getPostcity, getPostMetro, getPostadministrative } from '@/api/postlist'
+
+import { getPostcity, getPostMetro, getPostadministrative, getQuarters, getIndustryField } from '@/api/postlist'
 export default {
   components: { CityTip, PostList },
   data () {
@@ -216,29 +230,39 @@ export default {
       flag: 1,
       tip: '',
       radioList: ['Python', '全栈工程师', 'Java', 'web前端'],
-      options: JSON.parse(localStorage.getItem('options')) || {},
+      options: {},
       list: [],
       dict: '',
       statu: false,
       // 搜索
       serchPost: {
-        job: '',
-        position: '',
+        // 输入框关键词
         qw: '',
-        city: '',
-        admin: '',
-        subway: '',
-        jobExperience: 0,
+        // 职业领域
+        position_class: null,
+        // 行业领域
+        field: 0,
+        // 城市
+        adcode: '',
+        // 工作经验
+        job_experience: 0,
+        // 学历要求
         education: 0,
-        enterpriseNature: '',
+        // 企业性质
+        enterprise_nature: '',
         salary: 0,
-        qq: '',
-        staffSize: 0
+        // 工作性质
+        job_nature: 0,
+        staff_size: 0,
+        job: '',
+        position: ''
+
       },
+      job_class: null,
       // 职业分类
-      trade: '',
+      tradelist: {},
       // 职位
-      positionJob: '',
+      positionJobList: {},
       // 城市 颜色
       changeColor: '11',
       // 热门城市
@@ -252,7 +276,17 @@ export default {
       administrativeShow: true,
       administrative: [],
       show: false,
-      flagShow: false
+      flagShow: false,
+      hideen: true,
+      trade: false,
+      IndustryList: {},
+      field: {},
+      business: {},
+      profession: null,
+      // 行政
+      admin: '',
+      // 地铁
+      subway: ''
 
     }
   },
@@ -264,20 +298,7 @@ export default {
   created () {
     this.serch()
     this.hotCity()
-    // getUservitae().then((rs) => {
-    //   this.dict = rs.data
-    // })
-
-    // if (this.$route.query.inputValue) {
-    //   console.log('this.$route.query.inputValue', this.$route.query.inputValue)
-    //   this.searchInput = this.$route.query.inputValue
-    //   this.serchJob()
-    // } else {
-    //   this.searchInput = this.searchInput
-    //   // jobSearch(this.searchInput)
-    // }
-
-    // this.serchJob()
+    this.getIndustry()
   },
   methods: {
     content_click (e) {
@@ -302,14 +323,6 @@ export default {
       console.log('搜索条件', this.serchPost)
       this.$refs.rf.sendItem(this.serchPost)
     },
-    // 岗位分类
-    async serch () {
-      const { data } = await getSerchlist()
-      console.log('岗位', data)
-      this.options = data
-      localStorage.getItem('options', JSON.stringify(data))
-    },
-    changeRadio () { },
 
     optionChange (e) {
       this.searchInput = e.join('/')
@@ -319,15 +332,43 @@ export default {
         this.iconPanel = 'el-icon-caret-bottom'
       }
     },
-    // 行业下拉框
+    // 职位分类
+    async serch () {
+      const { data } = await getQuarters()
+      console.log('岗位', data)
+      this.options = data
+      localStorage.getItem('options', JSON.stringify(data))
+    },
+    // 职位下拉框
     tradeChange (index) {
       console.log('index', index)
-      this.trade = index
+      this.tradelist = index
+
+      this.hideen = false
+      this.trade = true
     },
-    // 职业下拉
+
     serchPostChange (index) {
       console.log('index1', index)
-      this.positionJob = index
+      this.positionJobList = index
+    },
+    jobChange (item) {
+      console.log('123', item, this.job_class)
+      this.serchPost.position_class = item
+    },
+
+    // 行业领域分类
+    async getIndustry () {
+      const { data } = await getIndustryField()
+      console.log('行业领域', data)
+      this.IndustryList = data
+    },
+    industryChange (item) {
+      this.field = item
+    },
+    fieldChange (item) {
+      console.log('hangye', item)
+      this.serchPost.field = item
     },
 
     // 城市 行政  地铁
@@ -361,15 +402,15 @@ export default {
       console.log('城市', index)
       this.tinct = index
       this.adcode = index
-      this.serchPost.city = name
+      this.serchPost.adcode = index
     },
     clerkChange (index, name) {
       this.tinct = index
-      this.serchPost.admin = name
+      this.admin = name
     },
     administrativeChange (name) {
       this.tinct = name
-      this.serchPost.subway = name
+      this.subway = name
     },
     // 其他条件
     // 热门城市
@@ -389,9 +430,10 @@ export default {
       this.subway = ''
     },
     // 其他条件
+    // 工作经验
     experienceChange (i) {
       console.log('aa', i)
-      this.serchPost.jobExperience = i
+      this.serchPost.job_experience = i
     },
     // 学历要求
     educationalChange (i) {
@@ -406,17 +448,17 @@ export default {
     // 职位类型
     professionChange (i) {
       console.log('dd', i)
-      this.serchPost.qq = i
+      this.serchPost.position_class = i
     },
     // 公司性质
     companyNatureChange (i) {
       console.log('ee', i)
-      this.serchPost.enterpriseNature = i
+      this.serchPost.enterprise_nature = i
     },
     // 公司规模
     peopleChange (i) {
       console.log('ff', i)
-      this.serchPost.staffSize = i
+      this.serchPost.staff_size = i
     }
 
   }

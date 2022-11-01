@@ -341,34 +341,7 @@ export default {
     }
   },
   methods: {
-    // profession (item) {
-    //   this.searchInput = item
-    // },
-    // changeState (item, i) {
-    //   console.log('item', item)
-    //   this.jobStation = item
-    //   this.number = i
-    // },
-    // changejob (index, i) {
-    //   console.log('index', index, i)
-    //   var newData = {}
-    //   var newDatas = {}
-    //   const newKeys = Object.keys(index)
-    //   newKeys.map((item, idx) => {
-    //     if (idx < 3) {
-    //       newData[item] = index[item]
-    //     }
-    //   })
-    //   for (const key in newData) {
-    //     const newKey = key.substring(0, 3)
-    //     newDatas[newKey] = newData[key]
-    //   }
-    //   console.log('new', newDatas)
-    //   this.station = newDatas
-    //   // this.number = i
-    // },
-    //     amount: 10
-    // })
+
     // 跳转到更多
     more () {
       this.jobList = JSON.parse(localStorage.getItem('jobList'))
@@ -444,31 +417,6 @@ export default {
         return
       }
     },
-    // content_click (e) {
-    //   this.showPanel = false
-    //   console.log('城市', e)
-    //   // this.searchInput = e;
-    //   this.searchInput = e
-    //   // this.searchInput = `${this.selected}/${this.searchInput}`;
-    // },
-    // Carousel() {
-    //   getCarousel().then((res) => {
-    //     //  (res.data);
-    //
-    //   });
-    // },
-    // 级联面板是否显示
-    // serchlist () {
-    //   serchs().then((res) => {
-    //     console.log('城市', res)
-    //     console.log('124', this.trees(res.data.all_pst_classes, 'id', 'parent_id'))
-    //     //  (res.data.all_pst_classes);
-    //     this.options = this.trees(res.data.all_pst_classes, 'id', 'parent_id')[0].children.slice(0, 9)
-    //     localStorage.setItem('options', JSON.stringify(this.options))
-    //     console.log('options', this.options)
-    //     //  (this.options);
-    //   })
-    // },
 
     // 搜索图标
     currentPanel () {
@@ -497,7 +445,7 @@ export default {
     // 热门职位
     async getJob () {
       const { data } = await getPosition(this.limit)
-      console.log('121231', data)
+      console.log('热门职位', data)
       this.positionJob = data.results
       console.log('12123122', this.positionJob)
       localStorage.setItem('positionjob', JSON.stringify(data.results))

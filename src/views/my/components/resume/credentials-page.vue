@@ -11,39 +11,45 @@
               v-if="!show"
               type="primary"
               icon="el-icon-plus"
+              :disabled="list.length === 10"
               @click="edit"
-              >编辑</el-button
+              >添加</el-button
             >
           </div></el-col
         >
       </el-row>
     </div>
     <div v-if="!show" class="credentials">
-      <el-row>
-        <el-col :span="7"
-          ><div class="grid-content bg-purple">
-            <img
-              src="../../../../assets/imgs/zhengshu.png"
-              alt=""
-              style="width: 160px; height: 100px"
-            /></div
-        ></el-col>
-        <el-col :span="10"
-          ><div class="grid-content bg-purple-light">
-            {{ text ? text : 'XXXXX级证书' }}
-          </div></el-col
-        >
-        <el-col :span="3"
-          ><div class="grid-content bg-purple">
-            <el-button type="primary" icon="el-icon-edit">编辑</el-button>
-          </div>
-        </el-col>
-        <el-col :span="2"
-          ><div class="grid-content bg-purple-light">
-            <el-button type="success" icon="el-icon-delete">删除</el-button>
-          </div></el-col
-        >
-      </el-row>
+      <div v-if="flagShow">
+        <div>
+          <el-row v-for="item in list" :key="item.id">
+            <el-col :span="7"
+              ><div class="grid-content bg-purple">
+                <img
+                  :src="disposeImg(item.cert_info.sample)"
+                  alt=""
+                  style="width: 160px; height: 100px"
+                /></div
+            ></el-col>
+            <el-col :span="10"
+              ><div class="grid-content bg-purple-light">
+                {{ item.cert_info.cert_name }} - {{ item.cert_info.cert_level }}
+              </div></el-col
+            >
+            <el-col :span="3"
+              ><div class="grid-content bg-purple">
+                <el-button type="primary" icon="el-icon-edit">编辑</el-button>
+              </div>
+            </el-col>
+            <el-col :span="2"
+              ><div class="grid-content bg-purple-light">
+                <el-button type="success" icon="el-icon-delete">删除</el-button>
+              </div></el-col
+            >
+          </el-row>
+        </div>
+      </div>
+      <el-empty v-else :image-size="150" description="再无资格证书"></el-empty>
     </div>
 
     <div>
@@ -53,12 +59,17 @@
 </template>
 <script>
 import Credentials from './credentials.vue'
+import { getcertificate } from '@/api/my/resume'
+import disposeImg from '@/utils/disposeImg'
 export default {
   components: { Credentials },
   data () {
     return {
       show: false,
-      text: ''
+      text: '',
+      empty: true,
+      list: [],
+      flagShow: false
     }
   },
   computed: {
@@ -67,12 +78,25 @@ export default {
   mounted () {
 
   },
+  created () {
+    this.getCertificate()
+  },
   methods: {
     edit () {
       this.show = true
     },
     reset (i) {
       this.show = i
+    },
+    async getCertificate () {
+      const res = await getcertificate()
+      console.log('证书', res)
+      if (res.data.msg.length === 0) {
+        this.empty = false
+      } else {
+        this.flagShow = true
+      }
+      this.list = res.data.msg
     }
   }
 }

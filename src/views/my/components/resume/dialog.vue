@@ -61,8 +61,49 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-        <el-form-item label="现居地" prop="living_city">
-          <el-input v-model="num.living_city" style="width: 600px"></el-input>
+        <el-form-item label="现居地">
+          <el-col :span="8">
+            <el-form-item>
+              <el-select v-model="provinceList.province" placeholder="请选择省">
+                <el-option
+                  v-for="item in city"
+                  :key="item.key"
+                  :label="item.name"
+                  :value="item.adcode"
+                  @click.native="provinceChange(item)"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col class="line" :span="8">
+            <el-form-item>
+              <el-select v-model="provinceList.city" placeholder="请选择市">
+                <el-option
+                  v-for="item in cityList"
+                  :key="item.key"
+                  :label="item.name"
+                  :value="item.adcode"
+                  @click.native="cityChange(item)"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item>
+              <el-select v-model="provinceList.region" placeholder="请选择区">
+                <el-option
+                  v-for="item in regionList"
+                  :key="item.key"
+                  :label="item.name"
+                  :value="item.adcode"
+                  @click.native="regionChange(item)"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-form-item>
         <el-form-item label="联系方式" prop="phone_number">
           <el-input v-model="num.phone_number" style="width: 600px"></el-input>
@@ -129,7 +170,8 @@ import { editUserdetails, getUservitae } from '@/api/user'
 import disposeImg from '@/utils/disposeImg'
 import PhotoDialog from './photoDialog.vue'
 import EmailDialog from './emailDialog.vue'
-import { getchangeInformation } from '@/api/my/resume'
+import { getchangeInformation, getcity } from '@/api/my/resume'
+import { formatTime } from '@/api/formatTime'
 export default {
   components: { PhotoDialog, EmailDialog },
   props: {
@@ -146,6 +188,7 @@ export default {
   },
   data () {
     return {
+      formatTime,
       form: {
 
       },
@@ -175,8 +218,16 @@ export default {
         job_start: [
           { required: true, message: '请选择参加工作时间', trigger: 'change' }
         ],
-        living_city: [
-          { required: true, message: '请输入现居地', trigger: 'blur' }
+        province: [
+          { required: true, message: '请选择省', trigger: 'blur' }
+
+        ],
+        city: [
+          { required: true, message: '请选择市', trigger: 'blur' }
+
+        ],
+        region: [
+          { required: true, message: '请选择区', trigger: 'blur' }
 
         ],
         phone_number: [
@@ -187,12 +238,27 @@ export default {
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ]
-      }
+      },
+      city: [],
+      provinceList: {
+        province: '',
+        city: '',
+        region: ''
+
+      },
+      cityList: [],
+      regionList: []
     }
   },
   created () {
+    this.getcityList()
   },
   methods: {
+    async getcityList () {
+      const { data } = await getcity()
+      console.log('城市', data)
+      this.city = data.data
+    },
     async submitForm () {
       this.$refs.rf.validate()
       if (this.num.status === '离职-随时到岗') {
@@ -214,10 +280,17 @@ export default {
       } else {
         this.num.identity = 1
       }
-      console.log('this.num', this.num)
+      const time = this.num.date_of_birth
+      this.num.date_of_birth = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
+      const timeList = this.num.job_start
+      this.num.job_start = new Date(timeList).toLocaleDateString().slice().replace(/\//g, '-')
+      console.log(new Date(time).toLocaleDateString().slice().replace(/\//g, '-'))
 
-      // const res = await getchangeInformation(this.num)
-      // console.log('num', res)
+      console.log('this.num', this.num)
+      const res = await getchangeInformation(this.num)
+      console.log('num', res)
+      this.$emit('reset', false)
+      this.$message.success('修改成功')
     },
     resetForm () {
       this.$confirm('确定取消修改信息吗', '提示', {
@@ -276,6 +349,21 @@ export default {
       this.isShow = i
       this.emailShow = i
       this.num.email = email
+    },
+    // 省市区
+    provinceChange (item) {
+      console.log('省', item)
+      console.log(this.provinceList.province)
+      this.cityList = item.children
+    },
+    cityChange (item) {
+      console.log('市', item)
+      console.log(this.provinceList.city)
+      this.regionList = item.children
+    },
+    regionChange (item) {
+      console.log(this.provinceList.region)
+      this.num.living_city = this.provinceList.region
     }
   }
 }

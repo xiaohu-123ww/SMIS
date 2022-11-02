@@ -182,6 +182,9 @@ export default {
   props: {
     show: {
       type: Boolean
+    },
+    num: {
+      type: Object
     }
   },
   data () {

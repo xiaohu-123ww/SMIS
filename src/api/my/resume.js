@@ -159,5 +159,20 @@ export function getEducationExperiences (data) {
   return request.post('/user/education-experiences/', data)
 }
 
-// 项目经历
+// 项目经历列表
+export function getProjectList () {
+  return request.get('/user/project-experiences/')
+}
+// 项目经历新增
 
+export function getProjectExperiences (data) {
+  return request.post('/user/project-experiences/', data)
+}
+// 项目经历删除
+export function getProjectExperiencesDelete (id) {
+  return request.delete(`/user/project-experiences/${id}/`)
+}
+// 项目经历修改
+export function getProjectExperiencesAdd (id, data) {
+  return request.put(`/user/project-experiences/${id}/`, data)
+}

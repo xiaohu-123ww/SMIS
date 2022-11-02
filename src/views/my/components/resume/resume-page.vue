@@ -43,7 +43,10 @@
                   >
                   <el-col :span="2"
                     ><div class="grid-content bg-purple-light">
-                      <el-button type="primary" icon="el-icon-edit"
+                      <el-button
+                        type="primary"
+                        icon="el-icon-edit"
+                        @click="modification(item)"
                         >编辑</el-button
                       >
                     </div></el-col
@@ -96,7 +99,7 @@
           </div>
         </div>
       </div>
-      <ResumeDialog :show="show" @reset="reset" />
+      <ResumeDialog :show="show" :num="num" @reset="reset" />
     </div>
   </div>
 </template>
@@ -110,7 +113,8 @@ export default {
       // 求职意向
       show: false,
       empty: true,
-      list: []
+      list: [],
+      num: {}
     }
   },
   computed: {
@@ -151,6 +155,12 @@ export default {
         this.$message.success('删除成功')
         this.getJobList()
       })
+    },
+    // 修改
+    modification (item) {
+      console.log('item', item)
+      this.show = true
+      this.num = item
     }
   }
 }

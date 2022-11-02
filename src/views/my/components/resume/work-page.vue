@@ -31,9 +31,7 @@ export default {
     return {
       // 工作经历
       work: false,
-      list: {
-
-      },
+      list: [],
       empty: true
     }
   },

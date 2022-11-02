@@ -19,15 +19,23 @@
       </el-row>
     </div>
     <div v-if="!show">
-      <!-- <WorkText :list="list" /> -->
+      <div v-if="ematy">
+        <WorkText
+          :list="list"
+          @projectExperiences="projectExperiences"
+          @open="open"
+        />
+      </div>
+      <el-empty v-else description="再无项目经历" :image-size="150"></el-empty>
     </div>
-    <Project :show="show" @reset="reset" />
+    <Project :show="show" :num="num" @reset="reset" />
   </div>
 </template>
 <script>
 import { confirm } from 'dropzone'
 import Project from './project.vue'
 import WorkText from './work-text.vue'
+import { getProjectList } from '@/api/my/resume'
 export default {
   components: {
     Project,
@@ -36,13 +44,9 @@ export default {
   data () {
     return {
       show: false,
-      list: {
-        company: '',
-        data: '',
-        subject: '',
-        specialty: '',
-        text: ''
-      }
+      list: [],
+      ematy: true,
+      num: {}
     }
   },
   computed: {
@@ -51,6 +55,9 @@ export default {
   mounted () {
 
   },
+  created () {
+    this.getList()
+  },
   methods: {
     edit () {
       console.log(1)
@@ -58,6 +65,23 @@ export default {
     },
     reset (i) {
       this.show = i
+      this.getList()
+    },
+    async getList () {
+      const res = await getProjectList()
+      console.log('项目', res)
+      if (res.data.results.length === 0) {
+        this.ematy = false
+      }
+      this.list = res.data.results
+    },
+    projectExperiences () {
+      this.getList()
+    },
+    open (i, item) {
+      this.show = i
+      console.log(item)
+      this.num = item
     }
 
   }

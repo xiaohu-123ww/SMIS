@@ -2,7 +2,11 @@
   <div v-if="show">
     <el-form ref="rf" label-width="80px" :rules="rules">
       <el-form-item label="资格证书">
-        <el-select v-model="value" placeholder="请选择资格证书">
+        <el-select
+          v-model="value"
+          placeholder="请选择资格证书"
+          :disabled="state"
+        >
           <div style="display: flex">
             <div style="width: 150px">
               <el-option
@@ -45,10 +49,17 @@
   </div>
 </template>
 <script>
-import { getCertList, getCertification } from '@/api/my/resume'
+import { getCertList, getCertification, getCertificationAmend } from '@/api/my/resume'
 export default {
   props: {
     show: {
+      type: Boolean
+    },
+    certList: {
+      type: Object,
+      default: () => { }
+    },
+    forbidden: {
       type: Boolean
     }
   },
@@ -58,31 +69,32 @@ export default {
       options: {},
       date1: '',
       rules: {
-
       },
       field: [],
-      list:
-      {
+      list: {
         cert_id: 0,
         cert_date: ''
-
+      },
+      state: false,
+      id: 0,
+      num: {
+        cert_date: ''
       }
+
     }
   },
   computed: {
 
   },
   watch: {
-    value (oldValue, newValue) {
-      if (oldValue.length > 10) {
-        this.$message({
-          message: '最多只支持选择10项',
-          duration: 1500,
-          type: 'warning'
-        })
-        this.$nextTick(() => {
-          this.value = newValue
-        })
+    certList (newVal, oldVal) {
+      console.log(newVal, oldVal)
+      this.value = newVal.cert_info.cert_name
+      this.date1 = newVal.cert_date
+
+      this.id = newVal.cert_info.cert_id
+      if (this.value === newVal.cert_info.cert_name) {
+        this.state = true
       }
     }
   },
@@ -93,19 +105,34 @@ export default {
     this.getCert()
   },
   methods: {
-    handleChange () {
-      console.log(this.value)
-    },
+
     async onSubmit () {
       this.list.cert_date = new Date(this.date1).toLocaleDateString().slice().replace(/\//g, '-')
-      const res = await getCertification(this.list)
-      console.log('绑定', res)
-      this.$message.success('绑定成功')
+      this.num.cert_date = new Date(this.date1).toLocaleDateString().slice().replace(/\//g, '-')
+      if (this.state === false) {
+        const res = await getCertification(this.list)
+        console.log('绑定', res)
+        this.$message.success('绑定成功')
+      } else {
+        const res = await getCertificationAmend(this.id, this.num)
+        console.log('修改', res)
+        this.$message.success('修改成功')
+      }
       this.$emit('reset', false)
+      this.value = ''
+      this.date1 = ''
     },
     resetSubmit () {
-      this.$emit('reset', false)
+      this.$confirm('确定取消吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(() => {
+        this.$emit('reset', false)
+      })
     },
+
     async getCert () {
       const { data } = await getCertList()
       console.log('系统证书列表', data)

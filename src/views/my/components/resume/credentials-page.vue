@@ -38,12 +38,22 @@
             >
             <el-col :span="3"
               ><div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-edit">编辑</el-button>
+                <el-button
+                  type="primary"
+                  icon="el-icon-edit"
+                  @click="switchover(item)"
+                  >编辑</el-button
+                >
               </div>
             </el-col>
             <el-col :span="2"
               ><div class="grid-content bg-purple-light">
-                <el-button type="success" icon="el-icon-delete">删除</el-button>
+                <el-button
+                  type="success"
+                  icon="el-icon-delete"
+                  @click="submit(item.cert_info.cert_id)"
+                  >删除</el-button
+                >
               </div></el-col
             >
           </el-row>
@@ -53,13 +63,13 @@
     </div>
 
     <div>
-      <Credentials :show="show" @reset="reset" />
+      <Credentials :show="show" :cert-list="certList" @reset="reset" />
     </div>
   </div>
 </template>
 <script>
 import Credentials from './credentials.vue'
-import { getcertificate } from '@/api/my/resume'
+import { getcertificate, getCertificationDelete } from '@/api/my/resume'
 import disposeImg from '@/utils/disposeImg'
 export default {
   components: { Credentials },
@@ -69,7 +79,9 @@ export default {
       text: '',
       empty: true,
       list: [],
-      flagShow: false
+      flagShow: false,
+      certList: {},
+      forbidden: true
     }
   },
   computed: {
@@ -87,16 +99,38 @@ export default {
     },
     reset (i) {
       this.show = i
+      this.getCertificate()
     },
+    // 证书列表
     async getCertificate () {
       const res = await getcertificate()
       console.log('证书', res)
       if (res.data.msg.length === 0) {
-        this.empty = false
+        this.flagShow = false
       } else {
         this.flagShow = true
       }
       this.list = res.data.msg
+    },
+    // 删除
+    submit (id) {
+      console.log(id)
+      this.$confirm('确定要删除此证书吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(async () => {
+        const { data } = await getCertificationDelete(id)
+        console.log(data)
+        this.getCertificate()
+        this.$message.success('删除证书成功')
+      })
+    },
+    // 编辑
+    switchover (item) {
+      this.certList = item
+      this.edit()
     }
   }
 }

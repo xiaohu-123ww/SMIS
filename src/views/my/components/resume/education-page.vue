@@ -11,6 +11,7 @@
               v-if="!show"
               type="primary"
               icon="el-icon-plus"
+              :disabled="list.length === 10"
               @click="edit"
               >添加</el-button
             >
@@ -19,83 +20,97 @@
       </el-row>
     </div>
     <div>
-      <div v-if="empty">
-        <div v-for="(item, index) in list" :key="index" class="work">
-          <div v-if="!show">
-            <div class="school">
-              <el-row>
-                <el-col :span="14"
-                  ><div class="grid-content bg" style="margin-left: 20px">
-                    {{ list.company ? list.company : '北京智能制造大学' }}
-                  </div></el-col
-                >
-                <el-col :span="3"
-                  ><div class="grid-content bg-purple-light">
-                    {{ list.data ? list.data : '工作时间' }}
-                  </div></el-col
-                >
-                <el-col :span="3">
-                  <div class="grid-content bg-purple">
-                    <el-button
-                      type="primary"
-                      icon="el-icon-edit"
-                      @click="edit(list)"
-                      >编辑
-                    </el-button>
-                  </div>
-                </el-col>
-                <el-col :span="2"
-                  ><div class="grid-content bg-purple-light">
-                    <el-button type="success" icon="el-icon-delete"
-                      >删除</el-button
+      <div>
+        <div v-if="empty">
+          <div v-if="state">
+            <div v-for="item in list" :key="item.id" class="work">
+              <div v-if="!show" style="margin-bottom: 30px">
+                <div class="school">
+                  <el-row>
+                    <el-col :span="12"
+                      ><div
+                        class="grid-content bg"
+                        style="
+                          margin-left: 30px;
+                          font-weight: 700;
+                          font-size: 16px;
+                        "
+                      >
+                        {{ item.education_info.school }}
+                      </div></el-col
                     >
-                  </div></el-col
-                >
-              </el-row>
-            </div>
-            <div class="education">
-              <el-row>
-                <el-col :span="2" style="border-right: 1px solid #e3e6e6"
-                  >本科</el-col
-                >
-                <el-col :span="7" style="margin-left: 15px"
-                  >机器智造与自动化</el-col
-                >
-              </el-row>
+                    <el-col :span="5"
+                      ><div class="grid-content bg-purple-light">
+                        {{ item.start_date }} -{{ item.end_date }}
+                      </div></el-col
+                    >
+                    <el-col :span="3">
+                      <div class="grid-content bg-purple">
+                        <el-button
+                          type="primary"
+                          icon="el-icon-edit"
+                          @click="editChange(item)"
+                          >编辑
+                        </el-button>
+                      </div>
+                    </el-col>
+                    <el-col :span="2"
+                      ><div class="grid-content bg-purple-light">
+                        <el-button
+                          type="success"
+                          icon="el-icon-delete"
+                          @click="deleteEduction(item.id)"
+                          >删除</el-button
+                        >
+                      </div></el-col
+                    >
+                  </el-row>
+                </div>
+                <div class="education">
+                  <el-row>
+                    <el-col :span="2" style="border-right: 1px solid #e3e6e6">{{
+                      item.degree
+                    }}</el-col>
+                    <el-col :span="7" style="margin-left: 15px">{{
+                      item.education_info.major
+                    }}</el-col>
+                  </el-row>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        <el-empty
+          v-else
+          :image-size="150"
+          description="再无教育经历"
+        ></el-empty>
       </div>
-      <el-empty v-else :image-size="150" description="再无教育经历"></el-empty>
-    </div>
 
-    <Education :show="show" @reset="reset" />
+      <Education
+        :show="show"
+        :education-list="educationList"
+        :time="time"
+        @reset="reset"
+      />
+    </div>
   </div>
 </template>
 <script>
 import Education from './education'
-import { geteducation } from '@/api/my/resume'
+import { geteducation, getEducationDelete } from '@/api/my/resume'
 export default {
   components: { Education },
   data () {
     return {
       show: false,
-      list: [{
-        company: '',
-        data: '',
-        subject: '',
-        specialty: '',
-        text: ''
-      },
-      {
-        company: '',
-        data: '',
-        subject: '',
-        specialty: '',
-        text: ''
-      }
+      list: [
       ],
-      empty: true
+      empty: true,
+      state: false,
+      educationList: {},
+      time: false
+
     }
   },
   computed: {
@@ -111,17 +126,43 @@ export default {
   methods: {
     edit () {
       this.show = true
+      this.empty = true
     },
-    reset (i) {
+    reset (i, a) {
       this.show = i
+      this.getList()
+      this.time = a
     },
+    // 列表a
     async getList () {
       const { data } = await geteducation()
       console.log('教育经历列表', data)
       if (data.results.length === 0) {
         this.empty = false
+      } else {
+        this.state = true
       }
+      this.list = data.results
+    },
+    // 删除
+    deleteEduction (id) {
+      this.$confirm('确定要删除此数据吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await getEducationDelete(id)
+        this.$message.success('删除成功')
+        this.getList()
+      })
+    },
+    // 修改
+    editChange (item) {
+      this.educationList = item
+      this.edit()
+      this.time = true
     }
+
   }
 }
 </script>
@@ -144,6 +185,7 @@ export default {
     // background-color: #256efd;
     line-height: 40px;
     font-size: 15px;
+    margin: 20px 0;
     .bg {
       font-size: 15px;
     }

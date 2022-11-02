@@ -65,14 +65,6 @@ export function getpersonal () {
 export function getexperiences () {
   return request.get('/user/job-experiences/')
 }
-/**
- * 教育经历查询
- * @returns
- */
-
-export function geteducation () {
-  return request.get('/user/education-experiences/')
-}
 
 /**
  * 城市三级选择
@@ -125,3 +117,47 @@ export function getCertList () {
 export function getCertification (data) {
   return request.post('/user/certification/', data)
 }
+
+/**
+ * 删除证书
+ * @param {*} id
+ * @returns
+ */
+
+export function getCertificationDelete (id) {
+  return request.delete(`/user/certification/${id}/`)
+}
+
+/**
+ * 修改证书
+ * @param {*} id
+ * @returns
+ */
+export function getCertificationAmend (id, data) {
+  return request.put(`/user/certification/${id}/`, data)
+}
+
+/**
+ * 教育经历查询
+ * @returns
+ */
+
+export function geteducation () {
+  return request.get('/user/education-experiences/')
+}
+
+// 教育经历删除
+export function getEducationDelete (id) {
+  return request.delete(`/user/education-experiences/${id}/`)
+}
+// 教育经历修改
+export function getEducatioAmend (id, data) {
+  return request.put(`/user/education-experiences/${id}/`, data)
+}
+// 教育经历添加/user/education-experiences/
+export function getEducationExperiences (data) {
+  return request.post('/user/education-experiences/', data)
+}
+
+// 项目经历
+

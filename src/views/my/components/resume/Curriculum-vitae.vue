@@ -67,8 +67,9 @@ export default {
       console.log(document.getElementsByClassName('el-upload__input')[0].value)
       console.log(file)
       const formData = new FormData()
-      //  formData.append('instruction', this.productVO.instruction);
-      //  formData.append('instructionFile',this.productVO.instructionFile);
+      formData.append('instruction', this.productVO.instruction)
+      formData.append('instructionFile', this.productVO.instructionFile)
+      console.log(formData)
 
       // // 调用接口
       // this.$post('http://1.13.8.165/cv/upload_cv/v1.0.0/', formData,

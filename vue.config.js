@@ -26,6 +26,7 @@ const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   // lintOnSave: true,
+  publicPath: './',
   css: {
     loaderOptions: {
       css: {},

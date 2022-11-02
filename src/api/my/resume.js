@@ -65,6 +65,12 @@ export function getpersonal () {
 export function getexperiences () {
   return request.get('/user/job-experiences/')
 }
+/**
+ * 工作经历新增
+ */
+export function getexperiencesList (data) {
+  return request.post('/user/job-experiences/', data)
+}
 
 /**
  * 城市三级选择
@@ -94,6 +100,11 @@ export function getjobIntentionList (data) {
  */
 export function getjobIntentionDelete (id) {
   return request.delete(`/cv/career-objective/${id}/`)
+}
+
+// 修改
+export function getjobIntentionAmend (id, data) {
+  return request.put(`/cv/career-objective/${id}/`, data)
 }
 /**
  * 证书
@@ -175,4 +186,8 @@ export function getProjectExperiencesDelete (id) {
 // 项目经历修改
 export function getProjectExperiencesAdd (id, data) {
   return request.put(`/user/project-experiences/${id}/`, data)
+}
+// 职位技能
+export function getShowJobkeywords () {
+  return request.get('/enterprise/show-jobkeywords/v1.0.1/')
 }

@@ -16,9 +16,9 @@
                   <div class="text" style="padding-left: 0">
                     {{ city }} - {{ third }}
                   </div>
-                  <div class="text">{{ resume.job_experience }}</div>
+                  <div class="text">{{ resume.job_experience.name }}</div>
                   <div class="text" style="border: 0">
-                    {{ resume.education }}
+                    {{ resume.education.name }}
                   </div>
                 </div>
                 <div class="tags">

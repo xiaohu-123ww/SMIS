@@ -72,48 +72,56 @@
       </el-form-item>
 
       <el-form-item label="期望城市" prop="province">
-        <el-col :span="8">
-          <el-form-item>
-            <el-select v-model="ruleForm.province" placeholder="请选择省">
-              <el-option
-                v-for="item in city"
-                :key="item.key"
-                :label="item.name"
-                :value="item.adcode"
-                @click.native="provinceChange(item)"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col class="line" :span="8">
-          <el-form-item prop="city">
-            <el-select v-model="ruleForm.city" placeholder="请选择市">
-              <el-option
-                v-for="item in cityList"
-                :key="item.key"
-                :label="item.name"
-                :value="item.adcode"
-                @click.native="cityChange(item)"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="region">
-            <el-select v-model="ruleForm.region" placeholder="请选择区">
-              <el-option
-                v-for="item in regionList"
-                :key="item.key"
-                :label="item.name"
-                :value="item.adcode"
-                @click.native="regionChange(item)"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
+        <el-input
+          v-if="address"
+          v-model="address"
+          style="width: 300px"
+          @click.native="inputChange"
+        ></el-input>
+        <div v-else>
+          <el-col :span="8">
+            <el-form-item>
+              <el-select v-model="ruleForm.province" placeholder="请选择省">
+                <el-option
+                  v-for="item in city"
+                  :key="item.key"
+                  :label="item.name"
+                  :value="item.adcode"
+                  @click.native="provinceChange(item)"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col class="line" :span="8">
+            <el-form-item prop="city">
+              <el-select v-model="ruleForm.city" placeholder="请选择市">
+                <el-option
+                  v-for="item in cityList"
+                  :key="item.key"
+                  :label="item.name"
+                  :value="item.adcode"
+                  @click.native="cityChange(item)"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="region">
+              <el-select v-model="ruleForm.region" placeholder="请选择区">
+                <el-option
+                  v-for="item in regionList"
+                  :key="item.key"
+                  :label="item.name"
+                  :value="item.adcode"
+                  @click.native="regionChange(item)"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </div>
       </el-form-item>
       <el-form-item label="薪资要求" required>
         <el-col :span="6">
@@ -176,7 +184,7 @@
 <script>
 
 import { getQuarters, getIndustryField } from '@/api/postlist'
-import { getcity, getjobIntentionList } from '@/api/my/resume'
+import { getcity, getjobIntentionList, getjobIntentionAmend } from '@/api/my/resume'
 import { getRequirement } from '@/api/postlist'
 export default {
   props: {
@@ -189,6 +197,7 @@ export default {
   },
   data () {
     return {
+      address: '',
       ruleForm: {
         city: '',
         salary_min: '',
@@ -201,15 +210,15 @@ export default {
         region: null
       },
       rules: {
-        region: [
-          { required: true, message: '请选择期望行业', trigger: 'change' }
-        ],
-        province: [
-          { required: true, message: '请选择期望行业', trigger: 'change' }
-        ],
-        field: [
-          { required: true, message: '请选择期望行业', trigger: 'change' }
-        ],
+        // region: [
+        //   { required: true, message: '请选择期望行业', trigger: 'change' }
+        // ],
+        // province: [
+        //   { required: true, message: '请选择期望行业', trigger: 'change' }
+        // ],
+        // field: [
+        //   { required: true, message: '请选择期望行业', trigger: 'change' }
+        // ],
         pst_class_id: [
           { required: true, message: '请选择职位', trigger: 'change' }
         ],
@@ -252,7 +261,29 @@ export default {
       },
       money: ['2000', '4000', '8000', '12000', '16000', '20000', '24000', '28000'],
       lastMoney: ['4000', '8000', '12000', '16000', '20000', '24000', '28000', '32000'],
-      work: []
+      work: [],
+      id: 0,
+
+      //
+      city: '',
+      salary_min: '',
+      salary_max: '',
+      position_class_id: 0,
+      field: 0,
+      job_nature: 0,
+      position_class: '',
+      add: {}
+    }
+  },
+  watch: {
+    num (newVal, oldVal) {
+      this.ruleForm.salary_min = newVal.salary_min
+      this.ruleForm.salary_max = newVal.salary_max
+      this.ruleForm.pst_class_id = newVal.position_class
+      this.ruleForm.field = newVal.field
+      this.ruleForm.job_nature = newVal.job_nature
+      this.address = newVal.city
+      this.id = newVal.id
     }
   },
   created () {
@@ -264,10 +295,40 @@ export default {
   methods: {
     async submitForm () {
       this.$refs.rf.validate()
-      const res = await getjobIntentionList(this.list)
-      console.log('新增', res)
-      if (res.code === 200) {
-        this.$message.success('新增成功')
+      if (this.id === 0) {
+        const res = await getjobIntentionList(this.list)
+        console.log('新增', res)
+        if (res.code === 200) {
+          this.$message.success('新增成功')
+          this.$emit('reset', false)
+          this.getjobList()
+        }
+      } else {
+        this.add = this.list
+        if (this.add.city === '') {
+          delete this.add.city
+        }
+        if (this.add.salary_min === '') {
+          delete this.add.salary_min
+        }
+        if (this.add.salary_max === '') {
+          delete this.add.salary_max
+        }
+        if (this.add.field === 0) {
+          delete this.add.field
+        }
+        if (this.add.position_class_id === 0) {
+          delete this.add.position_class_id
+        }
+        if (this.add.position_class === '') {
+          delete this.add.position_class
+        }
+        if (this.add.job_nature === 0) {
+          delete this.add.job_nature
+        }
+        console.log(this.add)
+        const res = await getjobIntentionAmend(this.id, this.add)
+        console.log('res', res)
         this.$emit('reset', false)
         this.getjobList()
       }
@@ -373,6 +434,9 @@ export default {
       this.ruleForm.job = null
       this.ruleForm.province = null
       this.ruleForm.region = null
+    },
+    inputChange () {
+      this.address = ''
     }
 
   }

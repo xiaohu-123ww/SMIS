@@ -160,14 +160,25 @@ export default {
       } else {
         const res = await getProjectExperiencesAdd(this.id, this.list)
         console.log('修改成功', res)
+        this.$message.success('添加成功')
       }
 
-      // this.$message.success('添加成功')
-      // this.$emit('reset', false)
+      this.$emit('reset', false)
       this.reset()
     },
     resetForm () {
-      this.$emit('reset', false)
+      this.$confirm('确定取消此编辑吗', '提示', {
+
+        confirmButtonText: '确定',
+
+        cancelButtonText: '取消',
+
+        type: 'warning'
+
+      }).then(() => {
+        this.$emit('reset', false)
+        this.reset()
+      })
     },
     onEditorBlur () {
 

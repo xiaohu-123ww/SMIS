@@ -129,7 +129,7 @@
             :before-upload="beforeAvatarUpload"
             :on-success="handleAvatarSuccess"
             :show-file-list="false"
-            action="https://znzz.tech/user/edit_selfinfo/"
+            action="http://1.13.8.165/user/edit_selfinfo/"
             class="avatar-uploader"
           >
             <img

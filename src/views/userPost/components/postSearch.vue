@@ -24,6 +24,7 @@
                         :key="index"
                         :label="index"
                         :value="index"
+                        disabled
                         @mousemove.native="tradeChange(item)"
                       >
                       </el-option>
@@ -34,6 +35,7 @@
                         :key="index"
                         :label="index"
                         :value="index"
+                        disabled
                         @mousemove.native="serchPostChange(item)"
                       >
                       </el-option>
@@ -62,6 +64,7 @@
                         :key="index"
                         :label="index"
                         :value="index"
+                        disabled
                         @mousemove.native="industryChange(item)"
                       >
                       </el-option>

@@ -129,6 +129,7 @@ export default {
   methods: {
     add () {
       this.show = true
+      this.getJobList()
     },
     reset (i) {
       this.show = i

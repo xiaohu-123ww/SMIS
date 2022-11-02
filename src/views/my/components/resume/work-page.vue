@@ -15,7 +15,66 @@
       </el-row>
     </div>
     <div v-if="!work">
-      <WorkText v-if="empty" :list="list" />
+      <div v-if="empty">
+        <div v-if="state">
+          <div
+            v-for="item in list"
+            :key="item.id"
+            class="textarea"
+            style="margin-left: 50px"
+          >
+            <div class="work">
+              <el-row>
+                <el-col :span="12"
+                  ><div class="grid-content bg" style="font-weight: 700">
+                    {{ item.enterprise }}
+                  </div></el-col
+                >
+                <el-col :span="5"
+                  ><div class="grid-content bg-purple-light">
+                    {{ item.start_date }}-{{ item.end_date }}
+                  </div></el-col
+                >
+                <el-col :span="3">
+                  <div class="grid-content bg-purple">
+                    <el-button
+                      type="primary"
+                      icon="el-icon-edit"
+                      @click="editChange(item)"
+                      >编辑
+                    </el-button>
+                  </div>
+                </el-col>
+                <el-col :span="2"
+                  ><div class="grid-content bg-purple-light">
+                    <el-button
+                      type="success"
+                      icon="el-icon-delete"
+                      @click="deleteList(item.id)"
+                      >删除</el-button
+                    >
+                  </div></el-col
+                >
+              </el-row>
+            </div>
+            <div class="specialty">
+              <el-row>
+                <el-col :span="4" style="border-right: 1px solid #e6e3e3">{{
+                  item.position_nam
+                }}</el-col>
+                <el-col :span="6" class="row">{{ item.field_name }}</el-col>
+              </el-row>
+            </div>
+            <div class="describe">工作描述:</div>
+            <div class="description">
+              <div
+                style="line-height: 30px"
+                v-html="item.project_info.project_desc"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <el-empty v-else :image-size="150" description="再无工作经历"></el-empty>
     </div>
     <Work :work="work" @reset="reset" />
@@ -31,8 +90,9 @@ export default {
     return {
       // 工作经历
       work: false,
-      list: [],
-      empty: true
+      list: {},
+      empty: true,
+      state: false
     }
   },
   computed: {
@@ -51,11 +111,14 @@ export default {
       this.list = data.results
       if (data.results.length === 0) {
         this.empty = false
+      } else {
+        this.state = true
       }
       this.list = data.results
     },
     reset (i) {
       this.work = i
+      tis.getList()
     },
     workEdit () {
       this.work = true
@@ -83,5 +146,45 @@ export default {
   // height: 300px;
   // background-color: pink;
   margin: 15px 0 0 25px;
+}
+.textarea {
+  // height: 300px;
+  // background-color: pink;
+  margin: 15px 0 30px 25px;
+
+  .work {
+    // background-color: #256efd;
+    line-height: 40px;
+    font-size: 15px;
+    .bg {
+      font-size: 18px;
+    }
+    .bg-purple-light {
+      color: #bcb9b9;
+    }
+  }
+  .specialty {
+    height: 10px;
+    line-height: 10px;
+    // background-color: blue;
+    font-size: 15px;
+    .row {
+      padding-left: 15px;
+    }
+  }
+  .describe {
+    height: 20px;
+    // background-color: blue;
+    font-size: 16px;
+    // line-height: 30px;
+    // font-weight: 700;
+  }
+  .description {
+    // height: 200px;
+    // background-color: pink;
+    padding: 0 20px 0;
+    font-size: 15px;
+    margin-top: 2px;
+  }
 }
 </style>

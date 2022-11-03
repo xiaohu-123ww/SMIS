@@ -78,7 +78,7 @@ export default {
         formData,
         {
           'headers': {
-            'Authorization': localStorage.getItem(Admin - Token),
+            'Authorization': mqrj4yp1inb3nttwyp0rxv189rcfm1xw,
             'Content-Type': 'multipart/form-data'
           }
         }).then((res) => {

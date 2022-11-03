@@ -8,12 +8,14 @@
           >
           <el-col :span="12"
             ><div class="grid-content bg-purple-light">
-              +86 {{ photo }}
+              +86 {{ list.phone ? list.phone : '去绑定手机号吧' }}
             </div></el-col
           >
           <el-col :span="4"
             ><div class="grid-content bg-purple">
-              <el-button type="primary" @click="photoChange">解绑</el-button>
+              <el-button type="primary" @click="photoChange">{{
+                list.phone ? '解绑' : '绑定'
+              }}</el-button>
             </div></el-col
           >
         </el-row>
@@ -25,12 +27,14 @@
           >
           <el-col :span="12"
             ><div class="grid-content bg-purple-light">
-              {{ email }}
+              {{ list.email ? list.email : '去绑定邮箱吧' }}
             </div></el-col
           >
           <el-col :span="4"
             ><div class="grid-content bg-purple">
-              <el-button type="primary" @click="emailChange">解绑</el-button>
+              <el-button type="primary" @click="emailChange">{{
+                list.email ? '解绑' : '绑定'
+              }}</el-button>
             </div></el-col
           >
         </el-row>
@@ -59,7 +63,7 @@
           >
           <el-col :span="12"
             ><div class="grid-content bg-purple-light">
-              {{ weChat ? weChat : '微信账号' }}
+              {{ list.wechat ? list.wechat : '去绑定微信吧' }}
             </div></el-col
           >
           <el-col :span="4"
@@ -75,8 +79,8 @@
         </el-row>
       </div>
     </div>
-    <PhotoDialog :is-show="isShow" @reset="reset" />
-    <EmailDialog :email-show="emailShow" @reset="reset" />
+    <PhotoDialog :is-show="isShow" :photolist="photo" @reset="reset" />
+    <EmailDialog :email-show="emailShow" :email-list="email" @reset="reset" />
     <Password :show="show" @reset="reset" />
     <Chat :we-chat-show="weChatShow" @reset="reset" />
     <el-dialog
@@ -104,11 +108,16 @@ import Password from './password.vue'
 import Chat from './weChat.vue'
 export default {
   components: { PhotoDialog, EmailDialog, Password, Chat },
+  props: {
+    list: {
+      type: Object
+    }
+  },
   data () {
     return {
-      photo: '12889933456',
-      email: '12345678@163.com',
-      weChat: '123',
+      photo: '',
+      email: '',
+      weChat: '',
       isShow: false,
       emailShow: false,
       show: false,
@@ -126,6 +135,7 @@ export default {
   methods: {
     photoChange () {
       this.isShow = true
+      this.photo = this.list.phone
     },
     reset (i) {
       this.isShow = i
@@ -135,6 +145,7 @@ export default {
     },
     emailChange () {
       this.emailShow = true
+      this.email = this.list.email
     },
     changePassword () {
       this.show = true

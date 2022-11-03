@@ -14,12 +14,11 @@
             class="uploadbox"
             name="file"
             accept=".pdf"
-            :http-request="handleUploadForm"
             :show-file-list="false"
             :multiple="false"
             action="upload"
             :on-change="onChange"
-            :auto-upload="true"
+            :auto-upload="false"
           >
             <!-- class="uploadbtn" -->
             <el-button
@@ -63,28 +62,13 @@ export default {
       // 上传文件时需要用到二进制，所以这里文件取值为file.raw
       console.log(this.productVO.instruction)
       console.log(file)
-      // const formData = new FormData()
-      // formData.append('files', file)
-      // const res = await planInsert(formData)
-      // console.log('res', res)
+      const formData = new FormData()
+      formData.append('files', file.raw)
+      const res = await planInsert(formData)
+      console.log('res', res)
       console.log(getToken)
-    },
-    async handleUploadForm (param) {
-      var formData = new FormData()
-      // 在formData中加入我们需要的参数
-      formData.append('files', param.file)
-      await axios.post(
-        'http://1.13.8.165/cv/upload_cv/v1.0.0/',
-        formData,
-        {
-          'headers': {
-            'Authorization': mqrj4yp1inb3nttwyp0rxv189rcfm1xw,
-            'Content-Type': 'multipart/form-data'
-          }
-        }).then((res) => {
-          console.log(res)
-        })
     }
+
   }
 }
 </script>

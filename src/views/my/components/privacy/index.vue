@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-import { getEnterpriseQuick, getListHidden } from '@/api/my/privacy'
+import { getEnterpriseQuick, getListHidden, getListSearch } from '@/api/my/privacy'
 export default {
   props: {
     show: {
@@ -84,6 +84,9 @@ export default {
       },
       job: {
         hidden: ''
+      },
+      text: {
+        qw: ''
       }
     }
   },
@@ -149,13 +152,20 @@ export default {
     },
     // 屏蔽
     async dialog () {
-      console.log(this.arrList.toString())
-      this.job.hidden = this.arrList.toString()
-      console.log(this.job.hidden)
-      const res = await getListHidden(this.job)
-      console.log('屏蔽', res)
-      this.$message('屏蔽企业成功')
-      this.$emit('reset', false)
+      if (this.checkAll === false) {
+        console.log(this.arrList.toString())
+        this.job.hidden = this.arrList.toString()
+        console.log(this.job.hidden)
+        const res = await getListHidden(this.job)
+        console.log('屏蔽', res)
+        this.$message.success('屏蔽企业成功')
+        this.$emit('reset', false)
+      } else {
+        console.log(1)
+        this.text.qw = this.qw
+        const res = await getListSearch(this.text)
+        console.log('res', res)
+      }
     }
 
   }

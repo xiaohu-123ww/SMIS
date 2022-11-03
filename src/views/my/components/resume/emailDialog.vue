@@ -48,6 +48,9 @@ export default {
     },
     email: {
       type: String
+    },
+    emailList: {
+      type: String
     }
   },
   data () {
@@ -103,6 +106,10 @@ export default {
         this.ruleForm.email = val
       },
       immediate: true
+    },
+    emailList (newVal, oldVal) {
+      console.log(newVal)
+      this.ruleForm.email = newVal
     }
   },
   mounted () {
@@ -114,10 +121,11 @@ export default {
       console.log(this.ruleForm)
       const res = await getEmailBound(this.ruleForm)
       console.log('邮箱', res)
-      // if (res.code === 200) {
-      //   this.$message.success('邮箱绑定成功')
-      //   this.$emit('submit', false, this.ruleForm.email)
-      // }
+      if (res.code === 200) {
+        this.$message.success('邮箱绑定成功')
+        this.$emit('submit', false, this.ruleForm.email)
+        this.$emit('reset', false)
+      }
     }, // 取消
     handleClose () {
       this.$confirm('确定取微信绑定吗', '提示', {
@@ -127,6 +135,7 @@ export default {
 
       }).then(() => {
         this.$emit('submit', false)
+        this.$emit('reset', false)
       })
     },
     // 验证码

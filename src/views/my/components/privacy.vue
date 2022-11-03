@@ -55,7 +55,7 @@
       <el-pagination
         style="margin: 30px 0 0 300px"
         :current-page="query.pagenum"
-        :page-sizes="[2, 3, 5, 10]"
+        :page-sizes="[5, 10, 20]"
         :page-size="query.pagesize"
         layout="sizes, prev, pager, next, jumper, total"
         :total="total"
@@ -94,7 +94,9 @@ export default {
       job: {
         hidden: ''
       },
-      arrList: []
+      arrList: [],
+      limit: 10,
+      offset: 10
     }
   },
   computed: {
@@ -109,20 +111,14 @@ export default {
   methods: {
     handleSizeChange (newSize) {
       console.log('每页条数', newSize)
-      // // 修改后台接口查询参数pagesize每页条数
-      // this.query.pagesize = newSize
-      // // 重置页码为第一页
-      // this.pagenum = 1
-      // // 根据最新页码重新查询列表收据
-      // this.getArticleList()
+      this.limit = newSize
+      this.getPrivacyList()
     },
     handleCurrentChange (currPage) {
       // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
       console.log('当前页码', currPage)
-      // // 修改后台接口查询参数pagenum页码
-      // this.query.pagenum = currPage
-      // // 2.根据最新页码重新查询列表收据
-      // this.getArticleList()
+      this.offset = currPage
+      this.getPrivacyList()
     },
     add () {
       this.show = true
@@ -161,19 +157,26 @@ export default {
       this.total = res.data.count
     },
     // 删除
-    // async deleteList (id) {
-    //   console.log(id)
-    //   this.job.hidden = id
-    //   console.log(this.job.hidden)
-    //   // const res = await getListDelete(this.job)
-    //   // console.log('res', res)
-    // },
+    async deleteList (id) {
+      // console.log(item)
+      const num = id
+      this.job.hidden = num.toString()
+      console.log(this.job.hidden)
+      const res = await getListDelete(this.job)
+      console.log('res', res)
+      this.$message.success('删除成功')
+      this.getPrivacyList()
+    },
     async deletechange () {
       this.job.hidden = this.arrList.toString()
       console.log(this.job)
+      const { data } = await getList()
+      console.log('133', data)
 
       const res = await getListDelete(this.job)
-      // console.log('res', res)
+      console.log('res', res)
+      this.$message.success('批量删除成功')
+      this.getPrivacyList()
     }
 
   }

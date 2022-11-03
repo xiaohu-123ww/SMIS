@@ -4,8 +4,12 @@ import request from '@/utils/request'
  * @param {*} data
  * @returns
  */
-export function getverification (data) {
-  return request.post('/user/bind-number/v1.0.0/', data)
+export function getverification (mobile) {
+  return request.get('/user/bind-number/v1.0.0/', {
+    params: {
+      mobile
+    }
+  })
 }
 
 /**
@@ -197,12 +201,5 @@ export function getShowJobkeywords () {
  * @returns
  */
 export function planInsert (formData) {
-  return request({
-    url: '/cv/upload_cv/v1.0.0/',
-    method: 'post',
-    formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  })
+  return request.post('/cv/upload_cv/v1.0.0/', formData)
 }

@@ -56,6 +56,7 @@ export default {
       type: Boolean
 
     }
+
   },
   data () {
     var validatePass = (rule, value, callback) => {
@@ -79,9 +80,9 @@ export default {
     }
     return {
       ruleForm: {
-        pass: '',
-        checkPass: '',
-        code: ''
+        new_psw: '',
+        old_psw: '',
+        confirm_new_psw: ''
       },
       rules: {
         pass: [

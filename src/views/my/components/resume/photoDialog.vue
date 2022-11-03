@@ -41,6 +41,7 @@
 </template>
 <script>
 import { getverification, getphoto } from '@/api/my/resume'
+import { string } from 'clipboard'
 
 export default {
   props: {
@@ -49,6 +50,9 @@ export default {
     },
     photo: {
       type: String
+    },
+    photolist: {
+      type: string
     }
   },
   data () {
@@ -58,6 +62,9 @@ export default {
         photoEm: '',
         submitLoading: false
       },
+
+      mobile: '',
+
       rules: {
         mobile: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -109,6 +116,10 @@ export default {
         this.ruleForm.mobile = val
       },
       immediate: true
+    },
+    photolist (newVal, oldVal) {
+      console.log(newVal)
+      this.ruleForm.mobile = newVal
     }
   },
 
@@ -132,6 +143,7 @@ export default {
       this.$refs.rf.validate()
       console.log(this.ruleForm)
       const res = await getphoto(this.ruleForm)
+      console.log('手机号', res)
       if (res.code === 200) {
         this.$message.success('绑定成功')
         this.$emit('reset', false, this.ruleForm.mobile)
@@ -140,7 +152,9 @@ export default {
     // 验证码
     async getCode () {
       if (this.ruleForm.mobile) {
-        const res = await getverification(this.ruleForm)
+        this.mobile = this.ruleForm.mobile
+
+        const res = await getverification(this.mobile)
 
         if (res.code == 200) {
           this.$message({

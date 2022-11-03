@@ -25,11 +25,8 @@
           <el-row v-for="item in list" :key="item.id">
             <el-col :span="7"
               ><div class="grid-content bg-purple">
-                <img
-                  :src="disposeImg(item.cert_info.sample)"
-                  alt=""
-                  style="width: 160px; height: 100px"
-                /></div
+                <!-- :src="disposeImg(item.cert_info.sample)" -->
+                <img alt="" style="width: 160px; height: 100px" /></div
             ></el-col>
             <el-col :span="10"
               ><div class="grid-content bg-purple-light">

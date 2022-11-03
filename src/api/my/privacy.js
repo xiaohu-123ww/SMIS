@@ -3,10 +3,14 @@ import request from '@/utils/request'
  * 隐私中心
  * @returns
  */
-export function getList () {
-  return request.get('/user/hidden-enterprise/')
+export function getList (limit, offset) {
+  return request.get('/user/hidden-enterprise/', {
+    params: {
+      limit, offset
+    }
+  })
 }
-// /user/enterprise-quick-search/?qw=科技
+//
 
 export function getEnterpriseQuick (qw, limit, offset) {
   return request.get(`/user/enterprise-quick-search/?`, {
@@ -23,5 +27,14 @@ export function getListHidden (data) {
 }
 
 export function getListDelete (data) {
-  return request.delete('/user/hidden-enterprise/', data)
+  return request.delete('/user/hidden-enterprise/', { data: data })
+}
+
+/**
+ * 屏蔽所有
+ * @param {*} data
+ * @returns
+ */
+export function getListSearch (data) {
+  return request.post('/user/enterprise-quick-search/', data)
 }

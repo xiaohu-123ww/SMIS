@@ -2,17 +2,18 @@
   <div>
     <div class="interview">安全中心</div>
     <div class="safety">
-      <Table />
+      <Table :list="list" />
     </div>
   </div>
 </template>
 <script>
+import { getList } from '@/api/my/safety'
 import Table from './safety/table.vue'
 export default {
   components: { Table },
   data () {
     return {
-
+      list: {}
     }
   },
   computed: {
@@ -21,8 +22,15 @@ export default {
   mounted () {
 
   },
+  created () {
+    this.getSafety()
+  },
   methods: {
-
+    async getSafety () {
+      const { data } = await getList()
+      console.log('安全中心', data)
+      this.list = data
+    }
   }
 }
 </script>

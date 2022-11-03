@@ -191,3 +191,18 @@ export function getProjectExperiencesAdd (id, data) {
 export function getShowJobkeywords () {
   return request.get('/enterprise/show-jobkeywords/v1.0.1/')
 }
+/**
+ * 简历
+ * @param {*} param
+ * @returns
+ */
+export function planInsert (formData) {
+  return request({
+    url: '/cv/upload_cv/v1.0.0/',
+    method: 'post',
+    formData,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}

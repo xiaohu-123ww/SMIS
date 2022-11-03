@@ -20,6 +20,7 @@
 import Job from './job/index.vue'
 export default {
   components: { Job },
+
   data () {
     return {
       changeColor: 0,

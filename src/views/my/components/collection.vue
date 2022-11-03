@@ -1,16 +1,20 @@
 <template>
   <div>
     <div class="interview">我的收藏</div>
-    <Job :show="show" />
+    <Job v-if="ematy" :show="show" :list="list" />
+    <el-empty v-else description="再无收藏列表"></el-empty>
   </div>
 </template>
 <script>
+import { getList } from '@/api/my/like'
 import Job from './job/index.vue'
 export default {
   components: { Job },
   data () {
     return {
-      show: true
+      show: true,
+      ematy: true,
+      list: []
     }
   },
   computed: {
@@ -19,8 +23,19 @@ export default {
   mounted () {
 
   },
+  created () {
+    this.getCert()
+  },
   methods: {
-
+    async getCert () {
+      const { data } = await getList()
+      console.log(12232142356)
+      console.log('收藏', data)
+      if (data.results.length === 0) {
+        this.ematy = false
+      }
+      this.list = data.results
+    }
   }
 }
 </script>

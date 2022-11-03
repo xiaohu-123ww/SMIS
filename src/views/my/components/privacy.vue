@@ -6,71 +6,77 @@
         >添加</el-button
       >
     </div>
-    <div v-if="flag" class="privacy-check">
-      <div class="privacy-checkbox">
-        <el-checkbox
-          v-model="checkAll"
-          style="line-height: 40px"
-          @change="checkboxChange"
-        ></el-checkbox>
-        <div class="text">全部公司</div>
-        <el-button type="primary">删除</el-button>
-        <el-button type="primary">完成</el-button>
+    <div v-if="ematy">
+      <div v-if="flag" class="privacy-check">
+        <div class="privacy-checkbox">
+          <el-checkbox
+            v-model="checkAll"
+            style="line-height: 40px"
+            @change="checkboxChange"
+          ></el-checkbox>
+          <div class="text">全部公司</div>
+          <el-button type="primary" @click="deletechange">删除</el-button>
+          <el-button type="primary">完成</el-button>
+        </div>
+        <div class="privacy-box">
+          <ul>
+            <li
+              v-for="(item, index) in list"
+              :key="index"
+              style="list-style: none"
+            >
+              <el-checkbox v-model="item.checked">
+                <div class="text" style="font-size: 20px; margin-bottom: 20px">
+                  {{ item.enterprise_name }}
+                </div>
+              </el-checkbox>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="privacy-box">
-        <ul>
-          <li
-            v-for="(item, index) in list"
-            :key="index"
-            style="list-style: none"
+      <div v-else>
+        <div class="privacy" style="margin-bottom: 20px">
+          <div class="text">已屏蔽{{ code }}家公司</div>
+          <el-button type="primary" class="privacy-bt" @click="checkBox"
+            >批量管理</el-button
           >
-            <el-checkbox v-model="item.checked" class="privacy-chexkbox">
-              <div class="text">{{ item.name }}</div>
-            </el-checkbox>
-          </li>
-        </ul>
+        </div>
+        <div v-for="item in list" :key="item.id" class="privacy">
+          <div class="text">{{ item.enterprise_name }}</div>
+          <el-button
+            type="success"
+            icon="el-icon-delete"
+            class="privacy-bt"
+            @click="deleteList(item.enterprise_id)"
+            >删除</el-button
+          >
+        </div>
       </div>
+      <el-pagination
+        style="margin: 30px 0 0 300px"
+        :current-page="query.pagenum"
+        :page-sizes="[2, 3, 5, 10]"
+        :page-size="query.pagesize"
+        layout="sizes, prev, pager, next, jumper, total"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
     </div>
-    <div v-else>
-      <div class="privacy" style="margin-bottom: 20px">
-        <div class="text">已屏蔽5家公司</div>
-        <el-button type="primary" class="privacy-bt" @click="checkBox"
-          >批量管理</el-button
-        >
-      </div>
-      <div v-for="item in list" :key="item.id" class="privacy">
-        <div class="text">{{ item.name }}</div>
-        <el-button type="success" class="privacy-bt" icon="el-icon-delete"
-          >删除</el-button
-        >
-      </div>
-    </div>
-    <el-pagination
-      style="margin: 20px 0 0 300px"
-      :current-page="query.pagenum"
-      :page-sizes="[2, 3, 5, 10]"
-      :page-size="query.pagesize"
-      layout="sizes, prev, pager, next, jumper, total"
-      :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    <el-empty v-else description="再无企业屏蔽列表"></el-empty>
     <Privacy :show="show" @reset="reset" />
   </div>
 </template>
 <script>
 import Privacy from './privacy/index.vue'
+import { getList, getListDelete } from '@/api/my/privacy'
 export default {
   components: { Privacy },
   data () {
     return {
       list: [
-        { id: 1, name: '北京智能科技有限公司', checked: false },
-        { id: 2, name: '上海智能科技有限公司', checked: false },
-        { id: 3, name: '广州智能科技有限公司', checked: false },
-        { id: 4, name: '南京智能科技有限公司', checked: false },
-        { id: 5, name: '广西智能科技有限公司', checked: false }
+
       ],
       query: {
         pagenum: 1, // 页码
@@ -82,7 +88,13 @@ export default {
       total: 10,
       show: false,
       flag: false,
-      checkAll: false
+      checkAll: false,
+      ematy: true,
+      code: 0,
+      job: {
+        hidden: ''
+      },
+      arrList: []
     }
   },
   computed: {
@@ -90,6 +102,9 @@ export default {
   },
   mounted () {
 
+  },
+  created () {
+    this.getPrivacyList()
   },
   methods: {
     handleSizeChange (newSize) {
@@ -114,6 +129,7 @@ export default {
     },
     reset (i) {
       this.show = i
+      this.getPrivacyList()
     },
     checkBox () {
       this.flag = true
@@ -122,7 +138,9 @@ export default {
       console.log(1)
       if (this.checkAll) {
         this.list.forEach(item => {
-          console.log(item)
+          // console.log(item)
+          this.arrList.push(item.enterprise_id)
+          console.log('123', this.arrList)
           item.checked = true // 只改变数据的状态
         })
       } else {
@@ -130,6 +148,32 @@ export default {
           item.checked = false
         })
       }
+    },
+    // 列表
+    async getPrivacyList () {
+      const res = await getList()
+      console.log('隐私设置', res)
+      if (res.data.results.length === 0) {
+        this.ematy = false
+      }
+      this.list = res.data.results
+      this.code = res.data.count
+      this.total = res.data.count
+    },
+    // 删除
+    // async deleteList (id) {
+    //   console.log(id)
+    //   this.job.hidden = id
+    //   console.log(this.job.hidden)
+    //   // const res = await getListDelete(this.job)
+    //   // console.log('res', res)
+    // },
+    async deletechange () {
+      this.job.hidden = this.arrList.toString()
+      console.log(this.job)
+
+      const res = await getListDelete(this.job)
+      // console.log('res', res)
     }
 
   }
@@ -164,7 +208,7 @@ export default {
     // font-weight: 600;
   }
   .privacy-bt {
-    margin: 10px 0 0 800px;
+    margin: 10px 0 0 700px;
     width: 100px;
     height: 40px;
   }
@@ -190,6 +234,7 @@ export default {
   .privacy-box {
     // height: 300px;
     // background-color: #256efd;
+    font-size: 20px;
     .privacy-chexkbox {
       margin: 20px 0 0 0;
       height: 30px;
@@ -199,10 +244,16 @@ export default {
       // border-bottom: 1px solid #e6e3e3;
       .text {
         font-size: 20px;
+        width: 350px;
         margin-left: 20px;
+
+        border-bottom: 1px solid #e6e3e3;
         color: black;
       }
     }
   }
+}
+.text {
+  width: 400px !important;
 }
 </style>

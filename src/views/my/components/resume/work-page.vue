@@ -69,7 +69,7 @@
             <div class="description">
               <div
                 style="line-height: 30px"
-                v-html="item.project_info.project_desc"
+                v-html="item.position_info.job_desc"
               ></div>
             </div>
           </div>
@@ -92,7 +92,7 @@ export default {
       work: false,
       list: {},
       empty: true,
-      state: false
+      state: true
     }
   },
   computed: {
@@ -112,13 +112,13 @@ export default {
       if (data.results.length === 0) {
         this.empty = false
       } else {
-        this.state = true
+
       }
       this.list = data.results
     },
     reset (i) {
       this.work = i
-      tis.getList()
+      this.getList()
     },
     workEdit () {
       this.work = true

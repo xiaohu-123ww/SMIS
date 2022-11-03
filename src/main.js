@@ -32,9 +32,7 @@ import 'quill/dist/quill.bubble.css'
 
 import BaiduMap from 'vue-baidu-map'
 import { VueJsonp } from 'vue-jsonp'
-import axios from 'axios'
 
-Vue.use(axios)
 // 全局注册富文本编辑器
 Vue.use(VueQuillEditor)
 Vue.use(VueJsonp)

@@ -14,6 +14,7 @@
                 :key="index"
                 :label="index"
                 :value="index"
+                disabled
                 @mousemove.native="industryChange(item)"
               >
               </el-option>

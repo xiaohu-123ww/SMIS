@@ -77,13 +77,18 @@
       </div>
       <el-empty v-else :image-size="150" description="再无工作经历"></el-empty>
     </div>
-    <Work :work="work" @reset="reset" />
+    <Work
+      :work="work"
+      :work-list="workList"
+      :work-show="workShow"
+      @reset="reset"
+    />
   </div>
 </template>
 <script>
 import Work from './work.vue'
 import WorkText from './work-text.vue'
-import { getexperiences } from '@/api/my/resume'
+import { getexperiences, getjobExperiences } from '@/api/my/resume'
 export default {
   components: { Work, WorkText },
   data () {
@@ -92,7 +97,9 @@ export default {
       work: false,
       list: {},
       empty: true,
-      state: true
+      state: true,
+      workList: {},
+      workShow: false
     }
   },
   computed: {
@@ -105,6 +112,7 @@ export default {
     this.getList()
   },
   methods: {
+    // 列表
     async getList () {
       const { data } = await getexperiences()
       console.log('工作经历', data)
@@ -126,9 +134,31 @@ export default {
     edit (row) {
       // this.work = true
       console.log(row)
+    },
+    deleteList (id) {
+      console.log(id)
+      this.$confirm('确定删除吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(async () => {
+        const res = await getjobExperiences(id)
+        console.log('res', res)
+        this.$message.success('删除成功')
+        this.getList()
+      })
+    },
+    editChange (item) {
+      console.log(item)
+      this.work = true
+      this.workList = item
+      this.workShow = true
     }
+
   }
 }
+
 </script>
 <style scoped lang="scss">
 .preponderance-one {

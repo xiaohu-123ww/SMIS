@@ -8,6 +8,6 @@ export function disposeImg (img) {
       img = img.substr(1)
     }
 
-    return 'https://znzz.tech/' + img
+    return 'http://1.13.8.165/' + img
   }
 }

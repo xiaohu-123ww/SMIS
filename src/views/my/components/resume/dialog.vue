@@ -62,48 +62,59 @@
           </el-col>
         </el-form-item>
         <el-form-item label="现居地">
-          <el-col :span="8">
-            <el-form-item>
-              <el-select v-model="provinceList.province" placeholder="请选择省">
-                <el-option
-                  v-for="item in city"
-                  :key="item.key"
-                  :label="item.name"
-                  :value="item.adcode"
-                  @click.native="provinceChange(item)"
+          <div v-if="living">
+            <el-col :span="8">
+              <el-form-item>
+                <el-select
+                  v-model="provinceList.province"
+                  placeholder="请选择省"
                 >
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col class="line" :span="8">
-            <el-form-item>
-              <el-select v-model="provinceList.city" placeholder="请选择市">
-                <el-option
-                  v-for="item in cityList"
-                  :key="item.key"
-                  :label="item.name"
-                  :value="item.adcode"
-                  @click.native="cityChange(item)"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item>
-              <el-select v-model="provinceList.region" placeholder="请选择区">
-                <el-option
-                  v-for="item in regionList"
-                  :key="item.key"
-                  :label="item.name"
-                  :value="item.adcode"
-                  @click.native="regionChange(item)"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+                  <el-option
+                    v-for="item in city"
+                    :key="item.key"
+                    :label="item.name"
+                    :value="item.adcode"
+                    @click.native="provinceChange(item)"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col class="line" :span="8">
+              <el-form-item>
+                <el-select v-model="provinceList.city" placeholder="请选择市">
+                  <el-option
+                    v-for="item in cityList"
+                    :key="item.key"
+                    :label="item.name"
+                    :value="item.adcode"
+                    @click.native="cityChange(item)"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item>
+                <el-select v-model="provinceList.region" placeholder="请选择区">
+                  <el-option
+                    v-for="item in regionList"
+                    :key="item.key"
+                    :label="item.name"
+                    :value="item.adcode"
+                    @click.native="regionChange(item)"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </div>
+          <el-input
+            v-else
+            v-model="num.living_city"
+            style="width: 300px"
+            @click.native="adressChange"
+          ></el-input>
         </el-form-item>
         <el-form-item label="联系方式" prop="phone_number">
           <el-input v-model="num.phone_number" style="width: 600px"></el-input>
@@ -247,7 +258,8 @@ export default {
 
       },
       cityList: [],
-      regionList: []
+      regionList: [],
+      living: false
     }
   },
   created () {
@@ -279,6 +291,9 @@ export default {
         this.num.identity = 0
       } else {
         this.num.identity = 1
+      }
+      if (num.living_city === '') {
+        delete num.living_city
       }
       const time = this.num.date_of_birth
       this.num.date_of_birth = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
@@ -364,6 +379,9 @@ export default {
     regionChange (item) {
       console.log(this.provinceList.region)
       this.num.living_city = this.provinceList.region
+    },
+    adressChange () {
+      this.living = true
     }
   }
 }

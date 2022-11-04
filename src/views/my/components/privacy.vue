@@ -54,9 +54,9 @@
       </div>
       <el-pagination
         style="margin: 30px 0 0 300px"
-        :current-page="query.pagenum"
+        :current-page="offset"
         :page-sizes="[5, 10, 20]"
-        :page-size="query.pagesize"
+        :page-size="limit"
         layout="sizes, prev, pager, next, jumper, total"
         :total="total"
         @size-change="handleSizeChange"
@@ -78,13 +78,7 @@ export default {
       list: [
 
       ],
-      query: {
-        pagenum: 1, // 页码
-        pagesize: 2, // 每页数据条数回所有数据
-        // 分类和状态默认为空，反
-        cate_id: '', // 文章分类ID
-        state: '' // 文章发布状态
-      },
+
       total: 10,
       show: false,
       flag: false,
@@ -96,7 +90,7 @@ export default {
       },
       arrList: [],
       limit: 10,
-      offset: 10
+      offset: 1
     }
   },
   computed: {
@@ -117,7 +111,7 @@ export default {
     handleCurrentChange (currPage) {
       // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
       console.log('当前页码', currPage)
-      this.offset = currPage
+      this.offset = this.limit * (currPage - 1)
       this.getPrivacyList()
     },
     add () {

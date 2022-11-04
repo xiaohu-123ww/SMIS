@@ -122,9 +122,9 @@
               </div>
               <el-pagination
                 style="margin: 20px 0 0 150px"
-                :current-page="query.pagenum"
+                :current-page="offset"
                 :page-sizes="[5, 10, 20]"
-                :page-size="query.pagesize"
+                :page-size="limit"
                 layout="sizes, prev, pager, next, jumper, total"
                 :total="total"
                 @size-change="handleSizeChange"
@@ -189,10 +189,7 @@ export default {
       limit: 10,
       offset: 10,
       jobListings: {},
-      query: {
-        pagenum: 1,
-        pagesize: 10
-      },
+
       total: 10,
       history: [],
       flagShow: 0,
@@ -224,12 +221,13 @@ export default {
     },
     async handleCurrentChange (i) {
       console.log('当前页码', i)
+      this.offset = this.limit * (i - 1)
       if (this.$route.query.inputValue) {
-        const { data } = await getPostListOne(this.serchList, this.limit, this.offset * i)
+        const { data } = await getPostListOne(this.serchList, this.limit, this.offset)
         console.log('翻页', data)
         this.jobListings = data.results
       } else {
-        const { data } = await getPostListOne(this.list, this.limit, this.offset * i)
+        const { data } = await getPostListOne(this.list, this.limit, this.offset)
         console.log('翻页', data)
         this.jobListings = data.results
       }

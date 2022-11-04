@@ -30,9 +30,9 @@
       <el-pagination
         v-if="state"
         style="margin: 30px 0 30px 40px"
-        :current-page="query.pagenum"
+        :current-page="offset"
         :page-sizes="[5, 10, 20]"
-        :page-size="query.pagesize"
+        :page-size="limit"
         layout="sizes, prev, pager, next, total"
         :total="total"
         @size-change="handleSizeChange"
@@ -44,7 +44,7 @@
           v-model="checkAll"
           class="footer-check"
           @change="checkboxChange"
-          >所有与“智能”相关的200家企业</el-checkbox
+          >所有与"{{ qw }}"相关的200家企业</el-checkbox
         >
         <el-button type="primary" @click="dialog">屏蔽所选企业</el-button>
       </div>
@@ -67,17 +67,11 @@ export default {
 
       ],
       checkAll: false,
-      query: {
-        pagenum: 1, // 页码
-        pagesize: 2, // 每页数据条数回所有数据
-        // 分类和状态默认为空，反
-        cate_id: '', // 文章分类ID
-        state: '' // 文章发布状态
-      },
+
       total: 10,
       state: false,
       limit: 10,
-      offset: 10,
+      offset: 1,
       arrList: [],
       city: {
         relation: ''
@@ -103,13 +97,13 @@ export default {
     handleSizeChange (newSize) {
       console.log('每页条数', newSize)
       this.limit = newSize
-      this.offset = newSize
+
       this.getprivacy()
     },
     handleCurrentChange (currPage) {
       // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
       console.log('当前页码', currPage)
-      this.offset = currPage
+      this.offset = this.limit * (currPage - 1)
       this.getprivacy()
     },
     handleClose () {

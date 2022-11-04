@@ -77,6 +77,19 @@ export function getexperiencesList (data) {
 }
 
 /**
+ * 工作经历删除
+ */
+export function getjobExperiences (id) {
+  return request.delete(`/user/job-experiences/${id}/`)
+}
+
+/**
+ * 工作经历修改
+ */
+export function getjobExperiencesAdemn (id, data) {
+  return request.put(`/user/job-experiences/${id}/`, data)
+}
+/**
  * 城市三级选择
  * @returns
  */

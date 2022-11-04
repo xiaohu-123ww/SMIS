@@ -42,9 +42,9 @@
           </div>
         </el-select>
       </el-form-item>
-      <el-form-item label="职位名称" prop="position_class_name">
+      <el-form-item label="职位名称" prop="position_name">
         <el-input
-          v-model="ruleForm.position_class_name"
+          v-model="ruleForm.position_name"
           class="box"
           maxlength="100"
         ></el-input>
@@ -114,11 +114,7 @@
         </el-col>
       </el-form-item>
       <el-form-item label="工作类型" prop="job_nature">
-        <el-select
-          v-model="ruleForm.job_nature"
-          placeholder="机械工程师"
-          class="box"
-        >
+        <el-select v-model="ruleForm.job_nature" placeholder="全职" class="box">
           <el-option
             v-for="(item, index) in nature"
             :key="index"
@@ -170,7 +166,7 @@
                 v-for="item in children"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id"
+                :value="item.name"
               >
               </el-option>
             </div>
@@ -185,11 +181,17 @@
   </div>
 </template>
 <script>
-import { getexperiencesList, etShowJobkeywords, getShowJobkeywords } from '@/api/my/resume'
+import { getexperiencesList, etShowJobkeywords, getShowJobkeywords, getjobExperiencesAdemn } from '@/api/my/resume'
 import { getIndustryField, getQuarters, getRequirement } from '@/api/postlist'
 export default {
   props: {
     work: {
+      type: Boolean
+    },
+    workList: {
+      type: Object
+    },
+    workShow: {
       type: Boolean
     }
   },
@@ -215,8 +217,9 @@ export default {
         salary_max: null,
         job_desc: '',
         enterprise: '',
-        position_class_name: '',
-        field_name: ''
+        position_name: '',
+        field_name: '',
+        field: ''
 
       },
       children: [],
@@ -234,7 +237,7 @@ export default {
         field_name: [
           { required: true, message: '请选择行业', trigger: 'change' }
         ],
-        position_class_name: [
+        position_name: [
           { required: true, message: '请输入职位名称', trigger: 'blur' }
         ],
         position_class_id: [
@@ -261,7 +264,29 @@ export default {
       },
       IndustryList: {},
       field: {},
-      business: {}
+      business: {},
+      flagShow: false,
+      id: 0
+
+    }
+  },
+  watch: {
+    workList (newVal, oldVal) {
+      console.log(newVal)
+      if (newVal) {
+        this.ruleForm.enterprise = newVal.enterprise
+        this.ruleForm.position_class_id = newVal.position_info.position_class_name
+        this.ruleForm.job_nature = newVal.job_nature
+        this.ruleForm.salary_max = newVal.position_info.salary
+        this.ruleForm.job_desc = newVal.position_info.job_desc
+        this.ruleForm.start_date = newVal.start_date
+        this.ruleForm.end_date = newVal.end_date
+        this.ruleForm.job_keywords = newVal.job_keywords.map(item => item.name)
+        this.ruleForm.field_name = newVal.position_info.field_name
+        this.ruleForm.position_name = newVal.position_info.position_name
+        this.id = newVal.id
+        this.flagShow = true
+      }
     }
   },
   created () {
@@ -271,23 +296,25 @@ export default {
     this.jobRequirement()
   },
   methods: {
-    async submitForm () {
-      this.$refs.rf.validate()
+    // 保存
 
-      this.getList()
-      this.ruleForm.start_date = new Date(this.ruleForm.start_date).toLocaleDateString().slice().replace(/\//g, '-')
-      this.ruleForm.end_date = new Date(this.ruleForm.end_date).toLocaleDateString().slice().replace(/\//g, '-')
-      console.log(this.ruleForm)
-      const res = await getexperiencesList(this.ruleForm)
-      console.log('res', res)
-      this.$message.success('添加成功')
-      this.$emit('reset', false)
-    },
+    // 关闭
     resetForm () {
       console.log(1)
-      this.$emit('reset', false)
+
+      this.$confirm('确定取消此添加吗？', '提醒', {
+
+        confirmButtonText: '确定',
+
+        cancelButtonText: '取消',
+
+        type: 'warning'
+
+      }).then(() => {
+        this.$emit('reset', false)
+        this.getdelete()
+      })
     },
-    // 最多可选择五个数据
 
     async getList () {
 
@@ -317,9 +344,10 @@ export default {
       this.field = item
     },
     fieldChange (item) {
-      console.log('hangye', item)
-      // this.serchPost.field = item
-      this.ruleForm.field_name = item
+      console.log('hangye112', item)
+      this.ruleForm.field = item
+      console.log(this.ruleForm.field_name)
+      console.log(this.ruleForm)
     },
     // 职位分类
     async serch () {
@@ -346,6 +374,70 @@ export default {
       const { data } = await getRequirement()
       console.log('其他要求', data)
       this.nature = data.job_nature
+    },
+    getdelete () {
+      this.ruleForm.job_keywords = []
+      this.ruleForm.position = null
+      this.ruleForm.start_date = ''
+      this.ruleForm.end_date = ''
+      this.ruleForm.job_nature = null
+      this.ruleForm.salary_max = null
+      this.ruleForm.job_desc = ''
+      this.ruleForm.enterprise = ''
+      this.ruleForm.position_class_name = ''
+      this.ruleForm.field_name = ''
+      ruleForm.position_class_id = null
+      this.ruleForm.position_name = ''
+    },
+    async submitForm () {
+      this.$refs.rf.validate()
+      this.getList()
+      this.ruleForm.start_date = new Date(this.ruleForm.start_date).toLocaleDateString().slice().replace(/\//g, '-')
+      this.ruleForm.end_date = new Date(this.ruleForm.end_date).toLocaleDateString().slice().replace(/\//g, '-')
+      console.log(this.ruleForm)
+
+      if (this.workShow) {
+        console.log(1)
+        console.log(1)
+        console.log(this.id)
+        console.log('121323', this.ruleForm)
+        const arr = this.ruleForm
+        if (arr.field_name === '') {
+          delete arr.field_name
+        }
+        if (arr.position_class_name === '') {
+          delete arr.position_class_name
+        }
+        if (arr.position === '') {
+          delete arr.position
+        }
+        if (arr.position === null) {
+          delete arr.position
+        }
+        if (arr.field === '') {
+          delete arr.field
+        }
+        if (arr.position_class_id === this.workList.position_class_name) {
+          delete arr.position_class_id
+        }
+        if (arr.job_nature === this.workList.job_nature) {
+          delete arr.job_nature
+        }
+        console.log(arr)
+        const res = await getjobExperiencesAdemn(this.id, arr)
+        console.log('res', res)
+        this.$message.success('修改成功')
+        this.$emit('reset', false)
+      } else {
+        // this.getdelete()
+        console.log(this.ruleForm)
+        const res = await getexperiencesList(this.ruleForm)
+        console.log('res', res)
+        this.$message.success('添加成功')
+        this.$emit('reset', false)
+        // this.delete()
+      }
+      this.getdelete()
     }
   }
 }

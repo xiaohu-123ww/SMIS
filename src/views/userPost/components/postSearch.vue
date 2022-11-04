@@ -636,4 +636,7 @@ export default {
   border: 1px solid #448ef7;
   border-radius: 0px;
 }
+::v-deep .el-select[data-v-1d1946ae] {
+  margin-top: 1px;
+}
 </style>

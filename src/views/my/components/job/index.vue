@@ -180,7 +180,7 @@ export default {
           width: 150px;
           height: 20px;
           // background-color: #256efd;
-          border-right: 1px solid #e6e3e3;
+          // border-right: 1px solid #e6e3e3;
           line-height: 20px;
           padding-left: 20px;
           color: red;
@@ -193,12 +193,13 @@ export default {
           padding-left: 20px;
         }
         .machan-cc {
-          width: 100px;
+          // width: 100px;
           height: 20px;
+          // padding: 10px;
           // background-color: #256efd;
           border-right: 1px solid #e6e3e3;
           line-height: 20px;
-          padding-left: 20px;
+          padding: 0 10px 0 20px;
         }
       }
     }

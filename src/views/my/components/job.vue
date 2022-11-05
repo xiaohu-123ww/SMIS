@@ -64,27 +64,45 @@
       style="margin-top: 100px"
     ></el-empty>
     <div v-else>
-      <Job :list="list" :show="show" @like="like" @remind="remind" />
-      <el-pagination
-        style="margin: 20px 0 0 300px"
-        :current-page="offset"
-        :page-sizes="[2, 3, 5, 10]"
-        :page-size="limit"
-        layout="sizes, prev, pager, next, jumper, total"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+      <div v-if="invite">
+        <Job :list="list" :show="show" @like="like" @remind="remind" />
+        <el-pagination
+          style="margin: 20px 0 0 300px"
+          :current-page="offset"
+          :page-sizes="[2, 3, 5, 10]"
+          :page-size="limit"
+          layout="sizes, prev, pager, next, jumper, total"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
+      <div v-else>
+        <InviteList :list-invite="listInvite" />
+        <el-pagination
+          style="margin: 20px 0 0 300px"
+          :current-page="offset"
+          :page-sizes="[2, 3, 5, 10]"
+          :page-size="limit"
+          layout="sizes, prev, pager, next, jumper, total"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Job from './job/job-list.vue'
-import { getpreChat, getInterests, getChating, getReject, getChatingList, getHasInterviews } from '@/api/my/job'
+import InviteList from './job/inviteList.vue'
+import { getIndisposed } from '@/api/my/interview'
+import { getpreChat, getInterests, getChating, getReject, getChatingList } from '@/api/my/job'
 import { getList } from '@/api/my/interview'
 export default {
-  components: { Job },
+  components: { Job, InviteList },
 
   data () {
     return {
@@ -94,7 +112,9 @@ export default {
       show: 1,
       offset: 1,
       limit: 5,
-      total: 0
+      total: 0,
+      invite: true,
+      listInvite: []
 
     }
   },
@@ -202,13 +222,14 @@ export default {
     // 邀面试
     async Invited () {
       this.changeColor = 5
-      const res = await getHasInterviews(this.limit, this.offset)
+      this.invite = false
+      const res = await getIndisposed(this.limit, this.offset)
       console.log('邀面试', res)
       if (res.data.results.length === 0) {
         this.ematy = true
       } else {
         this.ematy = false
-        this.list = res.data.results
+        this.listInvite = res.data.results
         this.total = res.data.count
         this.show = 5
       }

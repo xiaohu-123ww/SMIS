@@ -207,7 +207,6 @@ export default {
       photoShow: false,
       emailShow: false,
       imageUrl: '',
-
       rules: {
 
         name: [
@@ -273,6 +272,7 @@ export default {
     },
     async submitForm () {
       this.$refs.rf.validate()
+      console.log(this.num)
       if (this.num.status === '离职-随时到岗') {
         this.num.status = 0
       } else if (this.num.status === '在职-暂不考虑') {
@@ -292,8 +292,8 @@ export default {
       } else {
         this.num.identity = 1
       }
-      if (num.living_city === '') {
-        delete num.living_city
+      if (this.num.living_city === '') {
+        delete this.num.living_city
       }
       const time = this.num.date_of_birth
       this.num.date_of_birth = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')

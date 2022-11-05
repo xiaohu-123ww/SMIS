@@ -11,6 +11,7 @@ export function getList () {
  */
 // /user/edit-password/
 
-export function getpassword () {
-  return request.get('/user/edit-password/')
+export function getpassword (data) {
+  return request.post('/user/edit-password/', data)
 }
+

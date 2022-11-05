@@ -29,10 +29,21 @@
               </div>
             </el-col>
             <el-col :span="4" class="btn">
-              <el-button class="postdes-btn" icon="el-icon-star-off">{{
-                resume.is_collected ? '已收藏' : '收藏'
-              }}</el-button>
-              <el-button type="primary">我有意向</el-button>
+              <el-button
+                v-if="resume.is_collected === true"
+                class="postdes-btn"
+                icon="el-icon-star-off"
+                @click="cancel"
+                >取消收藏</el-button
+              >
+              <el-button
+                v-else
+                class="postdes-btn"
+                icon="el-icon-star-off"
+                @click="collect"
+                >收藏</el-button
+              >
+              <el-button type="primary" @click="likeChange">我有意向</el-button>
             </el-col>
           </el-row>
         </div>
@@ -189,7 +200,7 @@
   </div>
 </template>
 <script>
-import { getParticulars, getList } from '@/api/particulars'
+import { getParticulars, getList, getInterests, getCollections, getCollectionsDelete } from '@/api/particulars'
 import disposeImg from '@/utils/disposeImg'
 import { getHandpickJob } from '@/api/cat'
 import { getCertificate } from '@/api/position'
@@ -219,7 +230,10 @@ export default {
       field: '',
       resemblance: [],
       flagShow: false,
-      bold: false
+      bold: false,
+      collectList: {
+        collects: ''
+      }
 
     }
   },
@@ -335,7 +349,34 @@ export default {
       } else {
         this.flagShow = true
       }
+    },
+    // 有意向
+    async likeChange () {
+      console.log('111222', this.resume)
+      const id = this.resume.enterprise_info.enterprise_id
+      const res = await getInterests(id)
+      console.log('意向', res)
+      this.$message.success('以向hr发送消息')
+    },
+    // 收藏
+    async collect () {
+      const id = this.resume.enterprise_info.enterprise_id
+      this.collectList.collects = id.toString()
+      console.log(this.collectList)
+      const res = await getCollections(this.collectList)
+      console.log('收藏', res)
+      this.$message.success('收藏成功')
+    },
+    // 取消
+    async cancel () {
+      const id = this.resume.enterprise_info.enterprise_id
+      this.collectList.collects = id.toString()
+      console.log(this.collectList)
+      const res = await getCollectionsDelete(this.collectList)
+      console.log('取消收藏', res)
+      this.$message.success('取消收藏成功')
     }
+
   }
 };
 </script>

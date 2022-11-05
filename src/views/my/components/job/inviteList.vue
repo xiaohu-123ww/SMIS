@@ -1,53 +1,20 @@
 <template>
   <div>
-    <div v-for="item in list" :key="item.id" class="job">
+    <div v-for="item in listInvite" :key="item.id" class="job">
       <div class="job-nn">
         <div class="job-one">
           <div class="bg">
             <img
-              :src="disposeImg(item.sender.avatar)"
+              :src="disposeImg(item.hr.avatar)"
               alt=""
               style="width: 90px; height: 90px; border-radius: 100px"
             />
           </div>
           <div class="blur">
-            <h3>{{ item.sender.sender_username }}</h3>
+            <h3>{{ item.hr.name }}</h3>
             <div style="color: #403f3f">
-              {{ item.sender.sender_class }} . {{ item.sender.online_status }}
+              {{ item.hr.identification }} . {{ item.hr.active }}
             </div>
-          </div>
-        </div>
-        <div class="job-nnkj">
-          <el-button
-            v-if="show === 1"
-            type="primary"
-            @click="likeChange(item.id)"
-            >感兴趣</el-button
-          >
-          <div v-if="show === 2">
-            <el-button
-              type="primary"
-              :disabled="item.is_refresh_valid === false"
-              @click="remindSomeone(item.id)"
-              >提醒对方</el-button
-            >
-          </div>
-          <div v-if="show === 3">
-            <el-button
-              v-if="item.is_cv_exchanged === false"
-              type="primary"
-              @click="exChange(item.id)"
-              >发送简历</el-button
-            >
-            <el-button
-              v-if="item.is_cv_exchanged === null"
-              type="primary"
-              :disabled="item.is_cv_exchanged === null"
-              >发送简历</el-button
-            >
-            <el-button v-if="item.is_cv_exchanged === true" type="primary"
-              >已发送</el-button
-            >
           </div>
         </div>
       </div>
@@ -84,6 +51,21 @@
               <div class="machan-cc">{{ item.position.enterprise.size }}</div>
             </div>
           </div>
+          <div
+            style="
+              width: 400px;
+              height: 30px;
+
+              margin-left: 19px;
+              padding-top: 5px;
+              font-size: 15px;
+            "
+          >
+            <span style="color: red; margin-right: 40px">
+              {{ item.interview_status }}</span
+            >
+            {{ item.create_time }}
+          </div>
         </div>
         <div class="machan-sss">
           <img
@@ -97,14 +79,14 @@
   </div>
 </template>
 <script>
-import { getInterestsLike, getRefrssh, getChatingId } from '@/api/my/job'
+import { getInterestsLike, getRefrssh } from '@/api/my/job'
 import disposeImg from '@/utils/disposeImg'
 export default {
   props: {
     show: {
       type: Number
     },
-    list: {
+    listInvite: {
       type: Array
     }
 
@@ -133,12 +115,6 @@ export default {
       const res = await getRefrssh(id)
       console.log('提醒', res)
       this.$emit('remind')
-    },
-    // 发送简历
-    async exChange (id) {
-      const res = await getChatingId(id)
-      console.log('发送简历', res)
-      this.$message('已发送至hr邮箱')
     }
   }
 }
@@ -185,7 +161,7 @@ export default {
     padding: 20px;
     .job-mechanical {
       width: 400px;
-      height: 80px;
+      height: 70px;
       // background-color: aqua;
       .mechanical {
         height: 40px;

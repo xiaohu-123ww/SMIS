@@ -65,16 +65,24 @@ export function getReject (limit, offset) {
 }
 // 已邀约
 
-export function getHasInterviews (limit, offset) {
-  return request.get('/user/has-interviews/',
-    {
-      params: {
-        limit, offset
-      }
-    })
-}
+// export function getHasInterviews (limit, offset) {
+//   return request.get('/user/has-interviews/',
+//     {
+//       params: {
+//         limit, offset
+//       }
+//     })
+// }
 //* 提醒对方 */
 // /user/interests/refresh/:comm_id/
 export function getRefrssh (id) {
   return request.put(`/user/interests/refresh/${id}/`)
+}
+
+/**
+ * 向hr 发送简历
+ */
+
+export function getChatingId (id) {
+  return request.post(`/user/chating/${id}/`)
 }

@@ -9,5 +9,6 @@ export function disposeImg (img) {
     }
 
     return 'http://1.13.8.165/' + img
+    // https://znzz.tech/
   }
 }

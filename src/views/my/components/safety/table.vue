@@ -81,7 +81,7 @@
     </div>
     <PhotoDialog :is-show="isShow" :photolist="photo" @reset="reset" />
     <EmailDialog :email-show="emailShow" :email-list="email" @reset="reset" />
-    <Password :show="show" @reset="reset" />
+    <Password :show="show" :list="list" @reset="reset" />
     <Chat :we-chat-show="weChatShow" @reset="reset" />
     <el-dialog
       title="解绑微信"

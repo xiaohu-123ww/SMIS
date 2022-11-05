@@ -431,6 +431,8 @@ export default {
       this.serchPost.city = ''
       this.admin = ''
       this.subway = ''
+      this.job_class = ''
+      this.profession = ''
     },
     // 其他条件
     // 工作经验

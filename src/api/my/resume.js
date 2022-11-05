@@ -216,3 +216,20 @@ export function getShowJobkeywords () {
 export function planInsert (formData) {
   return request.post('/cv/upload_cv/v1.0.0/', formData)
 }
+/** *
+ * 简历解析
+ */
+export function getResumeCv () {
+  return request.get('/cv/resume-cv/')
+}
+
+/**
+ * 简历文件地址
+ */
+export function getCv () {
+  return request.get('/cv/get-cv/')
+}
+// 删除简历
+export function getCvDelete () {
+  return request.delete('/cv/upload_cv/v1.0.0/')
+}

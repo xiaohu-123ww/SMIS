@@ -107,7 +107,7 @@
             </div>
             <div
               class="job-mechanical"
-              style="margin: 0 50px 0 50px; width: 1200px"
+              style="margin: 0 40px 0 50px; width: 1200px"
             >
               <div style="font-size: 16px; margin: 10px 0 0 20px">
                 {{ item.position.enterprise.enterprise_name }}
@@ -122,7 +122,7 @@
                 </div>
                 <div class="machan-cc">{{ item.position.enterprise.size }}</div>
               </div>
-              <div class="machss">
+              <div class="machss" style="font-size: 14px">
                 面试时间：{{ item.start_time }}-{{ item.end_time }}
               </div>
             </div>
@@ -147,7 +147,9 @@
                     {{ item.interview_status }}
                   </div>
                 </a>
-                <div>{{ formatTime(time) }}</div>
+                <div style="font-size: 14px; margin-left: 1px">
+                  {{ item.create_time }}
+                </div>
               </div>
             </div>
             <div></div>
@@ -443,13 +445,14 @@ export default {
           height: 30px;
           // background-color: red;
           font-size: 15px;
-          padding-left: 20px;
+          // padding-left: 20px;
           display: flex;
           line-height: 30px;
           .machann-sa {
             width: 90px;
-            margin-right: 15px;
+            margin-right: 12px;
             border-right: 1px solid #e6e3e3;
+            padding-left: 15px;
           }
         }
         .machss {

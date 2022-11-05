@@ -33,3 +33,21 @@ export function getInRecruit (id, data, limit, offset) {
     }
   })
 }
+
+/**
+ *感兴趣
+ */
+export function getInterests (id) {
+  return request.post(`/user/interests/${id}/`)
+}
+
+// 收藏
+
+export function getCollections (data) {
+  return request.post(`/user/collections/`, data)
+}
+// 取消收藏
+export function getCollectionsDelete (data) {
+  return request.post(`/user/collections/`, data)
+}
+

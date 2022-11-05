@@ -1,79 +1,83 @@
 <template>
   <div>
     <div v-for="item in list" :key="item.id" class="job">
-      <div class="job-nn">
+      <div v-if="item.position_info.hr_info" class="job-nn">
         <div class="job-one">
           <div class="bg">
             <img
-              :src="disposeImg(item.hr_info.avatar)"
+              :src="disposeImg(item.position_info.hr_info.avatar)"
               alt=""
               style="width: 90px; height: 90px"
             />
           </div>
           <div class="blur">
-            <h3>{{ item.hr_info.name }}</h3>
+            <h3>{{ item.position_info.hr_info.name }}</h3>
             <div style="color: #403f3f">
-              {{ item.hr_info.identification }} . {{ item.hr_info.active }}
+              {{ item.position_info.hr_info.identification }} .
+              {{ item.position_info.hr_info.active }}
             </div>
           </div>
         </div>
         <div class="job-nnkj">
-          <el-button v-if="!show" type="primary">感兴趣</el-button>
-          <el-button v-if="show" type="primary">取消收藏</el-button>
+          <el-button
+            type="primary"
+            @click="cancel(item.position_info.enterprise_info.enterprise_id)"
+            >取消收藏</el-button
+          >
         </div>
       </div>
       <div class="job-job">
         <div class="job-mechanical">
           <div class="mechanical">
-            {{ item.position_info.position_name }} {{ item.position_info.city }}
+            {{ item.position_info.position_info.position_name }}
+            {{ item.position_info.position_info.city }}
           </div>
           <div class="machan">
             <div class="machan-aa">
-              {{ item.position_info.salary_left }}-
-              {{ item.position_info.salary_right }} . {{ item.salary }}
+              {{ item.position_info.position_info.salary_left }}-
+              {{ item.position_info.position_info.salary_right }} .
+              {{ item.position_info.position_info.salary_unit }}薪
             </div>
             <div class="machan-bb" style="border-right: 1px solid #e6e3e3">
-              {{ item.position_info.experience }}
+              {{ item.position_info.position_info.experience }}
             </div>
-            <div class="machan-bb">{{ item.position_info.education }}</div>
+            <div class="machan-bb">
+              {{ item.position_info.position_info.education }}
+            </div>
           </div>
         </div>
         <div>
           <div class="job-mechanical">
-            <div class="mechanical">{{ item.enterprise_info.name }}</div>
+            <div class="mechanical">
+              {{ item.position_info.enterprise_info.name }}
+            </div>
             <div class="machan">
-              <div class="machan-cc">{{ item.enterprise_info.filed }}</div>
-              <div class="machan-cc" style="border-right: 1px solid #e6e3e3">
-                {{ item.enterprise_info.finance }}
+              <div class="machan-cc">
+                {{ item.position_info.enterprise_info.field }}
               </div>
-              <div class="machan-cc">{{ item.enterprise_info.size }}</div>
+              <div class="machan-cc" style="border-right: 1px solid #e6e3e3">
+                {{ item.position_info.enterprise_info.finance }}
+              </div>
+              <div class="machan-cc">
+                {{ item.position_info.enterprise_info.size }}
+              </div>
             </div>
           </div>
         </div>
         <div class="machan-sss">
           <img
-            :src="disposeImg(item.enterprise_info.logo)"
+            :src="disposeImg(item.position_info.enterprise_info.logo)"
             alt=""
             style="width: 90px; height: 90px"
           />
         </div>
       </div>
     </div>
-    <el-pagination
-      style="margin: 20px 0 0 300px"
-      :current-page="query.pagenum"
-      :page-sizes="[2, 3, 5, 10]"
-      :page-size="query.pagesize"
-      layout="sizes, prev, pager, next, jumper, total"
-      :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    >
-    </el-pagination>
   </div>
 </template>
 <script>
 import disposeImg from '@/utils/disposeImg'
+import { getCollectionsDelete } from '@/api/particulars'
 export default {
   props: {
     show: {
@@ -85,63 +89,35 @@ export default {
   },
   data () {
     return {
-      // list: [{
-      //   value: 1,
-      //   name: '新招呼'
-      // },
-      // {
-      //   value: 2,
-      //   name: '有意向'
-      // },
-      // {
-      //   value: 3,
-      //   name: '沟通中'
-      // },
-      // {
-      //   value: 4,
-      //   name: '已投递'
-      // },
-      // {
-      //   value: 5,
-      //   name: '邀面试'
-      // }, {
-      //   value: 6,
-      //   name: '不合适'
-      // }],
+      collectList: {
+        collects: ''
+      }
 
-      query: {
-        pagenum: 1, // 页码
-        pagesize: 2, // 每页数据条数回所有数据
-        // 分类和状态默认为空，反
-        cate_id: '', // 文章分类ID
-        state: '' // 文章发布状态
-      },
-      total: 10
     }
   },
   computed: {
 
   },
+  watch: {
+    list (newVal, oldVal) {
+      if (newVal) {
+        console.log('12', newVal)
+      }
+    }
+  },
   mounted () {
 
   },
   methods: {
-    handleSizeChange (newSize) {
-      console.log('每页条数', newSize)
-      // // 修改后台接口查询参数pagesize每页条数
-      // this.query.pagesize = newSize
-      // // 重置页码为第一页
-      // this.pagenum = 1
-      // // 根据最新页码重新查询列表收据
-      // this.getArticleList()
-    },
-    handleCurrentChange (currPage) {
-      // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
-      console.log('当前页码', currPage)
-      // // 修改后台接口查询参数pagenum页码
-      // this.query.pagenum = currPage
-      // // 2.根据最新页码重新查询列表收据
-      // this.getArticleList()
+    async cancel (id) {
+      console.log(id)
+
+      this.collectList.collects = id.toString()
+      console.log(this.collectList)
+      const res = await getCollectionsDelete(this.collectList)
+      console.log('取消收藏', res)
+      this.$message.success('取消收藏成功')
+      this.$emit('reset')
     }
   }
 }

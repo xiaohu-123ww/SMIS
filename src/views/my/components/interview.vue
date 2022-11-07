@@ -415,7 +415,7 @@ export default {
       .bg {
         width: 80px;
         height: 80px;
-        background-color: aqua;
+        // background-color: aqua;
         overflow: hidden;
         border-radius: 100px;
         margin: 0 20px;

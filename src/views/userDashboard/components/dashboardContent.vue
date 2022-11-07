@@ -452,6 +452,7 @@ export default {
     },
     // 热门职位 换一批
     async changeHot (i) {
+      console.log(i)
       const { data } = await getPositionJob(this.limit, this.offset * i)
       console.log('刷新下一页', data.results)
       this.positionJob = data.results

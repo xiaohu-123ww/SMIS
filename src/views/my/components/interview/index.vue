@@ -28,9 +28,9 @@
             <p>
               面试时间：{{ statusList.start_time }}-{{ statusList.end_time }}
             </p>
-            <p>面试地点：{{ address }}</p>
-            <p style="padding-left: 14px">联系人：{{ people }}</p>
-            <p>联系电话：{{ statusList.hr.name }}</p>
+            <p>面试地点：{{ statusList.position.address }}</p>
+            <p style="padding-left: 14px">联系人：{{ statusList.hr.name }}</p>
+            <p>联系电话：{{ statusList.hr.phone }}</p>
           </div>
         </div>
         <!-- <span

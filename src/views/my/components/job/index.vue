@@ -7,7 +7,7 @@
             <img
               :src="disposeImg(item.position_info.hr_info.avatar)"
               alt=""
-              style="width: 90px; height: 90px"
+              style="width: 80px; height: 80px; border-radius: 100px"
             />
           </div>
           <div class="blur">

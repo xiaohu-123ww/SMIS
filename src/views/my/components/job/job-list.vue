@@ -126,19 +126,30 @@ export default {
     async likeChange (id) {
       const res = await getInterestsLike(id)
       console.log('感兴趣', res)
+      this.$message.success('以添加到沟通列表')
       this.$emit('like')
     },
     // 提醒对方
     async remindSomeone (id) {
       const res = await getRefrssh(id)
       console.log('提醒', res)
+      this.$message.success('已提醒hr，稍后回回复您')
       this.$emit('remind')
     },
     // 发送简历
     async exChange (id) {
-      const res = await getChatingId(id)
-      console.log('发送简历', res)
-      this.$message('已发送至hr邮箱')
+      this.$confirm('有上传的附件简历吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+
+      }).then(async () => {
+        const res = await getChatingId(id)
+        console.log('发送简历', res)
+        this.$message('已发送至hr邮箱')
+      }).catch(() => {
+        this.$router.push('/resume')
+      })
     }
   }
 }

@@ -90,7 +90,7 @@
                               </div>
                               <div
                                 style="
-                                  padding-top: 10px;
+                                  padding-top: 7px;
                                   font-size: 11px;
                                   color: #878484;
                                   display: flex;
@@ -331,7 +331,7 @@ export default {
       // display: flex;
       // justify-content: space-evenly;
       border-radius: 20px;
-      padding-top: 20px;
+      padding-top: 12px;
       margin-bottom: 30px;
       .machan-sss {
         width: 60px;

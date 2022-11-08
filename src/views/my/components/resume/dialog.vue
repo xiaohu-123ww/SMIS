@@ -271,41 +271,45 @@ export default {
       this.city = data.data
     },
     async submitForm () {
-      this.$refs.rf.validate()
-      console.log(this.num)
-      if (this.num.status === '离职-随时到岗') {
-        this.num.status = 0
-      } else if (this.num.status === '在职-暂不考虑') {
-        this.num.status = 1
-      } else if (this.num.status === '在职-考虑机会') {
-        this.num.status = 2
-      } else {
-        this.num.status = 3
-      }
-      if (this.num.sex === '女') {
-        this.num.sex = 0
-      } else {
-        this.num.sex = 1
-      }
-      if (this.num.identity === '职场人') {
-        this.num.identity = 0
-      } else {
-        this.num.identity = 1
-      }
-      if (this.num.living_city === '') {
-        delete this.num.living_city
-      }
-      const time = this.num.date_of_birth
-      this.num.date_of_birth = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
-      const timeList = this.num.job_start
-      this.num.job_start = new Date(timeList).toLocaleDateString().slice().replace(/\//g, '-')
-      console.log(new Date(time).toLocaleDateString().slice().replace(/\//g, '-'))
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          console.log(this.num)
+          if (this.num.status === '离职-随时到岗') {
+            this.num.status = 0
+          } else if (this.num.status === '在职-暂不考虑') {
+            this.num.status = 1
+          } else if (this.num.status === '在职-考虑机会') {
+            this.num.status = 2
+          } else {
+            this.num.status = 3
+          }
+          if (this.num.sex === '女') {
+            this.num.sex = 0
+          } else {
+            this.num.sex = 1
+          }
+          if (this.num.identity === '职场人') {
+            this.num.identity = 0
+          } else {
+            this.num.identity = 1
+          }
+          const city = this.num.living_city
+          if (this.num.living_city === city) {
+            delete this.num.living_city
+          }
+          const time = this.num.date_of_birth
+          this.num.date_of_birth = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
+          const timeList = this.num.job_start
+          this.num.job_start = new Date(timeList).toLocaleDateString().slice().replace(/\//g, '-')
+          console.log(new Date(time).toLocaleDateString().slice().replace(/\//g, '-'))
 
-      console.log('this.num', this.num)
-      const res = await getchangeInformation(this.num)
-      console.log('num', res)
-      this.$emit('reset', false)
-      this.$message.success('修改成功')
+          console.log('this.num', this.num)
+          const res = await getchangeInformation(this.num)
+          console.log('num', res)
+          this.$emit('reset', false)
+          this.$message.success('修改成功')
+        }
+      })
     },
     resetForm () {
       this.$confirm('确定取消修改信息吗', '提示', {

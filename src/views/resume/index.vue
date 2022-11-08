@@ -356,7 +356,7 @@ export default {
       const id = this.resume.enterprise_info.enterprise_id
       const res = await getInterests(id)
       console.log('意向', res)
-      this.$message.success('以向hr发送消息')
+      this.$message.success('已向hr发送消息')
     },
     // 收藏
     async collect () {

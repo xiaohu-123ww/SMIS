@@ -36,18 +36,15 @@
           </el-form-item>
         </el-col>
       </el-form-item>
-      <el-form-item
-        label="文章内容"
-        style="width: 300px; height: 300px"
-        prop="project_desc"
-      >
+      <el-form-item label="文章内容" style="width: 300px; height: 300px">
         <!-- 使用 v-model 进行双向的数据绑定 -->
         <quill-editor
           v-model="list.project_desc"
           :options="editorOption"
           style="width: 700px; height: 150px"
           @blur="onEditorBlur($event)"
-        ></quill-editor>
+        >
+        </quill-editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">保存</el-button>
@@ -150,21 +147,23 @@ export default {
   },
   methods: {
     async submitForm () {
-      this.$refs.rf.validate()
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          this.list.start_date = new Date(this.list.start_date).toLocaleDateString().slice().replace(/\//g, '-')
+          this.list.end_date = new Date(this.list.end_date).toLocaleDateString().slice().replace(/\//g, '-')
+          if (this.id === 0) {
+            const res = await getProjectExperiences(this.list)
+            console.log('12', res)
+          } else {
+            const res = await getProjectExperiencesAdd(this.id, this.list)
+            console.log('修改成功', res)
+            this.$message.success('添加成功')
+          }
 
-      this.list.start_date = new Date(this.list.start_date).toLocaleDateString().slice().replace(/\//g, '-')
-      this.list.end_date = new Date(this.list.end_date).toLocaleDateString().slice().replace(/\//g, '-')
-      if (this.id === 0) {
-        const res = await getProjectExperiences(this.list)
-        console.log('12', res)
-      } else {
-        const res = await getProjectExperiencesAdd(this.id, this.list)
-        console.log('修改成功', res)
-        this.$message.success('添加成功')
-      }
-
-      this.$emit('reset', false)
-      this.reset()
+          this.$emit('reset', false)
+          this.reset()
+        }
+      })
     },
     resetForm () {
       this.$confirm('确定取消此编辑吗', '提示', {

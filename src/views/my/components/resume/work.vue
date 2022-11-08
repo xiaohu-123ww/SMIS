@@ -386,58 +386,61 @@ export default {
       this.ruleForm.enterprise = ''
       this.ruleForm.position_class_name = ''
       this.ruleForm.field_name = ''
-      ruleForm.position_class_id = null
+      this.ruleForm.position_class_id = ''
       this.ruleForm.position_name = ''
     },
     async submitForm () {
-      this.$refs.rf.validate()
-      this.getList()
-      this.ruleForm.start_date = new Date(this.ruleForm.start_date).toLocaleDateString().slice().replace(/\//g, '-')
-      this.ruleForm.end_date = new Date(this.ruleForm.end_date).toLocaleDateString().slice().replace(/\//g, '-')
-      console.log(this.ruleForm)
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          this.getList()
+          this.ruleForm.start_date = new Date(this.ruleForm.start_date).toLocaleDateString().slice().replace(/\//g, '-')
+          this.ruleForm.end_date = new Date(this.ruleForm.end_date).toLocaleDateString().slice().replace(/\//g, '-')
+          console.log(this.ruleForm)
 
-      if (this.workShow) {
-        console.log(1)
-        console.log(1)
-        console.log(this.id)
-        console.log('121323', this.ruleForm)
-        const arr = this.ruleForm
-        if (arr.field_name === '') {
-          delete arr.field_name
+          if (this.workShow) {
+            console.log(1)
+            console.log(1)
+            console.log(this.id)
+            console.log('121323', this.ruleForm)
+            const arr = this.ruleForm
+            if (arr.field_name === '') {
+              delete arr.field_name
+            }
+            if (arr.position_class_name === '') {
+              delete arr.position_class_name
+            }
+            if (arr.position === '') {
+              delete arr.position
+            }
+            if (arr.position === null) {
+              delete arr.position
+            }
+            if (arr.field === '') {
+              delete arr.field
+            }
+            if (arr.position_class_id === this.workList.position_class_name) {
+              delete arr.position_class_id
+            }
+            if (arr.job_nature === this.workList.job_nature) {
+              delete arr.job_nature
+            }
+            console.log(arr)
+            const res = await getjobExperiencesAdemn(this.id, arr)
+            console.log('res', res)
+            this.$message.success('修改成功')
+            this.$emit('reset', false)
+          } else {
+            // this.getdelete()
+            console.log(this.ruleForm)
+            const res = await getexperiencesList(this.ruleForm)
+            console.log('res', res)
+            this.$message.success('添加成功')
+            this.$emit('reset', false)
+            // this.delete()
+          }
+          this.getdelete()
         }
-        if (arr.position_class_name === '') {
-          delete arr.position_class_name
-        }
-        if (arr.position === '') {
-          delete arr.position
-        }
-        if (arr.position === null) {
-          delete arr.position
-        }
-        if (arr.field === '') {
-          delete arr.field
-        }
-        if (arr.position_class_id === this.workList.position_class_name) {
-          delete arr.position_class_id
-        }
-        if (arr.job_nature === this.workList.job_nature) {
-          delete arr.job_nature
-        }
-        console.log(arr)
-        const res = await getjobExperiencesAdemn(this.id, arr)
-        console.log('res', res)
-        this.$message.success('修改成功')
-        this.$emit('reset', false)
-      } else {
-        // this.getdelete()
-        console.log(this.ruleForm)
-        const res = await getexperiencesList(this.ruleForm)
-        console.log('res', res)
-        this.$message.success('添加成功')
-        this.$emit('reset', false)
-        // this.delete()
-      }
-      this.getdelete()
+      })
     }
   }
 }

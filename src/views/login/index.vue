@@ -341,6 +341,7 @@ export default {
       this.$refs.password.focus()
     }
   },
+
   methods: {
     // 发送验证码
     sendCapte () {
@@ -464,6 +465,7 @@ export default {
         return acc
       }, {})
     }
+
   }
 };
 </script>

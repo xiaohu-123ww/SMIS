@@ -130,7 +130,7 @@
                 padding: 10px 15px;
               "
             >
-              {{ items }}
+              {{ index }}
             </div>
           </div>
         </div>

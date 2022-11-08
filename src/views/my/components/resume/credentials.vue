@@ -6,6 +6,7 @@
           v-model="value"
           placeholder="请选择资格证书"
           :disabled="state"
+          prop="value"
         >
           <div style="display: flex">
             <div style="width: 150px">
@@ -33,7 +34,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="活动时间" required>
-        <el-form-item>
+        <el-form-item prop="date1">
           <el-date-picker
             v-model="date1"
             type="date"
@@ -70,6 +71,12 @@ export default {
       options: {},
       date1: '',
       rules: {
+        date1: [
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        value: [
+          { required: true, message: '请选择活动区域', trigger: 'change' }
+        ]
       },
       field: [],
       list: {
@@ -108,20 +115,22 @@ export default {
   methods: {
 
     async onSubmit () {
-      this.list.cert_date = new Date(this.date1).toLocaleDateString().slice().replace(/\//g, '-')
-      this.num.cert_date = new Date(this.date1).toLocaleDateString().slice().replace(/\//g, '-')
-      if (this.state === false) {
-        const res = await getCertification(this.list)
-        console.log('绑定', res)
-        this.$message.success('绑定成功')
-      } else {
-        const res = await getCertificationAmend(this.id, this.num)
-        console.log('修改', res)
-        this.$message.success('修改成功')
-      }
-      this.$emit('reset', false)
-      this.value = ''
-      this.date1 = ''
+      this.$refs.rf.validate(async (valid) => {
+        this.list.cert_date = new Date(this.date1).toLocaleDateString().slice().replace(/\//g, '-')
+        this.num.cert_date = new Date(this.date1).toLocaleDateString().slice().replace(/\//g, '-')
+        if (this.state === false) {
+          const res = await getCertification(this.list)
+          console.log('绑定', res)
+          this.$message.success('绑定成功')
+        } else {
+          const res = await getCertificationAmend(this.id, this.num)
+          console.log('修改', res)
+          this.$message.success('修改成功')
+        }
+        this.$emit('reset', false)
+        this.value = ''
+        this.date1 = ''
+      })
     },
     resetSubmit () {
       this.$confirm('确定取消吗?', '提示', {

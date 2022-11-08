@@ -5,8 +5,23 @@
 </template>
 
 <script>
+import { getStates } from '@/api/user'
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    this.start()
+  },
+  methods: {
+    start () {
+      console.log('token', this.$store.getters.token)
+      if (this.$store.getters.token) {
+        setInterval(async () => {
+          const res = await getStates()
+          console.log('状态', res)
+        }, 300000)
+      }
+    }
+  }
 };
 </script>
 <style>

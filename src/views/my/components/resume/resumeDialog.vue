@@ -297,44 +297,47 @@ export default {
   },
   methods: {
     async submitForm () {
-      this.$refs.rf.validate()
-      if (this.id === 0) {
-        const res = await getjobIntentionList(this.list)
-        console.log('新增', res)
-        if (res.code === 200) {
-          this.$message.success('新增成功')
-          this.$emit('reset', false)
-          this.getjobList()
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          if (this.id === 0) {
+            const res = await getjobIntentionList(this.list)
+            console.log('新增', res)
+            if (res.code === 200) {
+              this.$message.success('新增成功')
+              this.$emit('reset', false)
+              this.getjobList()
+            }
+          } else {
+            this.add = this.list
+            if (this.add.city === '') {
+              delete this.add.city
+            }
+            if (this.add.salary_min === '') {
+              delete this.add.salary_min
+            }
+            if (this.add.salary_max === '') {
+              delete this.add.salary_max
+            }
+            if (this.add.field === 0) {
+              delete this.add.field
+            }
+            if (this.add.position_class_id === 0) {
+              delete this.add.position_class_id
+            }
+            if (this.add.position_class === '') {
+              delete this.add.position_class
+            }
+            if (this.add.job_nature === 0) {
+              delete this.add.job_nature
+            }
+            console.log(this.add)
+            const res = await getjobIntentionAmend(this.id, this.add)
+            console.log('res', res)
+            this.$emit('reset', false)
+            this.getjobList()
+          }
         }
-      } else {
-        this.add = this.list
-        if (this.add.city === '') {
-          delete this.add.city
-        }
-        if (this.add.salary_min === '') {
-          delete this.add.salary_min
-        }
-        if (this.add.salary_max === '') {
-          delete this.add.salary_max
-        }
-        if (this.add.field === 0) {
-          delete this.add.field
-        }
-        if (this.add.position_class_id === 0) {
-          delete this.add.position_class_id
-        }
-        if (this.add.position_class === '') {
-          delete this.add.position_class
-        }
-        if (this.add.job_nature === 0) {
-          delete this.add.job_nature
-        }
-        console.log(this.add)
-        const res = await getjobIntentionAmend(this.id, this.add)
-        console.log('res', res)
-        this.$emit('reset', false)
-        this.getjobList()
-      }
+      })
     },
     resetForm () {
       console.log(1)

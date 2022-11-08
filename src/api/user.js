@@ -191,3 +191,7 @@ export function personal () {
 export function getMessage () {
   return request.get('/user/self-information/')
 }
+
+export function getStates () {
+  return request.get('/utils/online_status/v1.0.0/')
+}

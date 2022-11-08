@@ -130,7 +130,7 @@
                 padding: 10px 15px;
               "
             >
-              {{ index }}
+              <div @click="searchChange(index)">{{ index }}</div>
             </div>
           </div>
         </div>
@@ -395,6 +395,14 @@ export default {
         })
       }
     },
+    searchChange (index) {
+      this.$router.push({
+        path: '/userpost', // home是列表页
+        query: {
+          inputValue: index
+        }
+      })
+    },
     goSearchDetail (title) {
       //  (title);
       this.$router.push({
@@ -453,7 +461,11 @@ export default {
     // 热门职位 换一批
     async changeHot (i) {
       console.log(i)
-      const { data } = await getPositionJob(this.limit, this.offset * i)
+      const arr = this.offset * i
+      console.log(arr)
+      this.offset = (arr % 24)
+      console.log('112', this.offset)
+      const { data } = await getPositionJob(this.limit, this.offset)
       console.log('刷新下一页', data.results)
       this.positionJob = data.results
     },
@@ -466,6 +478,8 @@ export default {
     },
     // 刷新精选职位
     async changePick (i) {
+      const arr = this.offset * i
+      this.offset = (arr % 24)
       const { data } = await getHandpickJobChange(this.limit, this.offset * i)
       console.log('精选职位刷新下一页', data.results)
       this.pickJob = data.results
@@ -812,7 +826,7 @@ export default {
     }
   }
   .popping {
-    width: 900px;
+    width: 100%;
     height: 400px;
     background-color: #f9f9f9;
     overflow: auto;

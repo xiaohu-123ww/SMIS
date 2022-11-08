@@ -47,11 +47,11 @@ export default {
           path: '/userdash'
         },
         {
-          name: '职位',
+          name: '职位中心',
           path: '/userpost'
         },
         {
-          name: '培训认证',
+          name: '智能学院',
           // path: "/clientlayout",
           path: '/Bmanagementlayout'
         },

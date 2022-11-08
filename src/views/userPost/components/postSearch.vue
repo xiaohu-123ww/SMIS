@@ -15,7 +15,7 @@
               </div>
             </el-col>
             <el-col :span="4">
-              <div class="grid-content bg-purple-light">
+              <div>
                 <el-select v-model="job_class" placeholder="请选择职位类型">
                   <div style="display: flex">
                     <div>
@@ -55,7 +55,7 @@
               </div>
             </el-col>
             <el-col :span="5"
-              ><div class="grid-content bg-purple">
+              ><div>
                 <el-select v-model="profession" placeholder="请选择行业类型">
                   <div style="display: flex">
                     <div style="width: 150px">
@@ -692,5 +692,11 @@ export default {
 }
 ::v-deep .el-select-dropdown__item.is-disabled {
   color: rgb(37, 110, 253);
+}
+::v-deep [data-v-2e155517] .el-select[data-v-2e155517] {
+  margin-top: 0px;
+}
+::v-deep [data-v-2e155517] [data-v-2e155517] .el-select[data-v-2e155517] {
+  margin-top: 0px !important;
 }
 </style>

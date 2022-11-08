@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="interview">
-      <div class="interview">企业屏蔽</div>
+      <div class="interviews">企业屏蔽</div>
       <el-button type="primary" icon="el-icon-edit" @click="add"
         >添加</el-button
       >
@@ -254,7 +254,7 @@ export default {
 .text {
   width: 400px !important;
 }
-.interview {
+.interviews {
   height: 50px;
   border-bottom: 1px solid #e6e3e3;
   line-height: 50px;

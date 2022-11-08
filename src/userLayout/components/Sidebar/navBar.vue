@@ -21,14 +21,14 @@
             </div>
           </div>
           <el-dropdown-menu slot="dropdown">
-            <router-link to="/usercenter">
+            <!-- <router-link to="/usercenter">
               <el-dropdown-item>个人主页</el-dropdown-item>
             </router-link>
             <router-link to="/paymentcenter">
               <el-dropdown-item>支付中心</el-dropdown-item>
-            </router-link>
+            </router-link> -->
             <router-link to="/my">
-              <el-dropdown-item>我的</el-dropdown-item>
+              <el-dropdown-item>个人中心</el-dropdown-item>
             </router-link>
 
             <a

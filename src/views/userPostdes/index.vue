@@ -430,8 +430,9 @@ export default {
       console.log('this.id', this.id)
       const res = await getPositionDetails(this.id)
       console.log('公司详情', res)
-      localStorage.setItem('resumes', JSON.stringify(data))
+
       this.resume = res.data
+      localStorage.setItem('resumes', JSON.stringify(res.data))
       this.image = this.disposeImg(res.data.logo)
       // console.log('logo', this.image)
       this.show = true

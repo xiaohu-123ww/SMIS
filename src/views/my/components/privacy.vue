@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="interview">
-      <div>企业屏蔽</div>
+      <div class="interview">企业屏蔽</div>
       <el-button type="primary" icon="el-icon-edit" @click="add"
         >添加</el-button
       >
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div v-else>
-        <div class="privacy" style="margin-bottom: 20px">
+        <div class="privacy" style="margin: 20px 0">
           <div class="text">已屏蔽{{ code }}家公司</div>
           <el-button type="primary" class="privacy-bt" @click="checkBox"
             >批量管理</el-button
@@ -214,6 +214,7 @@ export default {
   // height: 500px;
   // background-color: pink;
   padding-left: 80px;
+  margin-top: 30px;
   .privacy-checkbox {
     height: 40px;
     // background-color: red;
@@ -252,5 +253,14 @@ export default {
 }
 .text {
   width: 400px !important;
+}
+.interview {
+  height: 50px;
+  border-bottom: 1px solid #e6e3e3;
+  line-height: 50px;
+  padding-left: 30px;
+  color: #256efd;
+  font-weight: 600;
+  font-size: 20px;
 }
 </style>

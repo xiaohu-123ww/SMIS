@@ -1,173 +1,187 @@
 <template>
-  <div class="post-list">
-    <div class="postList-one">
-      <el-row>
-        <el-col :span="18"
-          ><div class="grid-content bg-purple">
-            <div class="postList">
-              <div
-                v-for="item in jobListings"
-                :key="item.id"
-                class="job-job"
-                @click="particulars(item)"
-              >
-                <el-row>
-                  <el-col :span="22">
-                    <div class="grid-content bg-purple">
-                      <div style="display: flex">
-                        <div class="job-mechanical" style="width: 500px">
-                          <div
-                            class="mechanical"
-                            style="width: 450px; display: flex"
-                          >
-                            <div style="width: 320px; padding-left: 30px">
-                              {{ item.fullname }} {{ item.city.second }}.{{
-                                item.city.third
-                              }}
-                            </div>
+  <div>
+    <div
+      v-if="loading"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgb(244, 246, 249)"
+      style="height: 700px; font-size: 100px"
+    ></div>
+    <div v-if="showTime" class="post-list">
+      <div class="postList-one">
+        <el-row>
+          <el-col :span="18"
+            ><div class="grid-content bg-purple">
+              <div class="postList">
+                <div
+                  v-for="item in jobListings"
+                  :key="item.id"
+                  class="job-job"
+                  @click="particulars(item)"
+                >
+                  <el-row>
+                    <el-col :span="22">
+                      <div class="grid-content bg-purple">
+                        <div style="display: flex">
+                          <div class="job-mechanical" style="width: 500px">
+                            <div
+                              class="mechanical"
+                              style="width: 450px; display: flex"
+                            >
+                              <div style="width: 320px; padding-left: 30px">
+                                {{ item.fullname }} {{ item.city.second }}.{{
+                                  item.city.third
+                                }}
+                              </div>
 
-                            <el-button type="primary" round class="el-bt"
-                              >立即沟通</el-button
-                            >
-                          </div>
-                          <div class="machan">
-                            <div class="machan-aa">
-                              {{ item.salary_min }}-{{ item.salary_max }} .
-                              {{ item.salary_unit }}薪
-                            </div>
-                            <div
-                              class="machan-bb"
-                              style="border-right: 1px solid #e6e3e3"
-                            >
-                              {{ item.job_experience.name }}
-                            </div>
-                            <div class="machan-bb">
-                              {{ item.education.name }}
-                            </div>
-                          </div>
-                          <div class="equipment">
-                            <div
-                              v-for="(itemss, index) in item.tag"
-                              :key="index"
-                              class="equiment-ff"
-                            >
-                              {{ itemss }}
-                            </div>
-                          </div>
-                          <div></div>
-                        </div>
-                        <div>
-                          <div class="job-mechanical">
-                            <div class="mechanical" style="width: 500px">
-                              {{ item.enterprise_info.name }}
-                            </div>
-                            <div class="machan" style="width: 500px">
-                              <div
-                                class="machan-cc"
-                                style="padding: 0 10px 0 0"
+                              <el-button type="primary" round class="el-bt"
+                                >立即沟通</el-button
                               >
-                                {{ item.enterprise_info.field.field_name }}
+                            </div>
+                            <div class="machan">
+                              <div class="machan-aa">
+                                {{ item.salary_min }}-{{ item.salary_max }} .
+                                {{ item.salary_unit }}薪
                               </div>
                               <div
-                                class="machan-cc"
+                                class="machan-bb"
                                 style="border-right: 1px solid #e6e3e3"
                               >
-                                {{ item.enterprise_info.finance }}
+                                {{ item.job_experience.name }}
                               </div>
-
-                              <div style="padding: 0 20px 0 5px">
-                                {{ item.enterprise_info.size }}
+                              <div class="machan-bb">
+                                {{ item.education.name }}
                               </div>
                             </div>
-                            <div
-                              style="
-                                padding-top: 10px;
-                                font-size: 11px;
-                                color: #878484;
-                                display: flex;
-                                flex-wrap: wrap;
-                              "
-                            >
-                              <!-- 福利 -->
+                            <div class="equipment">
                               <div
-                                v-for="(items, index) in item.enterprise_info
-                                  .tags"
+                                v-for="(itemss, index) in item.tag"
                                 :key="index"
+                                class="equiment-ff"
+                              >
+                                {{ itemss }}
+                              </div>
+                            </div>
+                            <div></div>
+                          </div>
+                          <div>
+                            <div class="job-mechanical">
+                              <div class="mechanical" style="width: 500px">
+                                {{ item.enterprise_info.name }}
+                              </div>
+                              <div class="machan" style="width: 500px">
+                                <div
+                                  class="machan-cc"
+                                  style="padding: 0 10px 0 0"
+                                >
+                                  {{ item.enterprise_info.field.field_name }}
+                                </div>
+                                <div
+                                  class="machan-cc"
+                                  style="border-right: 1px solid #e6e3e3"
+                                >
+                                  {{ item.enterprise_info.finance }}
+                                </div>
+
+                                <div style="padding: 0 20px 0 5px">
+                                  {{ item.enterprise_info.size }}
+                                </div>
+                              </div>
+                              <div
                                 style="
-                                  height: 15px;
-                                  background-color: rgb(245, 245, 245);
-                                  border: 1px solid rgb(220, 220, 220);
-                                  margin: 2px;
+                                  padding-top: 10px;
+                                  font-size: 11px;
+                                  color: #878484;
+                                  display: flex;
+                                  flex-wrap: wrap;
                                 "
                               >
-                                {{ items.name }}
+                                <!-- 福利 -->
+                                <div
+                                  v-for="(items, index) in item.enterprise_info
+                                    .tags"
+                                  :key="index"
+                                  style="
+                                    height: 15px;
+                                    background-color: rgb(245, 245, 245);
+                                    border: 1px solid rgb(220, 220, 220);
+                                    margin: 2px;
+                                  "
+                                >
+                                  {{ items.name }}
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </el-col>
-                  <el-col :span="1"
-                    ><div class="grid-content bg-purple-light">
-                      <div class="machan-sss">
-                        <img
-                          :src="disposeImg(item.enterprise_info.logo)"
-                          alt=""
-                          style="width: 60px; height: 60px"
-                        />
-                      </div></div
-                  ></el-col>
-                </el-row>
-              </div>
-              <el-pagination
-                style="margin: 20px 0 0 150px"
-                :current-page="offset"
-                :page-sizes="[5, 10, 20]"
-                :page-size="limit"
-                layout="sizes, prev, pager, next, jumper, total"
-                :total="total"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-              >
-              </el-pagination>
-            </div></div
-        ></el-col>
-        <el-col :span="6"
-          ><div class="grid-content bg-purple-light">
-            <div class="record">
-              <div class="record-aa">浏览记录</div>
-              <el-empty v-if="flagShow === 0" :image-size="100"></el-empty>
-              <div v-else>
-                <div v-for="item in history" :key="item.id" class="record-box">
-                  <div class="record-row">
-                    <el-row>
-                      <el-col :span="14"
-                        ><div class="grid-content bg-purple">
-                          {{ item.position_info.name }}
-                        </div></el-col
-                      >
-                      <el-col :span="9"
-                        ><div
-                          class="grid-content bg-purple-light"
-                          style="color: red; font-size: 14px"
+                    </el-col>
+                    <el-col :span="1"
+                      ><div class="grid-content bg-purple-light">
+                        <div class="machan-sss">
+                          <img
+                            :src="disposeImg(item.enterprise_info.logo)"
+                            alt=""
+                            style="width: 60px; height: 60px"
+                          />
+                        </div></div
+                    ></el-col>
+                  </el-row>
+                </div>
+                <el-pagination
+                  style="margin: 20px 0 0 150px"
+                  :current-page="offset"
+                  :page-sizes="[5, 10, 20]"
+                  :page-size="limit"
+                  layout="sizes, prev, pager, next, jumper, total"
+                  :total="total"
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                >
+                </el-pagination>
+              </div></div
+          ></el-col>
+          <el-col :span="6"
+            ><div class="grid-content bg-purple-light">
+              <div class="record">
+                <div class="record-aa">浏览记录</div>
+                <el-empty v-if="flagShow === 0" :image-size="100"></el-empty>
+                <div v-else>
+                  <div
+                    v-for="item in history"
+                    :key="item.id"
+                    class="record-box"
+                  >
+                    <div class="record-row">
+                      <el-row>
+                        <el-col :span="14"
+                          ><div class="grid-content bg-purple">
+                            {{ item.position_info.name }}
+                          </div></el-col
                         >
-                          {{ item.position_info.salary }}.{{
-                            item.position_info.salary_unit
-                          }}薪
-                        </div></el-col
-                      >
-                    </el-row>
-                  </div>
-                  <div style="color: #878484">
-                    {{ item.position_info.enterprise_name }}
+                        <el-col :span="9"
+                          ><div
+                            class="grid-content bg-purple-light"
+                            style="color: red; font-size: 14px"
+                          >
+                            {{ item.position_info.salary }}.{{
+                              item.position_info.salary_unit
+                            }}薪
+                          </div></el-col
+                        >
+                      </el-row>
+                    </div>
+                    <div style="color: #878484">
+                      {{ item.position_info.enterprise_name }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -188,15 +202,18 @@ export default {
       // 页数
       limit: 10,
       offset: 10,
-      jobListings: {},
+      jobListings: JSON.parse(localStorage.getItem('jobListings')) || {},
 
       total: 10,
       history: [],
       flagShow: 0,
       logo: [],
-      offset: 10,
+      offset: 1,
       list: {},
-      searchingList: {}
+      searchingList: {},
+      loading: false,
+      showTime: false,
+      qw: ''
     }
   },
   computed: {
@@ -244,19 +261,33 @@ export default {
     async getPostList () {
       // 首页检索跳转
       if (this.$route.query.inputValue) {
+        console.log(this.$route.query.inputValue)
         this.serchList.qw = this.$route.query.inputValue
-        console.log('this.serchList.input', this.serchList.input)
+        if (this.showTime === false) {
+          this.loading = true
+        }
+        // this.serchList.qw = this.$route.query.inputValue
+        console.log('this.serchList.input', this.serchList)
         const { data } = await getPostList(this.serchList, this.limit)
         console.log('列表数据', data)
         this.jobListings = data.results
         this.total = data.count
+        this.showTime = true
+        this.loading = false
       } else if (this.$route.query.inputValue === undefined) {
         // 没有查询条件的列表
         console.log('this.$route.query.inputValue', this.$route.query.inputValue)
+        if (this.showTime === false) {
+          this.loading = true
+        }
         const { data } = await getPostList(this.empty, this.limit)
         console.log('未查询列表数据', data)
+        // localStorage.setItem()
         this.jobListings = data.results
+        localStorage.getItem('jobListings', JSON.stringify(data.results))
         this.total = data.count
+        this.showTime = true
+        this.loading = false
       } else {
 
       }
@@ -302,7 +333,7 @@ export default {
       .machan-sss {
         width: 60px;
         height: 60px;
-        background-color: #256efd;
+        // background-color: #256efd;
       }
       .el-bt {
         width: 100px;

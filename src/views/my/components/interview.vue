@@ -1,9 +1,9 @@
 <template>
   <div class="box" :class="{ max: ematy === false }">
     <div class="interview">面试邀约</div>
-    <div class="interview-in">
+    <div class="interview-in" style="background-color: rgb(244, 246, 249)">
       <el-row>
-        <el-col :span="4"
+        <el-col :span="2"
           ><div
             class="grid-content bg-purple"
             :class="{ bt: changeColor === 1 }"
@@ -12,7 +12,7 @@
             全部
           </div></el-col
         >
-        <el-col :span="5"
+        <el-col :span="2"
           ><div
             class="grid-content bg-purple"
             :class="{ bt: changeColor === 2 }"
@@ -21,7 +21,7 @@
             待处理
           </div></el-col
         >
-        <el-col :span="5"
+        <el-col :span="2"
           ><div
             class="grid-content bg-purple"
             :class="{ bt: changeColor === 3 }"
@@ -30,7 +30,7 @@
             已接受
           </div></el-col
         >
-        <el-col :span="5"
+        <el-col :span="2"
           ><div
             class="grid-content bg-purple"
             :class="{ bt: changeColor === 4 }"
@@ -39,7 +39,7 @@
             已拒绝
           </div></el-col
         >
-        <el-col :span="5"
+        <el-col :span="2"
           ><div
             class="grid-content bg-purple"
             :class="{ bt: changeColor === 5 }"
@@ -372,7 +372,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .bt {
-  border-bottom: 2px solid #256efd;
+  color: #256efd;
+  background-color: #fff;
 }
 .box {
   .interview {
@@ -385,16 +386,17 @@ export default {
     font-size: 20px;
   }
   .interview-in {
-    display: flex;
-    margin-left: 20px;
+    // display: flex;
+    // margin-left: 20px;
+    background-color: pink;
     .grid-content {
-      height: 40px;
-      width: 60px;
+      // height: 40px;
+      // width: 60px;
       line-height: 40px;
       text-align: center;
       font-size: 15px;
-      margin-right: 10px;
-      margin-bottom: 20px;
+      // margin-right: 10px;
+      // margin-bottom: 20px;
       // background-color: pink;
     }
   }
@@ -503,7 +505,7 @@ export default {
       .machan-sss {
         width: 80px;
         height: 80px;
-        background-color: #256efd;
+        // background-color: #256efd;
         margin-top: 10px;
       }
     }

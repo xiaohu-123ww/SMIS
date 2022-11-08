@@ -3,11 +3,14 @@
     <div>
       <div class="resume-job-one">
         <el-row>
-          <el-col :span="20"
+          <el-col :span="19"
             ><div class="grid-content bg-purple">求职意向</div></el-col
           >
-          <el-col :span="1"
-            ><div class="grid-content bg-purple-light">
+          <el-col :span="2"
+            ><div
+              class="grid-content bg-purple-light"
+              style="margin-left: 32px"
+            >
               <el-button
                 v-if="!show"
                 type="primary"

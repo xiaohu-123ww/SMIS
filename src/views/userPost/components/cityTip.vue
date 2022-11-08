@@ -126,7 +126,9 @@
         >
         <el-col :span="3"
           ><div class="grid-content bg-purple-light">
-            <span class="clear" @click="clearSearch">清空所有条件</span>
+            <a href="javascript:;">
+              <span class="clear" @click="clearSearch">清空所有条件</span></a
+            >
           </div></el-col
         >
       </el-row>
@@ -365,5 +367,8 @@ export default {
   text-align: center;
   color: #256efd;
   // background-color: red;
+}
+::v-deep .el-select-dropdown__item.is-disabled {
+  color: rgb(37, 110, 253);
 }
 </style>

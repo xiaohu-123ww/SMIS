@@ -7,7 +7,11 @@
         >
         <el-col :span="1"
           ><div v-if="!person" class="grid-content bg-purple-light">
-            <el-button type="primary" icon="el-icon-edit" @click="edit"
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              style="margin-top: 10px"
+              @click="edit"
               >编辑</el-button
             >
           </div></el-col

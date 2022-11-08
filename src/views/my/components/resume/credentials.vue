@@ -163,4 +163,7 @@ export default {
 .el-cascader {
   width: 500px;
 }
+::v-deep .el-select-dropdown__item.is-disabled {
+  color: rgb(37, 110, 253);
+}
 </style>

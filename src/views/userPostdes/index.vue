@@ -1,301 +1,326 @@
 <template>
-  <div v-if="show" class="postdes-box">
-    <div class="top">
-      <div class="post-name">
-        <div class="name">
-          <el-row>
-            <el-col :span="4">
-              <div class="post-name-logo">
-                <img :src="image" alt="" />
-              </div>
-            </el-col>
-            <el-col :span="16">
-              <div class="post-job">
-                <div
-                  style="
-                    font-size: 22px;
-                    margin-top: 20px;
-                    color: #256efd;
-                    font-weight: 700;
-                  "
-                >
-                  {{ resume.name }}
+  <div>
+    <div
+      v-if="loading"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="#fff"
+      style="height: 700px; font-size: 100px"
+    ></div>
+    <div v-if="show" class="postdes-box">
+      <div class="top">
+        <div class="post-name">
+          <div class="name">
+            <el-row>
+              <el-col :span="4">
+                <div class="post-name-logo">
+                  <img :src="image" alt="" />
                 </div>
-                <div class="postJob">
-                  <div class="text">{{ resume.financing_status }}</div>
-                  <div class="text" style="padding-left: 15px">
-                    {{ resume.staff_size }}
+              </el-col>
+              <el-col :span="16">
+                <div class="post-job">
+                  <div
+                    style="
+                      font-size: 22px;
+                      margin-top: 20px;
+                      color: #256efd;
+                      font-weight: 700;
+                    "
+                  >
+                    {{ resume.name }}
                   </div>
-                  <div class="text" style="padding-left: 15px; border: 0">
-                    {{ resume.field.field_name }}
+                  <div class="postJob">
+                    <div class="text">{{ resume.financing_status }}</div>
+                    <div class="text" style="padding-left: 15px">
+                      {{ resume.staff_size }}
+                    </div>
+                    <div class="text" style="padding-left: 15px; border: 0">
+                      {{ resume.field.field_name }}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </el-col>
-            <el-col :span="3">
-              <div style="width: 120px; height: 120px; margin: 30px 0 20px 0px">
+              </el-col>
+              <el-col :span="3">
                 <div
-                  style="
-                    width: 120px;
-                    height: 90px;
-                    font-size: 60px;
-                    padding-left: 40px;
-                    color: #256efd;
-                  "
+                  style="width: 120px; height: 120px; margin: 30px 0 20px 0px"
                 >
-                  {{ resume.count_of_opening_position }}
+                  <div
+                    style="
+                      width: 120px;
+                      height: 90px;
+                      font-size: 60px;
+                      padding-left: 40px;
+                      color: #256efd;
+                    "
+                  >
+                    {{ resume.count_of_opening_position }}
+                  </div>
+                  <div style="font-size: 18px; padding-left: 22px; color: #fff">
+                    在招职位
+                  </div>
                 </div>
-                <div style="font-size: 18px; padding-left: 22px; color: #fff">
-                  在招职位
-                </div>
-              </div>
-            </el-col>
-          </el-row>
+              </el-col>
+            </el-row>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="header"></div>
-    <div class="header-one">
-      <div class="box" :class="{ 'boderImage ': state === 1 }">
-        <a href="javascript:;" @click="companyIntroduction">公司介绍</a>
+      <div class="header"></div>
+      <div class="header-one">
+        <div class="box" :class="{ 'boderImage ': state === 1 }">
+          <a href="javascript:;" @click="companyIntroduction">公司介绍</a>
+        </div>
+        <div class="box" :class="{ 'boderImage ': state === 2 }">
+          <a href="javscript:;" @click="recruitment">在招职位</a>
+        </div>
       </div>
-      <div class="box" :class="{ 'boderImage ': state === 2 }">
-        <a href="javscript:;" @click="recruitment">在招职位</a>
-      </div>
-    </div>
-    <div class="postdes-card">
-      <el-row>
-        <el-col v-if="flagShow" :span="18">
-          <el-card style="margin: 20px 50px 20px 0">
-            <div
-              style="
-                font-size: 18px;
-                padding-bottom: 5px;
-                border-bottom: 3px solid #256efd;
-                width: 78px;
-              "
-            >
-              公司介绍
-            </div>
-            <div
-              style="line-height: 30px; font-size: 14px"
-              v-html="resume.introduction"
-            ></div>
-          </el-card>
-
-          <el-card style="margin: 20px 50px 20px 0">
-            <div
-              style="
-                font-size: 18px;
-                padding-bottom: 5px;
-                border-bottom: 3px solid #256efd;
-                width: 78px;
-              "
-            >
-              公司环境
-            </div>
-          </el-card>
-          <el-card style="margin: 20px 50px 20px 0">
-            <div
-              style="
-                font-size: 18px;
-                padding-bottom: 5px;
-                border-bottom: 3px solid #256efd;
-                width: 78px;
-              "
-            >
-              公司优势
-            </div>
-            <div class="tags">
+      <div class="postdes-card">
+        <el-row>
+          <el-col v-if="flagShow" :span="18">
+            <el-card style="margin: 20px 50px 20px 0">
               <div
-                v-for="item in resume.tags"
-                :key="item.name"
                 style="
-                  width: 90px;
-                  height: 30px;
-                  background-color: rgb(233, 243, 255);
-                  border: 1px solid rgb(71, 156, 255);
-                  color: rbg(56, 148, 255);
-                  margin-right: 30px;
-                  text-aligin: center;
-                  line-height: 30px;
+                  font-size: 18px;
+                  padding-bottom: 5px;
+                  border-bottom: 3px solid #256efd;
+                  width: 78px;
+                "
+              >
+                公司介绍
+              </div>
+              <div
+                style="line-height: 30px; font-size: 14px"
+                v-html="resume.introduction"
+              ></div>
+            </el-card>
+
+            <el-card style="margin: 20px 50px 20px 0">
+              <div
+                style="
+                  font-size: 18px;
+                  padding-bottom: 5px;
+                  border-bottom: 3px solid #256efd;
+                  width: 78px;
+                "
+              >
+                公司环境
+              </div>
+              <div style="display: flex">
+                <div
+                  v-for="(item, index) in resume.enterprise_images"
+                  :key="index"
+                  class="cert"
+                >
+                  <img
+                    :src="disposeImg(item)"
+                    alt=""
+                    style="width: 240px; height: 150px"
+                  />
+                </div>
+              </div>
+            </el-card>
+            <el-card style="margin: 20px 50px 20px 0">
+              <div
+                style="
+                  font-size: 18px;
+                  padding-bottom: 5px;
+                  border-bottom: 3px solid #256efd;
+                  width: 78px;
+                "
+              >
+                公司优势
+              </div>
+              <div class="tags">
+                <div
+                  v-for="item in resume.tags"
+                  :key="item.name"
+                  style="
+                    width: 90px;
+                    height: 30px;
+                    background-color: rgb(233, 243, 255);
+                    border: 1px solid rgb(71, 156, 255);
+                    color: rbg(56, 148, 255);
+                    margin-right: 30px;
+                    text-aligin: center;
+                    line-height: 30px;
+                    margin-bottom: 10px;
+                  "
+                >
+                  {{ item.name }}
+                </div>
+              </div>
+            </el-card>
+            <el-card style="margin: 20px 50px 20px 0">
+              <div
+                style="
+                  font-size: 18px;
+                  padding-bottom: 5px;
+                  border-bottom: 3px solid #256efd;
+                  width: 78px;
+                "
+              >
+                工商信息
+              </div>
+              <div class="firm">
+                <el-row>
+                  <el-col :span="12"
+                    >公司名称：<span style="color: #999">{{
+                      resume.name
+                    }}</span></el-col
+                  >
+                  <el-col :span="12"
+                    >成立时间：<span style="color: #999">{{
+                      resume.establish_year
+                    }}</span></el-col
+                  >
+                </el-row>
+              </div>
+              <div class="firm">
+                <el-row>
+                  <el-col :span="12"
+                    >注册资本: <span style="color: #999"></span
+                  ></el-col>
+                  <el-col :span="12"
+                    >法人代表: <span style="color: #999"></span
+                  ></el-col>
+                </el-row>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col v-else :span="18">
+            <el-card style="margin: 20px 50px 20px 0">
+              <div
+                style="
+                  font-size: 18px;
+                  padding-bottom: 5px;
+                  border-bottom: 3px solid #256efd;
+                  width: 78px;
                   margin-bottom: 10px;
                 "
               >
-                {{ item.name }}
+                在招职位
               </div>
-            </div>
-          </el-card>
-          <el-card style="margin: 20px 50px 20px 0">
-            <div
-              style="
-                font-size: 18px;
-                padding-bottom: 5px;
-                border-bottom: 3px solid #256efd;
-                width: 78px;
-              "
-            >
-              工商信息
-            </div>
-            <div class="firm">
-              <el-row>
-                <el-col :span="12"
-                  >公司名称：<span style="color: #999">{{
-                    resume.name
-                  }}</span></el-col
-                >
-                <el-col :span="12"
-                  >成立时间：<span style="color: #999">{{
-                    resume.establish_year
-                  }}</span></el-col
-                >
-              </el-row>
-            </div>
-            <div class="firm">
-              <el-row>
-                <el-col :span="12"
-                  >注册资本: <span style="color: #999"></span
-                ></el-col>
-                <el-col :span="12"
-                  >法人代表: <span style="color: #999"></span
-                ></el-col>
-              </el-row>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col v-else :span="18">
-          <el-card style="margin: 20px 50px 20px 0">
-            <div
-              style="
-                font-size: 18px;
-                padding-bottom: 5px;
-                border-bottom: 3px solid #256efd;
-                width: 78px;
-                margin-bottom: 10px;
-              "
-            >
-              在招职位
-            </div>
-            <div class="table" style="display: flex">
-              <div class="change-select">
-                <el-select
-                  v-model="city"
-                  placeholder="工作城市"
-                  @change="cityChange"
-                >
-                  <el-option
-                    v-for="(item, index) in cityList"
-                    :key="index"
-                    :label="index"
-                    :value="item"
-                    >{{ index }}</el-option
+              <div class="table" style="display: flex">
+                <div class="change-select">
+                  <el-select
+                    v-model="city"
+                    placeholder="工作城市"
+                    @change="cityChange"
                   >
-                </el-select>
-              </div>
-              <div class="change-select">
-                <el-select
-                  v-model="experience"
-                  placeholder="工作经验"
-                  @change="experienceChange"
-                >
-                  <el-option
-                    v-for="(item, index) in experienceList"
-                    :key="index"
-                    :label="index"
-                    :value="item"
-                    >{{ index }}</el-option
+                    <el-option
+                      v-for="(item, index) in cityList"
+                      :key="index"
+                      :label="index"
+                      :value="item"
+                      >{{ index }}</el-option
+                    >
+                  </el-select>
+                </div>
+                <div class="change-select">
+                  <el-select
+                    v-model="experience"
+                    placeholder="工作经验"
+                    @change="experienceChange"
                   >
-                </el-select>
-              </div>
-              <div class="change-select">
-                <el-select
-                  v-model="requirements"
-                  placeholder="学历要求"
-                  @change="requirementsChange"
-                >
-                  <el-option
-                    v-for="(item, index) in educationalRequirements"
-                    :key="index"
-                    :label="index"
-                    :value="item"
-                    >{{ index }}</el-option
+                    <el-option
+                      v-for="(item, index) in experienceList"
+                      :key="index"
+                      :label="index"
+                      :value="item"
+                      >{{ index }}</el-option
+                    >
+                  </el-select>
+                </div>
+                <div class="change-select">
+                  <el-select
+                    v-model="requirements"
+                    placeholder="学历要求"
+                    @change="requirementsChange"
                   >
-                </el-select>
-              </div>
-              <div class="change-select">
-                <el-select
-                  v-model="money"
-                  placeholder="薪资要求"
-                  @change="moneyChange"
-                >
-                  <el-option
-                    v-for="(item, index) in moneyList"
-                    :key="index"
-                    :label="item"
-                    :value="item"
-                    >{{ item }}</el-option
+                    <el-option
+                      v-for="(item, index) in educationalRequirements"
+                      :key="index"
+                      :label="index"
+                      :value="item"
+                      >{{ index }}</el-option
+                    >
+                  </el-select>
+                </div>
+                <div class="change-select">
+                  <el-select
+                    v-model="money"
+                    placeholder="薪资要求"
+                    @change="moneyChange"
                   >
-                </el-select>
+                    <el-option
+                      v-for="(item, index) in moneyList"
+                      :key="index"
+                      :label="item"
+                      :value="item"
+                      >{{ item }}</el-option
+                    >
+                  </el-select>
+                </div>
               </div>
-            </div>
 
-            <div>
-              <el-empty v-if="showOne" :image-size="100"></el-empty>
-              <div v-else>
-                <List
-                  :in-recruit-list="inRecruitList"
-                  :firm="firm"
-                  :image="image"
-                  :nature="nature"
-                  :size="size"
-                  :text="text"
-                />
+              <div>
+                <el-empty v-if="showOne" :image-size="100"></el-empty>
+                <div v-else>
+                  <List
+                    :in-recruit-list="inRecruitList"
+                    :firm="firm"
+                    :image="image"
+                    :nature="nature"
+                    :size="size"
+                    :text="text"
+                  />
 
-                <el-pagination
-                  style="margin: 20px 0 0 150px"
-                  :current-page="query.pagenum"
-                  :page-sizes="[5, 10, 20]"
-                  :page-size="query.pagesize"
-                  layout="sizes, prev, pager, next, total"
-                  :total="total"
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-                >
-                </el-pagination>
+                  <el-pagination
+                    style="margin: 20px 0 0 150px"
+                    :current-page="offset"
+                    :page-sizes="[5, 10, 20]"
+                    :page-size="limit"
+                    layout="sizes, prev, pager, next, total"
+                    :total="total"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                  >
+                  </el-pagination>
+                </div>
               </div>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card>
-            <div
-              style="
-                font-size: 18px;
-                padding-bottom: 10px;
-                border-bottom: 3px solid #256efd;
-                width: 80px;
-              "
-              @click="btn"
-            >
-              工作地点
-            </div>
-            <!-- data.work_city.second + data.work_city.third + data.work_city.first -->
-            <div style="font-size: 16px; margin-top: 10px">
-              {{ addressVal }}
-              <!-- <el-button type="text" @click="btn">搜索</el-button> -->
-            </div>
-            <baidu-map
-              class="box_map"
-              :center="locations"
-              :zoom="zoom"
-              :scroll-wheel-zoom="true"
-              @ready="handler"
-            >
-              <!-- :scroll-wheel-zoom="true" 该属性为鼠标滚轮缩放 -->
-            </baidu-map>
-          </el-card>
-        </el-col>
-      </el-row>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <el-card>
+              <div
+                style="
+                  font-size: 18px;
+                  padding-bottom: 10px;
+                  border-bottom: 3px solid #256efd;
+                  width: 80px;
+                "
+                @click="btn"
+              >
+                工作地点
+              </div>
+              <!-- data.work_city.second + data.work_city.third + data.work_city.first -->
+              <div style="font-size: 16px; margin-top: 10px">
+                {{ addressVal }}
+                <!-- <el-button type="text" @click="btn">搜索</el-button> -->
+              </div>
+              <baidu-map
+                class="box_map"
+                :center="locations"
+                :zoom="zoom"
+                :scroll-wheel-zoom="true"
+                @ready="handler"
+              >
+                <!-- :scroll-wheel-zoom="true" 该属性为鼠标滚轮缩放 -->
+              </baidu-map>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -318,7 +343,7 @@ export default {
 
       },
       id: 0,
-      resume: {},
+      resume: JSON.parse(localStorage.getItem('resumes')) || {},
       image: '',
       show: false,
       state: 1,
@@ -356,7 +381,8 @@ export default {
       offset: 0,
       total: 0,
       text: '',
-      showOne: false
+      showOne: false,
+      loading: false
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -389,22 +415,27 @@ export default {
     },
     handleCurrentChange (currPage) {
       console.log('当前页码', currPage)
-      this.offset = currPage
+      this.offset = this.limit(currPage - 1)
       this.query.pagenum = currPage
       this.inRecruit()
     },
 
     // 公司详情
     async getparticulars () {
+      if (this.show === false) {
+        this.loading = true
+      }
       console.log(this.$route.query.id)
       this.id = this.$route.query.id
       console.log('this.id', this.id)
       const res = await getPositionDetails(this.id)
       console.log('公司详情', res)
+      localStorage.getItem('resumes', JSON.stringify(data))
       this.resume = res.data
       this.image = this.disposeImg(res.data.logo)
       // console.log('logo', this.image)
       this.show = true
+      this.loading = false
       this.addressVal = res.data.address
       this.firm = res.data.name
       this.nature = res.data.nature
@@ -617,7 +648,7 @@ export default {
   }
 }
 .boderImage {
-  border-bottom: 3px solid #256efd;
+  // border-bottom: 3px solid #256efd;
 }
 .postdes-card {
   padding: 20px 80px;
@@ -627,7 +658,7 @@ export default {
 }
 .box_map {
   margin: 30px auto;
-  width: 300px;
+  // width: 300px;
   height: 400px;
   background-color: #f0f;
   position: relative;
@@ -758,5 +789,15 @@ button {
   display: flex;
   text-align: center;
   flex-wrap: wrap;
+}
+.cert {
+  margin: 20px;
+  width: 240px;
+  height: 180px;
+  // background-color: #256efd;
+  font-size: 15px;
+  text-align: center;
+  color: #999;
+  margin-right: 70px;
 }
 </style>

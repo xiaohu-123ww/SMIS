@@ -12,6 +12,7 @@
               type="primary"
               icon="el-icon-plus"
               :disabled="list.length === 10"
+              style="margin-top: 10px"
               @click="edit"
               >添加</el-button
             >
@@ -27,7 +28,7 @@
               <div v-if="!show" style="margin-bottom: 30px">
                 <div class="school">
                   <el-row>
-                    <el-col :span="12"
+                    <el-col :span="11"
                       ><div
                         class="grid-content bg"
                         style="
@@ -44,8 +45,11 @@
                         {{ item.start_date }} -{{ item.end_date }}
                       </div></el-col
                     >
-                    <el-col :span="3">
-                      <div class="grid-content bg-purple">
+                    <el-col :span="2">
+                      <div
+                        class="grid-content bg-purple"
+                        style="margin-left: 43px"
+                      >
                         <el-button
                           type="primary"
                           icon="el-icon-edit"
@@ -54,8 +58,11 @@
                         </el-button>
                       </div>
                     </el-col>
-                    <el-col :span="2"
-                      ><div class="grid-content bg-purple-light">
+                    <el-col :span="3"
+                      ><div
+                        class="grid-content bg-purple-light"
+                        style="margin-left: 73px; width: 150px"
+                      >
                         <el-button
                           type="success"
                           icon="el-icon-delete"

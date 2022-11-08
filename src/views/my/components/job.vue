@@ -1,6 +1,7 @@
 <template>
   <div :class="{ max: ematy === true }">
-    <div>
+    <div class="interview">求职申请</div>
+    <div style="background-color: rgb(244, 246, 249)">
       <el-row>
         <el-col :span="2"
           ><div
@@ -259,16 +260,27 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.interview {
+  height: 50px;
+  border-bottom: 1px solid #e6e3e3;
+  line-height: 50px;
+  padding-left: 30px;
+  color: #256efd;
+  font-weight: 600;
+  font-size: 20px;
+}
 .bt {
-  border-bottom: 2px solid #256efd;
+  // border-bottom: 2px solid #256efd;
+  color: #256efd;
+  background-color: #fff;
 }
 .grid-content {
-  height: 40px;
-  width: 60px;
+  // height: 45px;
+  // width: 60px;
   line-height: 40px;
   text-align: center;
   font-size: 15px;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   // background-color: pink;
 }
 .max {

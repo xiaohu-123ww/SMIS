@@ -34,7 +34,7 @@
               </div></el-col
             >
             <el-col :span="3"
-              ><div class="grid-content bg-purple">
+              ><div class="grid-content bg-purple" style="margin-left: 7px">
                 <el-button
                   type="primary"
                   icon="el-icon-edit"

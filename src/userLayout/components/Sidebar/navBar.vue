@@ -12,7 +12,9 @@
                 :src="circurl"
                 style="position: relative; top: 10px; left: 0px"
               />
-              <p class="avatar-wrapper-p">{{ userInfo.username }}</p>
+              <p class="avatar-wrapper-p">
+                {{ userInfo.fullname ? userInfo.fullname : userInfo.username }}
+              </p>
             </div>
             <div class="avatar-wrapperR">
               <img src="@/assets/images/Grid.png" class="avatar-wrapper-img" />

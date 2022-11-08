@@ -7,7 +7,7 @@ import request from '@/utils/request'
  * @returns
  */
 export function getPostList (data, limit) {
-  return request.post('/user/position-new-retrival/', data, {
+  return request.post('/user/position-new-retrival//v1.0.1/', data, {
     params: {
       limit
 

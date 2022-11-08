@@ -206,7 +206,7 @@ export default {
     .machan-sss {
       width: 80px;
       height: 80px;
-      background-color: #256efd;
+      // background-color: #256efd;
     }
   }
 }

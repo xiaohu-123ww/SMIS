@@ -73,9 +73,9 @@
                       <el-option
                         v-for="(item, index) in field"
                         :key="index"
-                        :label="index"
+                        :label="item"
                         :value="index"
-                        @mousemove.native="fieldChange(item)"
+                        @mousemove.native="fieldChange(index)"
                       >
                       </el-option>
                     </div>
@@ -108,6 +108,7 @@
       </div>
       <div class="city">
         <div
+          id="example"
           class="city-1"
           :class="{ change: changeColor === '11' }"
           @click="color"
@@ -196,7 +197,7 @@
       </div>
       <div>
         <CityTip
-          @reset="reset"
+          @reset="color"
           @experienceChange="experienceChange"
           @educationalChange="educationalChange"
           @moneyChange="moneyChange"
@@ -233,7 +234,7 @@ export default {
       flag: 1,
       tip: '',
       radioList: ['Python', '全栈工程师', 'Java', 'web前端'],
-      options: {},
+      options: JSON.parse(localStorage.getItem('op')) || {},
       list: [],
       dict: '',
       statu: false,
@@ -322,10 +323,6 @@ export default {
       return timestamp
     },
     // 搜索
-    serchJob () {
-      console.log('搜索条件', this.serchPost)
-      this.$refs.rf.sendItem(this.serchPost)
-    },
 
     optionChange (e) {
       this.searchInput = e.join('/')
@@ -340,7 +337,7 @@ export default {
       const { data } = await getQuarters()
       console.log('岗位', data)
       this.options = data
-      localStorage.getItem('options', JSON.stringify(data))
+      localStorage.getItem('op', JSON.stringify(data))
     },
     // 职位下拉框
     tradeChange (index) {
@@ -367,6 +364,7 @@ export default {
       this.IndustryList = data
     },
     industryChange (item) {
+      console.log('1121', item)
       this.field = item
     },
     fieldChange (item) {
@@ -381,6 +379,7 @@ export default {
       this.administrativeShow = true
       this.show = false
       this.flagShow = false
+      this.reset()
     },
     async tradeColor (i) {
       this.changeColor = '22'
@@ -425,6 +424,8 @@ export default {
     },
     // 清除
     reset () {
+      this.cityName = []
+
       this.serchPost.job = ''
       this.serchPost.position = ''
       this.serchPost.qw = ''
@@ -464,6 +465,51 @@ export default {
     peopleChange (i) {
       console.log('ff', i)
       this.serchPost.staff_size = i
+    },
+    serchJob () {
+      console.log('搜索条件', this.serchPost)
+      const list = this.serchPost
+      if (list.adcode === '') {
+        delete this.list.adcode
+      }
+      if (list.city === '') {
+        delete list.city
+      }
+      if (list.education === 0) {
+        delete list.education
+      }
+      if (list.enterprise_nature === 0) {
+        delete list.enterprise_nature
+      }
+      if (list.field === '') {
+        delete list.field
+      }
+      if (list.job === '') {
+        delete list.job
+      }
+      if (list.job_experience === 0) {
+        delete list.job_experience
+      }
+      if (list.job_nature === 0) {
+        delete list.job_nature
+      }
+      if (list.position === '') {
+        delete list.position
+      }
+      if (list.position_class === 0) {
+        delete list.position_class
+      }
+      if (list.qw === 0) {
+        delete list.qw
+      }
+      if (list.salary === 0) {
+        delete list.salary
+      }
+      if (list.staff_size === 0) {
+        delete list.staff_siz
+      }
+      console.log('1223', list)
+      // this.$refs.rf.sendItem(list)
     }
 
   }
@@ -643,5 +689,8 @@ export default {
 }
 ::v-deep .el-select[data-v-7e107d3e] {
   margin-top: 0px;
+}
+::v-deep .el-select-dropdown__item.is-disabled {
+  color: rgb(37, 110, 253);
 }
 </style>

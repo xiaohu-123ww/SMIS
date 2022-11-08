@@ -8,7 +8,7 @@
     >
       <div class="work">
         <el-row>
-          <el-col :span="12"
+          <el-col :span="11"
             ><div class="grid-content bg" style="font-weight: 700">
               {{ item.project_info.project_name }}项目
             </div></el-col
@@ -18,18 +18,22 @@
               {{ item.start_date }}-{{ item.end_date }}
             </div></el-col
           >
-          <el-col :span="3">
+          <el-col :span="2">
             <div class="grid-content bg-purple">
               <el-button
                 type="primary"
                 icon="el-icon-edit"
+                style="margin-left: 32px"
                 @click="editChange(item)"
                 >编辑
               </el-button>
             </div>
           </el-col>
-          <el-col :span="2"
-            ><div class="grid-content bg-purple-light">
+          <el-col :span="3"
+            ><div
+              class="grid-content bg-purple-light"
+              style="width: 150px; margin-left: 65px"
+            >
               <el-button
                 type="success"
                 icon="el-icon-delete"

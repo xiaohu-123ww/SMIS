@@ -470,4 +470,7 @@ export default {
 .el-cascader-panel .el-cascader-menu:nth-of-type(2) .el-cascader-node__label {
   margin-left: -90% !important;
 }
+::v-deep .el-select-dropdown__item.is-disabled {
+  color: rgb(37, 110, 253);
+}
 </style>

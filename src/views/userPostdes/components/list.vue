@@ -15,14 +15,10 @@
                     <div class="job-mechanical" style="width: 500px">
                       <div
                         class="mechanical"
-                        style="
-                          width: 500px;
-
-                          display: flex;
-                        "
+                        style="width: 500px; display: flex"
                       >
                         <div style="width: 240px">
-                          {{ item.fullname }} {{ item.city }}
+                          {{ item.fullname }} {{ item.city.name }}
                         </div>
                         <el-button
                           type="primary"
@@ -44,10 +40,9 @@
                           class="machan-bb"
                           style="border-right: 1px solid #e6e3e3"
                         >
-                          {{ item.job_experience }}
+                          {{ item.job_experience.name }}
                         </div>
-                        <div class="machan-bb">1233</div>
-                        {{ item.education }}
+                        <div class="machan-bb">{{ item.education.name }}</div>
                       </div>
                       <div class="equipment">
                         <div
@@ -86,10 +81,10 @@
                         <div class="equipment">
                           <div
                             style="
-                              padding-top: 5px;
+                              padding-top: 10px;
                               font-size: 12px;
                               color: #878484;
-                              padding-left: 30px;
+                              padding-left: 40px;
                             "
                           >
                             {{ text }}
@@ -97,12 +92,7 @@
                         </div>
                       </div>
                       <div
-                        style="
-                          width: 60px;
-                          height: 60px;
-                          background-color: #256efd;
-                          margin: 10px 0 0 20px;
-                        "
+                        style="width: 60px; height: 60px; margin: 10px 0 0 20px"
                       >
                         <img
                           alt=""
@@ -179,7 +169,7 @@ export default {
       .machan-sss {
         width: 60px;
         height: 60px;
-        background-color: #256efd;
+        // background-color: #256efd;
       }
       .el-bt {
         width: 100px;

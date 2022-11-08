@@ -192,6 +192,7 @@ export function getMessage () {
   return request.get('/user/self-information/')
 }
 
+// 刷新状态
 export function getStates () {
   return request.get('/utils/online_status/v1.0.0/')
 }

@@ -44,7 +44,7 @@
           </el-row>
         </div>
       </div>
-      <div v-if="flag === false" class="commun">
+      <div v-if="flag === false" class="commun" style="margin-left: 20px">
         <el-button type="primary" icon="el-icon-edit" @click="redact"
           >编辑简历</el-button
         >

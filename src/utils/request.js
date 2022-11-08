@@ -29,6 +29,7 @@ service.interceptors.request.use(
 
       config.headers['Authorization'] = getToken()
     }
+
     return config
   },
   error => {

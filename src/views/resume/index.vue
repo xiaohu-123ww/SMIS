@@ -1,200 +1,234 @@
 <template>
-  <div v-if="bold" class="postdes-box">
-    <div class="top">
-      <div class="post-name">
-        <div class="name">
-          <el-row>
-            <el-col :span="20">
-              <div class="postdes">
-                <div class="fullname">{{ resume.fullname }}</div>
-                <div class="money">
-                  {{ resume.salary_min }} - {{ resume.salary_max }}.{{
-                    resume.salary_unit
-                  }}薪
-                </div>
-                <div class="city">
-                  <div class="text" style="padding-left: 0">
-                    {{ city }} - {{ third }}
+  <div>
+    <div
+      v-if="loading"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="#fff"
+      style="height: 700px; font-size: 100px"
+    ></div>
+    <div v-if="bold" class="postdes-box">
+      <div class="top">
+        <div class="post-name">
+          <div class="name">
+            <el-row>
+              <el-col :span="20">
+                <div class="postdes">
+                  <div class="fullname">{{ resume.fullname }}</div>
+                  <div class="money">
+                    {{ resume.salary_min }} - {{ resume.salary_max }}.{{
+                      resume.salary_unit
+                    }}薪
                   </div>
-                  <div class="text">{{ resume.job_experience.name }}</div>
-                  <div class="text" style="border: 0">
-                    {{ resume.education.name }}
+                  <div class="city">
+                    <div class="text" style="padding-left: 0">
+                      {{ city }} - {{ third }}
+                    </div>
+                    <div class="text">{{ resume.job_experience.name }}</div>
+                    <div class="text" style="border: 0">
+                      {{ resume.education.name }}
+                    </div>
+                  </div>
+                  <div class="tags">
+                    <div
+                      v-for="(item, index) in resume.tag"
+                      :key="index"
+                      class="tag"
+                    >
+                      {{ item }}
+                    </div>
                   </div>
                 </div>
-                <div class="tags">
-                  <div v-for="item in resume.tag" :key="item" class="tag">
-                    {{ item }}
-                  </div>
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="4" class="btn">
-              <el-button
-                v-if="resume.is_collected === true"
-                class="postdes-btn"
-                icon="el-icon-star-off"
-                @click="cancel"
-                >取消收藏</el-button
-              >
-              <el-button
-                v-else
-                class="postdes-btn"
-                icon="el-icon-star-off"
-                @click="collect"
-                >收藏</el-button
-              >
-              <el-button type="primary" @click="likeChange">我有意向</el-button>
-            </el-col>
-          </el-row>
+              </el-col>
+              <el-col :span="4" class="btn">
+                <el-button
+                  v-if="resume.is_collected === true"
+                  class="postdes-btn"
+                  icon="el-icon-star-off"
+                  @click="cancel"
+                  >取消收藏</el-button
+                >
+                <el-button
+                  v-else
+                  class="postdes-btn"
+                  icon="el-icon-star-off"
+                  @click="collect"
+                  >收藏</el-button
+                >
+                <el-button type="primary" @click="likeChange"
+                  >我有意向</el-button
+                >
+              </el-col>
+            </el-row>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="footer">
-      <div class="footer-conter">
-        <el-row>
-          <el-col :span="18">
-            <div class="imag">
-              <el-row>
-                <el-col :span="3">
-                  <div class="image">
-                    <img :src="img" alt="" style="width: 80px; height: 80px" />
-                  </div>
-                </el-col>
-                <el-col :span="21" class="hr">
-                  <div style="margin-bottom: 10px; color: black">
-                    {{ hr.name }}
-                  </div>
-                  <div>{{ hr.identification }}.{{ hr.active }}活跃</div>
-                </el-col>
-              </el-row>
-            </div>
-            <div class="job">
-              <div class="textone">职位描述</div>
-              <div class="commendContent" v-html="commendContent"></div>
-            </div>
-            <div class="job">
-              <div class="textone">证书要求</div>
-
-              <div v-for="item in resume.cert" :key="item.id" class="cert">
-                <img
-                  :src="disposeImg(item.cert_sample)"
-                  alt=""
-                  style="width: 240px; height: 150px"
-                />
-                <div style="margin-top: 5px">{{ item.cert_name }}</div>
-              </div>
-            </div>
-            <div class="job">
-              <div class="textone">公司介绍</div>
-              <div class="name">{{ name.name }}</div>
-              <div
-                class="commendContent"
-                style="line-height: 25px; font-size: 16px"
-                v-html="name.introduction"
-              ></div>
-            </div>
-            <div class="job">
-              <div class="textone">工作地点</div>
-              <div class="name">
-                {{ addressVal }}
-                <el-button type="text" @click="btn"></el-button>
-              </div>
-              <baidu-map
-                class="box_map"
-                :center="locations"
-                :zoom="zoom"
-                :scroll-wheel-zoom="true"
-                @ready="handler"
-              >
-              </baidu-map>
-            </div>
-            <div class="job">
-              <div class="textone">精选职位</div>
-              <div class="SelectPosition">
-                <div v-for="item in handpickJob" :key="item.id" class="select">
-                  <div style="display: flex">
-                    <div style="padding-bottom: 20px; margin-right: 60px">
-                      {{ item.fullname ? item.fullname : '再无职业名称' }}
+      <div class="footer">
+        <div class="footer-conter">
+          <el-row>
+            <el-col :span="18">
+              <div class="imag">
+                <el-row>
+                  <el-col :span="3">
+                    <div class="image">
+                      <img
+                        :src="img"
+                        alt=""
+                        style="width: 80px; height: 80px"
+                      />
                     </div>
-                    <span style="color: red"
-                      >{{ item.salary_min }} - {{ item.salary_max }}.{{
-                        item.salary_unit
-                      }}薪</span
-                    >
-                  </div>
-                  <div style="color: #999">{{ item.enterprise_name }}</div>
-                </div>
+                  </el-col>
+                  <el-col :span="21" class="hr">
+                    <div style="margin-bottom: 10px; color: black">
+                      {{ hr.name }}
+                    </div>
+                    <div>{{ hr.identification }}.{{ hr.active }}活跃</div>
+                  </el-col>
+                </el-row>
               </div>
-            </div>
-            <div class="job">
-              <div class="textone">推荐证书</div>
-              <div class="carousel">
-                <el-carousel
-                  :interval="3000"
-                  type="card"
-                  height="200px"
-                  width:200px
-                >
-                  <el-carousel-item v-for="item in slideshow" :key="item.id">
-                    <img
-                      :src="disposeImg(item.sample)"
-                      alt=""
-                      style="width: 470px; height: 200px"
-                    />
-                  </el-carousel-item>
-                </el-carousel>
+              <div class="job">
+                <div class="textone">职位描述</div>
+                <div class="commendContent" v-html="commendContent"></div>
               </div>
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="firm">
-              <div class="firm-job" @click="open(name.enterprise_id)">
-                <div class="textone">公司详情</div>
-                <div class="firm-image">
-                  <div class="img">
-                    <img
-                      :src="imgJob"
-                      alt=""
-                      style="width: 50px; height: 50px"
-                    />
-                  </div>
-                  <div style="margin: 15px 7px">{{ name.name }}</div>
-                </div>
-                <div class="Icon">
-                  <i class="el-icon-guide Icon" style="margin-right: 10px"></i
-                  >{{ field }}
-                </div>
-                <div class="Icon">
-                  <i class="el-icon-data-line" style="margin-right: 10px"></i
-                  >{{ name.finance }}
-                </div>
-                <div class="Icon">
-                  <i class="el-icon-user" style="margin-right: 10px"></i
-                  >{{ name.size }}
-                </div>
-              </div>
-              <div class="list" style="padding-left: 20px">
-                <div class="textone" style="margin-bottom: 18px">相似职位</div>
-                <div v-if="flagShow">
+              <div class="job">
+                <div class="textone">证书要求</div>
+                <div style="display: flex; flex-wrap: wrap; padding-left: 50px">
                   <div
-                    v-for="item in resemblance"
-                    :key="item.id"
-                    class="ankjij"
+                    v-for="(item, index) in resume.cert"
+                    :key="index"
+                    class="cert"
                   >
-                    <div class="text">
-                      {{ item.fullname }}
-                      <div style="margin-left: 50px; color: red">
-                        {{ item.salary }}.{{ item.salary_unit }}薪
+                    <img
+                      :src="disposeImg(item.cert_sample)"
+                      alt=""
+                      style="width: 240px; height: 150px"
+                    />
+                    <div style="margin-top: 5px">{{ item.cert_name }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="job">
+                <div class="textone">公司介绍</div>
+                <div class="name">{{ name.name }}</div>
+                <div
+                  class="commendContent"
+                  style="line-height: 25px; font-size: 16px"
+                  v-html="name.introduction"
+                ></div>
+              </div>
+              <div class="job">
+                <div class="textone">工作地点</div>
+                <div class="name">
+                  {{ addressVal }}
+                  <el-button type="text" @click="btn"></el-button>
+                </div>
+                <baidu-map
+                  class="box_map"
+                  :center="locations"
+                  :zoom="zoom"
+                  :scroll-wheel-zoom="true"
+                  @ready="handler"
+                >
+                </baidu-map>
+              </div>
+              <div class="job">
+                <div class="textone">精选职位</div>
+                <div class="SelectPosition">
+                  <div
+                    v-for="(item, index) in handpickJob"
+                    :key="index"
+                    class="select"
+                  >
+                    <div style="display: flex">
+                      <div style="padding-bottom: 20px; margin-right: 60px">
+                        {{ item.fullname ? item.fullname : '再无职业名称' }}
                       </div>
+                      <span style="color: red"
+                        >{{ item.salary_min }} - {{ item.salary_max }}.{{
+                          item.salary_unit
+                        }}薪</span
+                      >
                     </div>
                     <div style="color: #999">{{ item.enterprise_name }}</div>
                   </div>
                 </div>
-                <el-empty v-else :image-size="100"></el-empty>
               </div>
-            </div>
-          </el-col>
-        </el-row>
+              <div class="job">
+                <div class="textone">推荐证书</div>
+                <div class="carousel">
+                  <el-carousel
+                    :interval="3000"
+                    type="card"
+                    height="200px"
+                    width:200px
+                  >
+                    <el-carousel-item
+                      v-for="(item, index) in slideshow"
+                      :key="index"
+                    >
+                      <img
+                        :src="disposeImg(item.sample)"
+                        alt=""
+                        style="width: 470px; height: 200px"
+                      />
+                    </el-carousel-item>
+                  </el-carousel>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="firm">
+                <div class="firm-job" @click="open(name.enterprise_id)">
+                  <div class="textone">公司详情</div>
+                  <div class="firm-image">
+                    <div class="img">
+                      <img
+                        :src="imgJob"
+                        alt=""
+                        style="width: 50px; height: 50px"
+                      />
+                    </div>
+                    <div style="margin: 15px 7px">{{ name.name }}</div>
+                  </div>
+                  <div class="Icon">
+                    <i class="el-icon-guide Icon" style="margin-right: 10px"></i
+                    >{{ field }}
+                  </div>
+                  <div class="Icon">
+                    <i class="el-icon-data-line" style="margin-right: 10px"></i
+                    >{{ name.finance }}
+                  </div>
+                  <div class="Icon">
+                    <i class="el-icon-user" style="margin-right: 10px"></i
+                    >{{ name.size }}
+                  </div>
+                </div>
+                <div class="list" style="padding-left: 20px">
+                  <div class="textone" style="margin-bottom: 18px">
+                    相似职位
+                  </div>
+                  <div v-if="flagShow">
+                    <div
+                      v-for="(item, index) in resemblance"
+                      :key="index"
+                      class="ankjij"
+                    >
+                      <div class="text">
+                        {{ item.fullname }}
+                        <div style="margin-left: 50px; color: red">
+                          {{ item.salary }}.{{ item.salary_unit }}薪
+                        </div>
+                      </div>
+                      <div style="color: #999">{{ item.enterprise_name }}</div>
+                    </div>
+                  </div>
+                  <el-empty v-else :image-size="100"></el-empty>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </div>
   </div>
@@ -209,7 +243,7 @@ export default {
     return {
       ceshi: '',
       id: 0,
-      resume: {},
+      resume: JSON.parse(localStorage.getItem('resume')) || {},
       city: '',
       third: '',
       img: '',
@@ -233,7 +267,8 @@ export default {
       bold: false,
       collectList: {
         collects: ''
-      }
+      },
+      loading: false
 
     }
   },
@@ -262,11 +297,16 @@ export default {
   methods: {
     // 简历详情
     async getlist () {
+      if (this.bold === false) {
+        this.loading = true
+      }
       console.log('id', this.$route.query.id)
       this.id = this.$route.query.id
       const { data } = await getParticulars(this.id)
       console.log('简历', data)
+      localStorage.getItem('resume', JSON.stringify(data))
       this.bold = true
+      this.loading = false
       this.resume = data
       this.city = data.work_city.second
       this.third = data.work_city.third
@@ -474,6 +514,7 @@ export default {
         height: 100px;
         background-color: #fff;
         border-bottom: 1px solid #d7d5d5;
+        padding-left: 20px;
         .image {
           width: 80px;
           height: 80px;
@@ -511,6 +552,7 @@ export default {
           font-size: 15px;
           text-align: center;
           color: #999;
+          margin-right: 70px;
         }
         .name {
           font-size: 16px;
@@ -558,7 +600,7 @@ export default {
             .img {
               width: 50px;
               // height: 50px;
-              background-color: pink;
+              // background-color: pink;
               border-radius: 100px;
               overflow: hidden;
             }

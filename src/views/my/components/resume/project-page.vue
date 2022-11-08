@@ -11,6 +11,7 @@
               v-if="!show"
               type="primary"
               icon="el-icon-plus"
+              style="margin-top: 10px"
               @click="edit"
               >编辑</el-button
             >

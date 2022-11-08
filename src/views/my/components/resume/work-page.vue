@@ -25,7 +25,7 @@
           >
             <div class="work">
               <el-row>
-                <el-col :span="12"
+                <el-col :span="11"
                   ><div class="grid-content bg" style="font-weight: 700">
                     {{ item.enterprise }}
                   </div></el-col
@@ -35,8 +35,15 @@
                     {{ item.start_date }}-{{ item.end_date }}
                   </div></el-col
                 >
-                <el-col :span="3">
-                  <div class="grid-content bg-purple">
+                <el-col :span="2">
+                  <div
+                    class="grid-content bg-purple"
+                    style="
+                      width: 150px;
+
+                      margin-left: 32px;
+                    "
+                  >
                     <el-button
                       type="primary"
                       icon="el-icon-edit"
@@ -45,11 +52,12 @@
                     </el-button>
                   </div>
                 </el-col>
-                <el-col :span="2"
+                <el-col :span="3"
                   ><div class="grid-content bg-purple-light">
                     <el-button
                       type="success"
                       icon="el-icon-delete"
+                      style="margin-left: 66px"
                       @click="deleteList(item.id)"
                       >删除</el-button
                     >
@@ -169,7 +177,7 @@ export default {
     color: #256efd;
     font-weight: 600;
     font-size: 20px;
-    margin: 15px 0 0 25px;
+    margin: 10px 0 0 25px;
   }
 }
 .textarea {

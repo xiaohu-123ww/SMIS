@@ -304,7 +304,7 @@ export default {
       this.id = this.$route.query.id
       const { data } = await getParticulars(this.id)
       console.log('简历', data)
-      localStorage.getItem('resume', JSON.stringify(data))
+      localStorage.setItem('resume', JSON.stringify(data))
       this.bold = true
       this.loading = false
       this.resume = data

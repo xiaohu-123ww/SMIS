@@ -277,6 +277,9 @@ export default {
       } else if (this.$route.query.inputValue === undefined) {
         // 没有查询条件的列表
         console.log('this.$route.query.inputValue', this.$route.query.inputValue)
+        if (this.jobListings.length !== 0) {
+          this.loading = false
+        }
         if (this.showTime === false) {
           this.loading = true
         }

@@ -175,7 +175,7 @@ export default {
       // 薪资要求
       moneyList: ['5000', '6000', '7000', '8000', '9000', '10000', '10000以上'],
       // 职业类型
-      options: {},
+      options: JSON.parse(localStorage.getItem('optios')) || {},
       // 公司性质
       companyNatureList: {},
       // 公司规模
@@ -216,7 +216,7 @@ export default {
       const { data } = await getQuarters()
       console.log('岗位', data)
       this.options = data
-      localStorage.getItem('options', JSON.stringify(data))
+      localStorage.setItem('options', JSON.stringify(data))
     },
     // 职位下拉框
     tradeChange (index) {

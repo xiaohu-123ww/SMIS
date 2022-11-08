@@ -337,7 +337,7 @@ export default {
       const { data } = await getQuarters()
       console.log('岗位', data)
       this.options = data
-      localStorage.getItem('op', JSON.stringify(data))
+      localStorage.setItem('op', JSON.stringify(data))
     },
     // 职位下拉框
     tradeChange (index) {
@@ -420,7 +420,7 @@ export default {
       const { data } = await getPostcity()
       console.log('热门城市', data)
       this.cityName = data
-      localStorage.getItem('cityName', JSON.stringify(data))
+      localStorage.setItem('cityName', JSON.stringify(data))
     },
     // 清除
     reset () {

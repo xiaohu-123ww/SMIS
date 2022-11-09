@@ -225,4 +225,7 @@ export default {
     margin-top: 2px;
   }
 }
+::v-deep .el-empty__description p {
+  margin: 30px;
+}
 </style>

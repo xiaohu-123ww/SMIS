@@ -87,11 +87,13 @@
             </div>
           </div>
         </div>
-        <el-empty
-          v-else
-          :image-size="150"
-          description="再无教育经历"
-        ></el-empty>
+        <div v-else style="height: 400px; background-color: #fff">
+          <img
+            src="../../../../assets/imgs/jiao.png"
+            alt=""
+            style="width: 330px; height: 300px; margin: 20px 0 0 330px"
+          />
+        </div>
       </div>
 
       <Education

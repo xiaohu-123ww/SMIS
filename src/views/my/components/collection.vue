@@ -48,11 +48,20 @@ export default {
       this.limit = newSize
       this.getCert()
     },
-    handleCurrentChange (currPage) {
+    async handleCurrentChange (currPage) {
       // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
       console.log('当前页码', currPage)
-      this.offset = this.limit * (currPage - 1)
-      this.getCert()
+      this.offset = currPage
+      this.off = this.limit * (currPage - 1)
+      const { data } = await getList(this.limit, this.off)
+      console.log(12232142356)
+      console.log('收藏', data)
+      if (data.results.length === 0) {
+        this.ematy = false
+      } else {
+        this.list = data.results
+        this.total = data.count
+      }
     },
     async getCert () {
       const { data } = await getList(this.limit, this.offset)

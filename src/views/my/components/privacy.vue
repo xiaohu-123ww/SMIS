@@ -1,13 +1,15 @@
 <template>
-  <div>
+  <div style="hieght: auto">
     <div class="interview">
-      <div class="interviews">企业屏蔽</div>
-      <el-button type="primary" icon="el-icon-edit" @click="add"
-        >添加</el-button
-      >
+      <div class="interviews">
+        企业屏蔽
+        <el-button type="primary" icon="el-icon-edit" @click="add"
+          >添加</el-button
+        >
+      </div>
     </div>
-    <div v-if="ematy">
-      <div v-if="flag" class="privacy-check">
+    <div v-if="ematy" style="height: 500px">
+      <div v-if="flag" class="privacy-check" style="margin-top: 50px">
         <div class="privacy-checkbox">
           <el-checkbox
             v-model="checkAll"
@@ -18,7 +20,7 @@
           <el-button type="primary" @click="deletechange">删除</el-button>
           <el-button type="primary">完成</el-button>
         </div>
-        <div class="privacy-box">
+        <div class="privacy-box" style="margin-top: 50px">
           <ul>
             <li
               v-for="(item, index) in list"
@@ -33,9 +35,20 @@
             </li>
           </ul>
         </div>
+        <el-pagination
+          style="margin: 200px 0 0 300px"
+          :current-page="offset"
+          :page-sizes="[5, 10, 20]"
+          :page-size="limit"
+          layout="sizes, prev, pager, next, jumper, total"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
       </div>
-      <div v-else>
-        <div class="privacy" style="margin: 20px 0">
+      <div v-else style="height: 400px">
+        <div class="privacy" style="margin: 50px 0">
           <div class="text">已屏蔽{{ code }}家公司</div>
           <el-button type="primary" class="privacy-bt" @click="checkBox"
             >批量管理</el-button
@@ -51,18 +64,18 @@
             >删除</el-button
           >
         </div>
+        <el-pagination
+          style="margin: 200px 0 0 300px"
+          :current-page="offset"
+          :page-sizes="[5, 10, 20]"
+          :page-size="limit"
+          layout="sizes, prev, pager, next, jumper, total"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
       </div>
-      <el-pagination
-        style="margin: 30px 0 0 300px"
-        :current-page="offset"
-        :page-sizes="[5, 10, 20]"
-        :page-size="limit"
-        layout="sizes, prev, pager, next, jumper, total"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
     </div>
     <el-empty v-else description="再无企业屏蔽列表"></el-empty>
     <Privacy :show="show" @reset="reset" />
@@ -108,11 +121,19 @@ export default {
       this.limit = newSize
       this.getPrivacyList()
     },
-    handleCurrentChange (currPage) {
+    async handleCurrentChange (currPage) {
       // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
       console.log('当前页码', currPage)
-      this.offset = this.limit * (currPage - 1)
-      this.getPrivacyList()
+      this.offset = currPage
+      this.off = this.limit * (currPage - 1)
+      const res = await getList(this.limit, this.off)
+      console.log('隐私设置', res)
+      if (res.data.results.length === 0) {
+        this.ematy = false
+      }
+      this.list = res.data.results
+      this.code = res.data.count
+      this.total = res.data.count
     },
     add () {
       this.show = true
@@ -141,7 +162,7 @@ export default {
     },
     // 列表
     async getPrivacyList () {
-      const res = await getList()
+      const res = await getList(this.limit, this.offset)
       console.log('隐私设置', res)
       if (res.data.results.length === 0) {
         this.ematy = false
@@ -233,6 +254,7 @@ export default {
     // height: 300px;
     // background-color: #256efd;
     font-size: 20px;
+    height: auto;
     .privacy-chexkbox {
       margin: 20px 0 0 0;
       height: 30px;
@@ -262,5 +284,9 @@ export default {
   color: #256efd;
   font-weight: 600;
   font-size: 20px;
+  width: 100%;
+}
+.bt {
+  height: 700px;
 }
 </style>

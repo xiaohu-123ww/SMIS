@@ -146,21 +146,84 @@ export default {
         this.inappropriate()
       }
     },
-    handleCurrentChange (currPage) {
+    async handleCurrentChange (currPage) {
       console.log('当前页码', currPage)
-      this.offset = this.limit * (currPage - 1)
+      this.offset = currPage
+      this.off = this.limit * (currPage - 1)
       if (this.changeColor === 1) {
-        this.helloChange()
+        this.changeColor = 1
+        const res = await getpreChat(this.limit, this.off)
+        console.log('新招呼', res)
+        if (res.data.results.length === 0) {
+          this.ematy = true
+        } else {
+          this.ematy = false
+          this.list = res.data.results
+          this.total = res.data.count
+          this.show = 1
+        }
       } else if (this.changeColor === 2) {
-        this.haveIntentionTo()
+        this.changeColor = 2
+        const res = await getInterests(this.limit, this.off)
+        console.log('有意向', res)
+        if (res.data.results.length === 0) {
+          this.ematy = true
+        } else {
+          this.ematy = false
+          this.list = res.data.results
+          this.total = res.data.count
+          this.show = 2
+        }
       } else if (this.changeColor === 3) {
-        this.inCommunicationC()
+        this.changeColor = 3
+        const res = await getChating(this.limit, this.off)
+        console.log('沟通中', res)
+        if (res.data.results.length === 0) {
+          this.ematy = true
+        } else {
+          this.ematy = false
+          this.list = res.data.results
+          this.total = res.data.count
+          this.show = 3
+        }
       } else if (this.changeColor === 4) {
-        this.posted()
+        this.changeColor = 4
+        const cv_exchange = 1
+        const res = await getChatingList(cv_exchange, this.limit, this.off)
+        console.log('已投递', res)
+        if (res.data.results.length === 0) {
+          this.ematy = true
+        } else {
+          this.ematy = false
+          this.list = res.data.results
+          this.total = res.data.count
+          this.show = 4
+        }
       } else if (this.changeColor === 5) {
-        this.Invited()
+        this.changeColor = 5
+        this.invite = false
+        const res = await getIndisposed(this.limit, this.off)
+        console.log('邀面试', res)
+        if (res.data.results.length === 0) {
+          this.ematy = true
+        } else {
+          this.ematy = false
+          this.listInvite = res.data.results
+          this.total = res.data.count
+          this.show = 5
+        }
       } else {
-        this.inappropriate()
+        this.changeColor = 6
+        const res = await getReject(this.limit, this.off)
+        console.log('不合适', res)
+        if (res.data.results.length === 0) {
+          this.ematy = true
+        } else {
+          this.ematy = false
+          this.list = res.data.results
+          this.total = res.data.count
+          this.show = 6
+        }
       }
     },
     // 新招呼

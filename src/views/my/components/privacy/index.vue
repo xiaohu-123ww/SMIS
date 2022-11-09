@@ -100,11 +100,18 @@ export default {
 
       this.getprivacy()
     },
-    handleCurrentChange (currPage) {
+    async handleCurrentChange (currPage) {
       // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
       console.log('当前页码', currPage)
-      this.offset = this.limit * (currPage - 1)
-      this.getprivacy()
+      this.offset = currPage
+      this.off = this.limit * (currPage - 1)
+      const res = await getEnterpriseQuick(this.qw, this.limit, this.off)
+      console.log('列表', res)
+      this.list = res.data.results
+      if (this.list.length !== 0) {
+        this.state = true
+      }
+      this.total = res.data.count
     },
     handleClose () {
       this.$emit('reset', false)

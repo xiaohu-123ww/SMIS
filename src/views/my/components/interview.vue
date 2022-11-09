@@ -302,17 +302,60 @@ export default {
     async handleCurrentChange (currPage) {
       // el-pagination组件内部通过：this.$emit('current-change', 最新页码)
       console.log('当前页码', currPage)
-      this.offset = this.limit * (currPage - 1)
+      this.offset = currPage
+      this.off = this.limit * (currPage - 1)
       if (this.changeColor === 1) {
-        this.changeAll()
+        this.time = new Date()
+        this.list = {}
+        this.changeColor = 1
+        this.ematy = false
+        const res = await getList(this.limit, this.off)
+        console.log('全部', res)
+        this.ematy = false
+        if (res.data.results.length !== 0) {
+          this.ematy = true
+          this.list = res.data.results
+          this.total = res.data.count
+        }
       } else if (this.changeColor === 2) {
-        this.changeIndisposed()
+        this.list = {}
+        this.changeColor = 2
+        this.ematy = false
+        const res = await getIndisposed(this.limit, this.off)
+        console.log('待处理', res)
+        if (res.data.results.length !== 0) {
+          this.ematy = true
+          this.list = res.data.results
+        }
       } else if (this.changeColor === 3) {
-        this.changeReject()
+        this.list = {}
+        this.changeColor = 3
+        this.ematy = false
+        const res = await getReceived(this.limit, this.off)
+        console.log('已接受', res)
+        if (res.data.results.length !== 0) {
+          this.ematy = true
+          this.list = res.data.results
+        }
       } else if (this.changeColor === 4) {
-        this.changeReject()
+        this.list = {}
+        this.changeColor = 4
+        this.ematy = false
+        const res = await getReject(this.limit, this.off)
+        if (res.data.results.length !== 0) {
+          this.ematy = true
+          this.list = res.data.results
+        }
       } else {
-        this.changeCompleted()
+        this.list = {}
+        this.changeColor = 5
+        this.ematy = false
+        const res = await getCompleted(this.limit, this.off)
+        console.log('已通过', res)
+        if (res.data.results.length !== 0) {
+          this.ematy = true
+          this.list = res.data.results
+        }
       }
     },
     dispose (name) {

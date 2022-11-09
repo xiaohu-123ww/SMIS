@@ -19,6 +19,7 @@
         >
       </el-row>
     </div>
+
     <div v-if="!show">
       <div v-if="ematy">
         <WorkText
@@ -27,7 +28,14 @@
           @open="open"
         />
       </div>
-      <el-empty v-else description="再无项目经历" :image-size="150"></el-empty>
+      <div v-else style="height: 400px; background-color: #fff">
+        <img
+          src="../../../../assets/imgs/xiang.png"
+          alt=""
+          style="width: 320px; height: 270px; margin: 20px 0 0 340px"
+        />
+      </div>
+      <!-- <el-empty v-else description="再无项目经历" :image-size="150"></el-empty> -->
     </div>
     <Project :show="show" :num="num" @reset="reset" />
   </div>

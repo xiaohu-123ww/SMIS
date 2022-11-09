@@ -160,7 +160,7 @@
                             {{ item.position_info.name }}
                           </div></el-col
                         >
-                        <el-col :span="9"
+                        <el-col :span="10"
                           ><div
                             class="grid-content bg-purple-light"
                             style="color: red; font-size: 14px"
@@ -201,7 +201,6 @@ export default {
       empty: {},
       // 页数
       limit: 10,
-      offset: 10,
       jobListings: JSON.parse(localStorage.getItem('jobListings')) || {},
 
       total: 10,
@@ -238,13 +237,14 @@ export default {
     },
     async handleCurrentChange (i) {
       console.log('当前页码', i)
-      this.offset = this.limit * (i - 1)
+      this.off = this.limit * (i - 1)
+      console.log(this.offset)
       if (this.$route.query.inputValue) {
-        const { data } = await getPostListOne(this.serchList, this.limit, this.offset)
+        const { data } = await getPostListOne(this.serchList, this.limit, this.off)
         console.log('翻页', data)
         this.jobListings = data.results
       } else {
-        const { data } = await getPostListOne(this.list, this.limit, this.offset)
+        const { data } = await getPostListOne(this.list, this.limit, this.off)
         console.log('翻页', data)
         this.jobListings = data.results
       }

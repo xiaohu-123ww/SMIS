@@ -43,6 +43,7 @@
               </el-col>
               <el-col :span="3">
                 <div
+                  v-if="resume.count_of_opening_position < 9"
                   style="width: 120px; height: 120px; margin: 30px 0 20px 0px"
                 >
                   <div
@@ -55,6 +56,26 @@
                     "
                   >
                     {{ resume.count_of_opening_position }}
+                  </div>
+                  <div style="font-size: 18px; padding-left: 22px; color: #fff">
+                    在招职位
+                  </div>
+                </div>
+                <div
+                  v-else
+                  style="width: 120px; height: 120px; margin: 30px 0 20px 0px"
+                >
+                  <div
+                    style="
+                      width: 120px;
+                      height: 90px;
+                      font-size: 60px;
+                      padding-left: 20px;
+                      color: #256efd;
+                    "
+                  >
+                    {{ resume.count_of_opening_position }}
+                    \
                   </div>
                   <div style="font-size: 18px; padding-left: 22px; color: #fff">
                     在招职位
@@ -413,11 +434,23 @@ export default {
       this.query.pagesize = newSize
       this.inRecruit()
     },
-    handleCurrentChange (currPage) {
+    async handleCurrentChange (currPage) {
       console.log('当前页码', currPage)
-      this.offset = this.limit(currPage - 1)
+      this.offset = currPage
+      this.off = this.limit(currPage - 1)
       this.query.pagenum = currPage
-      this.inRecruit()
+      const { data } = await getInRecruit(this.id, this.post, this.limit, this.off)
+      console.log('在招列表', data)
+      this.cityList = data.city_list
+      this.total = data.result.count
+      this.inRecruitList = data.result.results
+      if (data.result.results.length === 0) {
+        console.log('1121345556')
+        this.showOne = true
+      } else {
+        console.log(33)
+        this.showOne = false
+      }
     },
 
     // 公司详情

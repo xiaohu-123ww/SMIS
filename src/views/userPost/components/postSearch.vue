@@ -2,8 +2,101 @@
   <div>
     <div class="search-box">
       <div class="left">
-        <div class="serleft">
-          <el-row>
+        <div class="serleft" style="display: flex">
+          <div class="grid-content bg-purple">
+            <div>
+              <el-input
+                v-model="serchPost.qw"
+                style="width: 650px"
+                placeholder="请输入岗位/公司"
+              ></el-input>
+            </div>
+          </div>
+          <div>
+            <el-select v-model="job_class" placeholder="请选择职位类型">
+              <div style="display: flex">
+                <div>
+                  <el-option
+                    v-for="(item, index) in options"
+                    :key="index"
+                    :label="index"
+                    :value="index"
+                    disabled
+                    @mousemove.native="tradeChange(item)"
+                  >
+                  </el-option>
+                </div>
+                <div>
+                  <el-option
+                    v-for="(item, index) in tradelist"
+                    :key="index"
+                    :label="index"
+                    :value="index"
+                    disabled
+                    @mousemove.native="serchPostChange(item)"
+                  >
+                  </el-option>
+                </div>
+                <div>
+                  <el-option
+                    v-for="(item, index) in positionJobList"
+                    :key="index"
+                    :label="index"
+                    :value="index"
+                    @click.native="jobChange(item)"
+                  >
+                  </el-option>
+                </div>
+              </div>
+            </el-select>
+          </div>
+          <div>
+            <el-select v-model="profession" placeholder="请选择行业类型">
+              <div style="display: flex">
+                <div style="width: 150px">
+                  <el-option
+                    v-for="(item, index) in IndustryList"
+                    :key="index"
+                    :label="index"
+                    :value="index"
+                    disabled
+                    @mousemove.native="industryChange(item)"
+                  >
+                  </el-option>
+                </div>
+                <div>
+                  <el-option
+                    v-for="(item, index) in field"
+                    :key="index"
+                    :label="index"
+                    :value="index"
+                    @mousemove.native="fieldChange(item)"
+                  >
+                  </el-option>
+                </div>
+              </div>
+            </el-select>
+          </div>
+
+          <div
+            class="grid-content bg-purple-light"
+            style="color: #fff; width: 100px; height: 40px; margin-left: 30px"
+          >
+            <el-button
+              style="
+                background-color: #256efd;
+                color: #fff;
+                width: 100px;
+                height: 40px;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+              "
+              icon="el-icon-search"
+              @click="serchJob()"
+              >搜索
+            </el-button>
+          </div>
+          <!-- <el-row>
             <el-col :span="12">
               <div class="grid-content bg-purple">
                 <div>
@@ -103,7 +196,7 @@
                 </el-button>
               </div></el-col
             >
-          </el-row>
+          </el-row> -->
         </div>
       </div>
       <div class="city">
@@ -481,6 +574,9 @@ export default {
       if (list.enterprise_nature === 0) {
         delete list.enterprise_nature
       }
+      if (list.enterprise_nature === '') {
+        delete list.enterprise_nature
+      }
       if (list.field === '') {
         delete list.field
       }
@@ -509,7 +605,7 @@ export default {
         delete list.staff_siz
       }
       console.log('1223', list)
-      // this.$refs.rf.sendItem(list)
+      this.$refs.rf.sendItem(list)
     }
 
   }

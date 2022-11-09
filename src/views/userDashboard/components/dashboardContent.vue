@@ -480,7 +480,7 @@ export default {
     async changePick (i) {
       const arr = this.offset * i
       this.offset = (arr % 24)
-      const { data } = await getHandpickJobChange(this.limit, this.offset * i)
+      const { data } = await getHandpickJobChange(this.limit, this.offset)
       console.log('精选职位刷新下一页', data.results)
       this.pickJob = data.results
     },

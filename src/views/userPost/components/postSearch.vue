@@ -16,7 +16,7 @@
             <el-select
               v-model="job_class"
               placeholder="请选择职位类型"
-              style="margin: top 0px"
+              style="margin-top: 0px"
             >
               <div style="display: flex">
                 <div>
@@ -58,7 +58,7 @@
             <el-select
               v-model="profession"
               placeholder="请选择行业类型"
-              style="margin: top 0px"
+              style="margin-top: 0px"
             >
               <div style="display: flex">
                 <div style="width: 150px">

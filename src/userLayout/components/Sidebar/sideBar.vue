@@ -53,7 +53,8 @@ export default {
         {
           name: '智能学院',
           // path: "/clientlayout",
-          path: '/Bmanagementlayout'
+          // path: '/Bmanagementlayout'
+          path: '/clientindex'
         },
         {
           name: '关于我们',

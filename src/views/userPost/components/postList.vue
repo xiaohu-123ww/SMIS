@@ -48,10 +48,10 @@
                                 class="machan-bb"
                                 style="border-right: 1px solid #e6e3e3"
                               >
-                                {{ item.job_experience.name }}
+                                {{ item.education }}
                               </div>
                               <div class="machan-bb">
-                                {{ item.education.name }}
+                                {{ item.job_nature }}
                               </div>
                             </div>
                             <div class="equipment">
@@ -67,15 +67,15 @@
                           </div>
                           <div>
                             <div class="job-mechanical">
-                              <div class="mechanical" style="width: 500px">
+                              <div class="mechanical" style="width: 480px">
                                 {{ item.enterprise_info.name }}
                               </div>
-                              <div class="machan" style="width: 500px">
+                              <div class="machan" style="width: 482px">
                                 <div
                                   class="machan-cc"
                                   style="padding: 0 10px 0 0"
                                 >
-                                  {{ item.enterprise_info.field.field_name }}
+                                  {{ item.enterprise_info.field }}
                                 </div>
                                 <div
                                   class="machan-cc"
@@ -109,7 +109,7 @@
                                     margin: 2px;
                                   "
                                 >
-                                  {{ items.name }}
+                                  {{ items }}
                                 </div>
                               </div>
                             </div>
@@ -150,8 +150,9 @@
                 <div v-else>
                   <div
                     v-for="item in history"
-                    :key="item.id"
+                    :key="item.position_info.position_id"
                     class="record-box"
+                    @click="part(item.position_info.position_id)"
                   >
                     <div class="record-row">
                       <el-row>
@@ -308,6 +309,13 @@ export default {
         path: '/state',
         name: 'state',
         query: { id: item.id }
+      })
+    },
+    part (item) {
+      this.$router.push({
+        path: '/state',
+        name: 'state',
+        query: { id: item }
       })
     }
   }

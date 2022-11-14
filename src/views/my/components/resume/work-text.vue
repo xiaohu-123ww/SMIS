@@ -13,15 +13,15 @@
               {{ item.project_info.project_name }}项目
             </div></el-col
           >
-          <el-col :span="5"
+          <el-col :span="8"
             ><div class="grid-content bg-purple-light">
               {{ item.start_date }}-{{ item.end_date }}
             </div></el-col
           >
-          <el-col :span="2">
+          <el-col :span="1">
             <div class="grid-content bg-purple">
               <el-button
-                type="primary"
+                type="text"
                 icon="el-icon-edit"
                 style="margin-left: 32px"
                 @click="editChange(item)"
@@ -29,13 +29,13 @@
               </el-button>
             </div>
           </el-col>
-          <el-col :span="3"
+          <el-col :span="1"
             ><div
               class="grid-content bg-purple-light"
-              style="width: 150px; margin-left: 65px"
+              style="width: 150px; margin-left: 70px"
             >
               <el-button
-                type="success"
+                type="text"
                 icon="el-icon-delete"
                 @click="deleteList(item.id)"
                 >删除</el-button

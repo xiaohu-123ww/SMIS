@@ -139,15 +139,18 @@ export default {
       })
     },
     // 确定
-    async Binding () {
-      this.$refs.rf.validate()
-      console.log(this.ruleForm)
-      const res = await getphoto(this.ruleForm)
-      console.log('手机号', res)
-      if (res.code === 200) {
-        this.$message.success('绑定成功')
-        this.$emit('reset', false, this.ruleForm.mobile)
-      }
+    Binding () {
+      this.$refs.rf.validate(async (vaild) => {
+        if (vaild) {
+          console.log(this.ruleForm)
+          const res = await getphoto(this.ruleForm)
+          console.log('手机号', res)
+          if (res.code === 200) {
+            this.$message.success('绑定成功')
+            this.$emit('reset', false, this.ruleForm.mobile)
+          }
+        }
+      })
     },
     // 验证码
     async getCode () {

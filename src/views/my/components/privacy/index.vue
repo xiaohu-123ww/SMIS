@@ -12,11 +12,7 @@
           <el-button type="primary" @click="getprivacy">搜索</el-button>
         </div>
         <ul v-if="state">
-          <li
-            v-for="(item, index) in list"
-            :key="index"
-            style="list-style: none"
-          >
+          <li v-for="item in list" :key="item.id" style="list-style: none">
             <el-checkbox
               v-model="item.checked"
               class="privacy-chexkbox"
@@ -81,7 +77,8 @@ export default {
       },
       text: {
         qw: ''
-      }
+      },
+      num: {}
     }
   },
   computed: {
@@ -144,8 +141,11 @@ export default {
       this.list.forEach((item, index) => {
         if (item.checked === true) {
           console.log(item)
+          const aa = []
           this.arrList.push(item.id)
-          console.log(this.arrList)
+          const bb = new Set(this.arrList)
+          this.arrList = Array.from(bb)
+          console.log('123', this.num)
         } else {
           this.arrList.splice(index)
         }
@@ -154,9 +154,11 @@ export default {
     // 屏蔽
     async dialog () {
       if (this.checkAll === false) {
-        console.log(this.arrList.toString())
         this.job.hidden = this.arrList.toString()
-        console.log(this.job.hidden)
+        console.log('1234', this.job)
+        // const hidden = new Set(this.arrList.toString())
+        // console.log('this.job', hidden)
+        // console.log(this.job.hidden)
         const res = await getListHidden(this.job)
         console.log('屏蔽', res)
         this.$message.success('屏蔽企业成功')

@@ -3,7 +3,11 @@
     <div class="interview">
       <div class="interviews">
         企业屏蔽
-        <el-button type="primary" icon="el-icon-edit" @click="add"
+        <el-button
+          type="text"
+          icon="el-icon-edit"
+          style="margin-left: 953px"
+          @click="add"
           >添加</el-button
         >
       </div>
@@ -17,8 +21,8 @@
             @change="checkboxChange"
           ></el-checkbox>
           <div class="text">全部公司</div>
-          <el-button type="primary" @click="deletechange">删除</el-button>
-          <el-button type="primary">完成</el-button>
+          <el-button type="text" @click="deletechange">删除</el-button>
+          <el-button type="text" @click="flag = false">完成</el-button>
         </div>
         <div class="privacy-box" style="margin-top: 50px">
           <ul>
@@ -50,14 +54,14 @@
       <div v-else style="height: 400px">
         <div class="privacy" style="margin: 50px 0">
           <div class="text">已屏蔽{{ code }}家公司</div>
-          <el-button type="primary" class="privacy-bt" @click="checkBox"
+          <el-button type="text" class="privacy-bt" @click="checkBox"
             >批量管理</el-button
           >
         </div>
         <div v-for="item in list" :key="item.id" class="privacy">
           <div class="text">{{ item.enterprise_name }}</div>
           <el-button
-            type="success"
+            type="text"
             icon="el-icon-delete"
             class="privacy-bt"
             @click="deleteList(item.enterprise_id)"
@@ -77,7 +81,11 @@
         </el-pagination>
       </div>
     </div>
-    <el-empty v-else description="再无企业屏蔽列表"></el-empty>
+    <el-empty
+      v-else
+      description="再无企业屏蔽列表"
+      style="height: 600px"
+    ></el-empty>
     <Privacy :show="show" @reset="reset" />
   </div>
 </template>

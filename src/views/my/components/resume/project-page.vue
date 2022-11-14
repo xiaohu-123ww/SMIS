@@ -2,14 +2,14 @@
   <div>
     <div class="preponderance-one">
       <el-row>
-        <el-col :span="20"
+        <el-col :span="22"
           ><div class="grid-content bg-purple">项目经历</div></el-col
         >
         <el-col :span="1"
           ><div class="grid-content bg-purple-light">
             <el-button
               v-if="!show"
-              type="primary"
+              type="text"
               icon="el-icon-plus"
               style="margin-top: 10px"
               @click="edit"

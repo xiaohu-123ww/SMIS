@@ -297,6 +297,7 @@
                   />
 
                   <el-pagination
+                    v-if="ematy"
                     style="margin: 20px 0 0 150px"
                     :current-page="offset"
                     :page-sizes="[5, 10, 20]"
@@ -307,6 +308,7 @@
                     @current-change="handleCurrentChange"
                   >
                   </el-pagination>
+                  <el-empty v-if="!ematy" description="暂无数据"></el-empty>
                 </div>
               </div>
             </el-card>
@@ -403,7 +405,8 @@ export default {
       total: 0,
       text: '',
       showOne: false,
-      loading: false
+      loading: false,
+      ematy: true
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -551,7 +554,9 @@ export default {
 
       if (data.length === 0) {
         console.log('1121345556')
-        this.$message.error('再无此信息')
+        this.inRecruitList = []
+        this.ematy = false
+        this.$message.error('该条件目前没有相关职位')
       } else {
         console.log(33)
       }

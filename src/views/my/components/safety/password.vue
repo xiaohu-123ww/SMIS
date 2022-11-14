@@ -149,13 +149,16 @@ export default {
       })
     },
     async handle () {
-      this.$refs.rf.validate()
-      console.log(this.ruleForm)
-      const res = await getpassword(this.ruleForm)
-      console.log('修改', res)
-      // this.handleClose()
-      this.$message('修改成功')
-      this.$$emit('reset', false)
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          console.log(this.ruleForm)
+          const res = await getpassword(this.ruleForm)
+          console.log('修改', res)
+          // this.handleClose()
+          this.$message('修改成功')
+          this.$$emit('reset', false)
+        }
+      })
     },
     async getCode () {
       if (this.ruleForm.new_psw !== '' && this.ruleForm.old_psw !== '') {

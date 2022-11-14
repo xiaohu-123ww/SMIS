@@ -2,14 +2,14 @@
   <div class="box">
     <div class="preponderance-one">
       <el-row>
-        <el-col :span="20"
+        <el-col :span="22"
           ><div class="grid-content bg-purple">资格证书</div></el-col
         >
         <el-col :span="1"
           ><div class="grid-content bg-purple-light">
             <el-button
               v-if="!show"
-              type="primary"
+              type="text"
               icon="el-icon-plus"
               :disabled="list.length === 10"
               @click="edit"
@@ -28,25 +28,25 @@
                 <!-- :src="disposeImg(item.cert_info.sample)" -->
                 <img alt="" style="width: 160px; height: 100px" /></div
             ></el-col>
-            <el-col :span="10"
+            <el-col :span="13"
               ><div class="grid-content bg-purple-light">
                 {{ item.cert_info.cert_name }} - {{ item.cert_info.cert_level }}
               </div></el-col
             >
-            <el-col :span="3"
+            <el-col :span="2"
               ><div class="grid-content bg-purple" style="margin-left: 7px">
                 <el-button
-                  type="primary"
+                  type="text"
                   icon="el-icon-edit"
                   @click="switchover(item)"
                   >编辑</el-button
                 >
               </div>
             </el-col>
-            <el-col :span="2"
+            <el-col :span="1"
               ><div class="grid-content bg-purple-light">
                 <el-button
-                  type="success"
+                  type="text"
                   icon="el-icon-delete"
                   @click="submit(item.cert_info.cert_id)"
                   >删除</el-button

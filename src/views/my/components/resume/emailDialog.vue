@@ -118,14 +118,18 @@ export default {
   methods: {
     // 确定
     async emailClose () {
-      console.log(this.ruleForm)
-      const res = await getEmailBound(this.ruleForm)
-      console.log('邮箱', res)
-      if (res.code === 200) {
-        this.$message.success('邮箱绑定成功')
-        this.$emit('submit', false, this.ruleForm.email)
-        this.$emit('reset', false)
-      }
+      this.$refs.rf.validate(async (valid) => {
+        if (valid) {
+          console.log(this.ruleForm)
+          const res = await getEmailBound(this.ruleForm)
+          console.log('邮箱', res)
+          if (res.code === 200) {
+            this.$message.success('邮箱绑定成功')
+            this.$emit('submit', false, this.ruleForm.email)
+            this.$emit('reset', false)
+          }
+        }
+      })
     }, // 取消
     handleClose () {
       this.$confirm('确定取微信绑定吗', '提示', {

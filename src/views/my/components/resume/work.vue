@@ -197,6 +197,7 @@ export default {
   },
   data () {
     return {
+
       nature: {},
       defaultParams: {
         label: 'name',
@@ -244,7 +245,16 @@ export default {
           { required: true, message: '请选择活类别', trigger: 'change' }
         ],
         salary_max: [
-          { required: true, message: '请输入当前月薪', trigger: 'blur' }
+          { required: true, message: '请输入当前月薪', trigger: 'blur' },
+          {
+            validator: (rule, value, cb) => {
+              const boolean = new RegExp('^[1-9][0-9]*$').test(value)
+              // console.log(boolean)
+              if (!boolean) {
+                cb(new Error('只能输入整数'))
+              }
+            }
+          }
         ],
         job_desc: [
           { required: true, message: '请填写工作内容', trigger: 'blur' }

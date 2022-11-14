@@ -2,12 +2,12 @@
   <div>
     <div class="preponderance-one">
       <el-row>
-        <el-col :span="20"
+        <el-col :span="22"
           ><div class="grid-content bg-purple">工作经历</div></el-col
         >
         <el-col :span="1"
           ><div v-if="!work" class="grid-content bg-purple-light">
-            <el-button type="primary" icon="el-icon-plus" @click="workEdit"
+            <el-button type="text" icon="el-icon-plus" @click="workEdit"
               >添加</el-button
             >
           </div></el-col
@@ -30,12 +30,12 @@
                     {{ item.enterprise }}
                   </div></el-col
                 >
-                <el-col :span="5"
+                <el-col :span="8"
                   ><div class="grid-content bg-purple-light">
                     {{ item.start_date }}-{{ item.end_date }}
                   </div></el-col
                 >
-                <el-col :span="2">
+                <el-col :span="1">
                   <div
                     class="grid-content bg-purple"
                     style="
@@ -45,19 +45,19 @@
                     "
                   >
                     <el-button
-                      type="primary"
+                      type="text"
                       icon="el-icon-edit"
                       @click="editChange(item)"
                       >编辑
                     </el-button>
                   </div>
                 </el-col>
-                <el-col :span="3"
+                <el-col :span="1"
                   ><div class="grid-content bg-purple-light">
                     <el-button
-                      type="success"
+                      type="text"
                       icon="el-icon-delete"
-                      style="margin-left: 66px"
+                      style="margin-left: 70px"
                       @click="deleteList(item.id)"
                       >删除</el-button
                     >

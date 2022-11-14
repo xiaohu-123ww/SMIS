@@ -76,7 +76,7 @@
     <!-- 招聘新时代 -->
     <div class="recruitment—box" @mouseleave="occlude()">
       <div class="recruitment—left" style="background-color: #f9f9f9">
-        <div :class="{ roll: number === 1 }" style="height: 400px">
+        <div style="height: 400px; overflow: auto" class="left-second-menu">
           <div v-for="(item, index) in jobList" :key="index" class="left">
             <el-row>
               <el-col :span="22">{{ index }}</el-col>
@@ -108,10 +108,10 @@
         <!-- <i class="el-icon-arrow-right boult" @mouseenter="ascertain(item)" /> -->
         <!-- <i class="el-icon-arrow-right boult" @click="occlude(itemss)" /> -->
         <!-- </div> -->
-        <p class="more" @click="more">查看更多</p>
+        <!-- <p class="more" @click="more">查看更多</p> -->
       </div>
       <!-- 弹出层 -->
-      <div v-if="disps" class="popping">
+      <div v-if="disps" class="popping left-second-menu">
         <div
           v-for="(item, index) in secondLevelList"
           :key="index"
@@ -130,7 +130,9 @@
                 padding: 10px 15px;
               "
             >
-              <div @click="searchChange(index)">{{ index }}</div>
+              <a href="javascript:;">
+                <div @click="searchChange(index)">{{ index }}</div></a
+              >
             </div>
           </div>
         </div>
@@ -155,6 +157,7 @@
         <Selectposition
           :position-job="pickJob"
           :show="show"
+          :imprison="imprison"
           @changePick="changePick"
         />
       </div>
@@ -164,7 +167,11 @@
       <div class="title">热门职位</div>
       <div class="adorn" />
       <div class="list">
-        <Selectposition :position-job="positionJob" @changeHot="changeHot" />
+        <Selectposition
+          :position-job="positionJob"
+          :imprison="imprison"
+          @changeHot="changeHot"
+        />
       </div>
     </div>
     <div class="recommend-box">
@@ -308,7 +315,8 @@ export default {
       jobObject: JSON.parse(localStorage.getItem('jobList')) || {},
       station: {},
       jobStation: [],
-      number: 0
+      number: 1,
+      imprison: true
     }
   },
 
@@ -343,10 +351,10 @@ export default {
   methods: {
 
     // 跳转到更多
-    more () {
-      this.jobList = JSON.parse(localStorage.getItem('jobList'))
-      this.number = 1
-    },
+    // more () {
+    //   this.jobList = JSON.parse(localStorage.getItem('jobList'))
+    //   this.number = 1
+    // },
     // 跳转页面
     skip (e) {
       const datas = {
@@ -467,6 +475,7 @@ export default {
       console.log('112', this.offset)
       const { data } = await getPositionJob(this.limit, this.offset)
       console.log('刷新下一页', data.results)
+
       this.positionJob = data.results
     },
     // 精选职位
@@ -482,6 +491,7 @@ export default {
       this.offset = (arr % 24)
       const { data } = await getHandpickJobChange(this.limit, this.offset)
       console.log('精选职位刷新下一页', data.results)
+
       this.pickJob = data.results
     },
     // 证书
@@ -498,22 +508,24 @@ export default {
       const { data } = await getSerchlist()
       console.log('岗位', data)
       this.jobObject = data
-      var newData = {}
-      var newDatas = {}
-      const newKeys = Object.keys(data)
-      newKeys.map((item, idx) => {
-        if (idx < 9) {
-          newData[item] = data[item]
-        }
-      })
-      for (const key in newData) {
-        const newKey = key.substring(0, 8)
-        newDatas[newKey] = newData[key]
-      }
-      console.log('newDatas', newDatas)
-      this.jobList = newDatas
+      console.log('this.jobList', data)
+      // var newData = {}
+      // var newDatas = {}
+      // const newKeys = Object.keys(data)
+      // newKeys.map((item, idx) => {
+      //   if (idx < 9) {
+      //     newData[item] = data[item]
+      //   }
+      // })
+      // for (const key in newData) {
+      //   const newKey = key.substring(0, 8)
+      //   newDatas[newKey] = newData[key]
+      // }
+      // console.log('newDatas', newDatas)
+      // this.jobList = newDatas
       localStorage.setItem('jobList', JSON.stringify(data))
-      localStorage.setItem('jobObject', JSON.stringify(newDatas))
+
+      localStorage.setItem('jobObject', JSON.stringify(data))
     },
     // 轮播图
     async getSlideshow () {
@@ -526,6 +538,15 @@ export default {
     },
     add (index) {
       console.log('index', index)
+    },
+    goSearchDetail (tip) {
+      console.log(tip)
+      this.$router.push({
+        path: '/userpost', // home是列表页
+        query: {
+          inputValue: tip
+        }
+      })
     }
   }
 }
@@ -810,7 +831,7 @@ export default {
   display: flex;
   // background-color: #239327;
   .recruitment—left {
-    width: 350px;
+    width: 310px;
     height: 400px;
     // background-color: #932323;
     // margin-right: 30px;
@@ -860,7 +881,7 @@ export default {
     // width: calc(100% - 570px);
     width: 100%;
     height: 400px;
-    margin-left: 35px;
+    // margin-left: 35px;
   }
   .el-carousel__item h3 {
     color: #475669;
@@ -909,6 +930,28 @@ export default {
 }
 .roll {
   overflow: auto;
+}
+.left::-webkit-scrollbar {
+  width: 4px;
+}
+
+.left-second-menu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.left-second-menu::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 5px rgb(0 0 0 / 20%);
+  background-color: #fff !important;
+}
+
+.left-second-menu::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px rgb(0 0 0 / 20%);
+  border-radius: 0;
+  background: rgba(254, 250, 250, 0.1);
+}
+::v-deep .el-radio-button .el-radio-button__inner {
+  border: 1px solid #fff !important;
 }
 </style>
 

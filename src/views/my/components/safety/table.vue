@@ -135,7 +135,7 @@ export default {
   methods: {
     photoChange () {
       this.isShow = true
-      this.photo = this.list.phone
+      // this.photo = this.list.phone
     },
     reset (i) {
       this.isShow = i
@@ -145,7 +145,7 @@ export default {
     },
     emailChange () {
       this.emailShow = true
-      this.email = this.list.email
+      // this.email = this.list.email
     },
     changePassword () {
       this.show = true

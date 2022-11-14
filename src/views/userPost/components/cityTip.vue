@@ -47,9 +47,9 @@
                   <el-option
                     v-for="(item, index) in moneyList"
                     :key="index"
-                    :label="item"
+                    :label="index"
                     :value="item"
-                    >{{ item }}</el-option
+                    >{{ index }}</el-option
                   >
                 </el-select>
               </div>
@@ -173,7 +173,7 @@ export default {
       // 学历要求
       educationalRequirements: {},
       // 薪资要求
-      moneyList: ['5000', '6000', '7000', '8000', '9000', '10000', '10000以上'],
+      moneyList: {},
       // 职业类型
       options: JSON.parse(localStorage.getItem('optios')) || {},
       // 公司性质
@@ -200,6 +200,7 @@ export default {
       this.educationalRequirements = data.education
       this.companyNatureList = data.enterprise_nature
       this.peopleList = data.staff_size
+      this.moneyList = data.staff_size
     },
     // 清除所有条件
     clearSearch () {
@@ -370,5 +371,9 @@ export default {
 }
 ::v-deep .el-select-dropdown__item.is-disabled {
   color: rgb(37, 110, 253);
+}
+::v-deep input.el-input__inner {
+  font-weight: 700;
+  color: black;
 }
 </style>

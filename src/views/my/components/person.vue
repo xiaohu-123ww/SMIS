@@ -44,14 +44,14 @@
           </el-row>
         </div>
       </div>
-      <div v-if="flag === false" class="commun" style="margin-left: 20px">
-        <el-button type="primary" icon="el-icon-edit" @click="redact"
+      <div v-if="flag === false" class="commun" style="margin-left: 100px">
+        <el-button type="text" icon="el-icon-edit" @click="redact"
           >编辑简历</el-button
         >
       </div>
       <div v-if="flag" class="communication">
         <el-button
-          type="primary"
+          type="text"
           icon="el-icon-edit"
           @click="$router.push('/resume')"
           >编辑简历</el-button

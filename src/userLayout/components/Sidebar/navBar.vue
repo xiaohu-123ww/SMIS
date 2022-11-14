@@ -30,6 +30,15 @@
             <router-link to="/my">
               <el-dropdown-item>个人中心</el-dropdown-item>
             </router-link>
+            <router-link to="/resume">
+              <el-dropdown-item>我的简历</el-dropdown-item>
+            </router-link>
+            <router-link to="/job">
+              <el-dropdown-item>求职申请</el-dropdown-item>
+            </router-link>
+            <router-link to="/job">
+              <el-dropdown-item>我去招聘</el-dropdown-item>
+            </router-link>
 
             <a
               v-if="bel"

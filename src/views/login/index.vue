@@ -60,11 +60,19 @@
               "
               placeholder="请输入验证码"
           /></el-col>
-          <el-col :span="5"
-            ><el-button :disabled="isclick" @click="sendCapte">{{
+          <el-col :span="5">
+            <!-- <el-button :disabled="isclick" @click="sendCapte">{{
               sendineer
-            }}</el-button></el-col
-          >
+            }}</el-button> -->
+            <el-button
+              :class="{ 'disabled-style': getCodeBtnDisable }"
+              :disabled="getCodeBtnDisable"
+              style="margin-left: 10px"
+              type="primary"
+              @click="getCode"
+              >{{ codeBtnWord }}</el-button
+            >
+          </el-col>
         </el-row>
       </el-form-item>
 
@@ -123,7 +131,12 @@
           v-show="isuser == true ? 'active' : ''"
           :loading="userloading"
           round
-          style="width: 100%; margin-bottom: 20px; background-color: #3c69be"
+          style="
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #3c69be;
+            color: #fff;
+          "
           type="primary"
           @click.native.prevent="UserLogin"
           >账号登录
@@ -133,7 +146,12 @@
           v-show="isuser == true ? 'active' : ''"
           :loading="loading"
           round
-          style="width: 100%; margin-bottom: 20px; background-color: #3c69be"
+          style="
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #3c69be;
+            color: #fff;
+          "
           type="primary"
           @click.native.prevent="handleLogin"
           >企业登录
@@ -147,6 +165,7 @@
             margin-bottom: 30px;
             background-color: #3c69be;
             top: 0;
+            color: #fff;
           "
           type="primary"
           @click.native.prevent="CapteLogin"
@@ -217,23 +236,32 @@
         <el-row>
           <el-col
             :span="18"
-            style="width: 100%; position: relative; height: 100%"
+            style="
+              width: 100%;
+              position: relative;
+              height: 100%;
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              background: #f6f6f8;
+              border-radius: 20px;
+            "
             ><el-input
               ref="code"
               v-model="CapteloginForm.code"
               type="text"
-              style="
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                background: #f6f6f8;
-                border-radius: 20px;
-                height: 100%;
-                width: 100%;
-              "
+              style="height: 100%; width: 200px"
               placeholder="请输入验证码"
             />
-            <p class="sendCode" :disabled="isclick" @click="sendCapte">
+            <!-- <p class="sendCode" :disabled="isclick" @click="sendCapte">
               {{ sendineer }}
-            </p>
+            </p> -->
+            <el-button
+              :class="{ 'disabled-style': getCodeBtnDisable }"
+              :disabled="getCodeBtnDisable"
+              style="margin-left: 10px"
+              type="primary"
+              @click="getCode"
+              >{{ codeBtnWord }}</el-button
+            >
           </el-col>
           <el-col :span="5">
             <!-- <el-button ></el-button> -->
@@ -251,6 +279,7 @@
             margin-bottom: 30px;
             background-color: #3c69be;
             top: 0;
+            color: #fff;
           "
           type="primary"
           @click.native.prevent="CapteLogin"
@@ -272,6 +301,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import { Captelogin, sendCapte } from '@/api/user'
+import { getverification } from '@/api/my/resume'
 export default {
   name: 'Login',
   data () {
@@ -317,8 +347,31 @@ export default {
       userloading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
+      codeBtnWord: '获取验证码', // 获取验证码按钮文字
+      waitTime: 61 // 获取验证码按钮失效时间
     }
+  },
+  computed: {
+
+    // 用于校验手机号码格式是否正确
+
+    // 控制获取验证码按钮是否可点击
+    getCodeBtnDisable: {
+      get () {
+        if (this.waitTime == 61) {
+          if (this.CapteloginForm.mobile) {
+            return false
+          }
+          return true
+        }
+        return true
+      },
+      // 注意：因为计算属性本身没有set方法，不支持在方法中进行修改，而下面我要进行这个操作，所以需要手动添加
+      set () { }
+
+    }
+
   },
   watch: {
     $route: {
@@ -343,29 +396,41 @@ export default {
   },
 
   methods: {
-    // 发送验证码
     sendCapte () {
-      var num = 60
-      sendCapte({ type: '1', mobile: this.CapteloginForm.mobile }).then(
-        (res) => {
-          if (res.code == 1000) {
-            this.$message({
-              type: 'success',
-              message: res.msg
-            })
-            this.timer = setInterval(() => {
-              num--
-              this.isclick = true
-              this.sendineer = `${num}s后重新发送`
-              if (num == 0) {
-                this.sendineer = '重新发送'
-                clearInterval(this.timer)
-                this.isclick = false
-              }
-            }, 1000)
+
+    }, // 发送验证码
+    async getCode () {
+      if (this.CapteloginForm.mobile) {
+        const mobile = this.CapteloginForm.mobile
+
+        sendCapte({ type: '1', mobile: this.CapteloginForm.mobile }).then(
+          (res) => {
+            if (res.code == 1000) {
+              this.$message({
+                type: 'success',
+                message: res.msg
+              })
+            }
           }
-        }
-      )
+        )
+
+        // 因为下面用到了定时器，需要保存this指向
+        const that = this
+        that.waitTime--
+        that.getCodeBtnDisable = true
+        this.codeBtnWord = `${this.waitTime}s 后重新获取`
+        const timer = setInterval(function () {
+          if (that.waitTime > 1) {
+            that.waitTime--
+            that.codeBtnWord = `${that.waitTime}s 后重新获取`
+          } else {
+            clearInterval(timer)
+            that.codeBtnWord = '获取验证码'
+            that.getCodeBtnDisable = false
+            that.waitTime = 61
+          }
+        }, 1000)
+      }
     },
     // 验证码登录
     CapteLogin () {
@@ -550,7 +615,7 @@ $light_gray: #eee;
   .login-form {
     /*max-height: 650px;*/
     position: relative;
-    min-width: 410px;
+    min-width: 430px;
     /*max-width: 25%;*/
     width: calc(25vw);
     height: calc(60vh);
@@ -683,5 +748,19 @@ $light_gray: #eee;
   position: absolute;
   top: -5px;
   right: 20px;
+}
+.el-button.disabled-style {
+  background-color: #eeeeee;
+  color: #cccccc;
+}
+::v-deep .el-button.disabled-style[data-v-37dfd6fc] {
+  background-color: #f6f6f8;
+  color: #0f0f10;
+  border: 0;
+}
+::v-deep .el-button--primary {
+  color: black;
+  background-color: #f6f6f8;
+  border-color: #f2f4f7;
 }
 </style>

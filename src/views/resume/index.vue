@@ -32,11 +32,12 @@
                   </div>
                   <div class="tags">
                     <div
-                      v-for="(item, index) in resume.tag"
+                      v-for="(item, index) in resume.enterprise_info.tags"
                       :key="index"
-                      class="tag"
+                      class="tags"
+                      style="width: 20px; height: 20px; background-color: pink"
                     >
-                      {{ item }}
+                      {{ item.name }}
                     </div>
                   </div>
                 </div>
@@ -140,8 +141,22 @@
                     :key="index"
                     class="select"
                   >
+                    <div style="background-color: green">
+                      <!-- <el-row>
+                        <el-col :span="12">
+                          {{
+                            item.fullname ? item.fullname : '再无职业名称'
+                          }}</el-col
+                        >
+                        <el-col :span="7"
+                          >{{ item.salary_min }} - {{ item.salary_max }}.{{
+                            item.salary_unit
+                          }}薪</el-col
+                        >
+                      </el-row> -->
+                    </div>
                     <div style="display: flex">
-                      <div style="padding-bottom: 20px; margin-right: 60px">
+                      <div style="padding-bottom: 20px; width: 220px">
                         {{ item.fullname ? item.fullname : '再无职业名称' }}
                       </div>
                       <span style="color: red"
@@ -308,6 +323,7 @@ export default {
       this.bold = true
       this.loading = false
       this.resume = data
+      console.log('34343', this.resume)
       this.city = data.work_city.second
       this.third = data.work_city.third
       this.img = this.disposeImg(data.hr_info.avatar)
@@ -485,7 +501,7 @@ export default {
               height: 30px;
               padding: 0 20px;
               line-height: 30px;
-              background-color: rgb(233, 243, 255);
+              background-color: rgb(41, 96, 164);
               border: 1px solid rgb(71, 156, 255);
               color: rbg(56, 148, 255);
               margin-right: 20px;
@@ -571,7 +587,7 @@ export default {
             height: 100px;
             border: 1px solid #d7d5d5;
             margin: 0 50px 20px 0;
-            padding: 20px 50px;
+            padding: 20px 20px;
             font-size: 16px;
           }
         }
@@ -650,7 +666,7 @@ export default {
   width: 300px;
   // background-color: #f0f;
   padding: 10px 10px;
-  font-size: 13px;
+  font-size: 14px;
   border: 1px solid #d3dce6;
   margin-bottom: 20px;
   .text {

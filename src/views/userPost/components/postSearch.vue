@@ -212,13 +212,15 @@
           id="example"
           class="city-1"
           :class="{ change: changeColor === '11' }"
+          style="font-weight: 700"
           @click="color"
         >
-          城市 ∨
+          {{ name }} ∨
         </div>
         <div
           class="city-1"
           :class="{ change: changeColor === '22' }"
+          style="font-weight: 700"
           @click="tradeColor"
         >
           行政区 ∨
@@ -226,6 +228,7 @@
         <div
           class="city-1"
           :class="{ change: changeColor === '33' }"
+          style="font-weight: 700"
           @click="sunbwayColor"
         >
           地铁沿线 ∨
@@ -237,7 +240,7 @@
             v-for="item in cityName"
             :key="item.id"
             class="city-2"
-            :class="tinct === item.adcode ? 'change' : ''"
+            :class="tinct === item.adcode ? 'changes' : ''"
             @click="
               cityColor(item.adcode, item.first ? item.first : item.second)
             "
@@ -248,11 +251,12 @@
       </div>
       <div v-if="show" class="district">
         <a href="javascript:;">
+          <span v-if="clerk.length !== 0" style="color: #448ef7">不限</span>
           <span
             v-for="item in clerk"
             :key="item.id"
             class="city-2"
-            :class="tinct === item.adcode ? 'change' : ''"
+            :class="tinct === item.adcode ? 'changes' : ''"
             @click="clerkChange(item.adcode, item.third)"
           >
             {{ item.third }}
@@ -260,18 +264,34 @@
         >
       </div>
       <div v-if="flagShow" class="district">
-        <a href="javascript:;">
-          <span
-            v-for="(item, index) in administrative"
-            :key="index"
-            style="width: 150px"
-            class="city-2"
-            :class="tinct === item ? 'change' : ''"
-            @click="administrativeChange(item)"
+        <div style="display: flex">
+          <div
+            v-if="administrative.length !== 0"
+            style="
+              width: 200px;
+              height: 30px;
+
+              line-height: 37px;
+              color: #448ef7;
+            "
           >
-            {{ item }}
-          </span></a
-        >
+            不限
+          </div>
+          <div>
+            <a href="javascript:;">
+              <span
+                v-for="(item, index) in administrative"
+                :key="index"
+                style="width: 170px; text-aligin: center"
+                class="city-2"
+                :class="tinct === item ? 'changes' : ''"
+                @click="administrativeChange(item)"
+              >
+                {{ item }}
+              </span></a
+            >
+          </div>
+        </div>
       </div>
       <div v-show="showPanel" class="classify">
         <el-tabs
@@ -391,7 +411,8 @@ export default {
       // 行政
       admin: '',
       // 地铁
-      subway: ''
+      subway: '',
+      name: '城市'
 
     }
   },
@@ -506,10 +527,12 @@ export default {
       this.tinct = index
       this.adcode = index
       this.serchPost.adcode = index
+      this.name = name
     },
     clerkChange (index, name) {
       this.tinct = index
       this.admin = name
+      // this.name = name
     },
     administrativeChange (name) {
       this.tinct = name
@@ -526,7 +549,7 @@ export default {
     // 清除
     reset () {
       this.cityName = []
-
+      this.name = '城市'
       this.serchPost.job = ''
       this.serchPost.position = ''
       this.serchPost.qw = ''
@@ -631,7 +654,7 @@ export default {
   // height: 100px;
   // background-color: #0094ff;
   margin: 20px 0 20px 10px;
-  padding-left: 50px;
+  padding-left: 40px;
   // display: flex;
   font-size: 15px;
 
@@ -639,16 +662,18 @@ export default {
     // background: red;
     margin-left: 5px;
     display: inline-block;
-    width: 70px;
+    // width: 70px;
     height: 15px;
     margin-top: 8px;
   }
-  // .city-2 {
-  //   width: 100px;
-  //   height: 30px;
-  //   margin-left: 10px;
-  //   background-color: red;
-  // }
+  .city-2 {
+    // width: 100px;
+    // height: 30px;
+    padding: 3px 10px 5px;
+    height: 20px;
+    // line-height: 20px;
+    // background-color: red;
+  }
 }
 .change {
   color: #448ef7;
@@ -802,5 +827,9 @@ export default {
 }
 ::v-deep [data-v-2e155517] [data-v-2e155517] .el-select[data-v-2e155517] {
   margin-top: 0px !important;
+}
+.changes {
+  font-weight: 700;
+  // color: rgb(6, 104, 196);
 }
 </style>

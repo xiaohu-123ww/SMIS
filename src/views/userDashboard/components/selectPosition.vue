@@ -32,11 +32,25 @@
         </el-col>
       </el-row>
     </div>
-    <div v-if="show" class="listChange" @click="pickJob">
-      <a href="javascript:;"><i class="el-icon-refresh-left"></i>换一批</a>
+    <div v-if="show" class="listChange">
+      <el-button
+        type="text"
+        class="el-icon-refresh-left"
+        style="color: black; font-size: 18px"
+        :disabled="isLock"
+        @click="pickJob"
+        >换一批</el-button
+      >
     </div>
     <div v-else class="listChange" @click="hotJob">
-      <a href="javascript:;"><i class="el-icon-refresh-left"></i>换一批</a>
+      <el-button
+        type="text"
+        class="el-icon-refresh-left"
+        style="color: black; font-size: 18px"
+        :disabled="isLock"
+        @click="hotJob"
+        >换一批</el-button
+      >
     </div>
   </div>
 </template>
@@ -48,12 +62,16 @@ export default {
     },
     show: {
       type: Boolean
+    },
+    imprison: {
+      type: Boolean
     }
   },
   data () {
     return {
-      state: 1,
-      pick: 1
+      state: 0,
+      pick: 1,
+      isLock: false
     }
   },
   computed: {
@@ -64,14 +82,23 @@ export default {
   },
   methods: {
     hotJob () {
-      this.state++
-      this.$emit('changeHot', this.state)
-      console.log(1)
+      this.isLock = true
+      setTimeout(() => {
+        this.isLock = false
+        this.state++
+        this.$emit('changeHot', this.state)
+        console.log(1)
+      }, 1000)
     },
     pickJob () {
       console.log(2)
-      this.pick++
-      this.$emit('changePick', this.pick)
+
+      this.isLock = true
+      setTimeout(() => {
+        this.isLock = false
+        this.pick++
+        this.$emit('changePick', this.pick)
+      }, 1000)
     },
     cardChange (item) {
       console.log(item)
@@ -146,5 +173,15 @@ export default {
   font-size: 18px;
   // margin-left: 600px;
   text-align: center;
+}
+::v-deep .el-card:hover {
+  box-shadow: 0 0 10px 20px rgba(255, 255, 255, 0.932);
+
+  border-color: rgb(236, 231, 231);
+  transition: all 0.2s ease-in-out;
+}
+.pro {
+  pointer-events: none;
+  color: black;
 }
 </style>

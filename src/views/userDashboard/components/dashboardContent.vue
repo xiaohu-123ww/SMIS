@@ -76,7 +76,7 @@
     <!-- 招聘新时代 -->
     <div class="recruitment—box" @mouseleave="occlude()">
       <div class="recruitment—left" style="background-color: #f9f9f9">
-        <div style="height: 400px; overflow: auto" class="left-second-menu">
+        <div style="height: 400px; overflow-x: auto" class="left-second-menu">
           <div v-for="(item, index) in jobList" :key="index" class="left">
             <el-row>
               <el-col :span="22">{{ index }}</el-col>

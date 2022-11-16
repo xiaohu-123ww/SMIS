@@ -12,7 +12,7 @@
           alt=""
           src="../../assets/images/logo.png"
           style="width: 230px; height: 70px"
-        >
+        />
       </div>
 
       <el-form-item prop="username" style="background-color: #f6f6f8">
@@ -102,8 +102,8 @@
             {
               type: 'email',
               message: '请输入正确的邮箱地址',
-              trigger: ['blur', 'change'],
-            },
+              trigger: ['blur', 'change']
+            }
           ]"
           prop="email"
         >
@@ -124,7 +124,7 @@
           style="width: 100%; background-color: #3c69be"
           type="primary"
           @click.native.prevent="Sign"
-        >注册
+          >注册
         </el-button>
         <el-button
           round
@@ -136,7 +136,7 @@
           "
           type="info"
           @click.native.prevent="backLogin"
-        >返回登录>>
+          >返回登录>>
         </el-button>
       </div>
     </el-form>
@@ -153,11 +153,11 @@
 </template>
 
 <script>
-import { registerUser } from '@/api/user';
+import { registerUser } from '@/api/user'
 
 export default {
   name: 'Register',
-  data() {
+  data () {
     return {
       emailicon: 'email',
       loginForm: {
@@ -169,36 +169,36 @@ export default {
       passwordType: 'password',
       checkPassType: 'password',
       capsTooltip: false
-    };
+    }
   },
-  mounted() {
+  mounted () {
   },
   methods: {
-    checkCapslock(e) {
-      const { key } = e;
-      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z';
+    checkCapslock (e) {
+      const { key } = e
+      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
     },
-    showPwd() {
+    showPwd () {
       if (this.passwordType === 'password') {
-        this.passwordType = '';
+        this.passwordType = ''
       } else {
-        this.passwordType = 'password';
+        this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus();
-      });
+        this.$refs.password.focus()
+      })
     },
-    showPwds() {
+    showPwds () {
       if (this.checkPassType === 'password') {
-        this.checkPassType = '';
+        this.checkPassType = ''
       } else {
-        this.checkPassType = 'password';
+        this.checkPassType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.checkPass.focus();
-      });
+        this.$refs.checkPass.focus()
+      })
     },
-    Sign() {
+    Sign () {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           registerUser({
@@ -211,17 +211,17 @@ export default {
             this.$message({
               message: rs.msg,
               type: 'success'
-            });
-            this.$router.push('/login');
-          });
+            })
+            this.$router.push('/login')
+          })
         } else {
           //  ('error submit!!')
-          return false;
+          return false
         }
-      });
+      })
     },
-    backLogin() {
-      this.$router.push('/login');
+    backLogin () {
+      this.$router.push('/login')
     }
   }
 };
@@ -295,7 +295,7 @@ $light_gray: #eee;
   min-height: 100%;
   width: 100%;
   background-color: $bg;
-  background-image: url("../../assets/images/logoback.png");
+  background-image: url('../../assets/images/logoback.png');
   background-position: center 0;
   background-size: cover;
   -webkit-background-size: cover;
@@ -391,5 +391,12 @@ $light_gray: #eee;
       display: none;
     }
   }
+}
+::v-deep input.el-input__inner {
+  border: none !important;
+  box-shadow: none !important;
+
+  padding: 15px;
+  background-color: #f6f6f6;
 }
 </style>

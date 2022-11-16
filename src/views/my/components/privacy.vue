@@ -170,7 +170,7 @@ export default {
     },
     // 列表
     async getPrivacyList () {
-      const res = await getList(this.limit, this.offset)
+      const res = await getList(this.limit)
       console.log('隐私设置', res)
       if (res.data.results.length === 0) {
         this.ematy = false

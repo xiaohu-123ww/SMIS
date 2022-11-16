@@ -200,7 +200,7 @@ export default {
       this.educationalRequirements = data.education
       this.companyNatureList = data.enterprise_nature
       this.peopleList = data.staff_size
-      this.moneyList = data.staff_size
+      this.moneyList = data.salary_choice
     },
     // 清除所有条件
     clearSearch () {
@@ -210,6 +210,12 @@ export default {
       this.profession = ''
       this.companyNature = ''
       this.people = ''
+      this.list.jobExperience = ''
+      this.list.education = ''
+      this.list.enterpriseNature = ''
+      this.list.salary = ''
+      this.list.qq = ''
+      this.list.staffSize = ''
       this.$emit('reset')
     },
     // 职位分类

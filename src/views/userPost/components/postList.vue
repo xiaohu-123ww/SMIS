@@ -14,12 +14,7 @@
           <el-col :span="18"
             ><div class="grid-content bg-purple">
               <div class="postList">
-                <div
-                  v-for="item in jobListings"
-                  :key="item.id"
-                  class="job-job"
-                  @click="particulars(item)"
-                >
+                <div v-for="item in jobListings" :key="item.id" class="job-job">
                   <el-row>
                     <el-col :span="22">
                       <div class="grid-content bg-purple">
@@ -29,11 +24,16 @@
                               class="mechanical"
                               style="width: 450px; display: flex"
                             >
-                              <div style="width: 320px; padding-left: 30px">
-                                {{ item.fullname }} {{ item.city.second }}.{{
-                                  item.city.third
-                                }}
-                              </div>
+                              <a href="javascript:;">
+                                <div
+                                  style="width: 320px; padding-left: 30px"
+                                  @click="particulars(item)"
+                                >
+                                  {{ item.fullname }} {{ item.city.second }}.{{
+                                    item.city.third
+                                  }}
+                                </div>
+                              </a>
 
                               <el-button type="primary" round class="el-bt"
                                 >立即沟通</el-button
@@ -67,9 +67,17 @@
                           </div>
                           <div>
                             <div class="job-mechanical">
-                              <div class="mechanical" style="width: 480px">
-                                {{ item.enterprise_info.name }}
-                              </div>
+                              <a href="javascript:;">
+                                <div
+                                  class="mechanical"
+                                  style="width: 480px"
+                                  @click="
+                                    open(item.enterprise_info.enterprise_id)
+                                  "
+                                >
+                                  {{ item.enterprise_info.name }}
+                                </div>
+                              </a>
                               <div class="machan" style="width: 482px">
                                 <div
                                   class="machan-cc"
@@ -316,6 +324,14 @@ export default {
         path: '/state',
         name: 'state',
         query: { id: item }
+      })
+    },
+    open (i) {
+      console.log('1233333', i)
+      this.$router.push({
+        path: '/postdes',
+        name: 'postdes',
+        query: { id: i }
       })
     }
   }

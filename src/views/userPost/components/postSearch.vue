@@ -251,7 +251,6 @@
       </div>
       <div v-if="show" class="district">
         <a href="javascript:;">
-          <span v-if="clerk.length !== 0" style="color: #448ef7">不限</span>
           <span
             v-for="item in clerk"
             :key="item.id"
@@ -265,18 +264,6 @@
       </div>
       <div v-if="flagShow" class="district">
         <div style="display: flex">
-          <div
-            v-if="administrative.length !== 0"
-            style="
-              width: 200px;
-              height: 30px;
-
-              line-height: 37px;
-              color: #448ef7;
-            "
-          >
-            不限
-          </div>
           <div>
             <a href="javascript:;">
               <span
@@ -287,7 +274,7 @@
                 :class="tinct === item ? 'changes' : ''"
                 @click="administrativeChange(item)"
               >
-                {{ item }}
+                {{ index }}
               </span></a
             >
           </div>
@@ -412,7 +399,8 @@ export default {
       admin: '',
       // 地铁
       subway: '',
-      name: '城市'
+      name: '城市',
+      list: {}
 
     }
   },
@@ -558,6 +546,15 @@ export default {
       this.subway = ''
       this.job_class = ''
       this.profession = ''
+      this.serchPost.adcode = ''
+      this.serchPost.education = ''
+      this.serchPost.enterprise_nature = ''
+      // this.selected.field = ''
+      this.serchPost.job_experience = ''
+      this.serchPost.position_class = ''
+      this.serchPost.salary = ''
+      this.serchPost.staff_size = ''
+      // this.list = {}
     },
     // 其他条件
     // 工作经验
@@ -592,51 +589,60 @@ export default {
     },
     serchJob () {
       console.log('搜索条件', this.serchPost)
-      const list = this.serchPost
-      if (list.adcode === '') {
+      this.list = this.serchPost
+      if (this.list.adcode === '') {
         delete this.list.adcode
       }
-      if (list.city === '') {
-        delete list.city
+      if (this.list.city === '') {
+        delete this.list.city
       }
-      if (list.education === 0) {
-        delete list.education
+      if (this.list.education === 0) {
+        delete this.list.education
       }
-      if (list.enterprise_nature === 0) {
-        delete list.enterprise_nature
+      if (this.list.enterprise_nature === 0) {
+        delete this.list.enterprise_nature
       }
-      if (list.enterprise_nature === '') {
-        delete list.enterprise_nature
+      if (this.list.enterprise_nature === '') {
+        delete this.list.enterprise_nature
       }
-      if (list.field === '') {
-        delete list.field
+      if (this.list.field === '') {
+        delete this.list.field
       }
-      if (list.job === '') {
-        delete list.job
+      if (this.list.job === '') {
+        delete this.list.job
       }
-      if (list.job_experience === 0) {
-        delete list.job_experience
+      if (this.list.job_experience === 0) {
+        delete this.list.job_experience
       }
-      if (list.job_nature === 0) {
-        delete list.job_nature
+      if (this.list.job_nature === 0) {
+        delete this.list.job_nature
       }
-      if (list.position === '') {
-        delete list.position
+      if (this.list.position === '') {
+        delete this.list.position
       }
-      if (list.position_class === 0) {
-        delete list.position_class
+      if (this.list.position_class === 0) {
+        delete this.list.position_class
       }
-      if (list.qw === 0) {
-        delete list.qw
+      if (this.list.qw === '') {
+        delete this.list.qw
       }
-      if (list.salary === 0) {
-        delete list.salary
+      if (this.list.salary === 0) {
+        delete this.list.salary
       }
-      if (list.staff_size === 0) {
-        delete list.staff_siz
+      if (this.list.staff_size === 0) {
+        delete this.list.staff_siz
       }
-      console.log('1223', list)
-      this.$refs.rf.sendItem(list)
+      console.log('1223', this.list)
+      this.$refs.rf.sendItem(this.list)
+
+      delete this.list.education
+      delete this.list.job_experience
+      delete this.list.field
+      delete this.list.position_class
+      delete this.list.salary
+      delete this.list.staff_size
+
+      // const ss = {}
     }
 
   }

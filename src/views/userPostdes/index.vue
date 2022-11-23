@@ -75,7 +75,6 @@
                     "
                   >
                     {{ resume.count_of_opening_position }}
-                    \
                   </div>
                   <div style="font-size: 18px; padding-left: 22px; color: #fff">
                     在招职位

@@ -11,8 +11,8 @@
     <div v-if="showTime" class="post-list">
       <div class="postList-one">
         <el-row>
-          <el-col :span="18"
-            ><div class="grid-content bg-purple">
+          <el-col :span="18">
+            <div class="grid-content bg-purple">
               <div class="postList">
                 <div v-for="item in jobListings" :key="item.id" class="job-job">
                   <el-row>
@@ -138,6 +138,7 @@
                   </el-row>
                 </div>
                 <el-pagination
+                  v-if="jobListings.length !== 0"
                   style="margin: 20px 0 0 150px"
                   :current-page="offset"
                   :page-sizes="[5, 10, 20]"
@@ -148,7 +149,12 @@
                   @current-change="handleCurrentChange"
                 >
                 </el-pagination>
-              </div></div
+              </div>
+              <el-empty
+                v-if="jobListings.length === 0"
+                description="再无数据"
+                style="height: 600px"
+              ></el-empty></div
           ></el-col>
           <el-col :span="6"
             ><div class="grid-content bg-purple-light">
@@ -221,7 +227,8 @@ export default {
       searchingList: {},
       loading: false,
       showTime: false,
-      qw: ''
+      qw: '',
+      number: true
     }
   },
   computed: {
@@ -261,6 +268,7 @@ export default {
     async sendItem (i) {
       console.log('父传过来的数据', i)
       this.searchingList = i
+
       this.loading = true
       const { data } = await getPostList(i, this.limit)
       console.log('本页查询列表数据', data)
@@ -415,7 +423,7 @@ export default {
           font-size: 15px;
           // padding-top: 10px;
           .machan-aa {
-            width: 170px;
+            padding: 0px 10px;
             height: 20px;
             // background-color: #256efd;
             border-right: 1px solid #e6e3e3;
@@ -425,7 +433,7 @@ export default {
             line-height: 20px;
           }
           .machan-bb {
-            width: 70px;
+            padding: 0px 10px;
             height: 20px;
             // background-color: greenyellow;
             line-height: 20px;
@@ -433,6 +441,7 @@ export default {
           }
           .machan-cc {
             // width: 100px;
+            padding: 0px 10px;
             height: 20px;
             // background-color: #256efd;
             border-right: 1px solid #e6e3e3;

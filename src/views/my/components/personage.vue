@@ -43,7 +43,11 @@
           </div>
         </div>
         <div class="credential-d">
-          <div v-for="item in credential" :key="item.id" class="credential-dd">
+          <div
+            v-for="(item, index) in credential"
+            :key="index"
+            class="credential-dd"
+          >
             <img
               :src="disposeImg(item.sample)"
               alt=""
@@ -58,7 +62,7 @@
       <div class="position">
         <div class="position-a">精选职位</div>
         <div class="position-footer">
-          <div v-for="item in job" :key="item.id" class="position-b">
+          <div v-for="(item, index) in job" :key="index" class="position-b">
             <div class="position-machine">
               <div
                 style="

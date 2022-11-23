@@ -136,6 +136,8 @@ export default {
 
       }).then(() => {
         this.$emit('reset', false)
+        this.ruleForm.photoEm = ''
+        this.ruleForm.code = ''
       })
     },
     // 确定
@@ -148,6 +150,8 @@ export default {
           if (res.code === 200) {
             this.$message.success('绑定成功')
             this.$emit('reset', false, this.ruleForm.mobile)
+            this.ruleForm.photoEm = ''
+            this.ruleForm.code = ''
           }
         }
       })

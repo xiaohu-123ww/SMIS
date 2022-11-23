@@ -121,12 +121,15 @@ export default {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
           console.log(this.ruleForm)
-          const res = await getEmailBound(this.ruleForm)
+          const res = await getEmailBound(this.ruleForm.email, this.ruleForm.code)
           console.log('邮箱', res)
           if (res.code === 200) {
             this.$message.success('邮箱绑定成功')
             this.$emit('submit', false, this.ruleForm.email)
             this.$emit('reset', false)
+            this.ruleForm.email = ''
+
+            this.ruleForm.code = ''
           }
         }
       })
@@ -140,6 +143,9 @@ export default {
       }).then(() => {
         this.$emit('submit', false)
         this.$emit('reset', false)
+        this.ruleForm.email = ''
+
+        this.ruleForm.code = ''
       })
     },
     // 验证码

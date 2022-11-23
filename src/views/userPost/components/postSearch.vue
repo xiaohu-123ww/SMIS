@@ -215,7 +215,7 @@
           style="font-weight: 700"
           @click="color"
         >
-          {{ name }} ∨
+          {{ name }} <i class="el-icon-arrow-down"></i>
         </div>
         <div
           class="city-1"
@@ -223,7 +223,7 @@
           style="font-weight: 700"
           @click="tradeColor"
         >
-          行政区 ∨
+          行政区 <i class="el-icon-arrow-down"></i>
         </div>
         <div
           class="city-1"
@@ -231,7 +231,7 @@
           style="font-weight: 700"
           @click="sunbwayColor"
         >
-          地铁沿线 ∨
+          地铁沿线 <i class="el-icon-arrow-down"></i>
         </div>
       </div>
       <div v-if="administrativeShow" class="district">
@@ -547,14 +547,15 @@ export default {
       this.job_class = ''
       this.profession = ''
       this.serchPost.adcode = ''
-      this.serchPost.education = ''
+      this.serchPost.education = 0
       this.serchPost.enterprise_nature = ''
-      // this.selected.field = ''
-      this.serchPost.job_experience = ''
-      this.serchPost.position_class = ''
-      this.serchPost.salary = ''
-      this.serchPost.staff_size = ''
-      // this.list = {}
+      delete this.serchPost.field
+      this.serchPost.job_experience = 0
+      this.serchPost.position_class = 0
+      this.serchPost.salary = null
+      this.serchPost.staff_size = 0
+
+      this.list = {}
     },
     // 其他条件
     // 工作经验
@@ -589,60 +590,60 @@ export default {
     },
     serchJob () {
       console.log('搜索条件', this.serchPost)
-      this.list = this.serchPost
-      if (this.list.adcode === '') {
-        delete this.list.adcode
+      // this.list = this.serchPost
+      if (this.serchPost.adcode === '') {
+        delete this.serchPost.adcode
       }
-      if (this.list.city === '') {
-        delete this.list.city
+      if (this.serchPost.city === '') {
+        delete this.serchPost.city
       }
-      if (this.list.education === 0) {
-        delete this.list.education
+      if (this.serchPost.education === 0) {
+        delete this.serchPost.education
       }
-      if (this.list.enterprise_nature === 0) {
-        delete this.list.enterprise_nature
+      if (this.serchPost.enterprise_nature === 0) {
+        delete this.serchPost.enterprise_nature
       }
-      if (this.list.enterprise_nature === '') {
-        delete this.list.enterprise_nature
+      if (this.serchPost.enterprise_nature === '') {
+        delete this.serchPost.enterprise_nature
       }
-      if (this.list.field === '') {
-        delete this.list.field
+      if (this.serchPost.field === '') {
+        delete this.serchPost.field
       }
-      if (this.list.job === '') {
-        delete this.list.job
+      if (this.serchPost.job === '') {
+        delete this.serchPost.job
       }
-      if (this.list.job_experience === 0) {
-        delete this.list.job_experience
+      if (this.serchPost.job_experience === 0) {
+        delete this.serchPost.job_experience
       }
-      if (this.list.job_nature === 0) {
-        delete this.list.job_nature
+      if (this.serchPost.job_nature === 0) {
+        delete this.serchPost.job_nature
       }
-      if (this.list.position === '') {
-        delete this.list.position
+      if (this.serchPost.position === '') {
+        delete this.serchPost.position
       }
-      if (this.list.position_class === 0) {
-        delete this.list.position_class
+      if (this.serchPost.position_class === 0) {
+        delete this.serchPost.position_class
       }
-      if (this.list.qw === '') {
-        delete this.list.qw
+      if (this.serchPost.qw === '') {
+        delete this.serchPost.qw
       }
-      if (this.list.salary === 0) {
-        delete this.list.salary
+      if (this.serchPost.salary === null) {
+        delete this.serchPost.salary
       }
-      if (this.list.staff_size === 0) {
-        delete this.list.staff_siz
+      if (this.serchPost.staff_size === 0) {
+        delete this.serchPost.staff_size
       }
-      console.log('1223', this.list)
-      this.$refs.rf.sendItem(this.list)
 
-      delete this.list.education
-      delete this.list.job_experience
-      delete this.list.field
-      delete this.list.position_class
-      delete this.list.salary
-      delete this.list.staff_size
+      console.log('1223', this.serchPost)
+      this.$refs.rf.sendItem(this.serchPost)
 
       // const ss = {}
+      // delete this.list.education
+      // delete this.list.job_experience
+      // delete this.list.field
+      // delete this.list.position_class
+      // delete this.list.salary
+      // delete this.list.staff_size
     }
 
   }

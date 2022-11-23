@@ -34,8 +34,13 @@ export function getEmail (data) {
  * @param {*} data
  * @returns
  */
-export function getEmailBound (data) {
-  return request.get('/user/bind-email/v1.0.0/', data)
+export function getEmailBound (email, code) {
+  return request.get('/user/bind-email/v1.0.0/', {
+    params: {
+      email,
+      code
+    }
+  })
 }
 
 /**

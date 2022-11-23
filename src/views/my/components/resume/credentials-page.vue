@@ -25,16 +25,20 @@
           <el-row v-for="item in list" :key="item.id">
             <el-col :span="7"
               ><div class="grid-content bg-purple">
-                <!-- :src="disposeImg(item.cert_info.sample)" -->
-                <img alt="" style="width: 160px; height: 100px" /></div
+                <!-- " -->
+                <img
+                  :src="disposeImg(item.cert_info.sample)"
+                  alt=""
+                  style="width: 160px; height: 100px"
+                /></div
             ></el-col>
-            <el-col :span="13"
+            <el-col :span="15"
               ><div class="grid-content bg-purple-light">
                 {{ item.cert_info.cert_name }} - {{ item.cert_info.cert_level }}
               </div></el-col
             >
-            <el-col :span="2"
-              ><div class="grid-content bg-purple" style="margin-left: 7px">
+            <!-- <el-col :span="5">
+              <div class="grid-content bg-purple" style="margin-left: 7px">
                 <el-button
                   type="text"
                   icon="el-icon-edit"
@@ -42,7 +46,7 @@
                   >编辑</el-button
                 >
               </div>
-            </el-col>
+            </el-col> -->
             <el-col :span="1"
               ><div class="grid-content bg-purple-light">
                 <el-button

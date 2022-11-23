@@ -56,7 +56,7 @@
           >
         </el-row>
       </div>
-      <div class="safety-row">
+      <!-- <div class="safety-row">
         <el-row>
           <el-col :span="6"
             ><div class="grid-content bg-purple">微信</div></el-col
@@ -77,7 +77,7 @@
             </div></el-col
           >
         </el-row>
-      </div>
+      </div> -->
     </div>
     <PhotoDialog :is-show="isShow" :photolist="photo" @reset="reset" />
     <EmailDialog :email-show="emailShow" :email-list="email" @reset="reset" />
@@ -142,6 +142,7 @@ export default {
       this.emailShow = i
       this.show = i
       this.weChatShow = i
+      this.$emit('refresh')
     },
     emailChange () {
       this.emailShow = true

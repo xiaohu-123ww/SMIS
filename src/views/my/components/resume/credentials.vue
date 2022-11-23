@@ -127,7 +127,7 @@ export default {
           if (this.state === false) {
             const res = await getCertification(this.list)
             console.log('绑定', res)
-            this.$message.success(res.data.msg)
+            this.$message.success('绑定成功')
           } else {
             const res = await getCertificationAmend(this.id, this.num)
             console.log('修改', res)

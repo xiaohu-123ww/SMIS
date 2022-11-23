@@ -199,10 +199,12 @@
               <div class="firm">
                 <el-row>
                   <el-col :span="12"
-                    >注册资本: <span style="color: #999"></span
+                    >注册资本: {{ resume.business_info.register_capital
+                    }}<span style="color: #999"></span
                   ></el-col>
                   <el-col :span="12"
-                    >法人代表: <span style="color: #999"></span
+                    >法人代表: {{ resume.business_info.open_name
+                    }}<span style="color: #999"></span
                   ></el-col>
                 </el-row>
               </div>
@@ -535,7 +537,7 @@ export default {
       this.educationalRequirements = data.education
     },
     async inRecruit () {
-      const { data } = await getInRecruit(this.id, this.post, this.limit, this.offset)
+      const { data } = await getInRecruit(this.id, this.post, this.limit)
       console.log('在招列表', data)
       this.cityList = data.city_list
       this.total = data.result.count
@@ -549,14 +551,14 @@ export default {
       }
     },
     async root () {
-      const { data } = await getInRecruit(33, this.serchPost, this.limit, this.offset)
+      const { data } = await getInRecruit(33, this.serchPost, this.limit)
       console.log('在招列表122', data)
 
       if (data.length === 0) {
         console.log('1121345556')
         this.inRecruitList = []
         this.ematy = false
-        this.$message.error('该条件目前没有相关职位')
+        this.$message.success('该条件目前没有相关职位')
       } else {
         console.log(33)
       }

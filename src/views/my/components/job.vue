@@ -229,7 +229,7 @@ export default {
     // 新招呼
     async helloChange () {
       this.changeColor = 1
-      const res = await getpreChat(this.limit, this.offset)
+      const res = await getpreChat(this.limit)
       console.log('新招呼', res)
       if (res.data.results.length === 0) {
         this.ematy = true
@@ -243,7 +243,7 @@ export default {
     // 有意向
     async haveIntentionTo () {
       this.changeColor = 2
-      const res = await getInterests(this.limit, this.offset)
+      const res = await getInterests(this.limit)
       console.log('有意向', res)
       if (res.data.results.length === 0) {
         this.ematy = true
@@ -257,7 +257,7 @@ export default {
     // 沟通中
     async inCommunicationC () {
       this.changeColor = 3
-      const res = await getChating(this.limit, this.offset)
+      const res = await getChating(this.limit)
       console.log('沟通中', res)
       if (res.data.results.length === 0) {
         this.ematy = true
@@ -272,7 +272,7 @@ export default {
     async posted () {
       this.changeColor = 4
       const cv_exchange = 1
-      const res = await getChatingList(cv_exchange, this.limit, this.offset)
+      const res = await getChatingList(cv_exchange, this.limit)
       console.log('已投递', res)
       if (res.data.results.length === 0) {
         this.ematy = true
@@ -287,7 +287,7 @@ export default {
     async Invited () {
       this.changeColor = 5
       this.invite = false
-      const res = await getIndisposed(this.limit, this.offset)
+      const res = await getIndisposed(this.limit)
       console.log('邀面试', res)
       if (res.data.results.length === 0) {
         this.ematy = true
@@ -301,7 +301,7 @@ export default {
     // 不合适
     async inappropriate () {
       this.changeColor = 6
-      const res = await getReject(this.limit, this.offset)
+      const res = await getReject(this.limit)
       console.log('不合适', res)
       if (res.data.results.length === 0) {
         this.ematy = true

@@ -6,12 +6,12 @@
       width="30%"
       :before-close="handleClose"
     >
-      <div>
+      <div v-if="show">
         <div class="interview-fa">
           <div class="interview">
             <div class="interview-top">
               <div class="interview-one">
-                {{ statusList.position.position_name }}
+                {{ statusList.hr.name ? statusList.hr.name : 'hr' }}
               </div>
               <div style="color: red">
                 {{ statusList.position.salary_min }}-{{
@@ -21,16 +21,16 @@
               </div>
             </div>
             <div class="interview-top" style="color: ##256efd">
-              {{ statusList.position.enterprise.enterprise_name }}
+              {{ statusList.position.enterprise_name }}
             </div>
           </div>
           <div class="inter">
             <p>
               面试时间：{{ statusList.start_time }}-{{ statusList.end_time }}
             </p>
-            <p>面试地点：{{ statusList.position.address }}</p>
-            <p style="padding-left: 14px">联系人：{{ statusList.hr.name }}</p>
-            <p>联系电话：{{ statusList.hr.phone }}</p>
+            <p>面试地点：{{ statusList.address }}</p>
+            <p style="padding-left: 14px">联系人：{{ statusList.contactor }}</p>
+            <p>联系电话：{{ statusList.contact }}</p>
           </div>
         </div>
         <!-- <span
@@ -41,24 +41,44 @@
         <el-button @click="refuse">接受面试</el-button>
         <el-button type="primary" @click="accept">拒绝面试</el-button>
       </span> -->
-        <span class="accept"
-          ><span v-if="condition"
+        <div class="accept">
+          <span v-if="statusList.result === '已接受'"
             >已接受面试邀请，记得按时参加哦！！！</span
-          ></span
-        >
+          >
 
-        <span
-          v-if="pass"
-          class="accept"
-          style="font-weight: 700; font-size: 18px"
-        >
-          <span v-if="all" style="color: red">恭喜您面试通过！</span>
-          <span v-if="denied" style="color: #999">
+          <span
+            v-if="statusList.result === '已通过'"
+            style="color: red; font-size: 20px"
+            >恭喜您面试通过！</span
+          >
+          <span
+            v-if="statusList.result === '已完成'"
+            style="color: #999; font-size: 20px"
+          >
             面试结果还没出,请耐心等待</span
           >
-          <span v-if="hold" style="color: #999"> 待定中，请耐心等待</span>
-          <span v-if="reject" style="color: #999"> 未通过,希望下次合作</span>
-        </span>
+          <span
+            v-if="statusList.result === '待定'"
+            style="color: #999; font-size: 20px"
+          >
+            待定中，请耐心等待</span
+          >
+          <span
+            v-if="statusList.result === '未通过'"
+            style="color: #999; font-size: 20px"
+          >
+            未通过,希望下次合作</span
+          >
+          <span
+            v-if="statusList.result === '已取消'"
+            style="color: #999; font-size: 20px"
+          >
+            已取消面试</span
+          >
+          <span v-if="statusList.result === '待评价'" style="color: #999">
+            面试结果还没出,请耐心等待</span
+          >
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -101,35 +121,7 @@ export default {
 
   },
   watch: {
-    statusList (newVal, oldVal) {
-      if (newVal.interview_status === '已接受') {
-        this.condition = true
-      }
-      if (newVal.interview_status === '已完成') {
-        this.pass = true
-        if (newVal.interview_result === null) {
-          this.denied = true
-          this.all = false
-          this.reject = false
-          this.hold = false
-        } else if (newVal.interview_result === '已通过') {
-          this.all = true
-          this.denied = false
-          this.reject = false
-          this.hold = false
-        } else if (newVal.interview_result === '待定') {
-          this.hold = true
-          this.denied = false
-          this.all = false
-          this.reject = false
-        } else if (newVal.interview_result === '未通过') {
-          this.reject = true
-          this.hold = false
-          this.denied = false
-          this.all = false
-        }
-      }
-    }
+
   },
   created () {
     this.getState()
@@ -149,10 +141,7 @@ export default {
 
     },
     getState () {
-      if (this.statusList.interview_result === '已接受') {
-        this.condition = 1
-        console.log(1)
-      }
+
     }
 
   }
@@ -190,7 +179,8 @@ export default {
   font-size: 16px;
   color: rgb(120, 116, 116);
   // margin: 70px;
-  margin-left: 50px;
+  // margin-left: 50px;
+  text-align: center;
 }
 </style>
 

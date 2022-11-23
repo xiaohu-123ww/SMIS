@@ -74,7 +74,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="期望城市" prop="province">
+      <el-form-item label="期望城市" prop="address">
         <el-input
           v-if="address"
           v-model="address"
@@ -83,7 +83,7 @@
         ></el-input>
         <div v-else>
           <el-col :span="8">
-            <el-form-item>
+            <el-form-item prop="province">
               <el-select v-model="ruleForm.province" placeholder="请选择省">
                 <el-option
                   v-for="item in city"
@@ -213,15 +213,15 @@ export default {
         region: null
       },
       rules: {
-        // region: [
-        //   { required: true, message: '请选择期望行业', trigger: 'change' }
-        // ],
-        // province: [
-        //   { required: true, message: '请选择期望行业', trigger: 'change' }
-        // ],
-        // field: [
-        //   { required: true, message: '请选择期望行业', trigger: 'change' }
-        // ],
+        region: [
+          { required: true, message: '请选择期望行业', trigger: 'change' }
+        ],
+        province: [
+          { required: true, message: '请选择期望行业', trigger: 'change' }
+        ],
+        field: [
+          { required: true, message: '请选择期望行业', trigger: 'change' }
+        ],
         pst_class_id: [
           { required: true, message: '请选择职位', trigger: 'change' }
         ],

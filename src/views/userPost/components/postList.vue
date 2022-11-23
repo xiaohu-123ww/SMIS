@@ -261,10 +261,12 @@ export default {
     async sendItem (i) {
       console.log('父传过来的数据', i)
       this.searchingList = i
+      this.loading = true
       const { data } = await getPostList(i, this.limit)
       console.log('本页查询列表数据', data)
       this.jobListings = data.results
       this.total = data.count
+      this.loading = false
     },
     // 列表数据
     async getPostList () {

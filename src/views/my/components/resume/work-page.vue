@@ -114,7 +114,7 @@ export default {
 
   },
   mounted () {
-
+    this.getList()
   },
   created () {
     this.getList()

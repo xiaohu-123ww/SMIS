@@ -48,3 +48,10 @@ export function getCompleted (limit, offset) {
 export function getResults (data) {
   return request.post('/user/interview-process/', data)
 }
+/**
+ * 面试详情
+ */
+
+export function getLists (id) {
+  return request.get(`/user/interview-details/${id}/`)
+}

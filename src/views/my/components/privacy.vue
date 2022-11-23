@@ -31,9 +31,9 @@
               :key="index"
               style="list-style: none"
             >
-              <el-checkbox v-model="item.checked">
+              <el-checkbox v-model="item.checked" @change="changeNum(item)">
                 <div class="text" style="font-size: 20px; margin-bottom: 20px">
-                  {{ item.enterprise_name }}
+                  {{ item.ename }}
                 </div>
               </el-checkbox>
             </li>
@@ -59,12 +59,12 @@
           >
         </div>
         <div v-for="item in list" :key="item.id" class="privacy">
-          <div class="text">{{ item.enterprise_name }}</div>
+          <div class="text">{{ item.ename }}</div>
           <el-button
             type="text"
             icon="el-icon-delete"
             class="privacy-bt"
-            @click="deleteList(item.enterprise_id)"
+            @click="deleteList(item.eid)"
             >删除</el-button
           >
         </div>
@@ -96,9 +96,7 @@ export default {
   components: { Privacy },
   data () {
     return {
-      list: [
-
-      ],
+      list: [],
 
       total: 10,
       show: false,
@@ -118,7 +116,7 @@ export default {
 
   },
   mounted () {
-
+    this.getPrivacyList()
   },
   created () {
     this.getPrivacyList()
@@ -146,7 +144,7 @@ export default {
     add () {
       this.show = true
     },
-    reset (i) {
+    async reset (i) {
       this.show = i
       this.getPrivacyList()
     },
@@ -176,6 +174,7 @@ export default {
         this.ematy = false
       }
       this.list = res.data.results
+      console.log('this.list', this.list)
       this.code = res.data.count
       this.total = res.data.count
     },
@@ -190,9 +189,29 @@ export default {
       this.$message.success('删除成功')
       this.getPrivacyList()
     },
+    changeNum (item) {
+      this.list.forEach((item, index) => {
+        if (item.checked === true) {
+          console.log(item)
+          const aa = []
+          this.arrList.push(item.eid)
+          const bb = new Set(this.arrList)
+          this.arrList = Array.from(bb)
+          console.log('123', this.arrList)
+        } else {
+          this.arrList.splice(index)
+        }
+      })
+    },
     async deletechange () {
-      this.job.hidden = this.arrList.toString()
-      console.log(this.job)
+      if (this.checkAll === true) {
+        const job = this.list.map(item => item.eid)
+        this.job.hidden = job.toString()
+      } else {
+        this.job.hidden = this.arrList.toString()
+      }
+      // this.job.hidden = this.arrList.toString()
+      console.log('11', this.job)
       const { data } = await getList()
       console.log('133', data)
 

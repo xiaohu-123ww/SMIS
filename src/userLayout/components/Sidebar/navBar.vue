@@ -36,9 +36,9 @@
             <router-link to="/job">
               <el-dropdown-item>求职申请</el-dropdown-item>
             </router-link>
-            <router-link to="/job">
+            <a href="http://1.13.8.165/RtcScreen">
               <el-dropdown-item>我去招聘</el-dropdown-item>
-            </router-link>
+            </a>
 
             <a
               v-if="bel"
@@ -47,9 +47,9 @@
             >
               <el-dropdown-item>后台管理</el-dropdown-item>
             </a>
-            <el-dropdown-item @click.native="amend">
+            <!-- <el-dropdown-item @click.native="amend">
               <span style="display: block">修改密码</span>
-            </el-dropdown-item>
+            </el-dropdown-item> -->
             <el-dropdown-item divided @click.native="logout">
               <span style="display: block">退出登录</span>
             </el-dropdown-item>

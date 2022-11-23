@@ -37,7 +37,7 @@
         type="text"
         class="el-icon-refresh-left"
         style="color: black; font-size: 18px"
-        :disabled="isLock"
+        :disabled="Lock"
         @click="pickJob"
         >换一批</el-button
       >
@@ -47,7 +47,7 @@
         type="text"
         class="el-icon-refresh-left"
         style="color: black; font-size: 18px"
-        :disabled="isLock"
+        :disabled="num"
         @click="hotJob"
         >换一批</el-button
       >
@@ -71,7 +71,9 @@ export default {
     return {
       state: 0,
       pick: 1,
-      isLock: false
+      isLock: true,
+      Lock: false,
+      num: false
     }
   },
   computed: {
@@ -82,23 +84,24 @@ export default {
   },
   methods: {
     hotJob () {
-      this.isLock = true
+      // if (e.target.tagName === 'INPUT') return
+      this.num = true
+
       setTimeout(() => {
-        this.isLock = false
-        this.state++
+        this.state = Math.floor(Math.random() * 18)
         this.$emit('changeHot', this.state)
-        console.log(1)
-      }, 1000)
+        this.num = false
+      }, 3000)
     },
     pickJob () {
       console.log(2)
-
-      this.isLock = true
+      this.Lock = true
       setTimeout(() => {
-        this.isLock = false
-        this.pick++
+        this.pick = Math.floor(Math.random() * 18)
+        console.log('123', this.pick)
         this.$emit('changePick', this.pick)
-      }, 1000)
+        this.Lock = false
+      }, 3000)
     },
     cardChange (item) {
       console.log(item)

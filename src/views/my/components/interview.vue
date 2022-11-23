@@ -92,7 +92,7 @@
               <el-button
                 type="primary"
                 :disabled="item.interview_status === '已拒绝'"
-                @click="dispose(item)"
+                @click="dispose(item, item.id)"
                 >面试详情</el-button
               >
             </div>
@@ -182,7 +182,7 @@
 </template>
 <script>
 import Interview from './interview/index.vue'
-import { getList, getIndisposed, getReceived, getReject, getCompleted, getResults } from '@/api/my/interview'
+import { getList, getIndisposed, getReceived, getReject, getCompleted, getResults, getLists } from '@/api/my/interview'
 import { formatTime } from '@/api/formatTime'
 import disposeImg from '@/utils/disposeImg'
 import { constantRoutes } from '@/router'
@@ -228,7 +228,7 @@ export default {
       this.list = {}
       this.changeColor = 1
       this.ematy = false
-      const res = await getList(this.limit, this.offset)
+      const res = await getList(this.limit)
       console.log('全部', res)
       this.ematy = false
       if (res.data.results.length !== 0) {
@@ -242,7 +242,7 @@ export default {
       this.list = {}
       this.changeColor = 2
       this.ematy = false
-      const res = await getIndisposed(this.limit, this.offset)
+      const res = await getIndisposed(this.limit)
       console.log('待处理', res)
       if (res.data.results.length !== 0) {
         this.ematy = true
@@ -254,7 +254,7 @@ export default {
       this.list = {}
       this.changeColor = 3
       this.ematy = false
-      const res = await getReceived(this.limit, this.offset)
+      const res = await getReceived(this.limit)
       console.log('已接受', res)
       if (res.data.results.length !== 0) {
         this.ematy = true
@@ -266,7 +266,7 @@ export default {
       this.list = {}
       this.changeColor = 4
       this.ematy = false
-      const res = await getReject(this.limit, this.offset)
+      const res = await getReject(this.limit)
       if (res.data.results.length !== 0) {
         this.ematy = true
         this.list = res.data.results
@@ -277,7 +277,7 @@ export default {
       this.list = {}
       this.changeColor = 5
       this.ematy = false
-      const res = await getCompleted(this.limit, this.offset)
+      const res = await getCompleted(this.limit)
       console.log('已通过', res)
       if (res.data.results.length !== 0) {
         this.ematy = true
@@ -358,10 +358,12 @@ export default {
         }
       }
     },
-    dispose (name) {
+    async dispose (name, id) {
+      const { data } = await getLists(id)
+      console.log('简历详情', data)
+      this.statusList = data
       this.show = true
       this.state = true
-      this.statusList = name
       console.log(name)
       if (name.interview_status === '已拒绝') {
         this.show = false

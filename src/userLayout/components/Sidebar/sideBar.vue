@@ -47,7 +47,7 @@ export default {
           path: '/userdash'
         },
         {
-          name: '职位中心',
+          name: '职位搜索',
           path: '/userpost'
         },
         {

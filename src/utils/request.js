@@ -70,11 +70,12 @@ service.interceptors.response.use(
           store.dispatch('user/resetToken').then(() => {
             //  ("500");
             location.reload()
+            router.push('/')
           })
         })
       } else {
         Message({
-          message: res.data.msg || res.msg,
+          message: res.msg || res.data.msg,
           type: 'error',
           duration: 5 * 1000
         })

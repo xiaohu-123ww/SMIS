@@ -32,12 +32,11 @@
                   </div>
                   <div class="tags">
                     <div
-                      v-for="(item, index) in resume.enterprise_info.tags"
+                      v-for="(item, index) in resume.tag"
                       :key="index"
-                      class="tags"
-                      style="width: 20px; height: 20px; background-color: pink"
+                      class="tag"
                     >
-                      {{ item.name }}
+                      {{ item }}
                     </div>
                   </div>
                 </div>
@@ -409,7 +408,7 @@ export default {
     // 有意向
     async likeChange () {
       console.log('111222', this.resume)
-      const id = this.resume.enterprise_info.enterprise_id
+      const id = this.resume.id
       const res = await getInterests(id)
       console.log('意向', res)
       this.$message.success('已向hr发送消息')
@@ -497,14 +496,13 @@ export default {
             // background-color: pink;
             display: flex;
             .tag {
-              width: 100px;
-              height: 30px;
-              padding: 0 20px;
-              line-height: 30px;
-              background-color: rgb(41, 96, 164);
-              border: 1px solid rgb(71, 156, 255);
+              padding: 7px 10px;
+              // line-height: 30px;
+              background-color: #fff;
+              // border: 1px solid rgb(14, 112, 224);
               color: rbg(56, 148, 255);
               margin-right: 20px;
+              text-align: center;
             }
           }
         }

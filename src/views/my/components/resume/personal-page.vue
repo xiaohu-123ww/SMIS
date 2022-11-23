@@ -46,7 +46,7 @@ export default {
   computed: {
     commendContent () {
       // this.commend.content是后端传回来的文本数据，就是要对这个数据进行处理
-      const arr = this.text
+      const arr = this.list.text
       return arr.map((item) => {
         return item === '\n' ? '<br>' : item
       }).join('')

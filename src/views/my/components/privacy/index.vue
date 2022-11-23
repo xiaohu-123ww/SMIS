@@ -163,20 +163,25 @@ export default {
         console.log('屏蔽', res)
         this.$message.success('屏蔽企业成功')
         this.$emit('reset', false)
+        this.qw = ''
       } else {
         console.log(1)
         this.text.qw = this.qw
         const res = await getListSearch(this.text)
         console.log('res', res)
       }
+    },
+    handleClose () {
+      this.$emit('reset', false)
+      this.qw = ''
     }
-
   }
+
 }
 </script>
 <style scoped lang="scss">
 .bt {
-  width: 500px;
+  width: 100%;
   display: flex;
   // background-color: aqua;
   margin: 0 auto;
@@ -184,7 +189,7 @@ export default {
 .privacy-chexkbox {
   margin: 20px 0 0 0;
   height: 30px;
-  width: 560px;
+  width: 100%;
   line-height: 30px;
   // background-color: aqua;
   border-bottom: 1px solid #e6e3e3;

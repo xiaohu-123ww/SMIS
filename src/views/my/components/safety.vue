@@ -2,7 +2,7 @@
   <div>
     <div class="interview">安全中心</div>
     <div class="safety">
-      <Table :list="list" />
+      <Table :list="list" @refresh="refresh" />
     </div>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 
   },
   mounted () {
-
+    this.getSafety()
   },
   created () {
     this.getSafety()
@@ -30,6 +30,9 @@ export default {
       const { data } = await getList()
       console.log('安全中心', data)
       this.list = data
+    },
+    refresh () {
+      this.getSafety()
     }
   }
 }

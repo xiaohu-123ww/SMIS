@@ -308,7 +308,7 @@ export default {
       // "@/assets/imgs/2.jpeg","@/assets/imgs/3.jpg","@/assets/imgs/4.webp","@/assets/imgs/5.jpg","@/assets/imgs/6.jpg","@/assets/imgs/7.png","@/assets/imgs/8.jpg","@/assets/imgs/9.png","@/assets/imgs/10.webp"
       limit: 6,
       positionJob: JSON.parse(localStorage.getItem('positionjob')) || [],
-      offset: 6,
+      offset: 1,
       pickJob: JSON.parse(localStorage.getItem('pickJob')) || [],
       certificate: JSON.parse(localStorage.getItem(' certificate')) || [],
       jobList: JSON.parse(localStorage.getItem('jobObject')) || {},
@@ -468,10 +468,11 @@ export default {
     },
     // 热门职位 换一批
     async changeHot (i) {
-      console.log(i)
-      const arr = this.offset * i
-      console.log(arr)
-      this.offset = (arr % 24)
+      // console.log('i', i)
+      // const arr = this.offset * i
+      // console.log('arr', arr)
+      // this.offset = (arr % 24)
+      this.offset = i
       console.log('112', this.offset)
       const { data } = await getPositionJob(this.limit, this.offset)
       console.log('刷新下一页', data.results)
@@ -487,8 +488,8 @@ export default {
     },
     // 刷新精选职位
     async changePick (i) {
-      const arr = this.offset * i
-      this.offset = (arr % 24)
+      this.offset = i
+      console.log('i', i)
       const { data } = await getHandpickJobChange(this.limit, this.offset)
       console.log('精选职位刷新下一页', data.results)
 

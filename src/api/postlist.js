@@ -22,7 +22,7 @@ export function getPostList (data, limit) {
  * @returns
  */
 export function getPostListOne (data, limit, offset) {
-  return request.post('/user/position-new-retrival/', data, {
+  return request.post('/user/position-new-retrival/v1.0.2/', data, {
     params: {
       limit,
       offset

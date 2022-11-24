@@ -1,7 +1,7 @@
 <template>
   <div v-if="person" style="margin-top: 30px">
     <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="活动形式">
+      <el-form-item label="个人优势">
         <el-input
           v-model="list.text"
           type="textarea"

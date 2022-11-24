@@ -117,13 +117,21 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="联系方式" prop="phone_number">
-          <el-input v-model="num.phone_number" style="width: 600px"></el-input>
+          <el-input
+            v-model="num.phone_number"
+            style="width: 600px"
+            :disabled="num.phone_number !== ''"
+          ></el-input>
           <el-button type="primary" style="margin-left: 20px" @click="addition"
             >绑定</el-button
           >
         </el-form-item>
         <el-form-item label="电子邮箱" prop="email">
-          <el-input v-model="num.email" style="width: 600px"></el-input>
+          <el-input
+            v-model="num.email"
+            style="width: 600px"
+            :disabled="num.email !== ''"
+          ></el-input>
           <el-button
             type="primary"
             style="margin-left: 20px"

@@ -53,7 +53,7 @@ export default {
     }
   },
   mounted () {
-
+    this.getText()
   },
   created () {
     this.getText()

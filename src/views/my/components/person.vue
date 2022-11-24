@@ -19,7 +19,7 @@
         </div>
         <div class="right-i">
           <div class="right-age">
-            {{ num.sex === 0 ? '女' : '男' }}
+            {{ num.sex }}
           </div>
           <div class="right-age">{{ num.age ? num.age : '无' }}</div>
           <div v-if="flag === false" class="right-age">
@@ -132,6 +132,7 @@ export default {
     reset (i) {
       this.show = i
       this.showHidden = true
+      this.getName()
     }
 
   }

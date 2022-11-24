@@ -124,7 +124,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="当前月薪" prop="salary_max">
+      <el-form-item label="当前月薪">
         <el-input
           v-model="ruleForm.salary_max"
           class="box"

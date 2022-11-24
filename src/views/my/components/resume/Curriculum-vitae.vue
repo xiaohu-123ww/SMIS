@@ -8,6 +8,7 @@
       :show-file-list="true"
       :multiple="false"
       action="upload"
+      accept=".pdf,.doc,.docx"
       :on-change="onChange"
       :auto-upload="false"
       :file-list="fileList1"
@@ -67,31 +68,31 @@ export default {
         })
         this.dialogVisibleFile = false
         this.fileList = []
-      }
+      } else {
+        if (fileList.length > 1) {
+          fileList.splice(0, 1)
+        }
+        this.fileList1 = fileList
+        // console.log('文', this.fileList1)
 
-      if (fileList.length > 1) {
-        fileList.splice(0, 1)
-      }
-      this.fileList1 = fileList
-      // console.log('文', this.fileList1)
-
-      this.productVO.instruction = file.name
-      this.productVO.instructionFile = file.raw
-      // 上传文件时需要用到二进制，所以这里文件取值为file.raw
-      console.log(this.productVO.instruction)
-      console.log(file)
-      const formData = new FormData()
-      formData.append('files', file.raw)
-      const res = await planInsert(formData)
-      console.log('res', res)
-      if (res.code === 200) {
-        this.$message.success('上传成功')
-        const res = await getResumeCv()
-        console.log('res2', res)
-        this.$message.success('解析成功')
-        const res1 = await getCv(formData)
-        console.log('文件地址', res1)
-        this.cvfile = res1.data.path
+        this.productVO.instruction = file.name
+        this.productVO.instructionFile = file.raw
+        // 上传文件时需要用到二进制，所以这里文件取值为file.raw
+        console.log(this.productVO.instruction)
+        console.log(file)
+        const formData = new FormData()
+        formData.append('files', file.raw)
+        const res = await planInsert(formData)
+        console.log('res', res)
+        if (res.code === 200) {
+          this.$message.success('上传成功')
+          const res = await getResumeCv()
+          console.log('res2', res)
+          this.$message.success('解析成功')
+          const res1 = await getCv(formData)
+          console.log('文件地址', res1)
+          this.cvfile = res1.data.path
+        }
       }
     },
     // 删除

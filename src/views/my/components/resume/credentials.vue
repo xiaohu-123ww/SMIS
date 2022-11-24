@@ -134,8 +134,8 @@ export default {
             this.$message.success('修改成功')
           }
           this.$emit('reset', false)
-          this.value = ''
-          this.date1 = ''
+          this.num.value = ''
+          this.num.date1 = ''
         }
       })
     },
@@ -147,6 +147,8 @@ export default {
 
       }).then(() => {
         this.$emit('reset', false)
+        this.num.value = ''
+        this.num.date1 = ''
       })
     },
 

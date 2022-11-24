@@ -83,14 +83,23 @@ export default {
   computed: {
 
     // 用于校验手机号码格式是否正确
-
+    phoneNumberStyle () {
+      const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if (!reg.test(this.ruleForm.email)) {
+        return false
+      }
+      return true
+    },
     // 控制获取验证码按钮是否可点击
     getCodeBtnDisable: {
       get () {
         if (this.waitTime == 61) {
-          if (this.ruleForm.email) {
-            return false
+          if (this.phoneNumberStyle) {
+            if (this.ruleForm.email) {
+              return false
+            }
           }
+
           return true
         }
         return true

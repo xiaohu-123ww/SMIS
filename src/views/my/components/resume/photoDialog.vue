@@ -54,8 +54,8 @@ export default {
     return {
       ruleForm: {
         mobile: '',
-        code: '',
-        submitLoading: false
+        code: ''
+
       },
       mobile: '',
 
@@ -85,14 +85,24 @@ export default {
   computed: {
 
     // 用于校验手机号码格式是否正确
+    phoneNumberStyle () {
+      const reg = /^1[3456789]\d{9}$/
+      if (!reg.test(this.ruleForm.mobile)) {
+        return false
+      }
+      return true
+    },
 
     // 控制获取验证码按钮是否可点击
     getCodeBtnDisable: {
       get () {
         if (this.waitTime == 61) {
-          if (this.ruleForm.mobile) {
-            return false
+          if (this.phoneNumberStyle) {
+            if (this.ruleForm.mobile) {
+              return false
+            }
           }
+
           return true
         }
         return true
@@ -114,7 +124,7 @@ export default {
     // 取消
     handleClose () {
       this.$emit('reset', false)
-      // this.ruleForm.photoEm = ''
+
       this.ruleForm.code = ''
       this.ruleForm.mobile = ''
     },
@@ -128,7 +138,7 @@ export default {
           if (res.code === 200) {
             this.$message.success('绑定成功')
             this.$emit('reset', false, this.ruleForm.mobile)
-            // this.ruleForm.photoEm = ''
+
             this.ruleForm.code = ''
             this.ruleForm.mobile = ''
           }

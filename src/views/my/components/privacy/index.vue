@@ -127,7 +127,7 @@ export default {
       }
     },
     async getprivacy () {
-      const res = await getEnterpriseQuick(this.qw, this.limit, this.offset)
+      const res = await getEnterpriseQuick(this.qw, this.limit)
       console.log('列表', res)
       this.list = res.data.results
       if (this.list.length !== 0) {

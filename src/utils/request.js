@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import { getToken, removeToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -71,6 +71,7 @@ service.interceptors.response.use(
             //  ("500");
             location.reload()
             router.push('/')
+            removeToken()
           })
         })
       } else {

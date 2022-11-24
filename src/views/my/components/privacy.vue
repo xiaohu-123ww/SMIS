@@ -26,11 +26,7 @@
         </div>
         <div class="privacy-box" style="margin-top: 50px">
           <ul>
-            <li
-              v-for="(item, index) in list"
-              :key="index"
-              style="list-style: none"
-            >
+            <li v-for="item in list" :key="item" style="list-style: none">
               <el-checkbox v-model="item.checked" @change="changeNum(item)">
                 <div class="text" style="font-size: 20px; margin-bottom: 20px">
                   {{ item.ename }}
@@ -218,6 +214,7 @@ export default {
       const res = await getListDelete(this.job)
       console.log('res', res)
       this.$message.success('批量删除成功')
+
       this.getPrivacyList()
     }
 

@@ -164,6 +164,8 @@ export default {
         this.$message.success('屏蔽企业成功')
         this.$emit('reset', false)
         this.qw = ''
+        this.list = []
+        this.state = false
       } else {
         console.log(1123)
         this.text.qw = this.qw
@@ -171,11 +173,15 @@ export default {
         console.log('res', res)
         this.$emit('reset', false)
         this.qw = ''
+        this.list = []
+        this.state = false
       }
     },
     handleClose () {
       this.$emit('reset', false)
       this.qw = ''
+      this.list = []
+      this.state = false
     }
   }
 

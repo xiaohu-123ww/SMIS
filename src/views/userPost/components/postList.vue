@@ -56,7 +56,7 @@
                             </div>
                             <div class="equipment">
                               <div
-                                v-for="(itemss, index) in item.tag"
+                                v-for="(itemss, index) in item.jobkeywords_name"
                                 :key="index"
                                 class="equiment-ff"
                               >
@@ -106,19 +106,7 @@
                                 "
                               >
                                 <!-- 福利 -->
-                                <div
-                                  v-for="(items, index) in item.enterprise_info
-                                    .tags"
-                                  :key="index"
-                                  style="
-                                    height: 15px;
-                                    background-color: rgb(245, 245, 245);
-                                    border: 1px solid rgb(220, 220, 220);
-                                    margin: 2px;
-                                  "
-                                >
-                                  {{ items }}
-                                </div>
+                                {{ item.enterprise_info.tags.toString() }}
                               </div>
                             </div>
                           </div>
@@ -228,7 +216,8 @@ export default {
       loading: false,
       showTime: false,
       qw: '',
-      number: true
+      number: true,
+      text: []
     }
   },
   computed: {
@@ -390,11 +379,12 @@ export default {
           // padding-left: 20px;
           .equiment-ff {
             // width: 70px;
+            padding: 0px 10px;
             height: 20px;
             line-height: 20px;
             text-align: center;
-            border: 1px solid #bfbbbb;
-            background-color: rgba(230, 227, 238, 0.836) 4;
+            background-color: rgb(245, 245, 245);
+            border: 1px solid rgb(220, 220, 220);
             margin-top: 9px;
             color: #878484;
             margin-left: 40px;

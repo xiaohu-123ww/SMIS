@@ -12,23 +12,25 @@
             <el-input
               v-model="ruleForm.email"
               placeholder="请输入邮箱"
-              style="width: 260px"
             ></el-input>
           </el-form-item>
+
           <el-form-item label="验证码" prop="code">
-            <el-input
-              v-model="ruleForm.code"
-              placeholder="请输入验证码"
-              style="width: 260px"
-            ></el-input>
-            <el-button
-              :class="{ 'disabled-style': getCodeBtnDisable }"
-              :disabled="getCodeBtnDisable"
-              style="margin-left: 10px"
-              type="primary"
-              @click="getCode()"
-              >{{ codeBtnWord }}</el-button
-            >
+            <div style="display: flex">
+              <el-input
+                v-model="ruleForm.code"
+                placeholder="请输入验证码"
+                style="width: 260px"
+              ></el-input>
+              <el-button
+                :class="{ 'disabled-style': getCodeBtnDisable }"
+                :disabled="getCodeBtnDisable"
+                style="margin-left: 10px"
+                type="primary"
+                @click="getCode()"
+                >{{ codeBtnWord }}</el-button
+              >
+            </div>
           </el-form-item>
         </el-form>
       </div>
@@ -128,7 +130,6 @@ export default {
             this.$emit('submit', false, this.ruleForm.email)
             this.$emit('reset', false)
             this.ruleForm.email = ''
-
             this.ruleForm.code = ''
           }
         }
@@ -144,7 +145,6 @@ export default {
         this.$emit('submit', false)
         this.$emit('reset', false)
         this.ruleForm.email = ''
-
         this.ruleForm.code = ''
       })
     },

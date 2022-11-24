@@ -12,23 +12,23 @@
             <el-input
               v-model="ruleForm.mobile"
               placeholder="请输入手机号码"
-              style="width: 260px"
             ></el-input>
           </el-form-item>
           <el-form-item label="验证码" prop="code">
-            <el-input
-              v-model="ruleForm.code"
-              placeholder="请输入验证码"
-              style="width: 260px"
-            ></el-input>
-            <el-button
-              :class="{ 'disabled-style': getCodeBtnDisable }"
-              :disabled="getCodeBtnDisable"
-              style="margin-left: 10px"
-              type="primary"
-              @click="getCode()"
-              >{{ codeBtnWord }}</el-button
-            >
+            <div style="display: flex">
+              <el-input
+                v-model="ruleForm.code"
+                placeholder="请输入验证码"
+              ></el-input>
+              <el-button
+                :class="{ 'disabled-style': getCodeBtnDisable }"
+                :disabled="getCodeBtnDisable"
+                style="margin-left: 10px"
+                type="primary"
+                @click="getCode()"
+                >{{ codeBtnWord }}</el-button
+              >
+            </div>
           </el-form-item>
         </el-form>
       </div>
@@ -47,22 +47,16 @@ export default {
   props: {
     isShow: {
       type: Boolean
-    },
-    photo: {
-      type: String
-    },
-    photolist: {
-      type: string
     }
+
   },
   data () {
     return {
       ruleForm: {
         mobile: '',
-        photoEm: '',
+        code: '',
         submitLoading: false
       },
-
       mobile: '',
 
       rules: {
@@ -110,17 +104,7 @@ export default {
 
   },
   watch: {
-    photo: {
-      handler (val) {
-        console.log(val)
-        this.ruleForm.mobile = val
-      },
-      immediate: true
-    },
-    photolist (newVal, oldVal) {
-      console.log(newVal)
-      this.ruleForm.mobile = newVal
-    }
+
   },
 
   mounted () {
@@ -129,16 +113,10 @@ export default {
   methods: {
     // 取消
     handleClose () {
-      this.$confirm('确定取消手机号绑定吗', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-
-      }).then(() => {
-        this.$emit('reset', false)
-        this.ruleForm.photoEm = ''
-        this.ruleForm.code = ''
-      })
+      this.$emit('reset', false)
+      // this.ruleForm.photoEm = ''
+      this.ruleForm.code = ''
+      this.ruleForm.mobile = ''
     },
     // 确定
     Binding () {
@@ -150,8 +128,9 @@ export default {
           if (res.code === 200) {
             this.$message.success('绑定成功')
             this.$emit('reset', false, this.ruleForm.mobile)
-            this.ruleForm.photoEm = ''
+            // this.ruleForm.photoEm = ''
             this.ruleForm.code = ''
+            this.ruleForm.mobile = ''
           }
         }
       })

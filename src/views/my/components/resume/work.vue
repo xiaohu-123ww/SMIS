@@ -252,6 +252,8 @@ export default {
               // console.log(boolean)
               if (!boolean) {
                 cb(new Error('只能输入整数'))
+              } else {
+                cb()
               }
             }
           }

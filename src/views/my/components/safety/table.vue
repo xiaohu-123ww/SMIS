@@ -79,8 +79,8 @@
         </el-row>
       </div> -->
     </div>
-    <PhotoDialog :is-show="isShow" :photolist="photo" @reset="reset" />
-    <EmailDialog :email-show="emailShow" :email-list="email" @reset="reset" />
+    <PhotoDialog :is-show="isShow" @reset="reset" />
+    <EmailDialog :email-show="emailShow" @reset="reset" />
     <Password :show="show" :list="list" @reset="reset" />
     <Chat :we-chat-show="weChatShow" @reset="reset" />
     <el-dialog

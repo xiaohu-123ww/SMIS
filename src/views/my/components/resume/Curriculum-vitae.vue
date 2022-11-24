@@ -48,6 +48,7 @@ export default {
   computed: {
   },
   mounted () {
+    this.getFiles()
   },
   created () {
     this.getFiles()
@@ -72,7 +73,7 @@ export default {
         fileList.splice(0, 1)
       }
       this.fileList1 = fileList
-      console.log('文', this.fileList1)
+      // console.log('文', this.fileList1)
 
       this.productVO.instruction = file.name
       this.productVO.instructionFile = file.raw
@@ -88,9 +89,9 @@ export default {
         const res = await getResumeCv()
         console.log('res2', res)
         this.$message.success('解析成功')
-        // const res1 = await getCv(formData)
-        // console.log('文件地址', res1)
-        // this.cvfile = res1.data.path
+        const res1 = await getCv(formData)
+        console.log('文件地址', res1)
+        this.cvfile = res1.data.path
       }
     },
     // 删除

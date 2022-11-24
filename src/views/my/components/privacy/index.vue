@@ -165,10 +165,12 @@ export default {
         this.$emit('reset', false)
         this.qw = ''
       } else {
-        console.log(1)
+        console.log(1123)
         this.text.qw = this.qw
         const res = await getListSearch(this.text)
         console.log('res', res)
+        this.$emit('reset', false)
+        this.qw = ''
       }
     },
     handleClose () {

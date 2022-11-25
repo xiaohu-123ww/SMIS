@@ -53,7 +53,7 @@
                   >
                 </el-select>
               </div>
-              <div class="change-select">
+              <!-- <div class="change-select">
                 <el-select v-model="profession" placeholder="请选择职位类型">
                   <div style="display: flex">
                     <div>
@@ -90,7 +90,7 @@
                     </div>
                   </div>
                 </el-select>
-              </div>
+              </div> -->
               <div class="change-select">
                 <el-select
                   v-model="companyNature"

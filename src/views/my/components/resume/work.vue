@@ -118,8 +118,8 @@
           <el-option
             v-for="(item, index) in nature"
             :key="index"
-            :label="index"
-            :value="item"
+            :label="item.name"
+            :value="item.id"
           >
           </el-option>
         </el-select>
@@ -198,7 +198,22 @@ export default {
   data () {
     return {
 
-      nature: {},
+      nature: [
+        {
+          name: '全职',
+          id: 1
+        },
+        {
+          name: '兼职',
+          id: 2
+        }, {
+          name: '实习',
+          id: 3
+        }, {
+          name: '校园',
+          id: 4
+        }
+      ],
       defaultParams: {
         label: 'name',
         value: 'id',
@@ -385,7 +400,7 @@ export default {
     async jobRequirement () {
       const { data } = await getRequirement()
       console.log('其他要求', data)
-      this.nature = data.job_nature
+      // this.nature = data.job_nature
     },
     getdelete () {
       this.ruleForm.job_keywords = []
@@ -443,7 +458,7 @@ export default {
             this.$emit('reset', false)
           } else {
             // this.getdelete()
-            console.log(this.ruleForm)
+            console.log('123', this.ruleForm)
             const res = await getexperiencesList(this.ruleForm)
             console.log('res', res)
             this.$message.success('添加成功')

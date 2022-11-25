@@ -307,6 +307,7 @@ export default {
           }
           const time = this.num.date_of_birth
           this.num.date_of_birth = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
+          this.num.birth_day = this.num.date_of_birth
           const timeList = this.num.job_start
           this.num.job_start = new Date(timeList).toLocaleDateString().slice().replace(/\//g, '-')
           console.log(new Date(time).toLocaleDateString().slice().replace(/\//g, '-'))

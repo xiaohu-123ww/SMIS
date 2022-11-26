@@ -6,7 +6,7 @@
           <el-col :span="21"
             ><div class="grid-content bg-purple">求职意向</div></el-col
           >
-          <el-col :span="1"
+          <el-col :span="2"
             ><div
               class="grid-content bg-purple-light"
               style="margin-left: 32px"
@@ -44,29 +44,22 @@
                       {{ item.position_class }}
                     </div></el-col
                   >
-                  <el-col :span="1"
-                    ><div class="grid-content bg-purple-light">
-                      <el-button
-                        type="text"
-                        icon="el-icon-edit"
-                        @click="modification(item)"
-                        >编辑</el-button
-                      >
-                    </div></el-col
-                  >
-                  <el-col :span="1"
-                    ><div
-                      class="grid-content bg-purple-light"
-                      style="margin-left: 30px"
+                  <el-col :span="2">
+                    <el-button
+                      type="text"
+                      icon="el-icon-edit"
+                      @click="modification(item)"
+                      >编辑</el-button
                     >
-                      <el-button
-                        type="text"
-                        icon="el-icon-delete"
-                        @click="deleteList(item.id)"
-                        >删除</el-button
-                      >
-                    </div></el-col
-                  >
+                  </el-col>
+                  <el-col :span="1">
+                    <el-button
+                      type="text"
+                      icon="el-icon-delete"
+                      @click="deleteList(item.id)"
+                      >删除</el-button
+                    >
+                  </el-col>
                 </el-row>
                 <div class="resum-jobs">
                   <el-row>

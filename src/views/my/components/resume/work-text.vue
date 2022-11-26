@@ -18,30 +18,23 @@
               {{ item.start_date }}-{{ item.end_date }}
             </div></el-col
           >
-          <el-col :span="1">
-            <div class="grid-content bg-purple">
-              <el-button
-                type="text"
-                icon="el-icon-edit"
-                style="margin-left: 32px"
-                @click="editChange(item)"
-                >编辑
-              </el-button>
-            </div>
+          <el-col :span="3">
+            <el-button
+              type="text"
+              icon="el-icon-edit"
+              style="margin-left: 32px"
+              @click="editChange(item)"
+              >编辑
+            </el-button>
           </el-col>
-          <el-col :span="1"
-            ><div
-              class="grid-content bg-purple-light"
-              style="width: 150px; margin-left: 70px"
+          <el-col :span="1">
+            <el-button
+              type="text"
+              icon="el-icon-delete"
+              @click="deleteList(item.id)"
+              >删除</el-button
             >
-              <el-button
-                type="text"
-                icon="el-icon-delete"
-                @click="deleteList(item.id)"
-                >删除</el-button
-              >
-            </div></el-col
-          >
+          </el-col>
         </el-row>
       </div>
       <div class="specialty">

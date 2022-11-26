@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="item in list" :key="item.id" class="job">
-      <div class="job-nn">
+      <div v-if="item.comm_class === 'HR发起'" class="job-nn">
         <div class="job-one">
           <div class="bg">
             <img
@@ -14,6 +14,57 @@
             <h3>{{ item.sender.sender_username }}</h3>
             <div style="color: #403f3f">
               {{ item.sender.sender_class }} . {{ item.sender.online_status }}
+            </div>
+          </div>
+        </div>
+        <div class="job-nnkj">
+          <el-button
+            v-if="show === 1"
+            type="primary"
+            @click="likeChange(item.id)"
+            >感兴趣</el-button
+          >
+          <div v-if="show === 2">
+            <el-button
+              type="primary"
+              :disabled="item.is_refresh_valid === false"
+              @click="remindSomeone(item.id)"
+              >提醒对方</el-button
+            >
+          </div>
+          <div v-if="show === 3">
+            <el-button
+              v-if="item.is_cv_exchanged === false"
+              type="primary"
+              @click="exChange(item.id)"
+              >发送简历</el-button
+            >
+            <el-button
+              v-if="item.is_cv_exchanged === null"
+              type="primary"
+              :disabled="item.is_cv_exchanged === null"
+              >发送简历</el-button
+            >
+            <el-button v-if="item.is_cv_exchanged === true" type="primary"
+              >已发送</el-button
+            >
+          </div>
+        </div>
+      </div>
+      <div v-if="item.comm_class === '求职者发起'" class="job-nn">
+        <div class="job-one">
+          <div class="bg">
+            <img
+              :src="disposeImg(item.receiver.avatar)"
+              alt=""
+              style="width: 90px; height: 90px; border-radius: 100px"
+            />
+          </div>
+          <div class="blur">
+            <h3>{{ item.receiver.receiver_username }}</h3>
+            <div style="color: #403f3f">
+              {{ item.receiver.receiver_class }} .
+              {{ item.receiver.online_status }}
             </div>
           </div>
         </div>

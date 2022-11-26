@@ -40,37 +40,29 @@
                         {{ item.education_info.school }}
                       </div></el-col
                     >
-                    <el-col :span="8"
+                    <el-col :span="9"
                       ><div class="grid-content bg-purple-light">
                         {{ item.start_date }} -{{ item.end_date }}
                       </div></el-col
                     >
-                    <el-col :span="1">
-                      <div
-                        class="grid-content bg-purple"
-                        style="margin-left: 43px"
-                      >
+                    <el-col :span="2">
+                      <a href="javascript:;">
                         <el-button
                           type="text"
                           icon="el-icon-edit"
                           @click="editChange(item)"
                           >编辑
                         </el-button>
-                      </div>
+                      </a>
                     </el-col>
-                    <el-col :span="1"
-                      ><div
-                        class="grid-content bg-purple-light"
-                        style="margin-left: 73px; width: 150px"
+                    <el-col :span="1">
+                      <el-button
+                        type="text"
+                        icon="el-icon-delete"
+                        @click="deleteEduction(item.id)"
+                        >删除</el-button
                       >
-                        <el-button
-                          type="text"
-                          icon="el-icon-delete"
-                          @click="deleteEduction(item.id)"
-                          >删除</el-button
-                        >
-                      </div></el-col
-                    >
+                    </el-col>
                   </el-row>
                 </div>
                 <div class="education">

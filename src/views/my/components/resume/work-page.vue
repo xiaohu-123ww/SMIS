@@ -36,26 +36,22 @@
                   </div></el-col
                 >
                 <el-col :span="1">
-                  <div class="grid-content bg-purple">
-                    <el-button
-                      type="text"
-                      icon="el-icon-edit"
-                      @click.native="editChange(item)"
-                      >编辑
-                    </el-button>
-                  </div>
+                  <el-button
+                    type="text"
+                    icon="el-icon-edit"
+                    @click.native="editChange(item)"
+                    >编辑
+                  </el-button>
                 </el-col>
-                <el-col :span="1"
-                  ><div class="grid-content bg-purple-light">
-                    <el-button
-                      type="text"
-                      icon="el-icon-delete"
-                      style="margin-left: 30px"
-                      @click="deleteList(item.id)"
-                      >删除</el-button
-                    >
-                  </div></el-col
-                >
+                <el-col :span="1">
+                  <el-button
+                    type="text"
+                    icon="el-icon-delete"
+                    style="margin-left: 30px"
+                    @click="deleteList(item.id)"
+                    >删除</el-button
+                  >
+                </el-col>
               </el-row>
             </div>
             <div class="specialty">

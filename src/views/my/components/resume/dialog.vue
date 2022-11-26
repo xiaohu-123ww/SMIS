@@ -180,8 +180,18 @@
         </div>
       </el-form>
     </div>
-    <PhotoDialog :is-show="isShow" :photo="num.phone_number" @reset="reset" />
-    <EmailDialog :email-show="emailShow" :email="num.email" @submit="submit" />
+    <PhotoDialog
+      :is-show="isShow"
+      :photo="num.phone_number"
+      @reset="reset"
+      @reset1="reset1"
+    />
+    <EmailDialog
+      :email-show="emailShow"
+      :email="num.email"
+      @submit="submit"
+      @submit1="submit1"
+    />
   </div>
 </template>
 <script>
@@ -367,7 +377,14 @@ export default {
     reset (i, photo) {
       this.isShow = i
       this.emailShow = i
-      this.num.phone_number = photo
+      console.log('photo', photo)
+      if (photo !== '' || photo !== undefined) {
+        this.num.phone_number = photo
+      }
+    },
+    reset1 () {
+      this.isShow = false
+      this.emailShow = false
     },
     // 邮箱绑定
     emailClick () {
@@ -377,6 +394,10 @@ export default {
       this.isShow = i
       this.emailShow = i
       this.num.email = email
+    },
+    submit1 (i, email) {
+      this.isShow = false
+      this.emailShow = false
     },
     // 省市区
     provinceChange (item) {

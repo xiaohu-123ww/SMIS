@@ -79,8 +79,8 @@
         </el-row>
       </div> -->
     </div>
-    <PhotoDialog :is-show="isShow" @reset="reset" />
-    <EmailDialog :email-show="emailShow" @reset="reset" />
+    <PhotoDialog :is-show="isShow" @reset="reset" @reset1="reset1" />
+    <EmailDialog :email-show="emailShow" @reset="reset" @submit1="submit1" />
     <Password :show="show" :list="list" @reset="reset" />
     <Chat :we-chat-show="weChatShow" @reset="reset" />
     <el-dialog
@@ -138,6 +138,20 @@ export default {
       // this.photo = this.list.phone
     },
     reset (i) {
+      this.isShow = i
+      this.emailShow = i
+      this.show = i
+      this.weChatShow = i
+      this.$emit('refresh')
+    },
+    reset1 (i) {
+      this.isShow = i
+      this.emailShow = i
+      this.show = i
+      this.weChatShow = i
+      this.$emit('refresh')
+    },
+    submit1 (i) {
       this.isShow = i
       this.emailShow = i
       this.show = i

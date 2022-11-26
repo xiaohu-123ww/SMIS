@@ -111,17 +111,17 @@ export default {
 
   },
   watch: {
-    email: {
-      handler (val) {
-        console.log(val)
-        this.ruleForm.email = val
-      },
-      immediate: true
-    },
-    emailList (newVal, oldVal) {
-      console.log(newVal)
-      this.ruleForm.email = newVal
-    }
+    // email: {
+    //   handler (val) {
+    //     console.log(val)
+    //     this.ruleForm.email = val
+    //   },
+    //   immediate: true
+    // }
+    // emailList (newVal, oldVal) {
+    //   console.log(newVal)
+    //   this.ruleForm.email = newVal
+    // }
   },
   mounted () {
 
@@ -140,22 +140,17 @@ export default {
             this.$emit('reset', false)
             this.ruleForm.email = ''
             this.ruleForm.code = ''
+          } else {
+            this.$message.error(res.data.msg)
           }
         }
       })
     }, // 取消
     handleClose () {
-      this.$confirm('确定取微信绑定吗', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-
-      }).then(() => {
-        this.$emit('submit', false)
-        this.$emit('reset', false)
-        this.ruleForm.email = ''
-        this.ruleForm.code = ''
-      })
+      this.$emit('submit1', false)
+      this.$emit('reset1', false)
+      this.ruleForm.email = ''
+      this.ruleForm.code = ''
     },
     // 验证码
     async getCode () {

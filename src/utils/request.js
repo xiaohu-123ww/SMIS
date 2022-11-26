@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken, removeToken, getTokenInvalidFlag, setTokenInvalidFlag } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -54,16 +54,24 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (res.code === 2000 || res.code === 0) {
-      MessageBox.confirm('当前登录已过期 请重新登录', '提示', {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        //  ("501");
-        // store.commit('user/removeUserInfo')
-        router.push('/')
-        removeToken()
-      })
+      const tokenInvalidFlag = getTokenInvalidFlag()
+      console.log(tokenInvalidFlag)
+      if (tokenInvalidFlag === 0 || tokenInvalidFlag === '0') {
+        setTokenInvalidFlag(1)
+        MessageBox.confirm('当前登录已过期 请重新登录', '提示', {
+          confirmButtonText: '确定', // 确认按钮的文字显示
+          type: 'warning',
+          center: true, // 文字居中显示
+          showCancelButton: false, // 不显示取消按钮
+          showClose: false, // 是否显示右上角的x
+          closeOnClickModal: false
+        }).then(() => {
+          //  ("501");
+          // store.commit('user/removeUserInfo')
+          router.push('/')
+          removeToken()
+        })
+      }
     } else {
       return res
     }

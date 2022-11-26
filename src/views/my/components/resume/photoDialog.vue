@@ -123,8 +123,7 @@ export default {
   methods: {
     // 取消
     handleClose () {
-      this.$emit('reset', false)
-
+      this.$emit('reset1', false)
       this.ruleForm.code = ''
       this.ruleForm.mobile = ''
     },
@@ -141,6 +140,8 @@ export default {
 
             this.ruleForm.code = ''
             this.ruleForm.mobile = ''
+          } else {
+            this.$message.error(res.data.msg)
           }
         }
       })

@@ -117,8 +117,11 @@ export default {
     async getFiles () {
       const res1 = await getCv()
       console.log('文件地址', res1, this.fileList1)
-      this.cvfile = res1.data.path
-      this.fileList1 = [{ name: res1.data.name, url: `http://1.13.8.165/loc/${res1.data.path}` }]
+
+      if (res1.data.path !== null && res1.data.name !== null) {
+        this.cvfile = res1.data.path
+        this.fileList1 = [{ name: res1.data.name, url: `http://1.13.8.165/loc/${res1.data.path}` }]
+      }
     }
 
   }

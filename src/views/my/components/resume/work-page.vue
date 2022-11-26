@@ -30,24 +30,17 @@
                     {{ item.enterprise }}
                   </div></el-col
                 >
-                <el-col :span="8"
+                <el-col :span="9"
                   ><div class="grid-content bg-purple-light">
                     {{ item.start_date }}-{{ item.end_date }}
                   </div></el-col
                 >
                 <el-col :span="1">
-                  <div
-                    class="grid-content bg-purple"
-                    style="
-                      width: 150px;
-
-                      margin-left: 32px;
-                    "
-                  >
+                  <div class="grid-content bg-purple">
                     <el-button
                       type="text"
                       icon="el-icon-edit"
-                      @click="editChange(item)"
+                      @click.native="editChange(item)"
                       >编辑
                     </el-button>
                   </div>
@@ -57,7 +50,7 @@
                     <el-button
                       type="text"
                       icon="el-icon-delete"
-                      style="margin-left: 70px"
+                      style="margin-left: 30px"
                       @click="deleteList(item.id)"
                       >删除</el-button
                     >

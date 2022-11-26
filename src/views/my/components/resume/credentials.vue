@@ -127,15 +127,22 @@ export default {
           if (this.state === false) {
             const res = await getCertification(this.list)
             console.log('绑定', res)
-            this.$message.success('绑定成功')
+            if (res.code === 200) {
+              this.$message.success('绑定成功')
+              this.$emit('reset', false)
+              this.num.value = ''
+              this.num.date1 = ''
+            } else if (res.code === 1001) {
+              this.$message.success('已经绑定过此证书,请勿重复绑定')
+            }
           } else {
             const res = await getCertificationAmend(this.id, this.num)
             console.log('修改', res)
             this.$message.success('修改成功')
+            this.$emit('reset', false)
+            this.num.value = ''
+            this.num.date1 = ''
           }
-          this.$emit('reset', false)
-          this.num.value = ''
-          this.num.date1 = ''
         }
       })
     },

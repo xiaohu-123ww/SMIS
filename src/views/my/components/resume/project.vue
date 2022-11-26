@@ -36,12 +36,16 @@
           </el-form-item>
         </el-col>
       </el-form-item>
-      <el-form-item label="文章内容" style="width: 300px; height: 300px">
+      <el-form-item
+        label="工作描述"
+        style="width: 300px; height: 300px"
+        prop="project_desc"
+      >
         <!-- 使用 v-model 进行双向的数据绑定 -->
         <quill-editor
           v-model="list.project_desc"
           :options="editorOption"
-          style="width: 700px; height: 150px"
+          style="width: 700px"
           @blur="onEditorBlur($event)"
         >
         </quill-editor>
@@ -199,5 +203,8 @@ export default {
 }
 .box {
   width: 250px;
+}
+::v-deep .ql-editor {
+  height: 150px;
 }
 </style>

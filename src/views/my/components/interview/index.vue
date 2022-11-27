@@ -4,7 +4,7 @@
       title="面试详情"
       :visible.sync="show"
       width="30%"
-      :before-close="handleClose"
+      :before-close="handleCloses"
     >
       <div v-if="show">
         <div class="interview-fa">
@@ -153,6 +153,9 @@ export default {
     },
     getState () {
 
+    },
+    handleCloses () {
+      this.$emit('reset1', false)
     },
     // 接受
     async receiveChange (id) {

@@ -11,7 +11,7 @@
             />
           </div>
           <div class="blur">
-            <h3>{{ item.sender.sender_username }}</h3>
+            <h3>{{ item.sender.sender_name }}</h3>
             <div style="color: #403f3f">
               {{ item.sender.sender_class }} . {{ item.sender.online_status }}
             </div>

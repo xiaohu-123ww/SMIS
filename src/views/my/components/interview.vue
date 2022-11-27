@@ -199,6 +199,7 @@
           :result="result"
           :status-list="statusList"
           @reset="reset"
+          @reset1="reset1"
         />
       </div>
     </div>
@@ -464,6 +465,11 @@ export default {
       this.result = false
       // this.changeAll()
       this.changeIndisposed()
+    },
+    reset1 (i) {
+      this.show = i
+      this.flag = false
+      this.result = false
     },
     async getInterview () {
       const res = await getList()

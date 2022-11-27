@@ -2,6 +2,14 @@
   <div>
     <div class="interview">我的收藏</div>
     <div v-if="ematy">
+      <div
+        v-if="loading"
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgb(244, 246, 249)"
+        style="height: 700px; font-size: 100px"
+      ></div>
       <Job :show="show" :list="list" @reset="reset" />
       <el-pagination
         style="margin: 20px 0 0 300px"
@@ -30,7 +38,8 @@ export default {
       list: [],
       limit: 5,
       offset: 1,
-      total: 0
+      total: 0,
+      loading: false
     }
   },
   computed: {
@@ -64,14 +73,17 @@ export default {
       }
     },
     async getCert () {
+      this.loading = true
       const { data } = await getList(this.limit, this.offset)
       console.log(12232142356)
       console.log('收藏', data)
       if (data.results.length === 0) {
         this.ematy = false
+        this.loading = false
       } else {
         this.list = data.results
         this.total = data.count
+        this.loading = false
       }
     },
     reset () {

@@ -458,6 +458,9 @@ export default {
             this.$emit('reset', false)
           } else {
             // this.getdelete()
+            if (this.ruleForm.salary_max === '' || this.ruleForm.salary_max === null) {
+              delete this.ruleForm.salary_max
+            }
             console.log('123', this.ruleForm)
             const res = await getexperiencesList(this.ruleForm)
             console.log('res', res)

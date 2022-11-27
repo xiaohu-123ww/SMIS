@@ -316,24 +316,37 @@ export default {
       }
       console.log('id', this.$route.query.id)
       this.id = this.$route.query.id
-      const { data } = await getParticulars(this.id)
-      console.log('简历', data)
-      localStorage.setItem('resume', JSON.stringify(data))
-      this.bold = true
-      this.loading = false
-      this.resume = data
-      console.log('34343', this.resume)
-      this.city = data.work_city.second
-      this.third = data.work_city.third
-      this.img = this.disposeImg(data.hr_info.avatar)
-      this.hr = data.hr_info
-      this.content = data.job_content
-      this.name = data.enterprise_info
-      this.addressVal = data.work_city.second + data.work_city.third
+      const res = await getParticulars(this.id)
+      console.log('简历', res)
+      if (res.code === 1001) {
+        this.$confirm(res.data.msg, '提示', {
+          confirmButtonText: '确定', // 确认按钮的文字显示
+          type: 'warning',
+          center: true, // 文字居中显示
+          showCancelButton: false, // 不显示取消按钮
+          showClose: false, // 是否显示右上角的x
+          closeOnClickModal: false
+        }).then(() => {
+          this.$router.push('/interview')
+        })
+      } else {
+        localStorage.setItem('resume', JSON.stringify(res.data))
+        this.bold = true
+        this.loading = false
+        this.resume = data
+        console.log('34343', this.resume)
+        this.city = res.data.work_city.second
+        this.third = res.data.work_city.third
+        this.img = this.disposeImg(data.hr_info.avatar)
+        this.hr = res.data.hr_info
+        this.content = res.data.job_content
+        this.name = res.data.enterprise_info
+        this.addressVal = res.data.work_city.second + data.work_city.third
 
-      this.imgJob = this.disposeImg(this.name.logo)
-      console.log('imgJob', this.imgJob)
-      this.field = this.name.field.field_name
+        this.imgJob = this.disposeImg(this.name.logo)
+        console.log('imgJob', this.imgJob)
+        this.field = this.name.field.field_name
+      }
     },
     open (i) {
       console.log('1233333', i)

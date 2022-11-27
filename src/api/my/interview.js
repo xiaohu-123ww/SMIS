@@ -44,6 +44,14 @@ export function getCompleted (limit, offset) {
     }
   })
 }
+// 已取消
+export function getCanceled (limit, offset) {
+  return request.get('/user/interviews/canceled/', {
+    params: {
+      limit, offset
+    }
+  })
+}
 // 拒绝 接受
 export function getResults (data) {
   return request.post('/user/interview-process/', data)

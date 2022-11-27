@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ max: ematy === true }">
+  <div :class="{ max: ematy === true }" style="height: 100%">
     <div class="interview">求职申请</div>
     <div style="background-color: rgb(244, 246, 249)">
       <el-row>
@@ -62,12 +62,21 @@
     <el-empty
       v-if="ematy"
       description="暂无信息"
-      style="margin-top: 100px"
+      style="height: 700px"
     ></el-empty>
-    <div v-else>
+    <div
+      v-if="loading"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgb(244, 246, 249)"
+      style="height: 700px; font-size: 100px"
+    ></div>
+    <div>
       <div v-if="invite">
         <Job :list="list" :show="show" @like="like" @remind="remind" />
         <el-pagination
+          v-if="list.length !== 0"
           style="margin: 20px 0 0 300px"
           :current-page="offset"
           :page-sizes="[2, 3, 5, 10]"
@@ -81,7 +90,8 @@
       </div>
       <div v-else>
         <InviteList :list-invite="listInvite" />
-        <el-pagination
+        <!-- <el-pagination
+          v-if="listInvite !== 0"
           style="margin: 20px 0 0 300px"
           :current-page="offset"
           :page-sizes="[2, 3, 5, 10]"
@@ -91,7 +101,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         >
-        </el-pagination>
+        </el-pagination> -->
       </div>
     </div>
   </div>
@@ -100,7 +110,7 @@
 import Job from './job/job-list.vue'
 import InviteList from './job/inviteList.vue'
 import { getIndisposed } from '@/api/my/interview'
-import { getpreChat, getInterests, getChating, getReject, getChatingList } from '@/api/my/job'
+import { getpreChat, getInterests, getChating, getReject, getChatingList, getHasInterviews } from '@/api/my/job'
 import { getList } from '@/api/my/interview'
 export default {
   components: { Job, InviteList },
@@ -109,13 +119,14 @@ export default {
     return {
       changeColor: 1,
       list: [],
-      ematy: true,
+      ematy: false,
       show: 1,
       offset: 1,
       limit: 5,
       total: 0,
       invite: true,
-      listInvite: []
+      listInvite: [],
+      loading: false
 
     }
   },
@@ -126,7 +137,7 @@ export default {
 
   },
   created () {
-    this.helloChange()
+    this.getList()
   },
   methods: {
     handleSizeChange (newSize) {
@@ -154,162 +165,168 @@ export default {
         this.changeColor = 1
         const res = await getpreChat(this.limit, this.off)
         console.log('新招呼', res)
-        if (res.data.results.length === 0) {
-          this.ematy = true
-        } else {
-          this.ematy = false
-          this.list = res.data.results
-          this.total = res.data.count
-          this.show = 1
-        }
+
+        this.list = res.data.results
+        this.total = res.data.count
+        this.show = 1
       } else if (this.changeColor === 2) {
         this.changeColor = 2
         const res = await getInterests(this.limit, this.off)
         console.log('有意向', res)
-        if (res.data.results.length === 0) {
-          this.ematy = true
-        } else {
-          this.ematy = false
-          this.list = res.data.results
-          this.total = res.data.count
-          this.show = 2
-        }
+
+        this.list = res.data.results
+        this.total = res.data.count
+        this.show = 2
       } else if (this.changeColor === 3) {
         this.changeColor = 3
         const res = await getChating(this.limit, this.off)
         console.log('沟通中', res)
-        if (res.data.results.length === 0) {
-          this.ematy = true
-        } else {
-          this.ematy = false
-          this.list = res.data.results
-          this.total = res.data.count
-          this.show = 3
-        }
+
+        this.list = res.data.results
+        this.total = res.data.count
+        this.show = 3
       } else if (this.changeColor === 4) {
         this.changeColor = 4
         const cv_exchange = 1
         const res = await getChatingList(cv_exchange, this.limit, this.off)
         console.log('已投递', res)
-        if (res.data.results.length === 0) {
-          this.ematy = true
-        } else {
-          this.ematy = false
-          this.list = res.data.results
-          this.total = res.data.count
-          this.show = 4
-        }
+
+        this.list = res.data.results
+        this.total = res.data.count
+        this.show = 4
       } else if (this.changeColor === 5) {
         this.changeColor = 5
         this.invite = false
-        const res = await getIndisposed(this.limit, this.off)
+        const res = await getHasInterviews(this.limit, this.off)
         console.log('邀面试', res)
-        if (res.data.results.length === 0) {
-          this.ematy = true
-        } else {
-          this.ematy = false
-          this.listInvite = res.data.results
-          this.total = res.data.count
-          this.show = 5
-        }
+
+        this.listInvite = res.data.results
+        this.total = res.data.count
+        this.show = 5
       } else {
         this.changeColor = 6
         const res = await getReject(this.limit, this.off)
         console.log('不合适', res)
-        if (res.data.results.length === 0) {
-          this.ematy = true
-        } else {
-          this.ematy = false
-          this.list = res.data.results
-          this.total = res.data.count
-          this.show = 6
-        }
+
+        this.list = res.data.results
+        this.total = res.data.count
+        this.show = 6
       }
     },
     // 新招呼
     async helloChange () {
       this.changeColor = 1
+      this.ematy = false
+      this.list = []
+      this.loading = true
       const res = await getpreChat(this.limit)
-      console.log('新招呼', res)
       if (res.data.results.length === 0) {
         this.ematy = true
+        this.loading = false
       } else {
         this.ematy = false
+        console.log('新招呼', res)
         this.list = res.data.results
         this.total = res.data.count
         this.show = 1
+        this.loading = false
       }
     },
     // 有意向
     async haveIntentionTo () {
       this.changeColor = 2
+      this.ematy = false
+      this.list = []
+      this.loading = true
       const res = await getInterests(this.limit)
       console.log('有意向', res)
       if (res.data.results.length === 0) {
         this.ematy = true
+        this.loading = false
       } else {
         this.ematy = false
         this.list = res.data.results
         this.total = res.data.count
         this.show = 2
+        this.loading = false
       }
     },
     // 沟通中
     async inCommunicationC () {
       this.changeColor = 3
+      this.ematy = false
+      this.list = []
+      this.loading = true
       const res = await getChating(this.limit)
       console.log('沟通中', res)
       if (res.data.results.length === 0) {
         this.ematy = true
+        this.loading = false
       } else {
         this.ematy = false
         this.list = res.data.results
         this.total = res.data.count
         this.show = 3
+        this.loading = false
       }
     },
     // 已投递
     async posted () {
       this.changeColor = 4
+      this.ematy = false
+      this.list = []
       const cv_exchange = 1
+      this.loading = true
       const res = await getChatingList(cv_exchange, this.limit)
       console.log('已投递', res)
       if (res.data.results.length === 0) {
         this.ematy = true
+        this.loading = false
       } else {
         this.ematy = false
         this.list = res.data.results
         this.total = res.data.count
         this.show = 4
+        this.loading = false
       }
     },
     // 邀面试
     async Invited () {
       this.changeColor = 5
-      this.invite = false
-      const res = await getIndisposed(this.limit)
+      this.ematy = false
+      this.list = []
+      this.loading = true
+      const res = await getHasInterviews(this.limit)
       console.log('邀面试', res)
       if (res.data.results.length === 0) {
         this.ematy = true
+        this.loading = false
       } else {
         this.ematy = false
-        this.listInvite = res.data.results
+        this.list = res.data.results
         this.total = res.data.count
         this.show = 5
+        this.loading = false
       }
+      // this.listInvite = res.data.results
     },
     // 不合适
     async inappropriate () {
       this.changeColor = 6
+      this.ematy = false
+      this.list = []
+      this.loading = true
       const res = await getReject(this.limit)
       console.log('不合适', res)
       if (res.data.results.length === 0) {
         this.ematy = true
+        this.loading = false
       } else {
         this.ematy = false
         this.list = res.data.results
         this.total = res.data.count
         this.show = 6
+        this.loading = false
       }
     },
     like () {
@@ -317,6 +334,23 @@ export default {
     },
     remind () {
       this.haveIntentionTo()
+    },
+    async getList () {
+      this.loading = true
+      this.ematy = false
+      this.list = []
+      const res = await getpreChat(this.limit)
+      console.log('新招呼', res)
+      if (res.data.results.length === 0) {
+        this.ematy = true
+        this.loading = false
+      } else {
+        this.ematy = false
+        this.list = res.data.results
+        this.total = res.data.count
+        this.show = 1
+        this.loading = false
+      }
     }
 
   }

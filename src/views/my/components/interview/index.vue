@@ -11,7 +11,7 @@
           <div class="interview">
             <div class="interview-top">
               <div class="interview-one">
-                {{ statusList.hr.name ? statusList.hr.name : 'hr' }}
+                {{ statusList.position.position_name }}
               </div>
               <div style="color: red">
                 {{ statusList.position.salary_min }}-{{
@@ -79,6 +79,17 @@
             面试结果还没出,请耐心等待</span
           >
         </div>
+        <div v-if="statusList.result === '待处理'" style="margin-top: 50px">
+          <el-button
+            type="primary"
+            style="margin-left: 150px"
+            @click="receiveChange(statusList.id)"
+            >接受</el-button
+          >
+          <el-button type="primary" @click="rejectChange(statusList.id)"
+            >拒绝</el-button
+          >
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -142,6 +153,30 @@ export default {
     },
     getState () {
 
+    },
+    // 接受
+    async receiveChange (id) {
+      this.receive.interview_id = id
+      const res = await getResults(this.receive)
+      console.log('res', res)
+      if (res.code === 200) {
+        this.$message.success('操作成功')
+        this.$emit('reset', false)
+      } else {
+        this.$message.error('失败')
+      }
+    },
+    // 拒绝
+    async rejectChange (id) {
+      this.reject.interview_id = id
+      const res = await getResults(this.reject)
+      console.log('res', res)
+      if (res.code === 200) {
+        this.$message.success('操作成功')
+        this.$emit('reset', false)
+      } else {
+        this.$message.error('失败')
+      }
     }
 
   }

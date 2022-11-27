@@ -15,8 +15,8 @@
       </el-row>
     </div>
     <div v-if="!work">
-      <div v-if="empty">
-        <div v-if="state">
+      <div>
+        <div>
           <div
             v-for="item in list"
             :key="item.id"
@@ -72,7 +72,11 @@
           </div>
         </div>
       </div>
-      <el-empty v-else :image-size="150" description="再无工作经历"></el-empty>
+      <el-empty
+        v-if="list.length === 0"
+        :image-size="150"
+        description="再无工作经历"
+      ></el-empty>
     </div>
     <Work
       :work="work"
@@ -113,15 +117,12 @@ export default {
     async getList () {
       const { data } = await getexperiences()
       console.log('工作经历', data)
-      this.list = data.results
-      if (data.results.length === 0) {
-        this.empty = false
-      } else {
 
-      }
       this.list = data.results
+
+      console.log('this.list', this.list)
     },
-    reset (i) {
+    async reset (i) {
       this.work = i
       this.getList()
     },

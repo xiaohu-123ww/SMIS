@@ -33,7 +33,7 @@
       <div>
         <div v-if="!show" class="resume-job-two" style="margin: 20px 0">
           <div>
-            <div v-if="empty">
+            <div>
               <div v-for="item in list" :key="item.id">
                 <el-row>
                   <el-col :span="20"
@@ -88,7 +88,7 @@
               </div>
             </div>
             <el-empty
-              v-else
+              v-if="list.length === 0"
               :image-size="150"
               description="再无求职意向列表"
             ></el-empty>
@@ -134,9 +134,7 @@ export default {
     async getJobList () {
       const { data } = await getjobIntention()
       console.log('求职意向列表', data)
-      if (data.results.length === 0) {
-        this.empty = false
-      }
+
       this.list = data.results
     },
     // 删除

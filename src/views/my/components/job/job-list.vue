@@ -189,18 +189,13 @@ export default {
     },
     // 发送简历
     async exChange (id) {
-      this.$confirm('有上传的附件简历吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-
-      }).then(async () => {
-        const res = await getChatingId(id)
-        console.log('发送简历', res)
-        this.$message('已发送至hr邮箱')
-      }).catch(() => {
-        this.$router.push('/resume')
-      })
+      const res = await getChatingId(id)
+      console.log('发送简历', res)
+      if (res.code === 200) {
+        this.$message.success('已发送至hr邮箱')
+      } else {
+        this.$message.success(res.data.msg)
+      }
     }
   }
 }

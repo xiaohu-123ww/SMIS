@@ -462,7 +462,7 @@ export default {
       this.show = i
       this.flag = false
       this.result = false
-      this.changeAll()
+      // this.changeAll()
       this.changeIndisposed()
     },
     async getInterview () {

@@ -333,15 +333,15 @@ export default {
         localStorage.setItem('resume', JSON.stringify(res.data))
         this.bold = true
         this.loading = false
-        this.resume = data
+        this.resume = res.data
         console.log('34343', this.resume)
         this.city = res.data.work_city.second
         this.third = res.data.work_city.third
-        this.img = this.disposeImg(data.hr_info.avatar)
+        this.img = this.disposeImg(res.data.hr_info.avatar)
         this.hr = res.data.hr_info
         this.content = res.data.job_content
         this.name = res.data.enterprise_info
-        this.addressVal = res.data.work_city.second + data.work_city.third
+        this.addressVal = res.data.work_city.second + res.data.work_city.third
 
         this.imgJob = this.disposeImg(this.name.logo)
         console.log('imgJob', this.imgJob)

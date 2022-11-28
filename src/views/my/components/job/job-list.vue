@@ -61,7 +61,7 @@
             />
           </div>
           <div class="blur">
-            <h3>{{ item.receiver.receiver_username }}</h3>
+            <h3>{{ item.receiver.receiver_name }}</h3>
             <div style="color: #403f3f">
               {{ item.receiver.receiver_class }} .
               {{ item.receiver.online_status }}

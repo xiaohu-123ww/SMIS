@@ -21,14 +21,17 @@
     </div>
 
     <div v-if="!show">
-      <div v-if="ematy">
+      <div>
         <WorkText
           :list="list"
           @projectExperiences="projectExperiences"
           @open="open"
         />
       </div>
-      <div v-else style="height: 400px; background-color: #fff">
+      <div
+        v-if="list.length === 0"
+        style="height: 400px; background-color: #fff"
+      >
         <img
           src="../../../../assets/imgs/xiang.png"
           alt=""
@@ -79,9 +82,7 @@ export default {
     async getList () {
       const res = await getProjectList()
       console.log('项目', res)
-      if (res.data.results.length === 0) {
-        this.ematy = false
-      }
+
       this.list = res.data.results
     },
     projectExperiences () {

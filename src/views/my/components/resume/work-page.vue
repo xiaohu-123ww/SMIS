@@ -117,9 +117,7 @@ export default {
     async getList () {
       const { data } = await getexperiences()
       console.log('工作经历', data)
-
       this.list = data.results
-
       console.log('this.list', this.list)
     },
     async reset (i) {

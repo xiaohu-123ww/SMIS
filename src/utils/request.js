@@ -66,9 +66,7 @@ service.interceptors.response.use(
           showClose: false, // 是否显示右上角的x
           closeOnClickModal: false
         }).then(() => {
-          //  ("501");
-          // store.commit('user/removeUserInfo')
-          router.push('/login')
+          router.push(`/#/login`)
           removeToken()
         })
       }

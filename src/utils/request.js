@@ -57,7 +57,7 @@ service.interceptors.response.use(
     if (res.code === 2000 || res.code === 0) {
       const tokenInvalidFlag = getTokenInvalidFlag()
       console.log(tokenInvalidFlag)
-      if (tokenInvalidFlag === 0 || tokenInvalidFlag === '0') {
+      if (tokenInvalidFlag === 0 || tokenInvalidFlag === '0' || tokenInvalidFlag === null) {
         setTokenInvalidFlag(1)
         MessageBox.confirm('当前登录已过期 请重新登录', '提示', {
           confirmButtonText: '确定', // 确认按钮的文字显示

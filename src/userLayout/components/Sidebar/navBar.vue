@@ -117,9 +117,20 @@ export default {
     if (this.token) {
       const { data } = await personal()
       console.log('用户信息', data)
-      this.userInfo = data
-      this.circurl = this.disposeImg(data.avatar)
-      console.log('this.circurl', this.circurl)
+      if (data.is_login === false) {
+        this.$confirm('登录过期，请重新登录', '提示', {
+          confirmButtonText: '确定', // 确认按钮的文字显示
+          type: 'warning',
+          center: true, // 文字居中显示
+          showCancelButton: false, // 不显示取消按钮
+          showClose: false, // 是否显示右上角的x
+          closeOnClickModal: false
+        }).then(() => { this.$router.push('/login') })
+      } else {
+        this.userInfo = data
+        this.circurl = this.disposeImg(data.avatar)
+        console.log('this.circurl', this.circurl)
+      }
     }
   },
   methods: {

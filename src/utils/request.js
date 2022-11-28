@@ -67,8 +67,12 @@ service.interceptors.response.use(
           showClose: false, // 是否显示右上角的x
           closeOnClickModal: false
         }).then(() => {
-          router.push('/login')
-          removeToken()
+          store.dispatch('user/resetToken').then(() => {
+            //  ("500");
+            location.reload()
+            router.push('/')
+            removeToken()
+          })
         })
       }
     } else {

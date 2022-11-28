@@ -105,7 +105,8 @@ export default {
     edit (item) {
       // console.log(this.routes);
       console.log(item)
-      if (item.name == '培训认证') {
+      if (item.name === '智能学院') {
+        console.log(item)
         var token = localStorage.getItem('Admin-Token')
         if (token) {
           this.$router.push('/clientlayout')
@@ -124,7 +125,6 @@ export default {
         }
       } else {
         this.$router.push(item.path)
-        // console.log(item);
         this.activeIndex = item.name
       }
     }

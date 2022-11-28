@@ -74,14 +74,16 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="期望城市" prop="address">
+      <el-form-item v-if="address" label="期望城市" prop="address">
         <el-input
-          v-if="address"
           v-model="address"
           style="width: 300px"
           @click.native="inputChange"
         ></el-input>
-        <div v-else>
+      </el-form-item>
+
+      <div v-else>
+        <el-form-item prop="province" label="期望城市">
           <el-col :span="8">
             <el-form-item prop="province">
               <el-select v-model="ruleForm.province" placeholder="请选择省">
@@ -124,8 +126,9 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </div>
-      </el-form-item>
+        </el-form-item>
+      </div>
+
       <el-form-item label="薪资要求" required>
         <el-col :span="6">
           <el-form-item prop="salary_min">
@@ -170,10 +173,10 @@
       <el-form-item label="工作性质" prop="job_nature">
         <el-radio-group v-model="ruleForm.job_nature">
           <el-radio
-            v-for="(item, index) in work"
-            :key="item"
-            :label="index"
-            @click.native="workChange(item)"
+            v-for="item in work"
+            :key="item.id"
+            :label="item.name"
+            @click.native="workChange(item.id)"
           ></el-radio>
         </el-radio-group>
       </el-form-item>
@@ -239,7 +242,20 @@ export default {
         ],
         job_nature: [
           { required: true, message: '请至少选择一个工作性质', trigger: 'change' }
+        ],
+        province: [
+          { required: true, message: '请选择省市县', trigger: 'change' }
+        ],
+        city: [
+          { required: true, message: '请选择省市县', trigger: 'change' }
+        ],
+        region: [
+          { required: true, message: '请选择省市县', trigger: 'change' }
+        ],
+        address: [
+          { required: true, message: '请选择省市县', trigger: ['chnage', 'blur'] }
         ]
+
       },
       fieldList: {},
       options: {},
@@ -264,7 +280,22 @@ export default {
       },
       money: ['2000', '4000', '8000', '12000', '16000', '20000', '24000', '28000'],
       lastMoney: ['4000', '8000', '12000', '16000', '20000', '24000', '28000', '32000'],
-      work: [],
+      work: [
+        {
+          id: 1,
+          name: '全职'
+        }, {
+          id: 2,
+          name: '兼职'
+        },
+        {
+          id: 3,
+          name: '实习'
+        }, {
+          id: 4,
+          name: '校园'
+        }
+      ],
       id: 0,
 
       //
@@ -424,7 +455,7 @@ export default {
     async jobRequirement () {
       const { data } = await getRequirement()
       console.log('其他要求', data)
-      this.work = data.job_nature
+      // this.work = data.job_nature
     },
     workChange (item) {
       this.list.job_nature = item

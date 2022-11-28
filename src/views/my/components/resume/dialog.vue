@@ -61,66 +61,82 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-        <el-form-item label="现居地">
+        <el-form
+          ref="ff"
+          :model="provinceList"
+          label-width="80px"
+          style="margin-left: 30px"
+          :rules="polist"
+        >
           <div v-if="living">
-            <el-col :span="8">
-              <el-form-item>
-                <el-select
-                  v-model="provinceList.province"
-                  placeholder="请选择省"
-                >
-                  <el-option
-                    v-for="item in city"
-                    :key="item.key"
-                    :label="item.name"
-                    :value="item.adcode"
-                    @click.native="provinceChange(item)"
+            <el-form-item label="现居地" prop="province">
+              <el-col :span="8">
+                <el-form-item prop="province">
+                  <el-select
+                    v-model="provinceList.province"
+                    placeholder="请选择省"
                   >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col class="line" :span="8">
-              <el-form-item>
-                <el-select v-model="provinceList.city" placeholder="请选择市">
-                  <el-option
-                    v-for="item in cityList"
-                    :key="item.key"
-                    :label="item.name"
-                    :value="item.adcode"
-                    @click.native="cityChange(item)"
+                    <el-option
+                      v-for="item in city"
+                      :key="item.key"
+                      :label="item.name"
+                      :value="item.name"
+                      @click.native="provinceChange(item)"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col class="line" :span="8">
+                <el-form-item prop="city">
+                  <el-select v-model="provinceList.city" placeholder="请选择市">
+                    <el-option
+                      v-for="item in cityList"
+                      :key="item.key"
+                      :label="item.name"
+                      :value="item.name"
+                      @click.native="cityChange(item)"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item prop="region">
+                  <el-select
+                    v-model="provinceList.region"
+                    placeholder="请选择区"
                   >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item>
-                <el-select v-model="provinceList.region" placeholder="请选择区">
-                  <el-option
-                    v-for="item in regionList"
-                    :key="item.key"
-                    :label="item.name"
-                    :value="item.adcode"
-                    @click.native="regionChange(item)"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
+                    <el-option
+                      v-for="item in regionList"
+                      :key="item.key"
+                      :label="item.name"
+                      :value="item.name"
+                      @click.native="regionChange(item.adcode)"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-form-item>
           </div>
-          <el-input
-            v-else
-            v-model="num.living_city"
-            style="width: 300px"
-            @click.native="adressChange"
-          ></el-input>
-        </el-form-item>
+
+          <div v-else>
+            <el-form-item label="现居地">
+              <el-input
+                v-model="num.living_city"
+                style="width: 300px"
+                @click.native="adressChange"
+              ></el-input>
+            </el-form-item>
+          </div>
+        </el-form>
+
         <el-form-item label="联系方式" prop="phone_number">
           <el-input
             v-model="num.phone_number"
             style="width: 600px"
-            :disabled="num.phone_number !== ''"
+            disabled
           ></el-input>
           <el-button type="primary" style="margin-left: 20px" @click="addition"
             >绑定</el-button
@@ -130,7 +146,7 @@
           <el-input
             v-model="num.email"
             style="width: 600px"
-            :disabled="num.email !== ''"
+            disabled
           ></el-input>
           <el-button
             type="primary"
@@ -225,6 +241,21 @@ export default {
       photoShow: false,
       emailShow: false,
       imageUrl: '',
+      polist: {
+        province: [
+          { required: true, message: '请选择省', trigger: 'change' }
+
+        ],
+        city: [
+          { required: true, message: '请选择市', trigger: 'change' }
+
+        ],
+        region: [
+          { required: true, message: '请选择区', trigger: 'change' }
+
+        ]
+
+      },
       rules: {
 
         name: [
@@ -246,18 +277,7 @@ export default {
         job_start: [
           { required: true, message: '请选择参加工作时间', trigger: 'change' }
         ],
-        province: [
-          { required: true, message: '请选择省', trigger: 'blur' }
 
-        ],
-        city: [
-          { required: true, message: '请选择市', trigger: 'blur' }
-
-        ],
-        region: [
-          { required: true, message: '请选择区', trigger: 'blur' }
-
-        ],
         phone_number: [
           { required: true, message: '请输入手机号', trigger: 'blur' }
 
@@ -266,6 +286,7 @@ export default {
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ]
+
       },
       city: [],
       provinceList: {
@@ -279,6 +300,11 @@ export default {
       living: false
     }
   },
+  watch: {
+    num (newVal, oldVal) {
+      console.log('newVal', newVal)
+    }
+  },
   created () {
     this.getcityList()
   },
@@ -289,44 +315,51 @@ export default {
       this.city = data.data
     },
     async submitForm () {
-      this.$refs.rf.validate(async (valid) => {
+      this.$refs.ff.validate((valid) => {
         if (valid) {
-          console.log(this.num)
-          if (this.num.status === '离职-随时到岗') {
-            this.num.status = 0
-          } else if (this.num.status === '在职-暂不考虑') {
-            this.num.status = 1
-          } else if (this.num.status === '在职-考虑机会') {
-            this.num.status = 2
-          } else {
-            this.num.status = 3
-          }
-          if (this.num.sex === '女') {
-            this.num.sex = 0
-          } else {
-            this.num.sex = 1
-          }
-          if (this.num.identity === '职场人') {
-            this.num.identity = 0
-          } else {
-            this.num.identity = 1
-          }
-          const city = this.num.living_city
-          if (this.num.living_city === city) {
-            delete this.num.living_city
-          }
-          const time = this.num.date_of_birth
-          this.num.date_of_birth = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
-          this.num.birth_day = this.num.date_of_birth
-          const timeList = this.num.job_start
-          this.num.job_start = new Date(timeList).toLocaleDateString().slice().replace(/\//g, '-')
-          console.log(new Date(time).toLocaleDateString().slice().replace(/\//g, '-'))
+          this.$refs.rf.validate(async (valid) => {
+            if (valid) {
+              console.log(this.num)
+              if (this.num.status === '离职-随时到岗') {
+                this.num.status = 0
+              } else if (this.num.status === '在职-暂不考虑') {
+                this.num.status = 1
+              } else if (this.num.status === '在职-考虑机会') {
+                this.num.status = 2
+              } else {
+                this.num.status = 3
+              }
+              if (this.num.sex === '女') {
+                this.num.sex = 0
+              } else {
+                this.num.sex = 1
+              }
+              if (this.num.identity === '职场人') {
+                this.num.identity = 0
+              } else {
+                this.num.identity = 1
+              }
+              const city = this.num.living_city
 
-          console.log('this.num', this.num)
-          const res = await getchangeInformation(this.num)
-          console.log('num', res)
-          this.$emit('reset', false)
-          this.$message.success('修改成功')
+              if (this.num.living_city === city) {
+                delete this.num.living_city
+              } else {
+                // this.num.living_city = this.num.living_city.adcode
+              }
+              const time = this.num.date_of_birth
+              this.num.date_of_birth = new Date(time).toLocaleDateString().slice().replace(/\//g, '-')
+              this.num.birth_day = this.num.date_of_birth
+              const timeList = this.num.job_start
+              this.num.job_start = new Date(timeList).toLocaleDateString().slice().replace(/\//g, '-')
+              console.log(new Date(time).toLocaleDateString().slice().replace(/\//g, '-'))
+
+              console.log('this.num', this.num)
+              const res = await getchangeInformation(this.num)
+              console.log('num', res)
+              this.$emit('reset', false)
+              this.$message.success('修改成功')
+            }
+          })
         }
       })
     },
@@ -402,17 +435,18 @@ export default {
     // 省市区
     provinceChange (item) {
       console.log('省', item)
-      console.log(this.provinceList.province)
       this.cityList = item.children
     },
     cityChange (item) {
       console.log('市', item)
-      console.log(this.provinceList.city)
+      // this.provinceList.city = ''
+      // this.provinceList.region = ''
       this.regionList = item.children
     },
     regionChange (item) {
-      console.log(this.provinceList.region)
-      this.num.living_city = this.provinceList.region
+      console.log(item)
+      this.num.living_city = item
+      // this.provinceList.region = ''
     },
     adressChange () {
       this.living = true

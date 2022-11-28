@@ -140,13 +140,7 @@ export default {
   },
   methods: {
     handleClose () {
-      this.$confirm('确定取消吗', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$emit('reset', false)
-      })
+      this.$emit('reset', false)
     },
     async handle () {
       this.$refs.rf.validate(async (valid) => {
@@ -163,15 +157,17 @@ export default {
           // 思想: 跳转到登录的时候把当前的页面当成一个参数传过去
           // 重新登录的时候做一个判断 如果发生路径上有这个参数 就以这个参数为主 如果没有这个参数
           // 还跳转到首页
-          this.$router.push({
-            path: '/',
-            query: {
-              // 携带的路由参数
-              redirect: this.$route.fullPath
-              // to.path -> 只包含路径
-              // fullPatch 既有路径也有参数
-            }
-          })
+          if (res.code === 200) {
+            this.$router.push({
+              path: '/',
+              query: {
+                // 携带的路由参数
+                redirect: this.$route.fullPath
+                // to.path -> 只包含路径
+                // fullPatch 既有路径也有参数
+              }
+            })
+          }
         }
       })
     },

@@ -153,7 +153,7 @@ export const constantRoutes = [
       component: () => import('@/views/userDashboard/index')
     },
     {
-      name: '职位',
+      name: '职位搜索',
       path: '/userpost',
       component: () => import('@/views/userPost/modules/index')
     },

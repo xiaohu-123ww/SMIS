@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div v-for="item in list" :key="item.id" class="job">
+    <div
+      v-for="item in list"
+      :key="item.id"
+      class="job"
+      :class="{ set: list.length < 3 }"
+    >
       <div v-if="item.comm_class === 'HR发起'" class="job-nn">
         <div class="job-one">
           <div class="bg">
@@ -105,9 +110,8 @@
       <div class="job-job">
         <div class="job-mechanical">
           <div class="mechanical">
-            {{ item.position.position_name }} [{{
-              item.position.city.second
-            }}-{{ item.position.city.third }}]
+            {{ item.position.position_name }} [{{ item.position.city[0]
+            }}{{ item.position.city[1] }}{{ item.position.city[2] }}]
           </div>
           <div class="machan">
             <div class="machan-aa">
@@ -289,5 +293,8 @@ export default {
       // background-color: #256efd;
     }
   }
+}
+.set {
+  height: 500px;
 }
 </style>

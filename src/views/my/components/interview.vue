@@ -100,7 +100,7 @@
                   >
                 </div>
 
-                <div v-if="item.interview_status !== '待处理'" class="job-nnkj">
+                <div class="job-nnkj">
                   <el-button type="primary" @click="dispose(item, item.id)"
                     >面试详情</el-button
                   >
@@ -443,9 +443,9 @@ export default {
       this.show = true
       this.state = true
       console.log(name)
-      if (name.interview_status === '已拒绝') {
-        this.show = false
-      }
+      // if (name.interview_status === '已拒绝') {
+      //   this.show = false
+      // }
     },
     accept () {
       this.show = true

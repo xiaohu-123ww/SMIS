@@ -124,7 +124,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="当前月薪">
+      <el-form-item label="当前月薪" prop="salary_max">
         <el-input
           v-model="ruleForm.salary_max"
           class="box"
@@ -260,15 +260,19 @@ export default {
           { required: true, message: '请选择活类别', trigger: 'change' }
         ],
         salary_max: [
-          { required: true, message: '请输入当前月薪', trigger: 'blur' },
+          // { required: true, message: '请输入当前月薪', trigger: 'blur' },
           {
             validator: (rule, value, cb) => {
-              const boolean = new RegExp('^[1-9][0-9]*$').test(value)
-              // console.log(boolean)
-              if (!boolean) {
-                cb(new Error('只能输入整数'))
-              } else {
+              if (value === null || value === '') {
                 cb()
+              } else {
+                const boolean = new RegExp('^[1-9][0-9]*$').test(value)
+                // console.log(boolean)
+                if (!boolean) {
+                  cb(new Error('只能输入整数'))
+                } else {
+                  cb()
+                }
               }
             }
           }
@@ -283,7 +287,7 @@ export default {
           { required: true, message: '请选择时间', trigger: 'change' }
         ],
         job_nature: [
-          { required: true, message: '请选择期望薪资', trigger: 'change' }
+          { required: true, message: '请选择工作类型', trigger: 'change' }
         ],
         job_keywords: [
           { type: 'array', required: true, message: '请至少选择一个工作性质', trigger: 'change' }

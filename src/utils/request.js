@@ -75,6 +75,13 @@ service.interceptors.response.use(
           })
         })
       }
+    } else if (res.code === 2001) {
+      // console.log('123')
+      Message({
+        message: res.msg,
+        type: 'error',
+        duration: 5 * 1000
+      })
     } else {
       return res
     }

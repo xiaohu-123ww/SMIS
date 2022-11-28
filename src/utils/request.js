@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
+import router from '@/router'
 import store from '@/store'
 import { getToken, removeToken, getTokenInvalidFlag, setTokenInvalidFlag } from '@/utils/auth'
 
@@ -66,7 +67,7 @@ service.interceptors.response.use(
           showClose: false, // 是否显示右上角的x
           closeOnClickModal: false
         }).then(() => {
-          router.push(`/#/login`)
+          router.push('/login')
           removeToken()
         })
       }

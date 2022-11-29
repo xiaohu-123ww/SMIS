@@ -17,14 +17,17 @@
                         class="mechanical"
                         style="width: 500px; display: flex"
                       >
-                        <div style="width: 240px">
-                          {{ item.fullname }} {{ item.city.name }}
+                        <div style="width: 240px" @click="particulars(item)">
+                          <a href="javascript:;">
+                            {{ item.fullname }} {{ item.city.name }}</a
+                          >
                         </div>
                         <el-button
                           type="primary"
                           round
                           class="el-bt"
                           style="margin-top: 5px"
+                          @click="particulars(item)"
                           >立即沟通</el-button
                         >
                       </div>
@@ -143,7 +146,14 @@ export default {
   watch: {},
   created () { },
   methods: {
-
+    particulars (item) {
+      console.log('简历详情', item)
+      this.$router.push({
+        path: '/state',
+        name: 'state',
+        query: { id: item.id }
+      })
+    }
   }
 };
 </script>

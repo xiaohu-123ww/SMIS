@@ -70,7 +70,9 @@
             未通过,希望下次合作</span
           >
           <span
-            v-if="statusList.result === '已拒绝'"
+            v-if="
+              statusList.result === '已拒绝' || statusList.result === '已取消'
+            "
             style="color: #999; font-size: 20px"
           >
             已取消面试</span

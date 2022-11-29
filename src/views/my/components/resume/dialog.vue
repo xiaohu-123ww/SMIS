@@ -120,17 +120,16 @@
               </el-col>
             </el-form-item>
           </div>
-
-          <div v-else>
-            <el-form-item label="现居地">
-              <el-input
-                v-model="num.living_city"
-                style="width: 300px"
-                @click.native="adressChange"
-              ></el-input>
-            </el-form-item>
-          </div>
         </el-form>
+        <div v-if="!living">
+          <el-form-item label="现居地" prop="living_city">
+            <el-input
+              v-model="num.living_city"
+              style="width: 300px"
+              @click.native="adressChange"
+            ></el-input>
+          </el-form-item>
+        </div>
 
         <el-form-item label="联系方式" prop="phone_number">
           <el-input
@@ -285,6 +284,9 @@ export default {
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+        ],
+        living_city: [
+          { required: true, message: '请输入省市', trigger: 'blur' }
         ]
 
       },
@@ -297,7 +299,8 @@ export default {
       },
       cityList: [],
       regionList: [],
-      living: false
+      living: false,
+      liviCity: 0
     }
   },
   watch: {
@@ -341,7 +344,7 @@ export default {
               }
               const city = this.num.living_city
 
-              if (this.num.living_city === city) {
+              if (this.liviCity === '') {
                 delete this.num.living_city
               } else {
                 // this.num.living_city = this.num.living_city.adcode
@@ -445,6 +448,7 @@ export default {
     },
     regionChange (item) {
       console.log(item)
+      this.liviCity = item
       this.num.living_city = item
       // this.provinceList.region = ''
     },

@@ -18,6 +18,7 @@
               placeholder="请选择职位类型"
               style="margin-top: 0px"
               clearable
+              @clear="setValueNull"
             >
               <div style="display: flex">
                 <div>
@@ -61,6 +62,7 @@
               placeholder="请选择行业类型"
               style="margin-top: 0px"
               clearable
+              @clear="setValue"
             >
               <div style="display: flex">
                 <div style="width: 150px">
@@ -402,7 +404,8 @@ export default {
       // 地铁
       subway: '',
       name: '城市',
-      list: {}
+      list: {},
+      sata: false
 
     }
   },
@@ -410,6 +413,7 @@ export default {
     userId () {
       return this.$route.query.inputValue// $route获取到正在活跃的路由
     }
+
   },
   created () {
     this.serch()
@@ -468,6 +472,12 @@ export default {
       console.log('123', item, this.job_class)
       this.serchPost.position_class = item
     },
+    setValueNull () {
+      // this.serchPost.position_class = 0
+
+      this.serchPost.position_class = 0
+      console.log('123', this.serchPost.position_class)
+    },
 
     // 行业领域分类
     async getIndustry () {
@@ -482,6 +492,10 @@ export default {
     fieldChange (item) {
       console.log('hangye', item)
       this.serchPost.field = item
+    },
+    setValue () {
+      this.serchPost.field = 0
+      console.log(this.serchPost.field)
     },
 
     // 城市 行政  地铁
@@ -608,7 +622,7 @@ export default {
       if (this.serchPost.enterprise_nature === '') {
         delete this.serchPost.enterprise_nature
       }
-      if (this.serchPost.field === '') {
+      if (this.serchPost.field === '' || this.serchPost.field === 0) {
         delete this.serchPost.field
       }
       if (this.serchPost.job === '') {
@@ -623,13 +637,13 @@ export default {
       if (this.serchPost.position === '') {
         delete this.serchPost.position
       }
-      if (this.serchPost.position_class === 0) {
+      if (this.serchPost.position_class === 0 || this.serchPost.position_class === null) {
         delete this.serchPost.position_class
       }
       if (this.serchPost.qw === '') {
         delete this.serchPost.qw
       }
-      if (this.serchPost.salary === null) {
+      if (this.serchPost.salary === null || this.serchPost.salary === 0) {
         delete this.serchPost.salary
       }
       if (this.serchPost.staff_size === 0) {

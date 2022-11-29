@@ -4,7 +4,7 @@
       v-for="item in list"
       :key="item.id"
       class="job"
-      :class="{ set: list.length < 3 }"
+      :class="{ set: list.length === 1 }"
     >
       <div v-if="item.comm_class === 'HR发起'" class="job-nn">
         <div class="job-one">

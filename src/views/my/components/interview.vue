@@ -63,7 +63,7 @@
     <div>
       <div>
         <div>
-          <div :class="{ left: list.length < 3 }">
+          <div :class="{ left: list.length === 1 }">
             <div v-for="item in list" :key="item.id" class="job">
               <div class="job-nn">
                 <div class="job-one">

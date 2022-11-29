@@ -534,6 +534,8 @@ export default {
       this.name = name
     },
     clerkChange (index, name) {
+      this.serchPost.adcode = index
+      console.log('index', this.serchPost.adcode)
       this.tinct = index
       this.admin = name
       // this.name = name
@@ -541,6 +543,8 @@ export default {
     administrativeChange (name) {
       this.tinct = name
       this.subway = name
+      console.log('122344', name)
+      this.serchPost.adcode = name
     },
     // 其他条件
     // 热门城市

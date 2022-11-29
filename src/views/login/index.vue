@@ -133,7 +133,7 @@
           round
           style="
             width: 100%;
-            margin-bottom: 20px;
+
             background-color: #3c69be;
             color: #fff;
           "
@@ -148,7 +148,7 @@
           round
           style="
             width: 100%;
-            margin-bottom: 20px;
+
             background-color: #3c69be;
             color: #fff;
           "
@@ -162,7 +162,7 @@
           round
           style="
             width: 100%;
-            margin-bottom: 30px;
+
             background-color: #3c69be;
             top: 0;
             color: #fff;
@@ -175,7 +175,7 @@
           round
           style="
             width: 100%;
-            margin-bottom: 30px;
+
             color: #191919;
             background-color: #ffffff;
             border: none;
@@ -276,7 +276,7 @@
           round
           style="
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 130px;
             background-color: #3c69be;
             top: 0;
             color: #fff;
@@ -762,5 +762,8 @@ $light_gray: #eee;
   color: black;
   background-color: #f6f6f8;
   border-color: #f2f4f7;
+}
+::v-deep form.el-form.login-form.el-form--label-left {
+  height: 100%;
 }
 </style>

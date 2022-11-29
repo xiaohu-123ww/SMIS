@@ -209,7 +209,7 @@ export default {
 .containers {
   width: 100%;
   height: auto;
-  min-width: 1555px;
+  // min-width: 1555px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

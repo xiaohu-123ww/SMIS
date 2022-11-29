@@ -1,6 +1,6 @@
 <template>
   <div>
-    <modules/>
+    <modules />
   </div>
 </template>
 <script>
@@ -10,11 +10,10 @@ export default {
   components: {
     modules
   },
-  data() {
+  data () {
     return {}
   }
 }
 </script>
 <style lang="scss" scoped>
-
 </style>

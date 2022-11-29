@@ -667,7 +667,7 @@ export default {
     width: 100%;
     height: auto;
     padding: 50px 0;
-    min-width: 1200px;
+    // min-width: 1200px;
     .title {
       width: 100%;
       text-align: center;

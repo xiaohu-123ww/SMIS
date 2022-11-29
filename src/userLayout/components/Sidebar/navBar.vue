@@ -20,7 +20,7 @@
               <img src="@/assets/images/Grid.png" class="avatar-wrapper-img" />
             </div>
           </div>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu slot="dropdown" style="width: 100px">
             <!-- <router-link to="/usercenter">
               <el-dropdown-item>个人主页</el-dropdown-item>
             </router-link>
@@ -258,4 +258,12 @@ export default {
   width: 100%;
   // border-radius: 50%;
 }
+// ::v-deep element.style {
+//   // transform-origin: center top;
+//   // z-index: 2007;
+//   width: 300px;
+//   // position: absolute;
+//   // top: 110px;
+//   // left: 1151px;
+// }
 </style>

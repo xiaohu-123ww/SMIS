@@ -1,37 +1,36 @@
 <template>
   <div>
     <div class="select">
-      <el-card
-        v-for="(item, index) in positionJob"
-        :key="index"
-        class="position"
-        style="height: 180px"
-      >
-        <div class="grid-content bg-purple" @click="cardChange(item)">
-          <div class="position-b">
-            <div class="position-machine">
-              <span class="fullname">
-                {{ item.fullname ? item.fullname : '再无职业' }}
-              </span>
-              <span style="margin-left: 40px; color: red; font-size: 15px">
-                {{ item.salary_min }}-{{ item.salary_max }}.{{
-                  item.salary_unit
-                }}薪</span
-              >
+      <el-row>
+        <el-col v-for="(item, index) in positionJob" :key="index" :span="8">
+          <el-card class="position-b" style="height: 180px">
+            <div class="grid-content bg-purple" @click="cardChange(item)">
+              <div class="position-b">
+                <div class="position-machine">
+                  <span class="fullname">
+                    {{ item.fullname ? item.fullname : '再无职业' }}
+                  </span>
+                  <span style="color: red; font-size: 13px">
+                    {{ item.salary_min }}-{{ item.salary_max }}.{{
+                      item.salary_unit
+                    }}薪</span
+                  >
+                </div>
+                <div class="position-city">
+                  <button class="position-btn">{{ item.city.name }}</button>
+                  <button class="position-btn">
+                    {{ item.job_experience.name }}
+                  </button>
+                  <button class="position-btn">
+                    {{ item.education.name }}
+                  </button>
+                </div>
+                <div class="position-firm">{{ item.enterprise_name }}</div>
+              </div>
             </div>
-            <div class="position-city">
-              <button class="position-btn">{{ item.city.name }}</button>
-              <button class="position-btn">
-                {{ item.job_experience.name }}
-              </button>
-              <button class="position-btn">
-                {{ item.education.name }}
-              </button>
-            </div>
-            <div class="position-firm">{{ item.enterprise_name }}</div>
-          </div>
-        </div>
-      </el-card>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
     <div v-if="show" class="listChange">
       <el-button
@@ -78,16 +77,13 @@ export default {
     }
   },
   computed: {
-
   },
   mounted () {
-
   },
   methods: {
     hotJob () {
       // if (e.target.tagName === 'INPUT') return
       this.num = true
-
       setTimeout(() => {
         this.state = Math.floor(Math.random() * 18)
         this.$emit('changeHot', this.state)
@@ -120,16 +116,12 @@ export default {
   display: inline-block;
   height: 400px;
   display: flex;
-  flex-flow: wrap;
+  // flex-flow: wrap;
   // flex-flow: wrap;
   // width: 100%;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
   // background-color: red;
-
-  .position {
-    // margin-right: 100px;
-  }
   .position-b {
     // width: 400px;
     height: 160px;
@@ -183,7 +175,6 @@ export default {
 }
 ::v-deep .el-card:hover {
   box-shadow: 0 0 10px 20px rgba(255, 255, 255, 0.932);
-
   border-color: rgb(236, 231, 231);
   transition: all 0.2s ease-in-out;
 }

@@ -33,6 +33,7 @@ body {
 }
 .containers .main {
   background-color: #fffeff !important;
+  /* min-width: 1200px; */
 }
 .side-header {
   box-shadow: 0px 2px 30px 0px rgba(0, 0, 0, 0.12) !important;

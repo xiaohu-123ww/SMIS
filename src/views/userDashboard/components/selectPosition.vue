@@ -139,7 +139,8 @@ export default {
       .fullname {
         display: inline-block;
         font-size: 18px;
-        width: 200px;
+        width: 250px;
+
         height: 40px;
         padding-left: 15px;
         // background-color: pink;

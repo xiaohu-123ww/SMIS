@@ -1,7 +1,7 @@
 <template>
   <div class="side-header">
     <div class="logo">
-      <img src="../../../assets/images/logo.png" />
+      <img src="../../../assets/images/logo.png" @click="dialog" />
     </div>
     <el-menu
       :default-active="activeIndex"
@@ -127,6 +127,9 @@ export default {
         this.$router.push(item.path)
         this.activeIndex = item.name
       }
+    },
+    dialog () {
+      this.$router.push('/userdash')
     }
   }
 };

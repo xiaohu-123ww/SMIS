@@ -344,7 +344,7 @@ export default {
               }
               const city = this.num.living_city
 
-              if (this.liviCity === '') {
+              if (this.living === false) {
                 delete this.num.living_city
               } else {
                 // this.num.living_city = this.num.living_city.adcode
@@ -356,7 +356,7 @@ export default {
               this.num.job_start = new Date(timeList).toLocaleDateString().slice().replace(/\//g, '-')
               console.log(new Date(time).toLocaleDateString().slice().replace(/\//g, '-'))
 
-              console.log('this.num', this.num)
+              console.log('this.num', this.num, this.liviCity)
               const res = await getchangeInformation(this.num)
               console.log('num', res)
               this.$emit('reset', false)

@@ -10,7 +10,7 @@
     ></div>
     <div v-if="showTime" class="post-list">
       <div class="postList-one">
-        <el-row>
+        <!--<el-row>
           <el-col :span="18">
             <div class="grid-content bg-purple">
               <div class="postList">
@@ -110,7 +110,7 @@
                                 "
                               >
                                 <!-- 福利 -->
-                                {{ item.enterprise_info.tags.toString() }}
+        <!-- {{ item.enterprise_info.tags.toString() }}
                               </div>
                             </div>
                           </div>
@@ -188,6 +188,7 @@
             </div>
           </el-col>
         </el-row>
+      </div> -->
       </div>
     </div>
   </div>
@@ -346,6 +347,8 @@ export default {
   width: 100%;
   position: relation;
   margin: 0 auto;
+
+  background-color: rgb(156, 64, 64);
 
   .postList {
     margin-top: 10px;

@@ -412,7 +412,7 @@ export default {
         .machan {
           height: 40px;
           // background-color: pink;
-          border-bottom: 1px solid #e6e3ee;
+          // border-bottom: 1px solid #e6e3ee;
           display: flex;
           font-size: 15px;
           // padding-top: 10px;

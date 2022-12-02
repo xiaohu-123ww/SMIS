@@ -138,8 +138,8 @@ export default {
       border-bottom: 1px solid #e6e3e3;
       .fullname {
         display: inline-block;
-        font-size: 18px;
-        width: 250px;
+        font-size: 16px;
+        width: 200px;
 
         height: 40px;
         padding-left: 15px;
@@ -182,5 +182,8 @@ export default {
 .pro {
   pointer-events: none;
   color: black;
+}
+::v-deep .el-card__body {
+  padding: 20px 8px;
 }
 </style>

@@ -11,56 +11,50 @@
     <div v-if="bold" class="postdes-box">
       <div class="top">
         <div class="post-name">
-          <div class="name">
-            <el-row>
-              <el-col :span="20">
-                <div class="postdes">
-                  <div class="fullname">{{ resume.fullname }}</div>
-                  <div class="money">
-                    {{ resume.salary_min }} - {{ resume.salary_max }}.{{
-                      resume.salary_unit
-                    }}薪
-                  </div>
-                  <div class="city">
-                    <div class="text" style="padding-left: 0">
-                      {{ city }} - {{ third }}
-                    </div>
-                    <div class="text">{{ resume.job_experience.name }}</div>
-                    <div class="text" style="border: 0">
-                      {{ resume.education.name }}
-                    </div>
-                  </div>
-                  <div class="tags">
-                    <div
-                      v-for="(item, index) in resume.tag"
-                      :key="index"
-                      class="tag"
-                    >
-                      {{ item }}
-                    </div>
-                  </div>
+          <div class="name" style="display: flex">
+            <div class="postdes" style="width: 80%">
+              <div class="fullname">{{ resume.fullname }}</div>
+              <div class="money">
+                {{ resume.salary_min }} - {{ resume.salary_max }}.{{
+                  resume.salary_unit
+                }}薪
+              </div>
+              <div class="city">
+                <div class="text" style="padding-left: 0">
+                  {{ city }} - {{ third }}
                 </div>
-              </el-col>
-              <el-col :span="4" class="btn">
-                <el-button
-                  v-if="resume.is_collected === true"
-                  class="postdes-btn"
-                  icon="el-icon-star-off"
-                  @click="cancel"
-                  >取消收藏</el-button
+                <div class="text">{{ resume.job_experience.name }}</div>
+                <div class="text" style="border: 0">
+                  {{ resume.education.name }}
+                </div>
+              </div>
+              <div class="tags">
+                <div
+                  v-for="(item, index) in resume.tag"
+                  :key="index"
+                  class="tag"
                 >
-                <el-button
-                  v-else
-                  class="postdes-btn"
-                  icon="el-icon-star-off"
-                  @click="collect"
-                  >收藏</el-button
-                >
-                <el-button type="primary" @click="likeChange"
-                  >我有意向</el-button
-                >
-              </el-col>
-            </el-row>
+                  {{ item }}
+                </div>
+              </div>
+            </div>
+            <div style="display: flex" class="btn">
+              <el-button
+                v-if="resume.is_collected === true"
+                class="postdes-btn"
+                icon="el-icon-star-off"
+                @click="cancel"
+                >取消收藏</el-button
+              >
+              <el-button
+                v-else
+                class="postdes-btn"
+                icon="el-icon-star-off"
+                @click="collect"
+                >收藏</el-button
+              >
+              <el-button type="primary" @click="likeChange">我有意向</el-button>
+            </div>
           </div>
         </div>
       </div>
@@ -450,7 +444,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .postdes-box {
-  min-width: 1555px;
+  // min-width: 1555px;
   // max-width: 2000px;
   width: 100%;
   height: auto;
@@ -461,11 +455,11 @@ export default {
       width: 100%;
       padding: 30px 80px;
       height: 240px;
-      display: flex;
+      // display: flex;
 
       background-color: rgb(21, 37, 50);
       .name {
-        width: 100%;
+        // width: 100%;
         height: 100%;
         // background-color: pink;
         .postdes {
@@ -579,7 +573,7 @@ export default {
           font-size: 15px;
           text-align: center;
           color: #999;
-          margin-right: 70px;
+          // margin-right: 70px;
         }
         .name {
           font-size: 16px;
@@ -590,15 +584,15 @@ export default {
           // height: 200px;
           // background-color: pink;
           margin-top: 20px;
-          padding: 30px 60px;
+          // padding: 30px 60px;
           display: flex;
           flex-wrap: wrap;
           .select {
-            width: 400px;
+            // width: 400px;
             height: 100px;
             border: 1px solid #d7d5d5;
-            margin: 0 50px 20px 0;
-            padding: 20px 20px;
+            margin: 30px;
+            padding: 18px;
             font-size: 16px;
           }
         }
@@ -640,7 +634,7 @@ export default {
 .box_map {
   // margin: 30px auto;
   margin: 20px;
-  width: 800px;
+  // width: 100%;
   height: 200px;
   background-color: #f0f;
   position: relative;

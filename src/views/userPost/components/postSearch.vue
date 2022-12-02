@@ -3,11 +3,10 @@
     <div class="search-box">
       <div class="left">
         <div class="serleft" style="display: flex">
-          <div class="grid-content bg-purple">
+          <div class="grid-content bg-purple" style="width: 80%">
             <div>
               <el-input
                 v-model="serchPost.qw"
-                style="width: 650px"
                 placeholder="请输入岗位/公司"
               ></el-input>
             </div>

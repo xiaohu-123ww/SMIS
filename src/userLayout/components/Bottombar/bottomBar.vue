@@ -4,19 +4,19 @@
       <div class="footer-up">
         <div class="footer-up-left" style="flex: 1">
           <div class="footer-left-top">
-            <img src="@/assets/images/logo.png" alt="">
+            <img src="@/assets/images/logo.png" alt="" />
           </div>
           <div class="footer-left-bottom">
             <div class="code">
-              <img src="@/assets/images/diouyin.png" class="picture">
+              <img src="@/assets/images/diouyin.png" class="picture" />
               <p class="code-p">抖音</p>
             </div>
             <div class="code">
-              <img src="@/assets/images/xiaochengxu.png" class="picture">
+              <img src="@/assets/images/xiaochengxu.png" class="picture" />
               <p class="code-p">小程序</p>
             </div>
             <div class="code">
-              <img src="@/assets/images/dingyuehao.png" class="picture">
+              <img src="@/assets/images/dingyuehao.png" class="picture" />
               <p class="code-p">订阅号</p>
             </div>
           </div>
@@ -34,26 +34,35 @@
             <div style="color: #a6a8ae">企业邮箱 talent@shiyenet.com.cn</div>
             <div style="color: #a6a8ae">工作时间 10:00 - 18:00</div>
           </div>
-
         </div>
       </div>
       <div class="footer-down">
         <!-- 213 -->
-        <a target="_blank" href="https://beian.miit.gov.cn/">京ICP备20003345号-4</a>
+        <a target="_blank" href="https://beian.miit.gov.cn/"
+          >京ICP备20003345号-4</a
+        >
         <!-- <pre> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </pre> -->
         <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-        <img src="https://www.beian.gov.cn/img/new/gongan.png" alt="" srcset="">
+        <img
+          src="https://www.beian.gov.cn/img/new/gongan.png"
+          alt=""
+          srcset=""
+        />
         &nbsp;
-        <a target="_blank" href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802033541&token=825f5b11-4ca3-44ad-8722-389d2301f1e7">京公网安备 11010802033541号</a>
+        <a
+          target="_blank"
+          href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802033541&token=825f5b11-4ca3-44ad-8722-389d2301f1e7"
+          >京公网安备 11010802033541号</a
+        >
         <p>Copyright © 2019 Kalli</p>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { getCarousel } from '@/api/user';
+import { getCarousel } from '@/api/user'
 export default {
-  data() {
+  data () {
     return {
       codeList: [],
       footer: '',
@@ -61,13 +70,13 @@ export default {
       codeLists: [],
       code1: '',
       code2: ''
-    };
+    }
   },
-  created() {
+  created () {
     getCarousel().then(rs => {
-      this.code1 = this.disposeImg(rs.data.QR_code[0]);
-      this.code2 = this.disposeImg(rs.data.QR_code[1]);
-      console.log(rs);
+      this.code1 = this.disposeImg(rs.data.QR_code[0])
+      this.code2 = this.disposeImg(rs.data.QR_code[1])
+      console.log(rs)
       // this.codeList = [{
       //   code: rs.data.QR_code[0],
       //   name: '订阅号'
@@ -77,9 +86,9 @@ export default {
       //   code: rs.data.QR_code[1],
       //   name: "小程序"
       // }]
-      this.footer = rs.data.footer;
-      this.footer.logo = rs.data.footer.logo;
-    });
+      this.footer = rs.data.footer
+      this.footer.logo = rs.data.footer.logo
+    })
   }
 };
 </script>
@@ -89,7 +98,7 @@ export default {
   height: 200px;
 
   .footer-box {
-    width: 68%;
+    width: 70%;
     height: 100%;
     margin: 0 auto;
 
@@ -116,7 +125,7 @@ export default {
             .picture {
               width: 100%;
             }
-            .code-p{
+            .code-p {
               padding: 10px 0;
               color: #666666 !important;
             }
@@ -144,7 +153,6 @@ export default {
           }
         }
       }
-
     }
     .footer-down {
       width: 100%;
@@ -158,8 +166,8 @@ export default {
       // display: flex;
       justify-content: center;
       align-items: center;
-      a:hover{
-        color:rgb(90, 147, 255);
+      a:hover {
+        color: rgb(90, 147, 255);
       }
       img {
         vertical-align: middle;
@@ -167,7 +175,7 @@ export default {
         margin-left: 30px;
         // margin: 0 10px;
       }
-      p{
+      p {
         margin-left: 20px;
       }
     }

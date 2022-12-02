@@ -158,7 +158,7 @@ export default {
   border-right: 0;
 }
 ::v-deep a.el-upload-list__item-name {
-  width: 200px;
+  // width: 200px;
   height: 40px;
   // background-color: pink;
 }

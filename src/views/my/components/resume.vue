@@ -1,7 +1,7 @@
 <template>
   <div class="resume">
     <el-row>
-      <el-col :span="18"
+      <el-col :span="17"
         ><div class="grid-content bg-purple">
           <div class="resume-left">
             <div class="resume-on-line">在线简历</div>
@@ -28,7 +28,7 @@
             </div>
           </div></div
       ></el-col>
-      <el-col :span="4"
+      <el-col :span="5"
         ><div class="grid-content bg-purple-light">
           <div class="resume-right">
             <!-- <el-button type="primary" icon="el-icon-sell">上传简历</el-button> -->

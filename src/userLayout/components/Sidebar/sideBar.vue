@@ -148,7 +148,7 @@ export default {
     // margin-top: 33px;
     padding-top: 33px;
     padding-bottom: 10px;
-    margin-right: 133px;
+    margin-right: 100px;
   }
   .title {
     color: #000;

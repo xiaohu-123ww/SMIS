@@ -33,7 +33,7 @@
         class="About-zhizhao"
         src="../../../../assets/images/About-zhizhao.png"
         alt=""
-      >
+      />
       <!-- <div
         v-for="(item, index) in infoimg.bg_image"
         v-show="index < 1"
@@ -57,16 +57,18 @@
       <div class="box2_cent">
         <p>办公地址: <span>北京市海淀区东升科技园B2-103</span></p>
         <p>客服中心: <span>18610218901</span></p>
-        <p>官网: <span class="link" @click="link">www.zhinengzhizaoedu.com</span></p>
+        <p>
+          官网: <span class="link" @click="link">www.zhinengzhizaoedu.com</span>
+        </p>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { aboutUser } from '@/api/user';
+import { aboutUser } from '@/api/user'
 
 export default {
-  data() {
+  data () {
     return {
       info: '',
       longinfo: '',
@@ -80,27 +82,27 @@ export default {
         backgroundSize: '100% 100%',
         marginTop: '5px'
       }
-    };
+    }
   },
-  created() {
+  created () {
     aboutUser().then((rs) => {
       //  (rs.data);
-      this.info = rs.data.长简介;
-      this.longinfo = rs.data.长简介;
-      this.infoimg = rs.data.业务介绍图;
-    });
+      this.info = rs.data.长简介
+      this.longinfo = rs.data.长简介
+      this.infoimg = rs.data.业务介绍图
+    })
   },
   methods: {
-    more() {
-      this.mores = false;
+    more () {
+      this.mores = false
       //  (a);
     },
-    pack() {
-      this.mores = true;
+    pack () {
+      this.mores = true
     },
-    link() {
+    link () {
       // window.location.href = 'www.zhinengzhizaoedu.com';
-      window.open('http://www.zhinengzhizaoedu.com/');
+      window.open('http://www.zhinengzhizaoedu.com/')
     }
   }
 };
@@ -146,7 +148,7 @@ export default {
   .main {
     // padding-top: 5px;
     display: inline-block;
-    width: 40%;
+    width: 37%;
     height: auto;
     font-size: 14px;
     line-height: 30px;
@@ -202,24 +204,24 @@ export default {
 }
 .box2_title {
   border-left: 5px solid #d92314;
-    height: 30px;
-    font-size: 28px;
-    padding-left: 5px;
-    line-height: 30px;
-    color: #191919;
-    margin-bottom: 30px;
+  height: 30px;
+  font-size: 28px;
+  padding-left: 5px;
+  line-height: 30px;
+  color: #191919;
+  margin-bottom: 30px;
 }
 .box2_cent p {
-font-size: 18px;
-font-family: PingFangSC-Regular, PingFang SC;
-font-weight: 400;
-color: #141518;
- span{
-   font-size: 16px;
-font-family: PingFangSC-Regular, PingFang SC;
-font-weight: 400;
-color: #666666;
- }
+  font-size: 18px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #141518;
+  span {
+    font-size: 16px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #666666;
+  }
 }
 .link {
   cursor: pointer;

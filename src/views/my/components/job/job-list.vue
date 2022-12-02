@@ -216,7 +216,7 @@ export default {
   }
   .job-one {
     height: 100px;
-    width: 400px;
+    width: 88%;
     // background-color: #256efd;
     display: flex;
     .bg {
@@ -234,7 +234,7 @@ export default {
     }
   }
   .job-nnkj {
-    margin: 30px 0 0 615px;
+    margin: 30px 0 0 0px;
   }
   .job-job {
     height: 130px;

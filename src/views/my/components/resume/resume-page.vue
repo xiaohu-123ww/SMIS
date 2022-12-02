@@ -2,65 +2,50 @@
   <div>
     <div>
       <div class="resume-job-one">
-        <el-row>
-          <el-col :span="21"
-            ><div class="grid-content bg-purple">求职意向</div></el-col
+        <div style="width: 92%; margin-top: 10px">求职意向</div>
+        <div>
+          <el-button
+            v-if="!show"
+            type="text"
+            icon="el-icon-plus"
+            :disabled="list.length === 3"
+            @click="add"
+            >添加</el-button
           >
-          <el-col :span="2"
-            ><div
-              class="grid-content bg-purple-light"
-              style="margin-left: 32px"
-            >
-              <el-button
-                v-if="!show"
-                type="text"
-                icon="el-icon-plus"
-                :disabled="list.length === 3"
-                @click="add"
-                >添加</el-button
-              >
-              <el-button
-                v-if="show"
-                type="text"
-                icon="el-icon-edit"
-                @click="add"
-                >编辑</el-button
-              >
-            </div></el-col
+          <el-button v-if="show" type="text" icon="el-icon-edit" @click="add"
+            >编辑</el-button
           >
-        </el-row>
+        </div>
       </div>
       <div>
         <div v-if="!show" class="resume-job-two" style="margin: 20px 0">
           <div>
             <div>
               <div v-for="item in list" :key="item.id">
-                <el-row>
-                  <el-col :span="20"
-                    ><div
-                      class="grid-content bg-purple"
-                      style="font-weight: 700"
-                    >
-                      {{ item.position_class }}
-                    </div></el-col
+                <div style="display: flex; padding-right: 25px">
+                  <div
+                    class="grid-content bg-purple"
+                    style="font-weight: 700; width: 77%"
                   >
-                  <el-col :span="2">
+                    {{ item.position_class }}
+                  </div>
+                  <div style="display: flex">
                     <el-button
                       type="text"
                       icon="el-icon-edit"
                       @click="modification(item)"
                       >编辑</el-button
                     >
-                  </el-col>
-                  <el-col :span="1">
+
                     <el-button
                       type="text"
                       icon="el-icon-delete"
                       @click="deleteList(item.id)"
                       >删除</el-button
                     >
-                  </el-col>
-                </el-row>
+                  </div>
+                </div>
+
                 <div class="resum-jobs">
                   <el-row>
                     <el-col :span="12"
@@ -165,8 +150,9 @@ export default {
   // height: 40px;
   // background-color: red;
   // border-bottom: 1px solid #e6e3e3;
+  display: flex;
   font-size: 20px;
-  padding-left: 25px;
+  padding: 0px 25px;
   .bg-purple {
     margin-top: 20px;
     color: #256efd;
@@ -194,5 +180,8 @@ export default {
       font-size: 18px;
     }
   }
+}
+::v-deep .el-button + .el-button {
+  margin-left: 30px;
 }
 </style>

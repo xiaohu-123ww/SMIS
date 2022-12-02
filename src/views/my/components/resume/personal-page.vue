@@ -1,22 +1,20 @@
 <template>
   <div>
     <div class="preponderance-one">
-      <el-row>
-        <el-col :span="22"
-          ><div class="grid-content bg-purple">个人优势</div></el-col
+      <div class="grid-content bg-purple" style="width: 92%">个人优势</div>
+      <div
+        v-if="!person"
+        class="grid-content bg-purple-light"
+        style="padding-right: 25px"
+      >
+        <el-button
+          type="text"
+          icon="el-icon-edit"
+          style="margin-top: 10px"
+          @click="edit"
+          >编辑</el-button
         >
-        <el-col :span="1"
-          ><div v-if="!person" class="grid-content bg-purple-light">
-            <el-button
-              type="text"
-              icon="el-icon-edit"
-              style="margin-top: 10px"
-              @click="edit"
-              >编辑</el-button
-            >
-          </div></el-col
-        >
-      </el-row>
+      </div>
     </div>
     <div
       v-if="!person"
@@ -78,6 +76,7 @@ export default {
 <style scoped lang="scss">
 .preponderance-one {
   height: 50px;
+  display: flex;
   // background-color: aqua;
   .bg-purple {
     color: #256efd;

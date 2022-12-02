@@ -97,8 +97,8 @@ export default {
   background-color: #1890ff;
   width: 100%;
   height: 100%;
-  min-width: 800px;
-  max-width: 2000px;
+  // min-width: 800px;
+  // max-width: 2000px;
   margin: 40px auto;
   background-color: #f4f6f9;
 }

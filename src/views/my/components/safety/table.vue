@@ -180,7 +180,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .safety {
-  width: 1000px;
+  // width: 1000px;
   // height: 500px;
   // background-color: aqua;
   margin-left: 180px;

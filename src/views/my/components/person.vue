@@ -1,50 +1,52 @@
 <template>
   <div v-if="hidden">
     <div v-if="showHidden" class="head" :class="flag === false ? 'btn' : ''">
-      <div>
-        <el-avatar
-          class="left"
-          :src="circleUrl"
-          style="position: relative; top: 10px; left: 0px"
-        />
+      <div style="display: flex; width: 87%">
+        <div>
+          <el-avatar
+            class="left"
+            :src="circleUrl"
+            style="position: relative; top: 10px; left: 0px"
+          />
+        </div>
+        <div class="right">
+          <div class="right-i">
+            <div style="font-size: 22px; font-weight: 600">
+              {{ num.name ? num.name : 'XXXX' }}
+            </div>
+            <div style="margin-left: 40px; margin-top: 5px; font-size: 16px">
+              {{ num.status }}
+            </div>
+          </div>
+          <div class="right-i">
+            <div class="right-age">
+              {{ num.sex }}
+            </div>
+            <div class="right-age">{{ num.age ? num.age : '无' }}</div>
+            <div v-if="flag === false" class="right-age">
+              {{ num.year ? num.year : '工作经验' }}工作经验
+            </div>
+            <div class="right-age">
+              {{ num.education ? num.education : '学历' }}
+            </div>
+          </div>
+          <div v-if="flag === false" class="phone">
+            <el-row>
+              <el-col :span="9"
+                ><div class="grid-content bg-purple">
+                  {{ num.phone_number }}
+                </div></el-col
+              >
+              <el-col :span="12"
+                ><div class="grid-content bg-purple">
+                  {{ num.email }}
+                </div></el-col
+              >
+            </el-row>
+          </div>
+        </div>
       </div>
-      <div class="right">
-        <div class="right-i">
-          <div style="font-size: 22px; font-weight: 600">
-            {{ num.name ? num.name : 'XXXX' }}
-          </div>
-          <div style="margin-left: 40px; margin-top: 5px; font-size: 16px">
-            {{ num.status }}
-          </div>
-        </div>
-        <div class="right-i">
-          <div class="right-age">
-            {{ num.sex }}
-          </div>
-          <div class="right-age">{{ num.age ? num.age : '无' }}</div>
-          <div v-if="flag === false" class="right-age">
-            {{ num.year ? num.year : '工作经验' }}工作经验
-          </div>
-          <div class="right-age">
-            {{ num.education ? num.education : '学历' }}
-          </div>
-        </div>
-        <div v-if="flag === false" class="phone">
-          <el-row>
-            <el-col :span="9"
-              ><div class="grid-content bg-purple">
-                {{ num.phone_number }}
-              </div></el-col
-            >
-            <el-col :span="12"
-              ><div class="grid-content bg-purple">
-                {{ num.email }}
-              </div></el-col
-            >
-          </el-row>
-        </div>
-      </div>
-      <div v-if="flag === false" class="commun" style="margin-left: 100px">
+      <div v-if="flag === false" class="commun">
         <el-button type="text" icon="el-icon-edit" @click="redact"
           >编辑简历</el-button
         >
@@ -143,9 +145,10 @@ export default {
   // border-bottom: 1px solid #e6e3e3;
 }
 .head {
-  width: 1100px;
+  // width: 1100px;
   height: 200px;
   // background-color: brown;
+  overflow: hidden;
   display: flex;
   .left {
     width: 150px;
@@ -196,7 +199,7 @@ export default {
     // background-color: pink;
     .el-button {
       margin: 100px 100px;
-      margin-left: 350px;
+      // margin-left: 350px;
     }
   }
 }

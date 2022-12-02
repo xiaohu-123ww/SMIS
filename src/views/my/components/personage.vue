@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="header">
+  <div style="hieght: auto">
+    <div>
       <Person :flag="flag" />
     </div>
     <div class="center">
@@ -74,7 +74,7 @@
               >
                 {{ item.fullname ? item.fullname : '再无职业' }}
               </div>
-              <span style="margin-left: 90px; color: red; font-size: 15px"
+              <span style="margin-right: 20px; color: red; font-size: 15px"
                 >{{ item.salary_min }} - {{ item.salary_max }}.{{
                   item.salary_unit
                 }}薪</span
@@ -150,13 +150,13 @@ export default {
   height: 200px;
   // background-color: aqua;
   display: flex;
-  overflow: hidden;
+  // overflow: hidden;
   // justify-content: space-around;
   .head {
-    width: 1100px;
-    height: 200px;
-    // background-color: brown;
-    display: flex;
+    // width: 1100px;
+    // height: 200px;
+    // // background-color: brown;
+    // display: flex;
     .left {
       width: 150px;
       height: 150px;
@@ -240,7 +240,7 @@ export default {
       display: flex;
       margin-bottom: 20px;
       .credential-b {
-        width: 1065px;
+        // width: 1065px;
         height: 30px;
         // background-color: aqua;
         font-size: 25px;
@@ -279,7 +279,7 @@ export default {
       justify-content: space-around;
       flex-wrap: wrap;
       .position-b {
-        width: 500px;
+        width: 450px;
         height: 160px;
         border-radius: 10px;
         border: 1px solid #e6e3e3;

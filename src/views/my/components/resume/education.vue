@@ -13,11 +13,11 @@
       <el-form-item label="最高学历" prop="education">
         <el-select v-model="list.education" placeholder="初中以下" class="box">
           <el-option
-            v-for="(item, index) in education"
-            :key="index"
-            :label="index"
-            :value="item"
-            @click.native="educationChange(item)"
+            v-for="item in education"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+            @click.native="educationChange(item.id)"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -30,8 +30,16 @@
       <el-form-item label="所学专业" prop="major">
         <el-input v-model="list.major" class="box" maxlength="100"></el-input>
       </el-form-item>
-      <el-form-item label="在校时间" required>
-        <el-col :span="7">
+      <el-form-item label="在校时间" prop="value1">
+        <el-date-picker
+          v-model="list.value1"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        >
+        </el-date-picker>
+        <!-- <el-col :span="7">
           <el-form-item prop="start_date">
             <el-date-picker
               v-model="list.start_date"
@@ -40,8 +48,16 @@
               style="width: 223px"
             ></el-date-picker>
           </el-form-item>
-        </el-col>
-        <el-col class="line" :span="2">--</el-col>
+        </el-col> -->
+        <!-- <el-date-picker
+          v-model="list.value1"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        >
+        </el-date-picker> -->
+        <!-- <el-col class="line" :span="2">--</el-col>
         <el-col :span="14">
           <el-form-item prop="end_date">
             <el-date-picker
@@ -51,7 +67,7 @@
               style="width: 223px"
             ></el-date-picker>
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-form-item>
 
       <el-form-item>
@@ -99,17 +115,54 @@ export default {
         ],
         major: [
           { required: true, message: '请填写专业', trigger: 'blur' }
+        ],
+        value1: [
+          { required: true, message: '请选择日期', trigger: 'change' }
         ]
       },
       list: {
         school: '',
         major: '',
-        education: 0,
+        education: null,
         start_date: '',
         end_date: '',
-        is_unified_recruit: null
+        is_unified_recruit: null,
+        value1: []
       },
-      education: {},
+      education: [
+        {
+          id: 1,
+          name: '初中以下'
+        },
+        {
+          id: 2,
+          name: '高中'
+        },
+        {
+          id: 3,
+          name: '中专/技校'
+        },
+        {
+          id: 4,
+          name: '大专'
+        },
+        {
+          id: 5,
+          name: '本科'
+        },
+        {
+          id: 6,
+          name: '硕士'
+        },
+        {
+          id: 7,
+          name: 'MBA/EMBA'
+        },
+        {
+          id: 8,
+          name: '博士'
+        }
+      ],
       id: 0
     }
   },
@@ -123,8 +176,8 @@ export default {
       this.list.major = newVal.education_info.major
       this.list.is_unified_recruit = newVal.education_info.is_unified_recruit === false ? '非统招' : '统招'
       this.list.education = newVal.degree
-      this.list.start_date = newVal.start_date
-      this.list.end_date = newVal.end_date
+      this.list.value1[0] = newVal.start_date
+      this.list.value1[1] = newVal.end_date
       this.id = newVal.id
     }
   },
@@ -139,8 +192,8 @@ export default {
     async submitForm () {
       this.$refs.rf.validate()
 
-      this.list.start_date = new Date(this.list.start_date).toLocaleDateString().slice().replace(/\//g, '-')
-      this.list.end_date = new Date(this.list.end_date).toLocaleDateString().slice().replace(/\//g, '-')
+      this.list.start_date = new Date(this.list.value1[0]).toLocaleDateString().slice().replace(/\//g, '-')
+      this.list.end_date = new Date(this.list.value1[1]).toLocaleDateString().slice().replace(/\//g, '-')
       if (this.list.is_unified_recruit === '统招') {
         this.list.is_unified_recruit = true
       } else {
@@ -173,14 +226,16 @@ export default {
         this.$message.success('修改成功')
         this.$emit('reset', false, false)
       } else {
+        console.log('123', this.list)
         const res = await getEducationExperiences(this.list)
         console.log('res', res)
         this.$message.success('添加成功')
+        this.$emit('reset', false)
       }
       this.num()
 
-      // console.log(this.list)
-      this.$emit('reset', false)
+      // // console.log(this.list)
+      //
     },
     resetForm () {
       this.$confirm('确定退出此编辑吗?', '提示', {
@@ -197,7 +252,7 @@ export default {
     async getrequire () {
       const res = await getRequirement()
       console.log('其他', res)
-      this.education = res.data.education
+      // this.education = res.data.education
     },
     educationChange (item) {
       console.log('122', item)
@@ -210,6 +265,7 @@ export default {
         this.list.start_date = ''
       this.list.end_date = ''
       this.list.is_unified_recruit = null
+      this.list.value1 = []
     }
 
   }

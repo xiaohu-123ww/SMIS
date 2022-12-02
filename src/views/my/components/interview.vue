@@ -100,7 +100,7 @@
                   >
                 </div>
 
-                <div class="job-nnkj">
+                <div v-if="item.interview_status !== '待处理'" class="job-nnkj">
                   <el-button type="primary" @click="dispose(item, item.id)"
                     >面试详情</el-button
                   >
@@ -116,7 +116,7 @@
                 </div>
                 <div
                   class="job-mechanical"
-                  style="margin: 0 40px 0 50px; width: 1200px"
+                  style="margin: 0 0px 0 40px; width: 1200px"
                 >
                   <div
                     style="font-size: 16px; margin: 10px 0 0 20px"
@@ -595,7 +595,7 @@ export default {
     }
     .job-one {
       height: 100px;
-      width: 400px;
+      width: 80%;
       // background-color: #256efd;
       display: flex;
       .bg {
@@ -613,7 +613,7 @@ export default {
       }
     }
     .job-nnkj {
-      margin: 30px 0 0 600px;
+      margin: 30px 0 0 0px;
     }
     .job-job {
       height: 130px;

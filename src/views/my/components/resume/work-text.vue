@@ -7,35 +7,26 @@
       style="margin-left: 50px"
     >
       <div class="work">
-        <el-row>
-          <el-col :span="11"
-            ><div class="grid-content bg" style="font-weight: 700">
-              {{ item.project_info.project_name }}项目
-            </div></el-col
-          >
-          <el-col :span="8"
-            ><div class="grid-content bg-purple-light">
-              {{ item.start_date }}-{{ item.end_date }}
-            </div></el-col
-          >
-          <el-col :span="3">
-            <el-button
-              type="text"
-              icon="el-icon-edit"
-              style="margin-left: 32px"
-              @click="editChange(item)"
-              >编辑
-            </el-button>
-          </el-col>
-          <el-col :span="1">
-            <el-button
-              type="text"
-              icon="el-icon-delete"
-              @click="deleteList(item.id)"
-              >删除</el-button
-            >
-          </el-col>
-        </el-row>
+        <div class="grid-content bg" style="font-weight: 700; width: 50%">
+          {{ item.project_info.project_name }}项目
+        </div>
+        <div class="grid-content bg-purple-light" style="width: 35%">
+          {{ item.start_date }}-{{ item.end_date }}
+        </div>
+        <el-button
+          type="text"
+          icon="el-icon-edit"
+          style="margin-left: 32px"
+          @click="editChange(item)"
+          >编辑
+        </el-button>
+
+        <el-button
+          type="text"
+          icon="el-icon-delete"
+          @click="deleteList(item.id)"
+          >删除</el-button
+        >
       </div>
       <div class="specialty">
         <el-row>
@@ -111,6 +102,8 @@ export default {
     // background-color: #256efd;
     line-height: 40px;
     font-size: 15px;
+    padding-right: 25px;
+    display: flex;
     .bg {
       font-size: 18px;
     }
@@ -141,5 +134,8 @@ export default {
     font-size: 15px;
     margin-top: 2px;
   }
+}
+::v-deep .el-button {
+  margin-left: 30px;
 }
 </style>

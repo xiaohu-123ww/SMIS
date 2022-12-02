@@ -10,16 +10,102 @@
     ></div>
     <div v-if="showTime" class="post-list">
       <div class="postList-one">
-        <!--<el-row>
+        <el-row>
           <el-col :span="18">
             <div class="grid-content bg-purple">
               <div class="postList">
                 <div v-for="item in jobListings" :key="item.id" class="job-job">
-                  <el-row>
-                    <el-col :span="22">
-                      <div class="grid-content bg-purple">
-                        <div style="display: flex">
-                          <div class="job-mechanical" style="width: 500px">
+                  <div class="grid-content bg-purple">
+                    <div
+                      style="
+                        display: flex;
+
+                        height: 90px;
+                        border-bottom: 1px solid #e6e3ee;
+                      "
+                    >
+                      <div class="job-mechanical" style="width: 57%">
+                        <div class="mechanical" style="display: flex">
+                          <a href="javascript:;">
+                            <div
+                              style="width: 320px; padding-left: 30px"
+                              @click="particulars(item)"
+                            >
+                              {{ item.fullname }} {{ item.city.second }}.{{
+                                item.city.third
+                              }}
+                            </div>
+                          </a>
+
+                          <el-button
+                            type="primary"
+                            round
+                            class="el-bt"
+                            @click="particulars(item)"
+                            >立即沟通</el-button
+                          >
+                        </div>
+                        <div class="machan">
+                          <div class="machan-aa">
+                            {{ item.salary_min }}k-{{ item.salary_max }}k .
+                            {{ item.salary_unit }}薪
+                          </div>
+                          <div
+                            class="machan-bb"
+                            style="border-right: 1px solid #e6e3e3"
+                          >
+                            {{ item.job_experience }}
+                          </div>
+                          <div class="machan-bb">
+                            {{ item.education }}
+                          </div>
+                        </div>
+                        <!-- <div class="equipment">
+                          <div
+                            v-for="(itemss, index) in item.jobkeywords_name"
+                            :key="index"
+                            class="equiment-ff"
+                          >
+                            {{ itemss }}
+                          </div>
+                        </div> -->
+                        <div></div>
+                      </div>
+                      <div style="width: 36%">
+                        <a href="javascript:;">
+                          <div
+                            class="mechanical"
+                            @click="open(item.enterprise_info.enterprise_id)"
+                          >
+                            {{ item.enterprise_info.name }}
+                          </div>
+                        </a>
+                        <div class="machan" style="dispaly: flex">
+                          <div class="machan-cc" style="padding: 0 10px 0 0">
+                            {{ item.enterprise_info.field }}
+                          </div>
+                          <div
+                            class="machan-cc"
+                            style="border-right: 1px solid #e6e3e3"
+                          >
+                            {{ item.enterprise_info.finance }}
+                          </div>
+
+                          <div style="padding: 0 20px 0 5px">
+                            {{ item.enterprise_info.size }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="grid-content bg-purple-light">
+                        <div class="machan-sss">
+                          <img
+                            :src="disposeImg(item.enterprise_info.logo)"
+                            alt=""
+                            style="width: 60px; height: 60px"
+                          />
+                        </div>
+                        <!-- <div class="job-mechanical" style="width: 500px">
                             <div
                               class="mechanical"
                               style="width: 450px; display: flex"
@@ -68,8 +154,8 @@
                               </div>
                             </div>
                             <div></div>
-                          </div>
-                          <div>
+                          </div> -->
+                        <!-- <div>
                             <div class="job-mechanical">
                               <a href="javascript:;">
                                 <div
@@ -109,15 +195,37 @@
                                   flex-wrap: wrap;
                                 "
                               >
-                                <!-- 福利 -->
-        <!-- {{ item.enterprise_info.tags.toString() }}
+
+                                {{ item.enterprise_info.tags.toString() }}
                               </div>
+                            </div>
+                          </div> -->
+                      </div>
+                    </div>
+                    <div>
+                      <div
+                        style="height: 40px; line-height: 40px; display: flex"
+                      >
+                        <div style="width: 55%">
+                          <div class="equipment">
+                            <div
+                              v-for="(itemss, index) in item.jobkeywords_name"
+                              :key="index"
+                              class="equiment-ff"
+                            >
+                              {{ itemss }}
                             </div>
                           </div>
                         </div>
+                        <div style="width: 35%">
+                          <div style="font-size: 11px; color: #878484">
+                            {{ item.enterprise_info.tags.toString() }}
+                          </div>
+                        </div>
                       </div>
-                    </el-col>
-                    <el-col :span="1"
+                    </div>
+
+                    <!-- <el-col :span="1"
                       ><div class="grid-content bg-purple-light">
                         <div class="machan-sss">
                           <img
@@ -126,8 +234,8 @@
                             style="width: 60px; height: 60px"
                           />
                         </div></div
-                    ></el-col>
-                  </el-row>
+                    > -->
+                  </div>
                 </div>
                 <el-pagination
                   v-if="jobListings.length !== 0"
@@ -141,12 +249,12 @@
                   @current-change="handleCurrentChange"
                 >
                 </el-pagination>
-              </div>
-              <el-empty
-                v-if="jobListings.length === 0"
-                description="再无数据"
-                style="height: 600px"
-              ></el-empty></div
+                <el-empty
+                  v-if="jobListings.length === 0"
+                  description="再无数据"
+                  style="height: 600px"
+                ></el-empty>
+              </div></div
           ></el-col>
           <el-col :span="6"
             ><div class="grid-content bg-purple-light">
@@ -162,16 +270,13 @@
                   >
                     <div class="record-row">
                       <el-row>
-                        <el-col :span="14"
-                          ><div class="grid-content bg-purple">
+                        <el-col :span="17"
+                          ><div style="font-size: 13px">
                             {{ item.position_info.name }}
                           </div></el-col
                         >
-                        <el-col :span="10"
-                          ><div
-                            class="grid-content bg-purple-light"
-                            style="color: red; font-size: 14px"
-                          >
+                        <el-col :span="7"
+                          ><div style="color: red; font-size: 12px">
                             {{ item.position_info.salary }}.{{
                               item.position_info.salary_unit
                             }}薪
@@ -188,7 +293,6 @@
             </div>
           </el-col>
         </el-row>
-      </div> -->
       </div>
     </div>
   </div>
@@ -348,8 +452,6 @@ export default {
   position: relation;
   margin: 0 auto;
 
-  background-color: rgb(156, 64, 64);
-
   .postList {
     margin-top: 10px;
     height: 100%;
@@ -376,8 +478,8 @@ export default {
         // margin-left: 50px;
       }
       .job-mechanical {
-        width: 100%;
-        height: 80px;
+        // width: 100%;
+        // height: 80px;
         // background-color: aqua;
         .equipment {
           height: 38px;
@@ -456,6 +558,7 @@ export default {
     background-color: #fff;
     margin: 10px 0 0 20px;
     border-radius: 20px;
+    overflow: hidden;
     .record-aa {
       height: 45px;
       // background-color: #256efd;
@@ -468,13 +571,13 @@ export default {
       // height: 80px;
       // background-color: pink;
       padding: 12px;
-      font-size: 16px;
+      font-size: 13px;
       border-bottom: 1px solid #e6e3e3;
       .record-row {
         height: 40px;
         // background-color: #256efd;
         line-height: 30px;
-        font-size: 15px;
+        font-size: 12px;
       }
     }
   }
@@ -496,5 +599,67 @@ export default {
 }
 ::v-deep span.el-pagination__total {
   margin: 2px 15px;
+}
+.mechanical {
+  height: 40px;
+  // background-color: #256efd;
+  font-size: 16px;
+  line-height: 40px;
+  // padding-left: 30px;
+  color: #256efd;
+  font-weight: 700;
+}
+.machan {
+  height: 40px;
+  // background-color: pink;
+  // border-bottom: 1px solid #e6e3ee;
+  display: flex;
+  font-size: 15px;
+  // padding-top: 10px;
+  .machan-aa {
+    padding: 0px 10px;
+    height: 20px;
+    // background-color: #256efd;
+    border-right: 1px solid #e6e3e3;
+    line-height: 20px;
+    padding-left: 30px;
+    // color: red;
+    line-height: 20px;
+  }
+  .machan-bb {
+    padding: 0px 10px;
+    height: 20px;
+    // background-color: greenyellow;
+    line-height: 20px;
+    padding-left: 20px;
+  }
+  .machan-cc {
+    // width: 100px;
+    padding: 0px 10px;
+    height: 20px;
+    // background-color: #256efd;
+    border-right: 1px solid #e6e3e3;
+    line-height: 20px;
+    font-size: 14px;
+    padding: 0 20px 0 5px;
+  }
+}
+.equipment {
+  height: 38px;
+  // background-color: #256efd;
+  display: flex;
+  // padding-left: 20px;
+  .equiment-ff {
+    // width: 70px;
+    padding: 0px 3px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: rgb(245, 245, 245);
+    border: 1px solid rgb(220, 220, 220);
+    margin-top: 9px;
+    color: #878484;
+    margin-left: 40px;
+  }
 }
 </style>

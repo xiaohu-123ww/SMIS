@@ -12,7 +12,7 @@
           <!-- <div class="btn"> -->
           <el-button round>{{ certform.cert_levelC }}</el-button>
           <el-button round>{{ certform.testing_wayC }}</el-button>
-        <!-- </div> -->
+          <!-- </div> -->
         </div>
       </div>
     </div>
@@ -27,8 +27,8 @@
         <!-- 头像，证书 -->
         <div class="main_cent">
           <div class="cent_top">
-            <img class="profile" :src="yuan + certform.cert_sample" alt="">
-            <img class="credential" :src="yuan + certform.cert_sample" alt="">
+            <img class="profile" :src="yuan + certform.cert_sample" alt="" />
+            <img class="credential" :src="yuan + certform.cert_sample" alt="" />
             <div class="seal">
               <!-- <img src="" alt=""> -->
               <p>{{ certform.cert_name }}</p>
@@ -124,9 +124,9 @@
   </div>
 </template>
 <script>
-import { Certdetail } from '@/api/Traincertification/certMan';
+import { Certdetail } from '@/api/Traincertification/certMan'
 export default {
-  data() {
+  data () {
     return {
       jieshao: ['1', '2'],
       yuan: 'https://znzz.tech/cert/',
@@ -177,35 +177,35 @@ export default {
           label: '实操'
         }
       ]
-    };
+    }
   },
-  created() {
+  created () {
     // console.log();
-    this.getCertdetail(this.$route.query.id);
+    this.getCertdetail(this.$route.query.id)
   },
-  mounted() {
-    document.title = '证书详情';
+  mounted () {
+    document.title = '证书详情'
   },
   methods: {
-    handleChange(val) {
+    handleChange (val) {
       // console.log(val);
     },
-    getCertdetail(id) {
+    getCertdetail (id) {
       Certdetail(id).then((res) => {
         for (var leverl of this.cert_level) {
           if (Number(res.data.cert_level) == leverl.value) {
-            res.data.cert_levelC = leverl.label;
+            res.data.cert_levelC = leverl.label
           }
         }
         for (var testing of this.testing_way) {
           if (Number(res.data.testing_way) == testing.value) {
-            res.data.testing_wayC = testing.label;
+            res.data.testing_wayC = testing.label
           }
         }
 
-        this.certform = res.data;
+        this.certform = res.data
         // console.log(this.certform);
-      });
+      })
     }
   }
 };
@@ -224,13 +224,13 @@ div/deep/ .el-button.is-round {
 }
 .cert-wrapper {
   margin: 0 auto;
-  min-width: 1555px;
+  /* min-width: 1555px; */
   /* overflow: hidden; */
 }
 .certdetail_top {
   width: 51%;
-   margin: 0 auto;
-   /* background-color: #f2f2f2; */
+  margin: 0 auto;
+  /* background-color: #f2f2f2; */
 }
 .certdetail {
   width: 100%;
@@ -319,7 +319,7 @@ div/deep/ .el-button.is-round {
   top: 130px;
   width: 324px;
   height: 324px;
-  background-image: url("../../../assets/images/yinzhang.png");
+  background-image: url('../../../assets/images/yinzhang.png');
   /* display: flex; */
   /* justify-content: center; */
   /* align-items: center; */
@@ -365,10 +365,10 @@ div/deep/ .el-button.is-round {
   color: #141518;
 }
 /* .adorn { */
-  /* width: 50px; */
-  /* height: 4px; */
-  /* margin-top: 2px; */
-  /* background: #256efd; */
+/* width: 50px; */
+/* height: 4px; */
+/* margin-top: 2px; */
+/* background: #256efd; */
 /* } */
 /* .cert_lan {
   width: 100%;

@@ -1,24 +1,18 @@
 <template>
   <div>
-    <div class="preponderance-one">
-      <el-row>
-        <el-col :span="22"
-          ><div class="grid-content bg-purple">教育经历</div></el-col
+    <div class="preponderance-one" style="display: flex">
+      <div class="grid-content bg-purple" style="width: 92%">教育经历</div>
+      <div class="grid-content bg-purple-light">
+        <el-button
+          v-if="!show"
+          type="text"
+          icon="el-icon-plus"
+          :disabled="list.length === 10"
+          style="margin-top: 10px"
+          @click="edit"
+          >添加</el-button
         >
-        <el-col :span="1"
-          ><div class="grid-content bg-purple-light">
-            <el-button
-              v-if="!show"
-              type="text"
-              icon="el-icon-plus"
-              :disabled="list.length === 10"
-              style="margin-top: 10px"
-              @click="edit"
-              >添加</el-button
-            >
-          </div></el-col
-        >
-      </el-row>
+      </div>
     </div>
     <div>
       <div>
@@ -26,44 +20,37 @@
           <div v-if="state">
             <div v-for="item in list" :key="item.id" class="work">
               <div v-if="!show" style="margin-bottom: 30px">
-                <div class="school">
-                  <el-row>
-                    <el-col :span="11"
-                      ><div
-                        class="grid-content bg"
-                        style="
-                          margin-left: 30px;
-                          font-weight: 700;
-                          font-size: 16px;
-                        "
-                      >
-                        {{ item.education_info.school }}
-                      </div></el-col
-                    >
-                    <el-col :span="9"
-                      ><div class="grid-content bg-purple-light">
-                        {{ item.start_date }} -{{ item.end_date }}
-                      </div></el-col
-                    >
-                    <el-col :span="2">
-                      <a href="javascript:;">
-                        <el-button
-                          type="text"
-                          icon="el-icon-edit"
-                          @click="editChange(item)"
-                          >编辑
-                        </el-button>
-                      </a>
-                    </el-col>
-                    <el-col :span="1">
-                      <el-button
-                        type="text"
-                        icon="el-icon-delete"
-                        @click="deleteEduction(item.id)"
-                        >删除</el-button
-                      >
-                    </el-col>
-                  </el-row>
+                <div class="school" style="display: flex; padding-right: 25px">
+                  <div
+                    class="grid-content bg"
+                    style="
+                      margin-left: 30px;
+                      font-weight: 700;
+                      font-size: 16px;
+                      width: 50%;
+                    "
+                  >
+                    {{ item.education_info.school }}
+                  </div>
+                  <div class="grid-content bg-purple-light" style="width: 35%">
+                    {{ item.start_date }} -{{ item.end_date }}
+                  </div>
+
+                  <a href="javascript:;">
+                    <el-button
+                      type="text"
+                      icon="el-icon-edit"
+                      @click="editChange(item)"
+                      >编辑
+                    </el-button>
+                  </a>
+
+                  <el-button
+                    type="text"
+                    icon="el-icon-delete"
+                    @click="deleteEduction(item.id)"
+                    >删除</el-button
+                  >
                 </div>
                 <div class="education">
                   <el-row>
@@ -171,6 +158,7 @@ export default {
 .preponderance-one {
   height: 50px;
   // background-color: aqua;
+  padding-right: 25px;
   .bg-purple {
     color: #256efd;
     font-weight: 600;
@@ -201,5 +189,8 @@ export default {
     padding-left: 20px;
     font-size: 15px;
   }
+}
+::v-deep .el-button {
+  margin-left: 30px;
 }
 </style>

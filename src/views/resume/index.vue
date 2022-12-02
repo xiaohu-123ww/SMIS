@@ -115,7 +115,7 @@
                 <div class="textone">工作地点</div>
                 <div class="name">
                   {{ addressVal }}
-                  <el-button type="text" @click="btn"></el-button>
+                  <el-button type="text"></el-button>
                 </div>
                 <baidu-map
                   class="box_map"
@@ -276,7 +276,12 @@ export default {
       collectList: {
         collects: ''
       },
-      loading: false
+      loading: false,
+      work_adcode: {
+        longitude: '',
+        latitude: ''
+
+      }
 
     }
   },
@@ -292,7 +297,7 @@ export default {
 
   created () {
     this.getlist()
-    this.geoTest()
+    // this.geoTest()
     // this.btn()
     this.getJobList()
     this.getSlideshow()
@@ -335,11 +340,13 @@ export default {
         this.hr = res.data.hr_info
         this.content = res.data.job_content
         this.name = res.data.enterprise_info
-        this.addressVal = res.data.work_city.second + res.data.work_city.third
+        this.addressVal = res.data.work_city.first + res.data.work_city.second + res.data.work_city.third
 
         this.imgJob = this.disposeImg(this.name.logo)
         console.log('imgJob', this.imgJob)
         this.field = this.name.field.field_name
+        this.work_adcode.longitude = res.data.longitude
+        this.work_adcode.latitude = res.data.latitude
       }
     },
     open (i) {
@@ -350,44 +357,43 @@ export default {
         query: { id: i }
       })
     },
-    async geoTest () {
-      // console.log('地址', this.addressVal)
-      // 调用百度地图API,根据地址获取经纬度
+    // async geoTest () {
+    //   // console.log('地址', this.addressVal)
+    //   // 调用百度地图API,根据地址获取经纬度
 
-      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
-        address: this.addressVal,
-        output: 'json',
-        ak: '0dZK03G6kSF0M16RXLWrrLkWWORcLsyV' // 你的AK秘钥
-      })
-        .then((json) => {
-          console.log(`json success:`, json)
-          this.locations = json.result.location
-          this.geoTest()
-          // this.handler()
-        })
-        .catch((err) => {
-          console.log(`json err:`, err)
-        })
-    },
+    //   await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+    //     address: this.addressVal,
+    //     output: 'json',
+    //     ak: '0dZK03G6kSF0M16RXLWrrLkWWORcLsyV' // 你的AK秘钥
+    //   })
+    //     .then((json) => {
+    //       console.log(`json success:`, json)
+    //       this.locations = json.result.location
+    //       this.geoTest()
+    //       // this.handler()
+    //     })
+    //     .catch((err) => {
+    //       console.log(`json err:`, err)
+    //     })
+    // },
     // 地图
     handler ({ BMap, map }) {
       // this.btn()
       console.log(55, BMap, map)
       // this.center = ''
       this.zoom = 15
-      const geolocation = new BMap.Geolocation()
-      geolocation.getCurrentPosition((res) => {
-        // IP地址赋值给locations对象
-        console.log('112', res)
-        this.locations.lng = res.point.lng
-        this.locations.lat = res.point.lat
-        this.btn()
-      })
+      this.locations.lng = this.work_adcode.longitude
+      this.locations.lat = this.work_adcode.latitude
+      // const geolocation = new BMap.Geolocation()
+      // geolocation.getCurrentPosition((res) => {
+      //   // IP地址赋值给locations对象
+      //   console.log('112', res)
+      //   this.locations.lng = res.point.lng
+      //   this.locations.lat = res.point.lat
+      //   // this.btn()
+      // })
     },
 
-    btn () {
-      this.geoTest()
-    },
     // 精选职位
     async getJobList () {
       const { data } = await getHandpickJob(this.limit)

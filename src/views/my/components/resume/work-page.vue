@@ -1,18 +1,12 @@
 <template>
   <div>
     <div class="preponderance-one">
-      <el-row>
-        <el-col :span="22"
-          ><div class="grid-content bg-purple">工作经历</div></el-col
+      <div class="grid-content bg-purple" style="width: 92%">工作经历</div>
+      <div v-if="!work" class="grid-content bg-purple-light">
+        <el-button type="text" icon="el-icon-plus" @click="workEdit"
+          >添加</el-button
         >
-        <el-col :span="1"
-          ><div v-if="!work" class="grid-content bg-purple-light">
-            <el-button type="text" icon="el-icon-plus" @click="workEdit"
-              >添加</el-button
-            >
-          </div></el-col
-        >
-      </el-row>
+      </div>
     </div>
     <div v-if="!work">
       <div>
@@ -23,36 +17,27 @@
             class="textarea"
             style="margin-left: 50px"
           >
-            <div class="work">
-              <el-row>
-                <el-col :span="11"
-                  ><div class="grid-content bg" style="font-weight: 700">
-                    {{ item.enterprise }}
-                  </div></el-col
-                >
-                <el-col :span="9"
-                  ><div class="grid-content bg-purple-light">
-                    {{ item.start_date }}-{{ item.end_date }}
-                  </div></el-col
-                >
-                <el-col :span="1">
-                  <el-button
-                    type="text"
-                    icon="el-icon-edit"
-                    @click.native="editChange(item)"
-                    >编辑
-                  </el-button>
-                </el-col>
-                <el-col :span="1">
-                  <el-button
-                    type="text"
-                    icon="el-icon-delete"
-                    style="margin-left: 30px"
-                    @click="deleteList(item.id)"
-                    >删除</el-button
-                  >
-                </el-col>
-              </el-row>
+            <div class="work" style="display: flex; padding-right: 25px">
+              <div class="grid-content bg" style="font-weight: 700; width: 50%">
+                {{ item.enterprise }}
+              </div>
+              <div class="grid-content bg-purple-light;" style="width: 35%">
+                {{ item.start_date }}-{{ item.end_date }}
+              </div>
+              <el-button
+                type="text"
+                icon="el-icon-edit"
+                @click.native="editChange(item)"
+                >编辑
+              </el-button>
+
+              <el-button
+                type="text"
+                icon="el-icon-delete"
+                style="margin-left: 30px"
+                @click="deleteList(item.id)"
+                >删除</el-button
+              >
             </div>
             <div class="specialty">
               <el-row>
@@ -161,6 +146,8 @@ export default {
   height: 50px;
   // background-color: aqua;
   margin-top: 10px;
+  display: flex;
+  padding-right: 25px;
   .bg-purple {
     color: #256efd;
     font-weight: 600;

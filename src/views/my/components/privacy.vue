@@ -2,14 +2,12 @@
   <div style="hieght: auto">
     <div class="interview">
       <div class="interviews">
-        企业屏蔽
-        <el-button
-          type="text"
-          icon="el-icon-edit"
-          style="margin-left: 953px"
-          @click="add"
-          >添加</el-button
-        >
+        <div style="display: flex">
+          <div style="width: 90%">企业屏蔽</div>
+          <el-button type="text" icon="el-icon-edit" @click="add"
+            >添加</el-button
+          >
+        </div>
       </div>
     </div>
     <div v-if="ematy" style="height: 500px">
@@ -26,7 +24,7 @@
         </div>
         <div class="privacy-box" style="margin-top: 50px">
           <ul>
-            <li v-for="item in list" :key="item" style="list-style: none">
+            <li v-for="item in list" :key="item.eid" style="list-style: none">
               <el-checkbox v-model="item.checked" @change="changeNum(item)">
                 <div class="text" style="font-size: 20px; margin-bottom: 20px">
                   {{ item.ename }}
@@ -232,7 +230,7 @@ export default {
   font-size: 25px;
   display: flex;
   .el-button {
-    margin-left: 970px;
+    // margin-left: 970px;
     width: 100px;
     height: 40px;
   }
@@ -243,14 +241,14 @@ export default {
   display: flex;
   font-size: 20px;
   .text {
-    // width: 400px;
+    width: 90%;
     line-height: 60px;
     // background-color: pink;
     padding-left: 100px;
     // font-weight: 600;
   }
   .privacy-bt {
-    margin: 10px 0 0 700px;
+    margin: 10px 0 0 0px;
     width: 100px;
     height: 40px;
   }
@@ -265,12 +263,13 @@ export default {
     // background-color: red;
     display: flex;
     .text {
-      margin: 10px 747px 20px 20px;
+      margin: 10px 0px 20px 20px;
       font-size: 20px;
       color: #256efd;
+      width: 85%;
     }
     .el-button {
-      width: 100px;
+      width: 50px;
       height: 40px;
     }
   }
@@ -298,7 +297,7 @@ export default {
   }
 }
 .text {
-  width: 400px !important;
+  // width: 400px !important;
 }
 .interviews {
   height: 50px;

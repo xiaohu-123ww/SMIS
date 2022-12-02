@@ -125,7 +125,7 @@
               >
                 公司环境
               </div>
-              <div style="display: flex">
+              <div class="enterprise_images">
                 <div
                   v-for="(item, index) in resume.enterprise_images"
                   :key="index"
@@ -323,7 +323,6 @@
                   border-bottom: 3px solid #256efd;
                   width: 80px;
                 "
-                @click="btn"
               >
                 工作地点
               </div>
@@ -407,7 +406,8 @@ export default {
       text: '',
       showOne: false,
       loading: false,
-      ematy: true
+      ematy: true,
+      work_code: {}
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -423,7 +423,7 @@ export default {
 
   created () {
     this.getparticulars()
-    this.geoTest()
+    // this.geoTest()
     this.jobRequirement()
     this.inRecruit()
   },
@@ -481,6 +481,7 @@ export default {
       const aa = res.data.tags.map(item => item.name)
       this.text = aa.toLocaleString()
       console.log('内容', aa.toLocaleString())
+      this.work_code = res.data.location
     },
     // 公司介绍
     companyIntroduction () {
@@ -493,42 +494,44 @@ export default {
       this.flagShow = false
     },
     // 地图
-    async geoTest () {
-      console.log('地址', this.addressVal)
-      // 调用百度地图API,根据地址获取经纬度
-      await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
-        address: this.addressVal,
-        output: 'json',
-        ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
-      })
-        .then((json) => {
-          console.log(`json success:`, json)
-          this.locations = json.result.location
-          this.geoTest()
-          // this.handler()
-        })
-        .catch((err) => {
-          console.log(`json err:`, err)
-        })
-    },
+    // async geoTest () {
+    //   console.log('地址', this.addressVal)
+    //   // 调用百度地图API,根据地址获取经纬度
+    //   await this.$jsonp('http://api.map.baidu.com/geocoding/v3/', {
+    //     address: this.addressVal,
+    //     output: 'json',
+    //     ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK' // 你的AK秘钥
+    //   })
+    //     .then((json) => {
+    //       console.log(`json success:`, json)
+    //       this.locations = json.result.location
+    //       this.geoTest()
+    //       // this.handler()
+    //     })
+    //     .catch((err) => {
+    //       console.log(`json err:`, err)
+    //     })
+    // },
     handler ({ BMap, map }) {
       console.log(55, BMap, map)
       // this.center = ''
       this.zoom = 15
-      const geolocation = new BMap.Geolocation()
-      geolocation.getCurrentPosition((res) => {
-        // IP地址赋值给locations对象
-        console.log('112', res)
+      this.locations.lng = this.work_code.lng
+      this.locations.lat = this.work_code.lat
+      // const geolocation = new BMap.Geolocation()
+      // geolocation.getCurrentPosition((res) => {
+      //   // IP地址赋值给locations对象
+      //   console.log('112', res)
 
-        this.locations.lng = res.point.lng
-        this.locations.lat = res.point.lat
-        this.btn()
-      })
+      //   this.locations.lng = res.point.lng
+      //   this.locations.lat = res.point.lat
+      //   // this.btn()
+      // })
     },
 
-    btn () {
-      this.geoTest()
-    },
+    // btn () {
+    //   this.geoTest()
+    // },
     async jobRequirement () {
       const { data } = await getRequirement()
       console.log('其他要求', data)
@@ -587,7 +590,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .postdes-box {
-  min-width: 1555px;
+  // min-width: 1555px;
   // max-width: 2000px;
   width: 100%;
   height: auto;
@@ -838,6 +841,10 @@ button {
   font-size: 15px;
   text-align: center;
   color: #999;
-  margin-right: 70px;
+  // margin-right: 70px;
+}
+.enterprise_images {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

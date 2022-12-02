@@ -132,6 +132,7 @@ export default {
       this.list = res.data.results
       if (this.list.length !== 0) {
         this.state = true
+        this.$message.success('暂无此企业信息')
       }
       this.total = res.data.count
     },

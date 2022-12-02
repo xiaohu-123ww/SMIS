@@ -90,8 +90,16 @@
           </div>
         </el-select>
       </el-form-item>
-      <el-form-item label="在职时间" required>
-        <el-col :span="7">
+      <el-form-item label="在职时间" prop="value1">
+        <el-date-picker
+          v-model="ruleForm.value1"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        >
+        </el-date-picker>
+        <!-- <el-col :span="7">
           <el-form-item prop="start_date">
             <el-date-picker
               v-model="ruleForm.start_date"
@@ -111,7 +119,7 @@
               style="width: 223px"
             ></el-date-picker>
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-form-item>
       <el-form-item label="工作类型" prop="job_nature">
         <el-select v-model="ruleForm.job_nature" placeholder="全职" class="box">
@@ -235,7 +243,8 @@ export default {
         enterprise: '',
         position_name: '',
         field_name: '',
-        field: ''
+        field: '',
+        value1: []
 
       },
       children: [],
@@ -246,6 +255,9 @@ export default {
       optionsList: {},
 
       rules: {
+        value1: [
+          { required: true, message: '请选择时间', trigger: 'change' }
+        ],
         enterprise: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
           { min: 1, max: 100, message: '长度在 3 到 5 个字符', trigger: 'blur' }
@@ -310,8 +322,8 @@ export default {
         this.ruleForm.job_nature = newVal.job_nature
         this.ruleForm.salary_max = newVal.position_info.salary
         this.ruleForm.job_desc = newVal.position_info.job_desc
-        this.ruleForm.start_date = newVal.start_date
-        this.ruleForm.end_date = newVal.end_date
+        this.ruleForm.value1[0] = newVal.start_date
+        this.ruleForm.value1[1] = newVal.end_date
         this.ruleForm.job_keywords = newVal.job_keywords.map(item => item.name)
         this.ruleForm.field_name = newVal.position_info.field_name
         this.ruleForm.position_name = newVal.position_info.position_name
@@ -419,13 +431,14 @@ export default {
       this.ruleForm.field_name = ''
       this.ruleForm.position_class_id = ''
       this.ruleForm.position_name = ''
+      this.ruleForm.value1 = []
     },
     async submitForm () {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
           this.getList()
-          this.ruleForm.start_date = new Date(this.ruleForm.start_date).toLocaleDateString().slice().replace(/\//g, '-')
-          this.ruleForm.end_date = new Date(this.ruleForm.end_date).toLocaleDateString().slice().replace(/\//g, '-')
+          this.ruleForm.start_date = new Date(this.ruleForm.value1[0]).toLocaleDateString().slice().replace(/\//g, '-')
+          this.ruleForm.end_date = new Date(this.ruleForm.value1[1]).toLocaleDateString().slice().replace(/\//g, '-')
           console.log(this.ruleForm)
 
           if (this.workShow) {
@@ -470,6 +483,7 @@ export default {
             console.log('res', res)
             this.$message.success('添加成功')
             this.$emit('reset', false)
+
             // this.delete()
           }
           this.getdelete()

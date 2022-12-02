@@ -3,7 +3,7 @@
     <div class="banner">
       <div class="banner_title">
         为“中国制造2025” 提供技术人才保障
-        <br>
+        <br />
         让<span>中国职教生</span>享受国际化职教培训
       </div>
       <img
@@ -13,7 +13,7 @@
         @mouseover="mouseOver"
         @mouseleave="mouseLeave"
         @click="left"
-      >
+      />
       <img
         class="right"
         src="../../../assets/imgs/right.png"
@@ -21,7 +21,7 @@
         @mouseover="mouseOver"
         @mouseleave="mouseLeave"
         @click="right"
-      >
+      />
     </div>
     <!-- 轮播图 -->
     <div class="slideshow">
@@ -37,7 +37,7 @@
         <el-carousel-item v-for="(item, index) in slideshowList" :key="index">
           <!-- <p>{{ item }}</p> -->
           <!-- <img src="../../../assets/slideshow/crs-cert-02.jpg" alt=""> -->
-          <img :src="item.pic_path" alt="" @click="send(item)">
+          <img :src="item.pic_path" alt="" @click="send(item)" />
           <!-- <h3 class="medium">{{ item }}</h3> -->
         </el-carousel-item>
       </el-carousel>
@@ -56,7 +56,7 @@
           class="robot_approve"
           @click="certdetail(item.cert_id)"
         >
-          <img :src="'https://znzz.tech/' + item.cert_sample" alt="">
+          <img :src="'https://znzz.tech/' + item.cert_sample" alt="" />
           <p>{{ item.cert_name }}</p>
           <div class="strip" />
           <span @click="certdetail(item.cert_id)">查看详情</span>
@@ -76,7 +76,7 @@
           class="robot_approve"
           @click="coursedetail(item.course_id)"
         >
-          <img :src="'https://znzz.tech/' + item.ads_picture" alt="">
+          <img :src="'https://znzz.tech/' + item.ads_picture" alt="" />
           <p>{{ item.course_name }}</p>
           <div class="strip" />
           <span @click="coursedetail(item.course_id)">查看详情</span>
@@ -120,10 +120,10 @@ import {
   ClientMydetail,
   userRestudent,
   onclick
-} from '@/api/Traincertification/Clinetindex';
+} from '@/api/Traincertification/Clinetindex'
 // import certdiag from '../diag/certdiag.vue'
 export default {
-  data() {
+  data () {
     return {
       autoplay: true,
       slideshowList: [
@@ -174,29 +174,29 @@ export default {
       has_cert_and_course: false, // 关联证书课程
       related_course: {},
       related_cert: {}
-    };
+    }
   },
-  created() {
-    this.getClinetindex();
+  created () {
+    this.getClinetindex()
   },
   methods: {
     // 移入
-    mouseOver() {
-      this.autoplay = false;
+    mouseOver () {
+      this.autoplay = false
     },
     // 移除
-    mouseLeave() {
-      this.autoplay = true;
+    mouseLeave () {
+      this.autoplay = true
     },
     // 轮播图左边
-    left() {
-      this.$refs.slideshow.prev();
+    left () {
+      this.$refs.slideshow.prev()
     },
-    right() {
-      this.$refs.slideshow.next();
+    right () {
+      this.$refs.slideshow.next()
     },
     // 课程详情页面
-    coursedetail(id) {
+    coursedetail (id) {
       // console.log(id);
       const detail = this.$router.resolve({
         name: 'coursedetail', // 这里是跳转页面的name
@@ -204,45 +204,45 @@ export default {
           // 要传的参数
           id: id
         }
-      });
-      window.open(detail.href, '_blank');
+      })
+      window.open(detail.href, '_blank')
     },
 
     // 点击轮播图跳转
-    send(e) {
-      window.open(e.url, '_blank');
+    send (e) {
+      window.open(e.url, '_blank')
     },
-    getClinetindex() {
+    getClinetindex () {
       Clientindex().then((res) => {
-        console.log(res);
-        this.cert_list = res.data.cert_list; // 热门证书
-        this.class_list = res.data.class_list;
-        this.course_list = res.data.course_list;
-        this.slideshowList = res.data.crs_list;
-      });
+        console.log(res)
+        this.cert_list = res.data.cert_list // 热门证书
+        this.class_list = res.data.class_list
+        this.course_list = res.data.course_list
+        this.slideshowList = res.data.crs_list
+      })
     },
     // 证书详情
-    certdetail(id) {
+    certdetail (id) {
       const detail = this.$router.resolve({
         name: 'certdetail', // 这里是跳转页面的name
         query: {
           // 要传的参数
           id: id
         }
-      });
-      window.open(detail.href, '_blank');
+      })
+      window.open(detail.href, '_blank')
     },
     // 班级详情
-    classdetail(id) {
-      this.class_id = id;
+    classdetail (id) {
+      this.class_id = id
       const detail = this.$router.resolve({
         name: 'ClassStudetail', // 这里是跳转页面的name
         query: {
           // 要传的参数
           id: id
         }
-      });
-      window.open(detail.href, '_blank'); // 打开新的窗口
+      })
+      window.open(detail.href, '_blank') // 打开新的窗口
     }
   }
 };
@@ -344,7 +344,7 @@ div/deep/.el-collapse-item__header {
   height: 240px;
 }
 .recomCourse {
-  width: 70%;
+  /* width: 70%; */
   margin: 0 auto;
   height: auto;
 }
@@ -528,10 +528,10 @@ div/deep/ .el-carousel__arrow {
   top: 90px;
 }
 .left:hover {
-  background: url("../../../assets/imgs/left_xz.png");
+  background: url('../../../assets/imgs/left_xz.png');
 }
 .right:hover {
-  background: url("../../../assets/imgs/right_xz.png");
+  background: url('../../../assets/imgs/right_xz.png');
 }
 .right {
   width: 92px;
@@ -557,12 +557,12 @@ div/deep/ .el-carousel__arrow {
   background: #256efd;
 }
 .approve_cont {
-  width: 70%;
+  /* width: 70%; */
   /* background-color: yellow; */
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .robot_approve {
@@ -570,7 +570,7 @@ div/deep/ .el-carousel__arrow {
   height: 360px;
   margin-bottom: 40px;
   position: relative;
-  cursor:pointer;
+  cursor: pointer;
 }
 .robot_approve img {
   width: 100%;
@@ -628,20 +628,20 @@ div/deep/ .el-carousel__arrow {
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 .robot_approve:hover {
   z-index: 2;
-    /* -webkit-box-shadow: 0 15px 30px rgb(0 0 0 / 10%); */
-    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
-    /* -webkit-transform: translate3d(0, -2px, 0); */
-    transform: translate3d(0, -5px, 0);
+  /* -webkit-box-shadow: 0 15px 30px rgb(0 0 0 / 10%); */
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.3);
+  /* -webkit-transform: translate3d(0, -2px, 0); */
+  transform: translate3d(0, -5px, 0);
 }
 .page {
   background-color: #fff;
   overflow: hidden;
-  min-width: 1555px;
+  /* min-width: 1555px; */
   /* max-width: 2000px; */
 }
 .robot_approve:hover {

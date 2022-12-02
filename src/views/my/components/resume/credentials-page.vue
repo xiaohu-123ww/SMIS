@@ -1,42 +1,37 @@
 <template>
   <div class="box">
     <div class="preponderance-one">
-      <el-row>
-        <el-col :span="22"
-          ><div class="grid-content bg-purple">资格证书</div></el-col
+      <div class="grid-content bg-purple" style="width: 95%">资格证书</div>
+      <div class="grid-content bg-purple-light">
+        <el-button
+          v-if="!show"
+          type="text"
+          icon="el-icon-plus"
+          :disabled="list.length === 10"
+          @click="edit"
+          >添加</el-button
         >
-        <el-col :span="1"
-          ><div class="grid-content bg-purple-light">
-            <el-button
-              v-if="!show"
-              type="text"
-              icon="el-icon-plus"
-              :disabled="list.length === 10"
-              @click="edit"
-              >添加</el-button
-            >
-          </div></el-col
-        >
-      </el-row>
+      </div>
     </div>
     <div v-if="!show" class="credentials">
       <div v-if="flagShow">
         <div>
-          <el-row v-for="item in list" :key="item.id">
-            <el-col :span="7"
-              ><div class="grid-content bg-purple">
-                <!-- " -->
-                <img
-                  :src="disposeImg(item.cert_info.sample)"
-                  alt=""
-                  style="width: 160px; height: 100px"
-                /></div
-            ></el-col>
-            <el-col :span="15"
-              ><div class="grid-content bg-purple-light">
-                {{ item.cert_info.cert_name }} - {{ item.cert_info.cert_level }}
-              </div></el-col
-            >
+          <div
+            v-for="item in list"
+            :key="item.id"
+            style="display: flex; padding-right: 25px"
+          >
+            <div class="grid-content bg-purple" style="width: 40%">
+              <!-- " -->
+              <img
+                :src="disposeImg(item.cert_info.sample)"
+                alt=""
+                style="width: 160px; height: 100px"
+              />
+            </div>
+            <div class="grid-content bg-purple-light" style="width: 55%">
+              {{ item.cert_info.cert_name }} - {{ item.cert_info.cert_level }}
+            </div>
             <!-- <el-col :span="5">
               <div class="grid-content bg-purple" style="margin-left: 7px">
                 <el-button
@@ -47,17 +42,15 @@
                 >
               </div>
             </el-col> -->
-            <el-col :span="1"
-              ><div class="grid-content bg-purple-light">
-                <el-button
-                  type="text"
-                  icon="el-icon-delete"
-                  @click="submit(item.cert_info.cert_id)"
-                  >删除</el-button
-                >
-              </div></el-col
-            >
-          </el-row>
+            <div class="grid-content bg-purple-light">
+              <el-button
+                type="text"
+                icon="el-icon-delete"
+                @click="submit(item.cert_info.cert_id)"
+                >删除</el-button
+              >
+            </div>
+          </div>
         </div>
       </div>
       <el-empty v-else :image-size="150" description="再无资格证书"></el-empty>
@@ -142,6 +135,8 @@ export default {
   .preponderance-one {
     height: 50px;
     // background-color: aqua;
+    display: flex;
+    padding-right: 25px;
     .bg-purple {
       color: #256efd;
       font-weight: 600;

@@ -13,8 +13,16 @@
       <el-form-item label="项目角色" prop="project_role">
         <el-input v-model="list.project_role" maxlength="100"></el-input>
       </el-form-item>
-      <el-form-item label="项目时间" required>
-        <el-col :span="7">
+      <el-form-item label="项目时间" prop="value1">
+        <el-date-picker
+          v-model="list.value1"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        >
+        </el-date-picker>
+        <!-- <el-col :span="7">
           <el-form-item prop="start_date">
             <el-date-picker
               v-model="list.start_date"
@@ -34,7 +42,7 @@
               style="width: 223px"
             ></el-date-picker>
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-form-item>
       <el-form-item
         label="工作描述"
@@ -108,6 +116,9 @@ export default {
         project_desc: [
           { required: true, message: '请填写工作描述', trigger: 'blur' },
           { min: 1, max: 3000, message: '长度在 1到 3000 个字符', trigger: 'blur' }
+        ],
+        value1: [
+          { required: true, message: '请选择日期', trigger: 'change' }
         ]
       },
       editorOption: {
@@ -133,7 +144,8 @@ export default {
         project_role: '',
         project_desc: '',
         start_date: '',
-        end_date: ''
+        end_date: '',
+        value1: []
       }
     }
   },
@@ -144,8 +156,8 @@ export default {
       this.list.project_name = newVal.project_info.project_name
       this.list.project_role = newVal.project_info.project_role
       this.list.project_desc = newVal.project_info.project_desc
-      this.list.start_date = newVal.start_date
-      this.list.end_date = newVal.end_date
+      this.list.value1[0] = newVal.start_date
+      this.list.value1[1] = newVal.end_date
       this.id = newVal.id
     }
   },
@@ -153,8 +165,8 @@ export default {
     async submitForm () {
       this.$refs.rf.validate(async (valid) => {
         if (valid) {
-          this.list.start_date = new Date(this.list.start_date).toLocaleDateString().slice().replace(/\//g, '-')
-          this.list.end_date = new Date(this.list.end_date).toLocaleDateString().slice().replace(/\//g, '-')
+          this.list.start_date = new Date(this.list.value1[0]).toLocaleDateString().slice().replace(/\//g, '-')
+          this.list.end_date = new Date(this.list.value1[1]).toLocaleDateString().slice().replace(/\//g, '-')
           if (this.id === 0) {
             const res = await getProjectExperiences(this.list)
             console.log('12', res)
@@ -192,6 +204,8 @@ export default {
       this.list.project_desc = ''
       this.list.start_date = ''
       this.list.end_date = ''
+
+      this.list.value1 = []
     }
   }
 

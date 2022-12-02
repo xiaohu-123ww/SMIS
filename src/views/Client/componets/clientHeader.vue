@@ -2,11 +2,9 @@
   <div class="clientHeader">
     <div class="client_header">
       <div class="header_logo">
-        <img src="../../../assets/images/logo.png" alt="">
+        <img src="../../../assets/images/logo.png" alt="" />
       </div>
-      <el-menu
-        text-color="#222222"
-      >
+      <el-menu text-color="#222222">
         <el-menu-item
           v-for="(item, index) in list"
           :key="index"
@@ -57,12 +55,12 @@ import {
   ClientMydetail,
   userRestudent,
   onclick
-} from '@/api/Traincertification/Clinetindex';
-import register from '../componets/register.vue';
-import { ismanager } from '@/api/Traincertification/index.js';
+} from '@/api/Traincertification/Clinetindex'
+import register from '../componets/register.vue'
+import { ismanager } from '@/api/Traincertification/index.js'
 export default {
   components: { register },
-  data() {
+  data () {
     return {
       dialogFormVisible: false,
       form: {
@@ -83,58 +81,58 @@ export default {
           name: '首页'
         }
       ]
-    };
+    }
   },
   methods: {
-    manager() {
+    manager () {
       ismanager().then((res) => {
         if (res.data.is_login == true && res.data.is_staff == true) {
-          this.$router.push('/Bmanagementlayout');
+          this.$router.push('/Bmanagementlayout')
         } else {
           this.$message({
             type: 'info',
             message: '您还不是管理员'
-          });
+          })
         }
-      });
+      })
     },
-    login() {
-      this.$router.push('/clientLogin');
+    login () {
+      this.$router.push('/clientLogin')
     },
-    edit(item) {
+    edit (item) {
       if (item.name == '我的') {
         ClientMydetail().then((res) => {
           // console.log(res);
           // this.has_signed = res.data.has_signed;
           // this.has_certificated = res.data.has_certificated;
           if (res.data.has_signed == false) {
-            this.$refs.children.dialogRegVisible = true;
+            this.$refs.children.dialogRegVisible = true
           } else {
             if (res.data.has_certificated == false) {
-              this.$refs.children.dialogErweiVisible = true;
+              this.$refs.children.dialogErweiVisible = true
             } else {
-              this.$refs.children.dialogErweiVisible = false;
-              this.$router.push(item.path);
+              this.$refs.children.dialogErweiVisible = false
+              this.$router.push(item.path)
             }
-            this.$refs.children.dialogRegVisible = false;
+            this.$refs.children.dialogRegVisible = false
             // this.$router.push(item.path);
           }
-        });
+        })
       } else {
-        this.$router.push(item.path);
+        this.$router.push(item.path)
       }
     },
-    logout() {
-      this.$router.push('/userdash');
+    logout () {
+      this.$router.push('/userdash')
     }
   }
 };
 </script>
 <style scoped>
-.clientHeader{
+.clientHeader {
   /* width: 100%; */
   /* height: 60px; */
-  min-width: 1555px;
+  /* min-width: 1555px; */
 }
 .client_right i {
   width: 4%;

@@ -3,7 +3,7 @@
     <el-dialog
       title="添加屏蔽企业"
       :visible.sync="show"
-      width="40%"
+      width="50%"
       :before-close="handleClose"
     >
       <div>
@@ -132,7 +132,7 @@ export default {
       this.list = res.data.results
       if (this.list.length !== 0) {
         this.state = true
-        this.$message.success('暂无此企业信息')
+        // this.$message.success('暂无此企业信息')
       }
       this.total = res.data.count
     },

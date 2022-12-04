@@ -65,7 +65,7 @@ Vue.prototype.disposeTime = disposeTime
 Vue.prototype.getFullname = getFullname
 Vue.prototype.constTime = constTime
 Vue.prototype.EventBus = EventBus
-// console.log = console.warn = () => { }
+console.log = console.warn = () => { }
 new Vue({
   el: '#app',
   router,

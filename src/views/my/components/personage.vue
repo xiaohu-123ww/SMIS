@@ -32,7 +32,7 @@
     <div class="footer">
       <div class="credential">
         <div class="credential-a">
-          <div class="credential-b">我的证书</div>
+          <div class="credential-b" style="width: 90%">我的证书</div>
           <div class="credential-c">
             <el-button
               type="primary"

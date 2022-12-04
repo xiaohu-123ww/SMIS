@@ -130,7 +130,7 @@
       </div>
 
       <el-form-item label="薪资要求" required>
-        <el-col :span="6">
+        <el-col :span="7">
           <el-form-item prop="salary_min">
             <el-select
               v-model="ruleForm.salary_min"
@@ -148,7 +148,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col class="line" :span="1" style="color: rgb(194, 194, 204)"
+        <el-col class="line" :span="2" style="color: rgb(194, 194, 204)"
           >——</el-col
         >
         <el-col :span="12">

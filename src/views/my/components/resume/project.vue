@@ -4,7 +4,7 @@
       ref="rf"
       :model="list"
       :rules="rules"
-      label-width="100px"
+      label-width="80px"
       class="demo-ruleForm"
     >
       <el-form-item label="项目名称" prop="project_name">
@@ -46,14 +46,13 @@
       </el-form-item>
       <el-form-item
         label="工作描述"
-        style="width: 300px; height: 300px"
+        style="width: 90%; height: 300px"
         prop="project_desc"
       >
         <!-- 使用 v-model 进行双向的数据绑定 -->
         <quill-editor
           v-model="list.project_desc"
           :options="editorOption"
-          style="width: 700px"
           @blur="onEditorBlur($event)"
         >
         </quill-editor>
@@ -213,7 +212,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .el-input {
-  width: 600px;
+  // width: 600px;
 }
 .box {
   width: 250px;

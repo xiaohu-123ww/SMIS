@@ -224,7 +224,7 @@
                     >
                       <div class="text">
                         {{ item.fullname }}
-                        <div style="margin-left: 50px; color: red">
+                        <div style="margin-left: 40px; color: red">
                           {{ item.salary }}.{{ item.salary_unit }}薪
                         </div>
                       </div>
@@ -625,7 +625,7 @@ export default {
             font-size: 14px;
             color: #999;
             .img {
-              width: 50px;
+              width: 60px;
               // height: 50px;
               // background-color: pink;
               border-radius: 100px;

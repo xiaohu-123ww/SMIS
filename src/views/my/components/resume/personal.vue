@@ -1,12 +1,11 @@
 <template>
   <div v-if="person" style="margin-top: 30px">
     <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="个人优势">
+      <el-form-item label="个人优势" style="margin-right: 10px">
         <el-input
           v-model="list.text"
           type="textarea"
           :rows="5"
-          style="width: 800px"
           maxlength="500"
           show-word-limit
         ></el-input>

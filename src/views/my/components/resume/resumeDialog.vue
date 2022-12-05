@@ -130,8 +130,8 @@
       </div>
 
       <el-form-item label="薪资要求" required>
-        <el-col :span="7">
-          <el-form-item prop="salary_min">
+        <div style="display: flex">
+          <el-form-item prop="salary_min" style="margin-right: 10px">
             <el-select
               v-model="ruleForm.salary_min"
               placeholder="2000"
@@ -147,11 +147,11 @@
               >
             </el-select>
           </el-form-item>
-        </el-col>
-        <el-col class="line" :span="2" style="color: rgb(194, 194, 204)"
-          >——</el-col
-        >
-        <el-col :span="12">
+
+          <el-col class="line" :span="2" style="color: rgb(194, 194, 204)"
+            >——</el-col
+          >
+
           <el-form-item prop="salary_max">
             <el-select
               v-model="ruleForm.salary_max"
@@ -168,7 +168,7 @@
               >
             </el-select>
           </el-form-item>
-        </el-col>
+        </div>
       </el-form-item>
       <el-form-item label="工作性质" prop="job_nature">
         <el-radio-group v-model="ruleForm.job_nature">

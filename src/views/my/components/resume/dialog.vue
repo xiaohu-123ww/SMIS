@@ -132,27 +132,26 @@
         </div>
 
         <el-form-item label="联系方式" prop="phone_number">
-          <el-input
-            v-model="num.phone_number"
-            style="width: 600px"
-            disabled
-          ></el-input>
-          <el-button type="primary" style="margin-left: 20px" @click="addition"
-            >绑定</el-button
-          >
+          <div style="display: flex; padding-right: 10px">
+            <el-input v-model="num.phone_number" disabled></el-input>
+            <el-button
+              type="primary"
+              style="margin-left: 20px"
+              @click="addition"
+              >绑定</el-button
+            >
+          </div>
         </el-form-item>
         <el-form-item label="电子邮箱" prop="email">
-          <el-input
-            v-model="num.email"
-            style="width: 600px"
-            disabled
-          ></el-input>
-          <el-button
-            type="primary"
-            style="margin-left: 20px"
-            @click="emailClick"
-            >绑定</el-button
-          >
+          <div style="display: flex; padding-right: 10px">
+            <el-input v-model="num.email" disabled></el-input>
+            <el-button
+              type="primary"
+              style="margin-left: 20px"
+              @click="emailClick"
+              >绑定</el-button
+            >
+          </div>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm()">保存</el-button>

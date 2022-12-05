@@ -47,7 +47,7 @@
                 >取消收藏</el-button
               >
               <el-button
-                v-else
+                v-if="resume.is_collected === false"
                 class="postdes-btn"
                 icon="el-icon-star-off"
                 @click="collect"
@@ -428,21 +428,23 @@ export default {
     },
     // 收藏
     async collect () {
-      const id = this.resume.enterprise_info.enterprise_id
+      const id = this.resume.id
       this.collectList.collects = id.toString()
       console.log(this.collectList)
       const res = await getCollections(this.collectList)
       console.log('收藏', res)
       this.$message.success('收藏成功')
+      this.getlist()
     },
     // 取消
     async cancel () {
-      const id = this.resume.enterprise_info.enterprise_id
+      const id = this.resume.id
       this.collectList.collects = id.toString()
       console.log(this.collectList)
       const res = await getCollectionsDelete(this.collectList)
       console.log('取消收藏', res)
       this.$message.success('取消收藏成功')
+      this.getlist()
     }
 
   }

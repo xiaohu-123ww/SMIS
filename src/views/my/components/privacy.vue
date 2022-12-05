@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div v-if="ematy" style="height: 500px">
+    <div v-if="list.length !== 0" style="height: 500px">
       <div v-if="flag" class="privacy-check" style="margin-top: 50px">
         <div class="privacy-checkbox">
           <el-checkbox
@@ -76,7 +76,7 @@
       </div>
     </div>
     <el-empty
-      v-else
+      v-if="list.length === 0"
       description="再无企业屏蔽列表"
       style="height: 600px"
     ></el-empty>

@@ -339,6 +339,16 @@
                 @ready="handler"
               >
                 <!-- :scroll-wheel-zoom="true" 该属性为鼠标滚轮缩放 -->
+                <bm-view class="box_map"></bm-view>
+                <!-- animation="BMAP_ANIMATION_BOUNCE" -->
+                <bm-marker
+                  :position="{
+                    lng: locations.lng,
+                    lat: locations.lat
+                  }"
+                  :dragging="true"
+                >
+                </bm-marker>
               </baidu-map>
             </el-card>
           </el-col>

@@ -6,6 +6,7 @@
       autocomplete="on"
       class="login-form"
       label-position="left"
+      :rules="rules"
     >
       <div class="title-container">
         <img
@@ -15,19 +16,54 @@
         />
       </div>
 
-      <el-form-item prop="username" style="background-color: #f6f6f8">
+      <el-form-item prop="mobile" style="background-color: #f6f6f8">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
+          v-model="loginForm.mobile"
           autocomplete="on"
           name="username"
-          placeholder="请输入您的账号"
+          placeholder="请输入您的手机号"
           tabindex="1"
           type="text"
         />
+      </el-form-item>
+      <el-form-item prop="code">
+        <el-row>
+          <el-col :span="1">
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+          </el-col>
+          <el-col :span="13">
+            <el-input
+              v-model="loginForm.code"
+              type="text"
+              style="
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                background: #f6f6f8;
+                border-radius: 20px;
+                height: 40px;
+                margin-left: 25px;
+                margin-top: 3px;
+              "
+              placeholder="请输入验证码"
+          /></el-col>
+          <el-col :span="5">
+            <!-- <el-button :disabled="isclick" @click="sendCapte">{{
+              sendineer
+            }}</el-button> -->
+            <el-button
+              :class="{ 'disabled-style': getCodeBtnDisable }"
+              :disabled="getCodeBtnDisable"
+              style="margin-top: 3px"
+              type="primary"
+              @click="Code()"
+              >{{ codeBtnWord }}</el-button
+            >
+          </el-col>
+        </el-row>
       </el-form-item>
       <el-tooltip
         v-model="capsTooltip"
@@ -41,16 +77,12 @@
           </span>
           <el-input
             :key="passwordType"
-            ref="password"
             v-model="loginForm.password"
             :type="passwordType"
             autocomplete="off"
             name="password"
             placeholder="请输入密码"
             tabindex="2"
-            @blur="capsTooltip = false"
-            @keyup.native="checkCapslock"
-            @keyup.enter.native="handleLogin"
           />
           <span class="show-pwd" @click="showPwd">
             <svg-icon
@@ -60,7 +92,7 @@
         </el-form-item>
       </el-tooltip>
 
-      <el-tooltip
+      <!-- <el-tooltip
         v-model="capsTooltip"
         content="Caps lock is On"
         manual
@@ -89,8 +121,8 @@
             />
           </span>
         </el-form-item>
-      </el-tooltip>
-      <el-tooltip
+      </el-tooltip> -->
+      <!-- <el-tooltip
         v-model="capsTooltip"
         content="Caps lock is On"
         manual
@@ -110,14 +142,14 @@
           <span class="svg-container">
             <svg-icon icon-class="email" />
           </span>
-          <el-input v-model="loginForm.email" placeholder="请输入邮箱" />
-          <!-- <span class="show-pwd" >
+          <el-input v-model="loginForm.email" placeholder="请输入邮箱" /> -->
+      <!-- <span class="show-pwd" >
               <svg-icon
                 :icon-class="checkPassType"
               />
             </span> -->
-        </el-form-item>
-      </el-tooltip>
+      <!-- </el-form-item>
+      </el-tooltip> -->
       <div class="login-btn">
         <el-button
           round
@@ -153,71 +185,183 @@
 </template>
 
 <script>
-import { registerUser } from '@/api/user'
+import { sendCapte, skip, sendCapteLogin } from '@/api/user'
 
 export default {
   name: 'Register',
   data () {
+    const validateUsername = (rule, value, callback) => {
+      if (!/^1[3-9]\d{9}$/.test(value)) {
+        callback(new Error('请输入合法的手机号'))
+      } else {
+        callback()
+      }
+    }
+    const validPassword = (rule, value, callback) => {
+      const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/
+      if (!reg.test(value)) {
+        callback(new Error('密码必须是由8-16位字母+数字组合'))
+      } else {
+        callback()
+      }
+    }
     return {
       emailicon: 'email',
       loginForm: {
-        username: '',
+        mobile: '',
         password: '',
         confirm_password: '',
-        email: ''
+        email: '',
+        code: ''
       },
       passwordType: 'password',
       checkPassType: 'password',
-      capsTooltip: false
+      capsTooltip: false,
+      codeBtnWord: '获取验证码', // 获取验证码按钮文字
+      waitTime: 61, // 获取验证码按钮失效时间
+      rules: {
+        mobile: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        code: [
+          { required: true, trigger: 'blur', message: '验证码不能为空' },
+          { max: 4, message: '长度4字符', trigger: 'blur' }
+        ],
+        password: [
+          { message: '请输入密码', trigger: 'blur' },
+          { validator: validPassword, trigger: 'blur' }
+        ]
+      }
     }
+  },
+  computed: {
+
+    // 用于校验手机号码格式是否正确
+
+    // 控制获取验证码按钮是否可点击
+    getCodeBtnDisable: {
+      get () {
+        if (this.waitTime == 61) {
+          if (this.loginForm.mobile) {
+            return false
+          }
+          return true
+        }
+        return true
+      },
+      // 注意：因为计算属性本身没有set方法，不支持在方法中进行修改，而下面我要进行这个操作，所以需要手动添加
+      set () { }
+
+    }
+
   },
   mounted () {
   },
   methods: {
-    checkCapslock (e) {
-      const { key } = e
-      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
+    // 注册
+    Code () {
+      if (this.loginForm.mobile) {
+        sendCapte({ type: '1', mobile: this.loginForm.mobile }).then(
+          (res) => {
+            console.log(res)
+            if (res.code === 1000) {
+              this.$message({
+                type: 'success',
+                message: res.msg
+              })
+            }
+          }
+        )
+
+        // 因为下面用到了定时器，需要保存this指向
+        const that = this
+        that.waitTime--
+        that.getCodeBtnDisable = true
+        this.codeBtnWord = `${this.waitTime}s 后重新获取`
+        const timer = setInterval(function () {
+          if (that.waitTime > 1) {
+            that.waitTime--
+            that.codeBtnWord = `${that.waitTime}s 后重新获取`
+          } else {
+            clearInterval(timer)
+            that.codeBtnWord = '获取验证码'
+            that.getCodeBtnDisable = false
+            that.waitTime = 61
+          }
+        }, 1000)
+      }
     },
+    // checkCapslock (e) {
+    //   const { key } = e
+    //   this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
+    // },
     showPwd () {
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {
         this.passwordType = 'password'
       }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+      // this.$nextTick(() => {
+      //   this.$refs.password.focus()
+      // })
     },
-    showPwds () {
-      if (this.checkPassType === 'password') {
-        this.checkPassType = ''
-      } else {
-        this.checkPassType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.checkPass.focus()
-      })
-    },
+    // showPwds () {
+    //   if (this.checkPassType === 'password') {
+    //     this.checkPassType = ''
+    //   } else {
+    //     this.checkPassType = 'password'
+    //   }
+    //   this.$nextTick(() => {
+    //     this.$refs.checkPass.focus()
+    //   })
+    // },
     Sign () {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
-          registerUser({
-            username: this.loginForm.username,
-            email: this.loginForm.email,
-            password: this.loginForm.password,
-            confirm_password: this.loginForm.confirm_password
-          }).then(rs => {
-            // console.log(rs)
-            this.$message({
-              message: rs.msg,
-              type: 'success'
-            })
+          const res = skip(this.loginForm.mobile)
+          console.log('res12', res)
+          // if (res.code === 200) {
+          this.loginForm.mobile = Number(this.loginForm.mobile)
+          this.loginForm.code = Number(this.loginForm.code)
+          const res1 = await sendCapteLogin(this.loginForm)
+          console.log('注册', res1)
+          // this.$message.success(res1.data.msg)
+          if (res1.code === 200) {
             this.$router.push('/login')
-          })
-        } else {
-          //  ('error submit!!')
-          return false
+          } else {
+            this.$message.success(res1.data.msg)
+          }
+          // if (res.code === 200) {
+          //   setToken(res.data.data)
+          //   this.registerShow = false
+          //   this.show = true
+          //   // this.retrievePassword = false
+          //   this.flagShow = false
+          //   // this.$router.push('/register')
+          //   // this.show = true
+          //   // eslint-disable-next-line object-curly-spacing
+          //   // this.$router.push({ name: 'register', params: { number: res.data.number } })
+          // } else {
+          //   this.$message.error(res.data.msg)
+          // }
+          // this.$router.push('/register')
+          // }
         }
+        // registerUser({
+        //   username: this.loginForm.username,
+        //   email: this.loginForm.email,
+        //   password: this.loginForm.password,
+        //   confirm_password: this.loginForm.confirm_password
+        // }).then(rs => {
+        //   // console.log(rs)
+        //   this.$message({
+        //     message: rs.msg,
+        //     type: 'success'
+        //   })
+        //   this.$router.push('/login')
+        // })
+        // } else {
+        //   //  ('error submit!!')
+        //   return false
+        // }
       })
     },
     backLogin () {
@@ -398,5 +542,38 @@ $light_gray: #eee;
 
   padding: 15px;
   background-color: #f6f6f6;
+}
+::v-deep input.el-input__inner {
+  border-radius: 100px;
+  // margin-top: 3px;
+}
+::v-deep .el-button.disabled-style[data-v-37dfd6fc] {
+  background-color: #f6f6f8;
+  color: #0f0f10;
+  border: 0;
+}
+::v-deep .el-button--primary {
+  color: black;
+  background-color: #f6f6f8;
+  border-color: #f2f4f7;
+}
+.el-button.disabled-style {
+  background-color: #eeeeee;
+  color: #cccccc;
+}
+::v-deep .el-button--primary.is-disabled,
+.el-button--primary.is-disabled:hover,
+.el-button--primary.is-disabled:focus,
+.el-button--primary.is-disabled:active {
+  color: #272525;
+  background-color: #f6f6f6;
+  border-color: #f6f6f6;
+}
+// .el-button.disabled-style {
+//   background-color: #eeeeee;
+//   color: #cccccc;
+// }
+::v-deep .el-input {
+  margin-left: 10px;
 }
 </style>

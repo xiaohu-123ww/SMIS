@@ -155,6 +155,11 @@ export const constantRoutes = [
     {
       name: '职位搜索',
       path: '/userpost',
+      meta: {
+        keepAlive: true,
+        isBack: false
+      },
+
       component: () => import('@/views/userPost/modules/index')
     },
     {

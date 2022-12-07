@@ -196,3 +196,14 @@ export function getMessage () {
 export function getStates () {
   return request.get('/utils/online_status/v1.0.0/')
 }
+
+export function skip (phone) {
+  return request.get(`/user/check-exist/${phone}/`)
+}
+/**
+ * 企业注册
+ */
+export function sendCapteLogin (data) {
+  return request.post('/user/enterprise-code-login/v1.0.0/', data)
+}
+

@@ -73,8 +73,11 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'))
       } else {
-        if (this.ruleForm.old_psw !== '') {
-          this.$refs.rf.validateField('checkPass')
+        const reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/
+        if (!reg.test(value)) {
+          callback(new Error('密码必须是由8-16位字母+数字组合'))
+        } else {
+          callback()
         }
         callback()
       }

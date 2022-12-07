@@ -71,7 +71,7 @@
                         </div> -->
                         <div></div>
                       </div>
-                      <div style="width: 36%">
+                      <div style="width: 34%">
                         <a href="javascript:;">
                           <div
                             class="mechanical"
@@ -206,7 +206,7 @@
                       <div
                         style="height: 40px; line-height: 40px; display: flex"
                       >
-                        <div style="width: 55%">
+                        <div style="width: 57%">
                           <div class="equipment">
                             <div
                               v-for="(itemss, index) in item.jobkeywords_name"
@@ -659,7 +659,7 @@ export default {
     border: 1px solid rgb(220, 220, 220);
     margin-top: 9px;
     color: #878484;
-    margin-left: 40px;
+    margin-left: 15px;
   }
 }
 </style>

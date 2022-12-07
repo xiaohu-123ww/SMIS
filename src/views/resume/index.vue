@@ -124,6 +124,33 @@
                   :scroll-wheel-zoom="true"
                   @ready="handler"
                 >
+                  <bm-view class="box_map"></bm-view>
+                  <!-- animation="BMAP_ANIMATION_BOUNCE" -->
+                  <bm-marker
+                    :position="{
+                      lng: work_adcode.longitude,
+                      lat: work_adcode.latitude
+                    }"
+                    :dragging="true"
+                  >
+                  </bm-marker>
+                  <!-- <bm-control :offset="{ width: '10px', height: '10px' }">
+                    <bm-auto-complete
+                      v-model="keyword"
+                      :sug-style="{ zIndex: 999999 }"
+                    >
+                      <input
+                        type="text"
+                        placeholder="请输入搜索关键字"
+                        class="serachinput"
+                      />
+                    </bm-auto-complete>
+                  </bm-control> -->
+                  <!-- <bm-local-search
+                    :keyword="keyword"
+                    :auto-viewport="true"
+                    style="width: 0px; height: 0px; overflow: hidden"
+                  ></bm-local-search> -->
                 </baidu-map>
               </div>
               <div class="job">
@@ -340,7 +367,7 @@ export default {
         this.hr = res.data.hr_info
         this.content = res.data.job_content
         this.name = res.data.enterprise_info
-        this.addressVal = res.data.work_city.first + res.data.work_city.second + res.data.work_city.third
+        this.addressVal = res.data.work_city.first + res.data.work_city.second + res.data.work_city.third + res.data.adcode_detail
 
         this.imgJob = this.disposeImg(this.name.logo)
         console.log('imgJob', this.imgJob)
@@ -445,6 +472,18 @@ export default {
       console.log('取消收藏', res)
       this.$message.success('取消收藏成功')
       this.getlist()
+    },
+    getClickInfo (e) {
+      // let that = this;
+      // this.center.lng = e.point.lng
+      // this.center.lat = e.point.lat
+      // var geoc = new BMap.Geocoder();
+      // geoc.getLocation(e.point, function(rs) {
+      //   var addComp = rs.addressComponents;
+      //   let addr = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber
+      //   that.addres = addr;
+      //   console.log("当前所在位置信息" + addr);
+      // });
     }
 
   }
@@ -644,7 +683,7 @@ export default {
   margin: 20px;
   // width: 100%;
   height: 200px;
-  background-color: #f0f;
+  // background-color: #f0f;
   position: relative;
 }
 .el-carousel__item h3 {

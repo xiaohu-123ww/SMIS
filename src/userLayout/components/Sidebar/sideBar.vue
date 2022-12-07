@@ -106,23 +106,24 @@ export default {
       // console.log(this.routes);
       console.log(item)
       if (item.name === '智能学院') {
-        console.log(item)
-        var token = localStorage.getItem('Admin-Token')
-        if (token) {
-          this.$router.push('/clientlayout')
-        } else {
-          this.$confirm('您还未登录, 请跳转登录页面?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          })
-            .then(() => {
-              this.$router.push('/login')
-            })
-            .catch(() => {
-              this.$router.push('/userdash')
-            })
-        }
+        this.$message.success('智能学院正在维护中！！')
+        // console.log(item)
+        // var token = localStorage.getItem('Admin-Token')
+        // if (token) {
+        //   this.$router.push('/clientlayout')
+        // } else {
+        //   this.$confirm('您还未登录, 请跳转登录页面?', '提示', {
+        //     confirmButtonText: '确定',
+        //     cancelButtonText: '取消',
+        //     type: 'warning'
+        //   })
+        //     .then(() => {
+        //       this.$router.push('/login')
+        //     })
+        //     .catch(() => {
+        //       this.$router.push('/userdash')
+        //     })
+        // }
       } else {
         this.$router.push(item.path)
         this.activeIndex = item.name

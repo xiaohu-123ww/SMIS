@@ -24,11 +24,11 @@
                         border-bottom: 1px solid #e6e3ee;
                       "
                     >
-                      <div class="job-mechanical" style="width: 57%">
+                      <div class="job-mechanical" style="width: 56%">
                         <div class="mechanical" style="display: flex">
                           <a href="javascript:;">
                             <div
-                              style="width: 320px; padding-left: 30px"
+                              style="width: 300px; padding-left: 30px"
                               @click="particulars(item)"
                             >
                               {{ item.fullname }} {{ item.city.second }}.{{
@@ -71,7 +71,7 @@
                         </div> -->
                         <div></div>
                       </div>
-                      <div style="width: 34%">
+                      <div style="width: 35%">
                         <a href="javascript:;">
                           <div
                             class="mechanical"
@@ -81,7 +81,7 @@
                           </div>
                         </a>
                         <div class="machan" style="dispaly: flex">
-                          <div class="machan-cc" style="padding: 0 10px 0 0">
+                          <div class="machan-cc">
                             {{ item.enterprise_info.field }}
                           </div>
                           <div
@@ -91,7 +91,7 @@
                             {{ item.enterprise_info.finance }}
                           </div>
 
-                          <div style="padding: 0 20px 0 5px">
+                          <div style="padding: 0 3px">
                             {{ item.enterprise_info.size }}
                           </div>
                         </div>
@@ -204,9 +204,14 @@
                     </div>
                     <div>
                       <div
-                        style="height: 40px; line-height: 40px; display: flex"
+                        style="
+                          height: 40px;
+                          line-height: 40px;
+                          display: flex;
+                          margin-left: 15px;
+                        "
                       >
-                        <div style="width: 57%">
+                        <div style="width: 55.5%">
                           <div class="equipment">
                             <div
                               v-for="(itemss, index) in item.jobkeywords_name"
@@ -217,7 +222,7 @@
                             </div>
                           </div>
                         </div>
-                        <div style="width: 35%">
+                        <div>
                           <div style="font-size: 11px; color: #878484">
                             {{ item.enterprise_info.tags.toString() }}
                           </div>
@@ -269,20 +274,14 @@
                     @click="part(item.position_info.position_id)"
                   >
                     <div class="record-row">
-                      <el-row>
-                        <el-col :span="17"
-                          ><div style="font-size: 13px">
-                            {{ item.position_info.name }}
-                          </div></el-col
-                        >
-                        <el-col :span="7"
-                          ><div style="color: red; font-size: 12px">
-                            {{ item.position_info.salary }}.{{
-                              item.position_info.salary_unit
-                            }}薪
-                          </div></el-col
-                        >
-                      </el-row>
+                      <div style="font-size: 13px; width: 55%">
+                        {{ item.position_info.name }}
+                      </div>
+                      <div style="color: red; font-size: 12px">
+                        {{ item.position_info.salary }}.{{
+                          item.position_info.salary_unit
+                        }}薪
+                      </div>
                     </div>
                     <div style="color: #878484">
                       {{ item.position_info.enterprise_name }}
@@ -519,7 +518,7 @@ export default {
           // background-color: pink;
           // border-bottom: 1px solid #e6e3ee;
           display: flex;
-          font-size: 15px;
+          font-size: 13px;
           // padding-top: 10px;
           .machan-aa {
             padding: 0px 10px;
@@ -556,7 +555,7 @@ export default {
     // width: 300px;
     // height: 1000px;
     background-color: #fff;
-    margin: 10px 0 0 20px;
+    margin: 10px 0 0 15px;
     border-radius: 20px;
     overflow: hidden;
     .record-aa {
@@ -578,6 +577,7 @@ export default {
         // background-color: #256efd;
         line-height: 30px;
         font-size: 12px;
+        display: flex;
       }
     }
   }
@@ -617,31 +617,31 @@ export default {
   font-size: 15px;
   // padding-top: 10px;
   .machan-aa {
-    padding: 0px 10px;
+    // padding: 0px 10px;
     height: 20px;
     // background-color: #256efd;
     border-right: 1px solid #e6e3e3;
     line-height: 20px;
-    padding-left: 30px;
+    // padding-left: 30px;
     // color: red;
     line-height: 20px;
   }
   .machan-bb {
-    padding: 0px 10px;
+    // padding: 0px 10px;
     height: 20px;
     // background-color: greenyellow;
     line-height: 20px;
-    padding-left: 20px;
+    // padding-left: 20px;
   }
   .machan-cc {
     // width: 100px;
-    padding: 0px 10px;
+    // padding: 0px 10px;
     height: 20px;
     // background-color: #256efd;
     border-right: 1px solid #e6e3e3;
     line-height: 20px;
     font-size: 14px;
-    padding: 0 20px 0 5px;
+    padding: 0 3px;
   }
 }
 .equipment {

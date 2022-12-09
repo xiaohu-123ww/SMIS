@@ -10,9 +10,98 @@
                 :key="index"
                 class="job-job"
               >
-                <div class="grid-content bg-purple">
+                <div
+                  style="
+                    display: flex;
+
+                    height: 85px;
+                    border-bottom: 1px solid #e6e3ee;
+                  "
+                >
+                  <div class="job-mechanical" style="width: 50%">
+                    <div class="mechanical" style="display: flex">
+                      <div style="width: 230px" @click="particulars(item)">
+                        <a href="javascript:;">
+                          {{ item.fullname }} {{ item.city.name }}</a
+                        >
+                      </div>
+                      <el-button
+                        type="primary"
+                        round
+                        class="el-bt"
+                        style="margin-top: 5px"
+                        @click="particulars(item)"
+                        >立即沟通</el-button
+                      >
+                    </div>
+                    <div class="machan">
+                      <div class="machan-aa">
+                        {{ item.salary_min }}-{{ item.salary_max }} .
+                        {{ item.salary_unit }}薪
+                      </div>
+                      <div
+                        class="machan-bb"
+                        style="border-right: 1px solid #e6e3e3"
+                      >
+                        {{ item.job_experience.name }}
+                      </div>
+                      <div class="machan-bb">{{ item.education.name }}</div>
+                    </div>
+                    <!-- <div class="equipment">
+                      <div
+                        v-for="(itemss, index) in item.tag"
+                        :key="index"
+                        class="equiment-ff"
+                      >
+                        {{ itemss }}
+                      </div>
+                    </div> -->
+                    <div></div>
+                  </div>
+                  <div style="display: flex; width: 38%">
+                    <div style="border: 0">
+                      <div class="mechanical">{{ firm }}</div>
+                      <div class="machan">
+                        <div class="machan-aa">
+                          {{ item.field_name[0].name }}
+                        </div>
+                        <div
+                          class="machan-bb"
+                          style="border-right: 1px solid #e6e3e3"
+                        >
+                          {{ nature }}
+                        </div>
+                        <div class="machan-bb" style="width: 120px">
+                          {{ size }}人
+                        </div>
+                      </div>
+                      <!-- <div class="equipment">
+                        <div
+                          style="
+                            padding-top: 10px;
+                            font-size: 12px;
+                            color: #878484;
+                            padding-left: 40px;
+                          "
+                        >
+                          {{ text }}
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div style="width: 60px; height: 60px; margin: 10px 0 0 20px">
+                    <img
+                      alt=""
+                      style="width: 60px; height: 60px"
+                      :src="image"
+                    />
+                  </div>
+                  <!-- <div class="grid-content bg-purple">
                   <div style="display: flex">
-                    <div class="job-mechanical" style="width: 500px">
+                    <div
+                      class="job-mechanical"
+                      style="width: 500px; background-color: pink"
+                    >
                       <div
                         class="mechanical"
                         style="width: 500px; display: flex"
@@ -105,10 +194,38 @@
                       </div>
                     </div>
                   </div>
+                </div> -->
+                </div>
+                <div
+                  style="
+                    height: 30px;
+                    line-height: 30px;
+                    display: flex;
+                    margin-left: 20px;
+                  "
+                >
+                  <div class="equipment" style="width: 49%">
+                    <div
+                      v-for="(itemss, index) in item.tag"
+                      :key="index"
+                      class="equiment-ff"
+                    >
+                      {{ itemss }}
+                    </div>
+                  </div>
+                  <div class="equipment">
+                    <div
+                      style="font-size: 12px; color: #878484; padding-left: 0px"
+                    >
+                      {{ text }}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div></div></el-col
-      ></el-row>
+            </div>
+          </div></el-col
+        ></el-row
+      >
     </div>
   </div>
 </template>
@@ -185,11 +302,11 @@ export default {
         width: 100px;
         height: 28px;
         line-height: 4px;
-        margin-left: 50px;
+        // margin-left: 50px;
       }
       .job-mechanical {
         width: 100%;
-        height: 80px;
+        // height: 80px;
         // background-color: aqua;
         // border-bottom: 1px solid #999;
         .equipment {
@@ -227,23 +344,26 @@ export default {
           // background-color: pink;
           // border-bottom: 1px solid #e6e3ee;
           display: flex;
-          font-size: 15px;
+          font-size: 13px;
+          margin-left: 30px;
           .machan-aa {
-            width: 200px;
+            // width: 200px;
             height: 20px;
             // background-color: #256efd;
             border-right: 1px solid #e6e3e3;
             line-height: 20px;
-            padding-left: 30px;
+            padding-right: 10px;
             // color: red;
           }
           .machan-bb {
-            width: 100px;
+            // width: 100px;
             height: 20px;
             // background-color: greenyellow;
             line-height: 20px;
-            padding-left: 20px;
+            // padding-right: 5px;
+            // padding-left: 20px;
             // margin-right: 10px;
+            padding: 0px 10px;
           }
           .machan-cc {
             width: 100px;
@@ -284,6 +404,68 @@ export default {
         font-size: 15px;
       }
     }
+  }
+}
+.machan {
+  height: 40px;
+  // background-color: pink;
+  // border-bottom: 1px solid #e6e3ee;
+  display: flex;
+  font-size: 13px;
+  .machan-aa {
+    // width: 200px;
+    height: 20px;
+    // background-color: #256efd;
+    border-right: 1px solid #e6e3e3;
+    line-height: 20px;
+    padding-right: 5px;
+    // color: red;
+  }
+  .machan-bb {
+    // width: 100px;
+    height: 20px;
+    // background-color: greenyellow;
+    line-height: 20px;
+    // padding-right: 5px;
+    // padding-left: 20px;
+    // margin-right: 10px;
+    padding: 0px 5px;
+  }
+  .machan-cc {
+    width: 100px;
+    height: 20px;
+    // background-color: #256efd;
+    border-right: 1px solid #e6e3e3;
+    line-height: 20px;
+    padding-left: 30px;
+  }
+}
+.mechanical {
+  height: 40px;
+  // background-color: #256efd;
+  font-size: 16px;
+  line-height: 40px;
+  // padding-left: 30px;
+  color: #256efd;
+  font-weight: 700;
+}
+.equipment {
+  // height: 38px;
+  // background-color: #256efd;
+  display: flex;
+  // padding-left: 20px;
+  .equiment-ff {
+    // width: 70px;
+    padding: 0px 3px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border: 1px solid #bfbbbb;
+    background-color: rgba(230, 227, 238, 0.836) 4;
+    margin-top: 9px;
+    color: #878484;
+    margin-right: 10px;
+    // margin-left: 40px;
   }
 }
 </style>

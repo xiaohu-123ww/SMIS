@@ -2,7 +2,7 @@
   <div>
     <el-carousel :interval="4000" type="card" height="300px">
       <el-carousel-item v-for="item in certificate" :key="item">
-        <img :src="item" alt="" style="width: 650px; height: 300px" />
+        <img :src="item" alt="" style="width: 100%; height: 300px" />
       </el-carousel-item>
     </el-carousel>
   </div>

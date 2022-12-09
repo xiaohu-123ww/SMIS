@@ -205,7 +205,7 @@
                       <img
                         :src="disposeImg(item.sample)"
                         alt=""
-                        style="width: 470px; height: 200px"
+                        style="width: 100%; height: 200px"
                       />
                     </el-carousel-item>
                   </el-carousel>

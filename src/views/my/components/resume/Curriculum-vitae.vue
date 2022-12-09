@@ -103,7 +103,7 @@ export default {
     },
     downItem () {
       if (this.cvfile !== '') {
-        var downloadPath = `http://1.13.8.165/loc/${this.cvfile}`
+        var downloadPath = `https://znzz.tech/loc/${this.cvfile}`
         var downloadLink = document.createElement('a')
         downloadLink.style.display = 'none' // 使其隐藏
         downloadLink.href = downloadPath
@@ -120,7 +120,7 @@ export default {
 
       if (res1.data.path !== null && res1.data.name !== null) {
         this.cvfile = res1.data.path
-        this.fileList1 = [{ name: res1.data.name, url: `http://1.13.8.165/loc/${res1.data.path}` }]
+        this.fileList1 = [{ name: res1.data.name, url: `https://znzz.tech/loc/${res1.data.path}` }]
       }
     }
 

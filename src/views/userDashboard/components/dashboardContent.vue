@@ -143,7 +143,12 @@
           <el-carousel height="400px">
             <el-carousel-item v-for="item in carousels" :key="item">
               <!-- <h3 class="small">{{ item }}</h3> -->
-              <img class="block_img" :src="item" alt="" />
+              <img
+                class="block_img"
+                :src="item"
+                alt=""
+                style="margin: auto; display: block"
+              />
             </el-carousel-item>
           </el-carousel>
         </div>

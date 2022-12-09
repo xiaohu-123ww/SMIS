@@ -261,8 +261,9 @@ export default {
         display: flex;
         font-size: 15px;
         .machan-aa {
-          width: 150px;
+          // width: 150px;
           height: 20px;
+          padding: 0px 15px 0px 0px;
           // background-color: #256efd;
           border-right: 1px solid #e6e3e3;
           line-height: 20px;
@@ -270,8 +271,9 @@ export default {
           color: red;
         }
         .machan-bb {
-          width: 70px;
+          // width: 70px;
           height: 20px;
+          padding: 0px 15px 0px 0px;
           // background-color: greenyellow;
           line-height: 20px;
           padding-left: 20px;

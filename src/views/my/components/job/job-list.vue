@@ -202,7 +202,7 @@ export default {
       if (res.code === 200) {
         this.$message.success('已发送至hr邮箱')
       } else {
-        this.$message.success(res.data.msg)
+        this.$message.warning(res.data.msg)
       }
     }
   }

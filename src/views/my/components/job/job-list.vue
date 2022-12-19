@@ -188,7 +188,11 @@ export default {
     async remindSomeone (id) {
       const res = await getRefrssh(id)
       console.log('提醒', res)
-      this.$message.success('已提醒hr，稍后回回复您')
+      if (res.code === 200) {
+        this.$message.success('已提醒hr,稍后回复您')
+      } else {
+        this.$message.warning(res.data.msg)
+      }
       this.$emit('remind')
     },
     // 发送简历

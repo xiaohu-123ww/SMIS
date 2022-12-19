@@ -451,7 +451,11 @@ export default {
       const id = this.resume.id
       const res = await getInterests(id)
       console.log('意向', res)
-      this.$message.success('已向hr发送消息')
+      if (res.code === 200) {
+        this.$message.success('已向hr发送消息')
+      } else {
+        this.$message.warning(res.data.msg)
+      }
     },
     // 收藏
     async collect () {

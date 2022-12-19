@@ -147,7 +147,7 @@
                 class="block_img"
                 :src="item"
                 alt=""
-                style="margin: auto; display: block"
+                style="margin: auto; display: block; object-fit: cover"
               />
             </el-carousel-item>
           </el-carousel>

@@ -221,7 +221,7 @@
                       <img
                         :src="imgJob"
                         alt=""
-                        style="width: 50px; height: 50px"
+                        style="width: 50px; height: 50px; border-radius: 100px"
                       />
                     </div>
                     <div style="margin: 15px 7px">{{ name.name }}</div>
@@ -367,7 +367,11 @@ export default {
         this.hr = res.data.hr_info
         this.content = res.data.job_content
         this.name = res.data.enterprise_info
-        this.addressVal = res.data.work_city.first + res.data.work_city.second + res.data.work_city.third + res.data.adcode_detail
+        if (res.data.adcode_detail === null || res.data.adcode_detail === '') {
+          this.addressVal = res.data.work_city.first + res.data.work_city.second + res.data.work_city.third
+        } else {
+          this.addressVal = res.data.work_city.first + res.data.work_city.second + res.data.work_city.third + res.data.adcode_detail
+        }
 
         this.imgJob = this.disposeImg(this.name.logo)
         console.log('imgJob', this.imgJob)

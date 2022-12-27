@@ -74,7 +74,7 @@ export default {
     },
     async getCert () {
       this.loading = true
-      const { data } = await getList(this.limit, this.offset)
+      const { data } = await getList(this.limit)
       console.log(12232142356)
       console.log('收藏', data)
       if (data.results.length === 0) {

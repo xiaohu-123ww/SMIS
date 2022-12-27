@@ -187,7 +187,7 @@
             :page-size="limit"
             layout="sizes, prev, pager, next, jumper, total"
             :total="total"
-            @size-change="handleSizeChange(item)"
+            @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
           >
           </el-pagination>
@@ -399,7 +399,6 @@ export default {
       if (this.changeColor === 1) {
         this.time = new Date()
         this.changeColor = 1
-
         const res = await getList(this.limit, this.off)
         this.list = res.data.results
       } else if (this.changeColor === 2) {

@@ -79,7 +79,7 @@
           v-if="list.length !== 0"
           style="margin: 20px 0 0 300px"
           :current-page="offset"
-          :page-sizes="[2, 3, 5, 10]"
+          :page-sizes="[5, 10, 20]"
           :page-size="limit"
           layout="sizes, prev, pager, next, jumper, total"
           :total="total"

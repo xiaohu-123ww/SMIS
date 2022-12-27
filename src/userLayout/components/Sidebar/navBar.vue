@@ -36,7 +36,7 @@
             <router-link to="/job">
               <el-dropdown-item>求职申请</el-dropdown-item>
             </router-link>
-            <a href="https://znzz.tech/RtcScreen">
+            <a href="http://www.jczpin.com/RtcScreen">
               <el-dropdown-item>我去招聘</el-dropdown-item>
             </a>
 

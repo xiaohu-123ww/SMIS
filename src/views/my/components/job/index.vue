@@ -21,10 +21,19 @@
         <div class="job-nnkj">
           <el-button
             type="primary"
-            @click="cancel(item.position_info.enterprise_info.enterprise_id)"
+            @click="cancel(item.position_info.position_info.position_id)"
             >取消收藏</el-button
           >
         </div>
+      </div>
+      <div v-if="!item.position_info.hr_info" style="display: flex">
+        <div style="width: 80%"></div>
+        <el-button
+          class="numvvv"
+          type="primary"
+          @click="cancel(item.position_info.position_info.position_id)"
+          >取消收藏</el-button
+        >
       </div>
       <div class="job-job">
         <div class="job-mechanical">
@@ -134,7 +143,7 @@ export default {
   }
   .job-one {
     height: 100px;
-    width: 400px;
+    width: 80%;
     // background-color: #256efd;
     display: flex;
     .bg {
@@ -150,7 +159,7 @@ export default {
     }
   }
   .job-nnkj {
-    margin: 30px 0 0 615px;
+    // margin: 30px 0 0 615px;
   }
   .job-job {
     height: 130px;
@@ -209,5 +218,8 @@ export default {
       // background-color: #256efd;
     }
   }
+}
+.numvvv {
+  margin: 10px 0px 15px;
 }
 </style>

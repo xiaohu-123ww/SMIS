@@ -48,6 +48,6 @@ export function getCollections (data) {
 }
 // 取消收藏
 export function getCollectionsDelete (data) {
-  return request.post(`/user/collections/`, data)
+  return request.delete(`/user/collections/`, { data: data })
 }
 

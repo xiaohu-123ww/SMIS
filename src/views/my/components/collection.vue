@@ -10,18 +10,20 @@
         element-loading-background="rgb(244, 246, 249)"
         style="height: 700px; font-size: 100px"
       ></div>
-      <Job :show="show" :list="list" @reset="reset" />
-      <el-pagination
-        style="margin: 20px 0 0 300px"
-        :current-page="offset"
-        :page-sizes="[5, 10, 20]"
-        :page-size="limit"
-        layout="sizes, prev, pager, next, jumper, total"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+      <div v-if="jobLi">
+        <Job :show="show" :list="list" @reset="reset" />
+        <el-pagination
+          style="margin: 20px 0 0 300px"
+          :current-page="offset"
+          :page-sizes="[5, 10, 20]"
+          :page-size="limit"
+          layout="sizes, prev, pager, next, jumper, total"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
     <el-empty v-else description="再无收藏列表"></el-empty>
   </div>
@@ -39,7 +41,8 @@ export default {
       limit: 5,
       offset: 1,
       total: 0,
-      loading: false
+      loading: false,
+      jobLi: false
     }
   },
   computed: {
@@ -69,6 +72,7 @@ export default {
         this.ematy = false
       } else {
         this.list = data.results
+        this.jobLi = true
         this.total = data.count
       }
     },
@@ -82,11 +86,13 @@ export default {
         this.loading = false
       } else {
         this.list = data.results
+        this.jobLi = true
         this.total = data.count
         this.loading = false
       }
     },
     reset () {
+      this.jobLi = false
       this.getCert()
     }
 

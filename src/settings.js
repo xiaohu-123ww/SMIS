@@ -1,5 +1,5 @@
 module.exports = {
-  title: '智能智造人才网',
+  title: '匠才智聘',
 
   /**
    * @type {boolean} true | false

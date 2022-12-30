@@ -131,8 +131,8 @@ export default {
               [{ size: sizes }], // 配置字号
               [{ color: [] }, { background: [] }], // 显示背景字体颜色
               [{ font: fonts }], // 显示字体选择
-              [{ align: [] }], // 显示居中
-              ['image', 'video']
+              [{ align: [] }] // 显示居中
+              // ['image', 'video']
 
             ]// 自定义工具栏选项
           }

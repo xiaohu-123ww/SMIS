@@ -150,6 +150,8 @@ export default {
   // height: 40px;
   // background-color: red;
   // border-bottom: 1px solid #e6e3e3;
+  color: #256efd;
+  font-weight: 700;
   display: flex;
   font-size: 20px;
   padding: 0px 25px;

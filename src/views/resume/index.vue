@@ -363,8 +363,11 @@ export default {
         console.log('34343', this.resume)
         this.city = res.data.work_city.second
         this.third = res.data.work_city.third
-        this.img = this.disposeImg(res.data.hr_info.avatar)
-        this.hr = res.data.hr_info
+        if (res.data.hr_info !== null) {
+          this.img = this.disposeImg(res.data.hr_info.avatar)
+          this.hr = res.data.hr_info
+        }
+
         this.content = res.data.job_content
         this.name = res.data.enterprise_info
         if (res.data.adcode_detail === null || res.data.adcode_detail === '') {

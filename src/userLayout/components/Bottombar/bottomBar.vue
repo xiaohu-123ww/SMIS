@@ -21,7 +21,7 @@
             </div>
           </div>
         </div>
-        <div class="footer-up-right">
+        <div class="footer-up-right" style="display: flex">
           <div class="footer-main">
             <div class="title">企业服务</div>
             <div style="color: #a6a8ae">智能制造技能培训</div>
@@ -33,6 +33,9 @@
             <div style="color: #a6a8ae">企业服务热线 18610218901</div>
             <div style="color: #a6a8ae">企业邮箱 talent@shiyenet.com.cn</div>
             <div style="color: #a6a8ae">工作时间 10:00 - 18:00</div>
+            <div style="color: #a6a8ae">
+              <a href="javascript:;" @click="feedback">反馈</a>
+            </div>
           </div>
         </div>
       </div>
@@ -57,13 +60,20 @@
         <p>Copyright © 2019 Kalli</p>
       </div>
     </div>
+    <Dia :add="add" @handler="handler" />
   </div>
 </template>
 <script>
 import { getCarousel } from '@/api/user'
+import Dia from '../Sidebar/dia.vue'
+
 export default {
+  components: {
+    Dia
+  },
   data () {
     return {
+      add: false,
       codeList: [],
       footer: '',
       logo: '',
@@ -89,6 +99,16 @@ export default {
       this.footer = rs.data.footer
       this.footer.logo = rs.data.footer.logo
     })
+  },
+  methods: {
+    // 反馈
+    handler (i) {
+      this.add = i
+    },
+    feedback () {
+      console.log(113)
+      this.add = true
+    }
   }
 };
 </script>
@@ -180,5 +200,11 @@ export default {
       }
     }
   }
+}
+a:active {
+  color: rgb(37, 110, 253);
+}
+a:hover {
+  color: rgb(37, 110, 253);
 }
 </style>

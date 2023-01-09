@@ -51,6 +51,14 @@ export default {
 
   },
   data () {
+    const checkPhone = (rule, value, callback) => {
+      const reg = /^1[3456789]\d{9}$/
+      if (!reg.test(value)) {
+        callback(new Error('请输入11位手机号'))
+      } else {
+        callback()
+      }
+    }
     return {
       ruleForm: {
         mobile: '',
@@ -61,16 +69,7 @@ export default {
 
       rules: {
         mobile: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
-          {
-            validator: (rule, value, cb) => {
-              if (/^1[3-9]\d{9}$/.test(value)) {
-                cb()
-              } else {
-                cb(new Error('手机号格式错误'))
-              }
-            }
-          }
+          { type: 'number', validator: checkPhone, message: '请输入正确的手机号', trigger: 'blur' }
         ],
         code: [
           { required: true, message: '验证码不能为空' },
@@ -123,6 +122,7 @@ export default {
   methods: {
     // 取消
     handleClose () {
+      this.$refs.rf.clearValidate()
       this.$emit('reset1', false)
       this.ruleForm.code = ''
       this.ruleForm.mobile = ''

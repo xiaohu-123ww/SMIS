@@ -143,6 +143,7 @@ export default {
   },
   methods: {
     handleClose () {
+      this.$refs.rf.clearValidate()
       this.$emit('reset', false)
     },
     async handle () {

@@ -72,8 +72,8 @@ export default {
           }
         ],
         code: [
-          { required: true, message: '验证码不能为空' },
-          { max: 6, message: '验证码必须是6个字符', trigger: 'blur' }
+          { required: true, message: '验证码不能为空', trigger: 'blur' },
+          { max: 6, message: '验证码必须是6个字符' }
         ]
       },
       codeBtnWord: '获取验证码', // 获取验证码按钮文字

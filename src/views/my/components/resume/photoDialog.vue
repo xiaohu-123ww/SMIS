@@ -72,8 +72,8 @@ export default {
           { type: 'number', validator: checkPhone, message: '请输入正确的手机号', trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '验证码不能为空' },
-          { max: 4, message: '验证码必须是4个字符', trigger: 'blur' }
+          { required: true, message: '验证码不能为空', trigger: 'blur' },
+          { max: 4, message: '验证码必须是4个字符' }
         ]
       },
       codeBtnWord: '获取验证码', // 获取验证码按钮文字

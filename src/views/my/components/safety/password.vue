@@ -106,7 +106,7 @@ export default {
         ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
-          { max: 6, message: '长度在 6 个字符', trigger: 'blur' }
+          { max: 6, message: '长度在 6 个字符' }
         ]
       },
       mobile: '',

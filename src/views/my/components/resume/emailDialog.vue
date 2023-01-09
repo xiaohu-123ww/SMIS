@@ -147,6 +147,7 @@ export default {
       })
     }, // 取消
     handleClose () {
+      this.$refs.rf.clearValidate()
       this.$emit('submit1', false)
       this.$emit('reset1', false)
       this.ruleForm.email = ''

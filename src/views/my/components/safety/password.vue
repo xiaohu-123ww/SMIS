@@ -144,6 +144,9 @@ export default {
   methods: {
     handleClose () {
       this.$refs.rf.clearValidate()
+      this.ruleForm.new_psw = ''
+      this.ruleForm.confirm_new_psw = ''
+      this.ruleForm.code = ''
       this.$emit('reset', false)
     },
     async handle () {

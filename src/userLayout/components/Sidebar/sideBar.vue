@@ -16,7 +16,13 @@
       >
         <span class="title">{{ item.name }}</span>
       </el-menu-item>
+      <el-menu-item index="1" style="color: black" @click="feedback"
+        >反馈</el-menu-item
+      >
     </el-menu>
+    <!-- <el-menu :default-active="activeIndex" mode="horizontal">
+      <el-menu-item index="1">反馈</el-menu-item>
+    </el-menu> -->
     <!-- <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -33,13 +39,19 @@
         <span slot="title">{{ item.name }}</span>
       </el-menu-item>
     </el-menu> -->
+    <Dia :add="add" @handler="handler" />
   </div>
 </template>
 <script>
 import router from '@/router'
+import Dia from './dia.vue'
 export default {
+  components: {
+    Dia
+  },
   data () {
     return {
+      add: false,
       activeIndex: '首页',
       routes: [
         {
@@ -60,6 +72,10 @@ export default {
           name: '关于我们',
           path: '/userabout'
         }
+        // {
+        //   name: '反馈'
+        //   // path: '/userabout'
+        // }
         // {
         //   name: '联系我们',
         //   path: '/usercontact'
@@ -102,9 +118,20 @@ export default {
     })
   },
   methods: {
+    // 反馈
+    handler (i) {
+      this.add = i
+    },
+    feedback () {
+      console.log(113)
+      this.add = true
+    },
     edit (item) {
       // console.log(this.routes);
       console.log(item)
+      // if (item.name === '反馈') {
+      //   // this.add = true
+      // }
       if (item.name === '智能学院') {
         this.$message.success('智能学院正在维护中！！')
         // console.log(item)

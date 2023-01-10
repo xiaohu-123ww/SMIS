@@ -106,8 +106,17 @@ export default {
       this.add = i
     },
     feedback () {
-      console.log(113)
-      this.add = true
+      const aa = this.$store.getters.token
+      console.log('aaa', aa)
+      if (aa) {
+        console.log(1)
+        this.add = true
+      } else {
+        console.log(2)
+        this.$router.push('/login')
+        // this.$message.success('请先登录账号再进行此操作')
+        //
+      }
     }
   }
 };

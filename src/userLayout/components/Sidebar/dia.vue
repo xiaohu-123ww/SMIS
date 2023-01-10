@@ -5,7 +5,7 @@
       width="30%"
       :before-close="handleClose"
       style="font-weight: 700"
-      title="意见反馈"
+      title="咨询反馈"
     >
       <div>
         <el-form ref="form" :model="form" :rules="rules" style="height: 100%">
@@ -29,7 +29,7 @@
               <el-input
                 v-model="form.texts"
                 type="textarea"
-                placeholder="请输入6个子以上的问题描述"
+                placeholder="请输入问题描述"
                 maxlength="500"
                 show-word-limit
               ></el-input>
@@ -153,7 +153,7 @@ export default {
       ],
       rules: {
         level: [{ required: true, message: '请选择反馈类型', trigger: 'change' }],
-        texts: [{ required: true, message: '请填写活反馈意见', trigger: 'blur' }],
+        texts: [{ required: true, message: '请填写反馈意见', trigger: 'blur' }],
         number: [
           { type: 'number', validator: checkPhone, message: '请输入正确的手机号', trigger: 'blur' }
         ]

@@ -16,9 +16,9 @@
       >
         <span class="title">{{ item.name }}</span>
       </el-menu-item>
-      <el-menu-item index="1" style="color: black" @click="feedback"
+      <!-- <el-menu-item index="1" style="color: black" @click="feedback"
         >反馈</el-menu-item
-      >
+      > -->
     </el-menu>
     <!-- <el-menu :default-active="activeIndex" mode="horizontal">
       <el-menu-item index="1">反馈</el-menu-item>

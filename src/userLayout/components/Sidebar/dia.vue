@@ -204,7 +204,7 @@ export default {
             this.showPicList = []
             // this.$refs.form.clearValidate('number')
           } else {
-            this.$message.error('内容填写错误')
+            this.$message.error(res.data.msg)
           }
         } else {
           // this.$refs.form.clearValidate()
@@ -298,7 +298,7 @@ export default {
 // }
 ::v-deep .el-dialog__header {
   height: 60px;
-  padding: 10px 30px;
+  padding: 30px;
 }
 ::v-deep .el-dialog__body {
   padding: 30px;

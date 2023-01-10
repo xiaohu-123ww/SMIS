@@ -34,7 +34,7 @@
             <div style="color: #a6a8ae">企业邮箱 talent@shiyenet.com.cn</div>
             <div style="color: #a6a8ae">工作时间 10:00 - 18:00</div>
             <div style="color: #a6a8ae">
-              <a href="javascript:;" @click="feedback">反馈</a>
+              <a href="javascript:;" @click="feedback">咨询反馈</a>
             </div>
           </div>
         </div>

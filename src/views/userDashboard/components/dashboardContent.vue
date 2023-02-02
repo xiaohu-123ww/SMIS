@@ -710,7 +710,7 @@ export default {
       flex-wrap: wrap;
 
       .titlesx {
-        width: 19%;
+        width: 16%;
         height: 130px;
         // overflow: hidden;
         margin-top: 25px;
@@ -732,7 +732,7 @@ export default {
           img {
             // width: 100px;
             // width: 200px;
-            height: 80px;
+            height: 55px;
             margin: 0 auto;
             max-width: 200px;
             display: table-cell;

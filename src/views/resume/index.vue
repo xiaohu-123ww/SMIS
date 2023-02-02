@@ -15,7 +15,7 @@
             <div class="postdes" style="width: 80%">
               <div class="fullname">{{ resume.fullname }}</div>
               <div class="money">
-                {{ resume.salary_min }} - {{ resume.salary_max }}.{{
+                {{ resume.salary_min }}k - {{ resume.salary_max }}k.{{
                   resume.salary_unit
                 }}薪
               </div>
@@ -180,7 +180,7 @@
                         {{ item.fullname ? item.fullname : '再无职业名称' }}
                       </div>
                       <span style="color: red"
-                        >{{ item.salary_min }} - {{ item.salary_max }}.{{
+                        >{{ item.salary_min }}k - {{ item.salary_max }}k.{{
                           item.salary_unit
                         }}薪</span
                       >
@@ -250,9 +250,9 @@
                       class="ankjij"
                     >
                       <div class="text">
-                        {{ item.fullname }}
-                        <div style="margin-left: 40px; color: red">
-                          {{ item.salary }}.{{ item.salary_unit }}薪
+                        <div>{{ item.fullname }}</div>
+                        <div style="color: red">
+                          {{ item.salary }}k.{{ item.salary_unit }}薪
                         </div>
                       </div>
                       <div style="color: #999">{{ item.enterprise_name }}</div>
@@ -726,7 +726,7 @@ export default {
 }
 .ankjij {
   height: 70px;
-  width: 300px;
+  // width: 300px;
   // background-color: #f0f;
   padding: 10px 10px;
   font-size: 14px;
@@ -735,6 +735,7 @@ export default {
   .text {
     margin-bottom: 10px;
     display: flex;
+    justify-content: space-between;
   }
 }
 </style>

@@ -24,7 +24,7 @@
             </div>
             <div class="right-age">{{ num.age ? num.age : '无' }}</div>
             <div v-if="flag === false" class="right-age">
-              {{ num.year ? num.year : '工作经验' }}工作经验
+              {{ num.year ? num.year : '工作经验' }}年
             </div>
             <div class="right-age">
               {{ num.education ? num.education : '学历' }}

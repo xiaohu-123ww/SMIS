@@ -11,7 +11,7 @@
                     {{ item.fullname ? item.fullname : '再无职业' }}
                   </span>
                   <span style="color: red; font-size: 12px">
-                    {{ item.salary_min }}-{{ item.salary_max }}.{{
+                    {{ item.salary_min }}k-{{ item.salary_max }}k.{{
                       item.salary_unit
                     }}薪</span
                   >

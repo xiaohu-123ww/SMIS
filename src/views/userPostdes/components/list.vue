@@ -36,7 +36,7 @@
                     </div>
                     <div class="machan">
                       <div class="machan-aa">
-                        {{ item.salary_min }}-{{ item.salary_max }} .
+                        {{ item.salary_min }}k-{{ item.salary_max }}k .
                         {{ item.salary_unit }}薪
                       </div>
                       <div

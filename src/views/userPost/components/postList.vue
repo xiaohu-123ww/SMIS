@@ -31,7 +31,7 @@
                               style="width: 300px; padding-left: 30px"
                               @click="particulars(item)"
                             >
-                              {{ item.fullname }} {{ item.city.second }}.{{
+                              {{ item.fullname }} {{ item.city.second }}·{{
                                 item.city.third
                               }}
                             </div>
@@ -47,7 +47,7 @@
                         </div>
                         <div class="machan">
                           <div class="machan-aa">
-                            {{ item.salary_min }}-{{ item.salary_max }} .
+                            {{ item.salary_min }}k-{{ item.salary_max }}k .
                             {{ item.salary_unit }}薪
                           </div>
                           <div
@@ -92,7 +92,7 @@
                           </div>
 
                           <div style="padding: 0 3px">
-                            {{ item.enterprise_info.size }}
+                            {{ item.enterprise_info.size }}人
                           </div>
                         </div>
                       </div>
@@ -278,7 +278,7 @@
                         {{ item.position_info.name }}
                       </div>
                       <div style="color: red; font-size: 12px">
-                        {{ item.position_info.salary }}.{{
+                        {{ item.position_info.salary }}k.{{
                           item.position_info.salary_unit
                         }}薪
                       </div>

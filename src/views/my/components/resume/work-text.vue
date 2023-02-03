@@ -7,10 +7,10 @@
       style="margin-left: 50px"
     >
       <div class="work">
-        <div class="grid-content bg" style="font-weight: 700; width: 50%">
+        <div class="grid-content bg" style="font-weight: 700; width: 66%">
           {{ item.project_info.project_name }}项目
         </div>
-        <div class="grid-content bg-purple-light" style="width: 35%">
+        <div class="grid-content bg-purple-light" style="width: 19%">
           {{ item.start_date }}-{{ item.end_date }}
         </div>
         <el-button

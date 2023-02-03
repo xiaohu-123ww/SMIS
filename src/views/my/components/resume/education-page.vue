@@ -27,12 +27,12 @@
                       margin-left: 30px;
                       font-weight: 700;
                       font-size: 16px;
-                      width: 50%;
+                      width: 66%;
                     "
                   >
                     {{ item.education_info.school }}
                   </div>
-                  <div class="grid-content bg-purple-light" style="width: 35%">
+                  <div class="grid-content bg-purple-light" style="width: 19%">
                     {{ item.start_date }} -{{ item.end_date }}
                   </div>
 

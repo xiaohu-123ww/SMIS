@@ -26,10 +26,13 @@
               <img
                 :src="disposeImg(item.cert_info.sample)"
                 alt=""
-                style="width: 160px; height: 100px"
+                style="width: 120px; height: 60px"
               />
             </div>
-            <div class="grid-content bg-purple-light" style="width: 55%">
+            <div
+              class="grid-content bg-purple-light"
+              style="width: 55%; font-size: 15px"
+            >
               {{ item.cert_info.cert_name }} - {{ item.cert_info.cert_level }}
             </div>
             <!-- <el-col :span="5">

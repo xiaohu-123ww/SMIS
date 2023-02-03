@@ -18,10 +18,16 @@
             style="margin-left: 50px"
           >
             <div class="work" style="display: flex; padding-right: 25px">
-              <div class="grid-content bg" style="font-weight: 700; width: 50%">
+              <div
+                class="grid-content bg"
+                style="font-weight: 700; width: 62.8%"
+              >
                 {{ item.enterprise }}
               </div>
-              <div class="grid-content bg-purple-light;" style="width: 35%">
+              <div
+                class="grid-content bg-purple-light;"
+                style="width: 22.2%; color: #bcb9b9"
+              >
                 {{ item.start_date }}-{{ item.end_date }}
               </div>
               <el-button

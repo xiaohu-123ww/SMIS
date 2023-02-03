@@ -37,7 +37,7 @@
       </div>
       <div class="job-job">
         <div class="job-mechanical">
-          <div class="mechanical">
+          <div class="mechanical" @click="particulars(item)">
             {{ item.position_info.position_info.position_name }}
             {{ item.position_info.position_info.city }}
           </div>
@@ -57,7 +57,10 @@
         </div>
         <div>
           <div class="job-mechanical">
-            <div class="mechanical">
+            <div
+              class="mechanical"
+              @click="open(item.position_info.enterprise_info.enterprise_id)"
+            >
               {{ item.position_info.enterprise_info.name }}
             </div>
             <div class="machan">
@@ -118,6 +121,22 @@ export default {
 
   },
   methods: {
+    particulars (item) {
+      console.log('简历详情', item, item.position_info.position_info.position_id)
+      this.$router.push({
+        path: '/state',
+        name: 'state',
+        query: { id: item.position_info.position_info.position_id }
+      })
+    },
+    open (i) {
+      console.log('1233333', i)
+      this.$router.push({
+        path: '/postdes',
+        name: 'postdes',
+        query: { id: i }
+      })
+    },
     async cancel (id) {
       console.log(id)
 

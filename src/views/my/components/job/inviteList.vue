@@ -20,7 +20,7 @@
       </div>
       <div class="job-job">
         <div class="job-mechanical">
-          <div class="mechanical">
+          <div class="mechanical" @click="particulars(item)">
             {{ item.position.position_name }} [{{
               item.position.city.second
             }}-{{ item.position.city.third }}]
@@ -38,7 +38,10 @@
         </div>
         <div>
           <div class="job-mechanical">
-            <div class="mechanical">
+            <div
+              class="mechanical"
+              @click="open(item.position.enterprise.enterprise_id)"
+            >
               {{ item.position.enterprise.enterprise_name }}
             </div>
             <div class="machan">
@@ -104,6 +107,22 @@ export default {
 
   },
   methods: {
+    open (i) {
+      console.log('1233333', i)
+      this.$router.push({
+        path: '/postdes',
+        name: 'postdes',
+        query: { id: i }
+      })
+    },
+    particulars (item) {
+      console.log('简历详情', item)
+      this.$router.push({
+        path: '/state',
+        name: 'state',
+        query: { id: item.id }
+      })
+    },
     // 感兴趣
     async likeChange (id) {
       const res = await getInterestsLike(id)

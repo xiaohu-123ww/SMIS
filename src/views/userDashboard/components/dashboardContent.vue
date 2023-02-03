@@ -710,10 +710,10 @@ export default {
       flex-wrap: wrap;
 
       .titlesx {
-        width: 16%;
+        width: 7%;
         height: 130px;
         // overflow: hidden;
-        margin-top: 25px;
+        // margin-top: 25px;
         .advert {
           margin-top: 33px;
           width: 100%;
@@ -730,7 +730,7 @@ export default {
           // background: #ffffff;
 
           img {
-            // width: 100px;
+            width: 100%;
             // width: 200px;
             height: 55px;
             margin: 0 auto;
@@ -749,7 +749,7 @@ export default {
           p {
             margin-top: 13px;
             text-align: center;
-            font-size: 14px;
+            font-size: 10px;
             font-family: PingFangSC-Regular, PingFang SC;
             // font-weight: 400;
             color: #1e1f20;

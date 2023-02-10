@@ -19,14 +19,15 @@
             </div>
           </div>
           <div class="right-i">
-            <div class="right-age">
-              {{ num.sex }}
+            <div v-if="flag === false" class="right-age">{{ num.sex }}</div>
+            <div class="right-age">{{ num.age }}岁</div>
+            <div v-if="flag === true" class="right-age">
+              {{ num.year ? num.year : '无' }}年
             </div>
-            <div class="right-age">{{ num.age ? num.age : '无' }}</div>
             <div v-if="flag === false" class="right-age">
-              {{ num.year ? num.year : '工作经验' }}年
+              {{ num.year ? num.year : '工作经验' }}年经验
             </div>
-            <div class="right-age">
+            <div class="right-age" style="border: 0">
               {{ num.education ? num.education : '学历' }}
             </div>
           </div>

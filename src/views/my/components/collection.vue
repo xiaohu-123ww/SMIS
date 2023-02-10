@@ -93,7 +93,8 @@ export default {
     },
     reset () {
       this.jobLi = false
-      this.getCert()
+      this.handleCurrentChange()
+      // this.getCert()
     }
 
   }

@@ -110,12 +110,14 @@
       <div class="job-job">
         <div class="job-mechanical">
           <div class="mechanical" @click="particulars(item)">
-            {{ item.position.position_name }} [{{ item.position.city[0]
-            }}{{ item.position.city[1] }}{{ item.position.city[2] }}]
+            <a href="javascript:;">
+              {{ item.position.position_name }}·{{ item.position.city[0]
+              }}{{ item.position.city[1] }}{{ item.position.city[2] }}
+            </a>
           </div>
           <div class="machan">
             <div class="machan-aa">
-              {{ item.position.salary_min }}- {{ item.position.salary_max }} .
+              {{ item.position.salary_min }}k- {{ item.position.salary_max }}k·
               {{ item.position.salary_unit }}薪
             </div>
             <div class="machan-bb" style="border-right: 1px solid #e6e3e3">
@@ -130,7 +132,9 @@
               class="mechanical"
               @click="open(item.position.enterprise.enterprise_id)"
             >
-              {{ item.position.enterprise.enterprise_name }}
+              <a href="javascript:;">
+                {{ item.position.enterprise.enterprise_name }}
+              </a>
             </div>
             <div class="machan">
               <div class="machan-cc">
@@ -231,7 +235,7 @@ export default {
 .job {
   height: 230px;
   // background-color: #256efd;
-  margin: 30px;
+  margin: 60px;
   .job-nn {
     height: 100px;
     // background-color: pink;
@@ -239,7 +243,7 @@ export default {
   }
   .job-one {
     height: 100px;
-    width: 88%;
+    width: 98%;
     // background-color: #256efd;
     display: flex;
     .bg {
@@ -277,6 +281,7 @@ export default {
         font-size: 15px;
         line-height: 40px;
         padding-left: 20px;
+        margin-top: 10px;
       }
       .machan {
         height: 40px;

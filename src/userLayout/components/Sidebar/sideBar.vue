@@ -16,12 +16,24 @@
       >
         <span class="title">{{ item.name }}</span>
       </el-menu-item>
-      <!-- <el-menu-item index="1" style="color: black" @click="feedback"
-        >反馈</el-menu-item
+      <!-- <el-menu-item key="zq://" index="">
+        <a href="zq://">智能智造学院</a>
+      </el-menu-item> -->
+      <!-- <el-menu-item index="1" style="color: black" @click="feedback"> -->
+      <!-- <a
+        :href="`IflytekAudioScheduler://${application.serverIp}-${application.token}`"
+        >智能</a
       > -->
+      <!-- </el-menu-item> -->
     </el-menu>
+    <!-- <a
+      :href="`IflytekAudioScheduler://${application.serverIp}-${application.token}`"
+      >智能</a
+    > -->
     <!-- <el-menu :default-active="activeIndex" mode="horizontal">
-      <el-menu-item index="1">反馈</el-menu-item>
+      <el-menu-item index="1" style="color: black" @click="about"
+        >关于我们</el-menu-item
+      >
     </el-menu> -->
     <!-- <el-menu
       :default-active="activeIndex"
@@ -63,10 +75,11 @@ export default {
           path: '/userpost'
         },
         {
-          name: '智能学院',
+          name: '智能智造学院',
           // path: "/clientlayout",
           // path: '/Bmanagementlayout'
-          path: '/clientindex'
+          // path: '/clientindex'
+          path: '/college'
         },
         {
           name: '关于我们',
@@ -118,6 +131,9 @@ export default {
     })
   },
   methods: {
+    about () {
+      this.$router.push('/userabout')
+    },
     // 反馈
     handler (i) {
       this.add = i
@@ -132,29 +148,30 @@ export default {
       // if (item.name === '反馈') {
       //   // this.add = true
       // }
-      if (item.name === '智能学院') {
-        this.$message.success('智能学院正在维护中！！')
-        // console.log(item)
-        // var token = localStorage.getItem('Admin-Token')
-        // if (token) {
-        //   this.$router.push('/clientlayout')
-        // } else {
-        //   this.$confirm('您还未登录, 请跳转登录页面?', '提示', {
-        //     confirmButtonText: '确定',
-        //     cancelButtonText: '取消',
-        //     type: 'warning'
-        //   })
-        //     .then(() => {
-        //       this.$router.push('/login')
-        //     })
-        //     .catch(() => {
-        //       this.$router.push('/userdash')
-        //     })
-        // }
-      } else {
-        this.$router.push(item.path)
-        this.activeIndex = item.name
-      }
+      // if (item.name === '智能学院') {
+      //   this.$message.success('智能学院正在维护中！！')
+
+      //   // console.log(item)
+      //   // var token = localStorage.getItem('Admin-Token')
+      //   // if (token) {
+      //   //   this.$router.push('/clientlayout')
+      //   // } else {
+      //   //   this.$confirm('您还未登录, 请跳转登录页面?', '提示', {
+      //   //     confirmButtonText: '确定',
+      //   //     cancelButtonText: '取消',
+      //   //     type: 'warning'
+      //   //   })
+      //   //     .then(() => {
+      //   //       this.$router.push('/login')
+      //   //     })
+      //   //     .catch(() => {
+      //   //       this.$router.push('/userdash')
+      //   //     })
+      //   // }
+      // } else {
+      this.$router.push(item.path)
+      this.activeIndex = item.name
+      // }
     },
     dialog () {
       this.$router.push('/userdash')
@@ -210,5 +227,9 @@ export default {
     margin-left: 70px;
     height: 80px;
   }
+}
+.el-menu--horizontal > .el-menu-item a,
+.el-menu--horizontal > .el-menu-item a:hover {
+  color: black;
 }
 </style>

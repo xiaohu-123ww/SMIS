@@ -33,7 +33,7 @@
                   <div class="postJob">
                     <div class="text">{{ resume.financing_status }}</div>
                     <div class="text" style="padding-left: 15px">
-                      {{ resume.staff_size }}
+                      {{ resume.staff_size }}人
                     </div>
                     <div class="text" style="padding-left: 15px; border: 0">
                       {{ resume.field.field_name }}
@@ -184,14 +184,12 @@
               <div class="firm">
                 <el-row>
                   <el-col :span="12"
-                    >公司名称：<span style="color: #999">{{
-                      resume.name
-                    }}</span></el-col
+                    >公司名称：<span>{{ resume.name }}</span></el-col
                   >
                   <el-col :span="12"
-                    >成立时间：<span style="color: #999">{{
-                      resume.establish_year
-                    }}</span></el-col
+                    >成立时间：<span
+                      >{{ resume.establish_year }}年</span
+                    ></el-col
                   >
                 </el-row>
               </div>

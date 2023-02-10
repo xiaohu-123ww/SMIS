@@ -11,7 +11,7 @@
                     {{ item.fullname ? item.fullname : '再无职业' }}
                   </span>
                   <span style="color: red; font-size: 12px">
-                    {{ item.salary_min }}k-{{ item.salary_max }}k.{{
+                    {{ item.salary_min }}k-{{ item.salary_max }}k·{{
                       item.salary_unit
                     }}薪</span
                   >
@@ -139,7 +139,7 @@ export default {
       .fullname {
         display: inline-block;
         font-size: 16px;
-        width: 200px;
+        width: 75%;
 
         height: 40px;
         padding-left: 15px;

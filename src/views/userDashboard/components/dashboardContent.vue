@@ -77,13 +77,19 @@
     <div class="recruitment—box" @mouseleave="occlude()">
       <div class="recruitment—left" style="background-color: #f9f9f9">
         <div style="height: 400px; overflow-x: auto" class="left-second-menu">
-          <div v-for="(item, index) in jobList" :key="index" class="left">
+          <div
+            v-for="(item, index) in jobList"
+            :key="index"
+            class="left"
+            :class="{ cur: bgcolor === index }"
+          >
             <el-row>
               <el-col :span="22">{{ index }}</el-col>
               <el-col :span="2"
                 ><i
                   class="el-icon-arrow-right boult"
-                  @mouseenter="ascertain(item)"
+                  @mouseenter="ascertain(item, index)"
+                  @mouseleave="clearcolor"
               /></el-col>
             </el-row>
           </div>
@@ -124,14 +130,13 @@
             <div
               v-for="(items, index) in item"
               :key="index"
-              style="
-                color:#999
-                line-height: 30px;
-                padding: 10px 15px;
-              "
+              class="java"
+              :class="{ cul: bgcolors === index }"
             >
               <a href="javascript:;">
-                <div @click="searchChange(index)">{{ index }}</div></a
+                <div @click="searchChange(index)" @mouseenter="ascer(index)">
+                  {{ index }}
+                </div></a
               >
             </div>
           </div>
@@ -199,7 +204,7 @@
         >
           <div class="advert">
             <img :src="items.imgs" />
-            <p>{{ items.name }}</p>
+            <!-- <p>{{ items.name }}</p> -->
           </div>
         </div>
       </div>
@@ -220,6 +225,8 @@ export default {
   props: ['item'],
   data () {
     return {
+      bgcolor: -1,
+      bgcolors: -1,
       show: true,
       carousels: JSON.parse(localStorage.getItem('carousels')) || [],
       disps: false,
@@ -354,6 +361,9 @@ export default {
     }
   },
   methods: {
+    ascer (index) {
+      this.bgcolors = index
+    },
 
     // 跳转到更多
     // more () {
@@ -375,9 +385,13 @@ export default {
     occlude () {
       this.disps = false
     },
+    clearcolor () {
+      // this.bgcolor = -1
+    },
     // 打开二级菜单
-    ascertain (g) {
-      console.log('1', g)
+    ascertain (g, index) {
+      console.log('1', g, index)
+      this.bgcolor = index
       this.secondLevelList = g
       this.disps = true
     },
@@ -706,16 +720,16 @@ export default {
     }
     .listx {
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
       flex-wrap: wrap;
 
       .titlesx {
         width: 7%;
-        height: 130px;
+        height: 100px;
         // overflow: hidden;
         // margin-top: 25px;
         .advert {
-          margin-top: 33px;
+          // margin-top: 10px;
           width: 100%;
           height: 100px;
           // width: 100%;
@@ -730,7 +744,7 @@ export default {
           // background: #ffffff;
 
           img {
-            width: 100%;
+            width: 60px;
             // width: 200px;
             height: 55px;
             margin: 0 auto;
@@ -958,6 +972,19 @@ export default {
 }
 ::v-deep .el-radio-button .el-radio-button__inner {
   border: 1px solid #fff !important;
+}
+.cur {
+  background-color: rgb(37, 110, 253);
+  color: #fff;
+}
+.java {
+  color: #999;
+  line-height: 30px;
+  padding: 10px 15px;
+}
+.cul {
+  // background-color: rgb(37, 110, 253);
+  color: rgb(37, 110, 253);
 }
 </style>
 

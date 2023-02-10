@@ -10,13 +10,13 @@
       label-position="left"
     >
       <div class="title-container">
-        <img
+        <!-- <img
           alt=""
           src="../../assets/images/logo.png"
           style="width: 230px; height: 70px; margin: 0 auto"
-        />
+        /> -->
       </div>
-      <div class="Qiehuan">
+      <div class="Qiehuan" style="margin-bottom: 20px">
         <p :class="isuser == true ? 'active' : ''" @click="user">账号登录</p>
         <p :class="isuser == false ? 'active' : ''" @click="cepateLogin">
           验证码登录
@@ -80,11 +80,11 @@
       <el-form-item
         v-show="isuser == true ? 'active' : ''"
         prop="username"
-        style="background-color: #f6f6f8"
+        label="账号"
       >
-        <span class="svg-container">
+        <!-- <span class="svg-container">
           <svg-icon icon-class="user" />
-        </span>
+        </span> -->
         <el-input
           ref="username"
           v-model="loginForm.username"
@@ -93,6 +93,7 @@
           placeholder="请输入您的账号"
           tabindex="1"
           type="text"
+          class="elInput"
         />
       </el-form-item>
 
@@ -103,10 +104,10 @@
         manual
         placement="right"
       >
-        <el-form-item prop="password" style="background-color: #f6f6f8">
-          <span class="svg-container">
+        <el-form-item prop="password" label="密码">
+          <!-- <span class="svg-container">
             <svg-icon icon-class="password" />
-          </span>
+          </span> -->
           <el-input
             :key="passwordType"
             ref="password"
@@ -116,6 +117,7 @@
             name="password"
             placeholder="请输入密码"
             tabindex="2"
+            class="elInput"
             @blur="capsTooltip = false"
           />
           <span class="show-pwd" @click="showPwd">
@@ -134,7 +136,7 @@
           style="
             width: 100%;
 
-            background-color: #3c69be;
+            background-color: rgb(37, 110, 253);
             color: #fff;
           "
           type="primary"
@@ -146,17 +148,12 @@
           v-show="isuser == true ? 'active' : ''"
           :loading="loading"
           round
-          style="
-            width: 100%;
-
-            background-color: #3c69be;
-            color: #fff;
-          "
+          style="width: 100%; background-color: rgb(37, 110, 253); color: #fff"
           type="primary"
-          @click.native.prevent="handleLogin"
-          >企业登录
+          >微信扫码登录
         </el-button>
-        <el-button
+
+        <!-- <el-button
           v-show="isuser == false ? 'active' : ''"
           :loading="userloading"
           round
@@ -170,8 +167,8 @@
           type="primary"
           @click.native.prevent="CapteLogin"
           >验证码登录
-        </el-button>
-        <el-button
+        </el-button> -->
+        <!-- <el-button
           round
           style="
             width: 100%;
@@ -184,7 +181,18 @@
           type="info"
           @click.native.prevent="register"
           >没有账号？点此去注册>>
-        </el-button>
+        </el-button> -->
+      </div>
+      <div
+        style="
+          width: 100%;
+
+          text-align: center;
+          margin: 50px 0px 50px 0px;
+          font-size: 15px;
+        "
+      >
+        <a href="javascript:;" @click="register">没有账号？点此去注册>></a>
       </div>
     </el-form>
     <el-form
@@ -197,13 +205,13 @@
       label-position="left"
     >
       <div class="title-container">
-        <img
+        <!-- <img
           alt=""
           src="../../assets/images/logo.png"
           style="width: 230px; height: 70px; margin: 0 auto"
-        />
+        /> -->
       </div>
-      <div class="Qiehuan">
+      <div class="Qiehuan" style="margin-bottom: 20px">
         <p :class="isuser == true ? 'active' : ''" @click="user">账号登录</p>
         <p :class="isuser == false ? 'active' : ''" @click="cepateLogin">
           验证码登录
@@ -213,27 +221,32 @@
       <el-form-item
         v-show="isuser == false ? 'active' : ''"
         prop="mobile"
-        style="background-color: #f6f6f8"
+        label="手机号"
+        style="border: 0"
       >
-        <span class="svg-container">
+        <!-- <span class="svg-container">
           <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="mobile"
-          v-model="CapteloginForm.mobile"
-          autocomplete="on"
-          name="username"
-          placeholder="请输入您的手机号"
-          tabindex="1"
-          type="text"
-        />
+        </span> -->
+        <div style="display: flex" class="elInput">
+          <div class="elInput-photo">+86</div>
+          <el-input
+            ref="mobile"
+            v-model="CapteloginForm.mobile"
+            autocomplete="on"
+            name="username"
+            placeholder="请输入您的手机号"
+            tabindex="1"
+            type="text"
+          />
+        </div>
       </el-form-item>
       <el-form-item
         v-show="isuser == false ? 'active' : ''"
         style="background: none"
         prop="code"
+        label="验证码"
       >
-        <el-row>
+        <!-- <el-row>
           <el-col
             :span="18"
             style="
@@ -241,19 +254,21 @@
               position: relative;
               height: 100%;
               border: 1px solid rgba(255, 255, 255, 0.1);
-              background: #f6f6f8;
+
               border-radius: 20px;
             "
-            ><el-input
-              ref="code"
-              v-model="CapteloginForm.code"
-              type="text"
-              style="height: 100%; width: 200px"
-              placeholder="请输入验证码"
-            />
-            <!-- <p class="sendCode" :disabled="isclick" @click="sendCapte">
+            > -->
+        <div class="elInput" style="display: flex">
+          <el-input
+            ref="code"
+            v-model="CapteloginForm.code"
+            type="text"
+            placeholder="请输入验证码"
+          />
+          <!-- <p class="sendCode" :disabled="isclick" @click="sendCapte">
               {{ sendineer }}
             </p> -->
+          <div>
             <el-button
               :class="{ 'disabled-style': getCodeBtnDisable }"
               :disabled="getCodeBtnDisable"
@@ -262,22 +277,24 @@
               @click="getCode"
               >{{ codeBtnWord }}</el-button
             >
-          </el-col>
+          </div>
+        </div>
+        <!-- </el-col>
           <el-col :span="5">
-            <!-- <el-button ></el-button> -->
+            <el-button ></el-button>
           </el-col>
-        </el-row>
+        </el-row> -->
       </el-form-item>
 
-      <div class="login-btn">
+      <div class="login-btn" style="height: 150px">
         <el-button
           v-show="isuser == false ? 'active' : ''"
           :loading="userloading"
           round
           style="
             width: 100%;
-            margin-bottom: 130px;
-            background-color: #3c69be;
+
+            background-color: rgb(37, 110, 253);
             top: 0;
             color: #fff;
           "
@@ -285,6 +302,31 @@
           @click.native.prevent="CapteLogin"
           >验证码登录
         </el-button>
+        <div
+          style="
+            width: 100%;
+
+            text-align: center;
+            margin: 30px 0px 50px 0px;
+            font-size: 15px;
+          "
+        >
+          <a href="javascript:;" @click="register">没有账号？点此去注册>></a>
+        </div>
+        <!-- <el-button
+          round
+          style="
+            width: 100%;
+
+            color: #191919;
+            background-color: #ffffff;
+            border: none;
+            margin-top: 50px;
+          "
+          type="info"
+          @click.native.prevent="register"
+          >没有账号？点此去注册>>
+        </el-button> -->
       </div>
     </el-form>
     <el-dialog :visible.sync="showDialog" title="Or connect with">
@@ -355,13 +397,21 @@ export default {
   computed: {
 
     // 用于校验手机号码格式是否正确
-
+    phoneNumberStyle () {
+      const reg = /^1[3456789]\d{9}$/
+      if (!reg.test(this.CapteloginForm.mobile)) {
+        return false
+      }
+      return true
+    },
     // 控制获取验证码按钮是否可点击
     getCodeBtnDisable: {
       get () {
         if (this.waitTime == 61) {
-          if (this.CapteloginForm.mobile) {
-            return false
+          if (this.phoneNumberStyle) {
+            if (this.CapteloginForm.mobile) {
+              return false
+            }
           }
           return true
         }
@@ -434,18 +484,22 @@ export default {
     },
     // 验证码登录
     CapteLogin () {
-      Captelogin({
-        type: '2',
-        mobile: this.CapteloginForm.mobile,
-        code: this.CapteloginForm.code
-      }).then((res) => {
-        if (res.code == 1000) {
-          this.$message({
-            type: 'success',
-            message: res.msg
+      this.$refs.CapteloginForm.validate((valid) => {
+        if (valid) {
+          Captelogin({
+            type: '2',
+            mobile: this.CapteloginForm.mobile,
+            code: this.CapteloginForm.code
+          }).then((res) => {
+            if (res.code == 1000) {
+              this.$message({
+                type: 'success',
+                message: res.msg
+              })
+              localStorage.setItem('Admin-Token', res.skey)
+              this.$router.push('/userdash')
+            }
           })
-          localStorage.setItem('Admin-Token', res.skey)
-          this.$router.push('/userdash')
         }
       })
     },
@@ -558,38 +612,38 @@ $cursor: #101010;
   .el-input {
     display: inline-block;
     height: 100%;
-    width: 85%;
+    // width: 85%;
 
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      /*<!--color: $light_gray;-->*/
-      color: #808080;
-      height: 100%;
-      caret-color: $cursor;
+    // input {
+    //   background: transparent;
+    //   border: 0px;
+    //   -webkit-appearance: none;
+    //   border-radius: 0px;
+    //   padding: 12px 5px 12px 15px;
+    //   /*<!--color: $light_gray;-->*/
+    //   color: #808080;
+    //   height: 100%;
+    //   caret-color: $cursor;
 
-      &:-webkit-autofill {
-        // box-shadow: 0 0 0px 1000px $bg inset !important;
-        // -webkit-text-fill-color: $cursor !important;
-        -webkit-text-fill-color: #808090 !important;
-        -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-        background-color: transparent;
-        background-image: none;
-        transition: background-color 50000s ease-in-out 0s;
-      }
-    }
+    //   &:-webkit-autofill {
+    //     // box-shadow: 0 0 0px 1000px $bg inset !important;
+    //     // -webkit-text-fill-color: $cursor !important;
+    //     -webkit-text-fill-color: #808090 !important;
+    //     -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+    //     background-color: transparent;
+    //     background-image: none;
+    //     transition: background-color 50000s ease-in-out 0s;
+    //   }
+    // }
   }
 
   .el-form-item {
     height: 58px;
     width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: #f6f6f8;
-    border-radius: 26px;
-    color: #454545;
+    // border: 1px solid rgba(255, 255, 255, 0.1);
+    // background: #f6f6f8;
+    // border-radius: 26px;
+    // color: #454545;
   }
   .el-row {
     height: 100%;
@@ -624,13 +678,14 @@ $light_gray: #eee;
     margin: 0 auto;
     overflow: hidden;
     background-color: #ffffff;
+    border-radius: 40px;
 
     .login-btn {
       width: 100%;
       margin: 0 auto;
       position: relative;
-      height: 30%;
-      padding-top: 20px;
+      height: 120px;
+      // padding-top: 20px;
 
       button:nth-child(2) {
         position: absolute;
@@ -668,16 +723,14 @@ $light_gray: #eee;
     margin-left: 10px;
     // margin-top: 7px;
   }
-  ::v-deep .el-form-item__content {
-    height: 100%;
-  }
+
   .title-container {
     // position: relative;
     // height: 23%;
     // padding-top: 20px;
     // text-align: center;
     width: 80%;
-    height: 100px;
+    height: 50px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -728,7 +781,7 @@ $light_gray: #eee;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 60px;
+  height: 80px;
 }
 .Qiehuan p {
   width: 40%;
@@ -740,7 +793,8 @@ $light_gray: #eee;
   width: 40%;
   text-align: center;
   font-size: 20px;
-  border-bottom: 2px solid rgb(60, 105, 190);
+  border-bottom: 2px solid #1890ff;
+  color: #1890ff;
   padding-bottom: 10px;
   cursor: pointer;
 }
@@ -755,15 +809,94 @@ $light_gray: #eee;
 }
 ::v-deep .el-button.disabled-style[data-v-37dfd6fc] {
   background-color: #f6f6f8;
-  color: #0f0f10;
+  // color: #0f0f10;
   border: 0;
 }
 ::v-deep .el-button--primary {
-  color: black;
-  background-color: #f6f6f8;
-  border-color: #f2f4f7;
+  color: #fff;
+  background-color: #1890ff;
+  // border-color: #f2f4f7;
 }
 ::v-deep form.el-form.login-form.el-form--label-left {
   height: 100%;
+}
+::v-deep element.style {
+  // background-color: #fff;
+}
+::v-deep .el-form-item__error {
+  // color: #ad2a2a;
+  /* font-size: 12px; */
+  line-height: 1;
+  padding-top: 4px;
+  position: absolute;
+  top: 80%;
+  // left: 15%;
+}
+
+::v-deep .el-form-item__content {
+  height: 100%;
+  display: flex;
+}
+.elInput {
+  width: 310px;
+  height: 40px;
+  border: 1px solid rgb(220, 223, 230);
+  border-radius: 5px;
+  .elInput-photo {
+    width: 50px;
+    height: 26px;
+    // background-color: pink;
+    margin-top: 8px;
+    border-right: 1px solid rgb(220, 223, 230);
+    text-align: center;
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+::v-deep input.el-input__inner {
+  // border: 0;
+}
+.el-input__inner {
+  height: 35px !important;
+}
+::v-deep input.el-input__inner {
+  height: 38px;
+}
+::v-deep .el-input__icon {
+  height: 45px;
+}
+.passw {
+  // background-color: pink;
+  padding-left: 245px;
+  font-size: 13px;
+  color: #d09d8a;
+  line-height: 5px;
+  margin-top: 15px;
+}
+.register {
+  // background-color: pink;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14.5px;
+  color: #999;
+}
+::v-deep input.el-input__inner {
+  border: 0;
+}
+// .el-button.disabled-style {
+//   background-color: #eeeeee;
+//   color: #cccccc;
+// }
+::v-deep button.el-button.el-button--primary.is-disabled.disabled-style {
+  border: 0;
+  border-radius: 0;
+  border-left: 1px solid rgb(220, 223, 230);
+}
+::v-deep input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+.login-container .el-form-item {
+  height: 50px;
+  width: 100%;
 }
 </style>

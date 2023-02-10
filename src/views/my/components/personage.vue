@@ -68,14 +68,14 @@
                 style="
                   font-size: 20px;
 
-                  width: 240px;
+                  width: 70%;
                   margin-left: 20px;
                 "
               >
                 {{ item.fullname ? item.fullname : '再无职业' }}
               </div>
               <span style="margin-right: 20px; color: red; font-size: 15px"
-                >{{ item.salary_min }}k - {{ item.salary_max }}k.{{
+                >{{ item.salary_min }}k - {{ item.salary_max }}k·{{
                   item.salary_unit
                 }}薪</span
               >

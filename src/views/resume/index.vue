@@ -15,13 +15,13 @@
             <div class="postdes" style="width: 80%">
               <div class="fullname">{{ resume.fullname }}</div>
               <div class="money">
-                {{ resume.salary_min }}k - {{ resume.salary_max }}k.{{
+                {{ resume.salary_min }}k - {{ resume.salary_max }}k·{{
                   resume.salary_unit
                 }}薪
               </div>
               <div class="city">
                 <div class="text" style="padding-left: 0">
-                  {{ city }} - {{ third }}
+                  {{ city }} · {{ third }}
                 </div>
                 <div class="text">{{ resume.job_experience.name }}</div>
                 <div class="text" style="border: 0">
@@ -180,7 +180,7 @@
                         {{ item.fullname ? item.fullname : '再无职业名称' }}
                       </div>
                       <span style="color: red"
-                        >{{ item.salary_min }}k - {{ item.salary_max }}k.{{
+                        >{{ item.salary_min }}k - {{ item.salary_max }}k·{{
                           item.salary_unit
                         }}薪</span
                       >

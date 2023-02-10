@@ -21,8 +21,8 @@
                   <div class="job-mechanical" style="width: 50%">
                     <div class="mechanical" style="display: flex">
                       <div style="width: 230px" @click="particulars(item)">
-                        <a href="javascript:;">
-                          {{ item.fullname }} {{ item.city.name }}</a
+                        <a href="javascript:;" style="font-size: 15px">
+                          {{ item.fullname }} · {{ item.city.name }}</a
                         >
                       </div>
                       <el-button
@@ -36,7 +36,7 @@
                     </div>
                     <div class="machan">
                       <div class="machan-aa">
-                        {{ item.salary_min }}k-{{ item.salary_max }}k .
+                        {{ item.salary_min }}k-{{ item.salary_max }}k ·
                         {{ item.salary_unit }}薪
                       </div>
                       <div
@@ -59,9 +59,11 @@
                     <div></div>
                   </div>
                   <div style="display: flex; width: 38%">
-                    <div style="border: 0">
-                      <div class="mechanical">{{ firm }}</div>
-                      <div class="machan">
+                    <div style="border: 0; text-align: right; width: 90%">
+                      <div class="mechanical" style="font-size: 14px">
+                        {{ firm }}
+                      </div>
+                      <div class="machan" style="justify-content: end">
                         <div class="machan-aa">
                           {{ item.field_name[0].name }}
                         </div>
@@ -71,7 +73,7 @@
                         >
                           {{ nature }}
                         </div>
-                        <div class="machan-bb" style="width: 120px">
+                        <div class="machan-bb" style="padding-right: 0px">
                           {{ size }}人
                         </div>
                       </div>
@@ -213,9 +215,17 @@
                       {{ itemss }}
                     </div>
                   </div>
-                  <div class="equipment">
+                  <div
+                    class="equipment"
+                    style="width: 38.8%; text-align: right"
+                  >
                     <div
-                      style="font-size: 12px; color: #878484; padding-left: 0px"
+                      style="
+                        font-size: 12px;
+                        color: #878484;
+                        padding-left: 0px;
+                        width: 90%;
+                      "
                     >
                       {{ text }}
                     </div>
@@ -333,7 +343,7 @@ export default {
           line-height: 40px;
           padding-left: 30px;
           color: #256efd;
-          font-weight: 700;
+          // font-weight: 700;
         }
         .image {
           width: 400px;
@@ -447,7 +457,7 @@ export default {
   line-height: 40px;
   // padding-left: 30px;
   color: #256efd;
-  font-weight: 700;
+  // font-weight: 700;
 }
 .equipment {
   // height: 38px;

@@ -14,10 +14,9 @@
                 {{ statusList.position.position_name }}
               </div>
               <div style="color: red">
-                {{ statusList.position.salary_min }}-{{
+                {{ statusList.position.salary_min }}k-{{
                   statusList.position.salary_max
-                }}
-                . {{ statusList.position.salary_unit }}薪
+                }}k · {{ statusList.position.salary_unit }}薪
               </div>
             </div>
             <div class="interview-top" style="color: ##256efd">

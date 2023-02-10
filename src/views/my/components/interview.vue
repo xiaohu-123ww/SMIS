@@ -116,13 +116,15 @@
                 </div>
                 <div
                   class="job-mechanical"
-                  style="margin: 0 0px 0 40px; width: 1200px"
+                  style="margin: 0 0px 0 20px; width: 1200px"
                 >
                   <div
-                    style="font-size: 16px; margin: 10px 0 0 20px"
+                    style="font-size: 16px; margin: 5px 0 0 20px"
                     @click="open(item.position.enterprise.enterprise_id)"
                   >
-                    {{ item.position.enterprise.enterprise_name }}
+                    <a href="javascript:;">
+                      {{ item.position.enterprise.enterprise_name }}</a
+                    >
                   </div>
 
                   <div class="machan" style="height: 45px; padding-top: 12px">
@@ -148,13 +150,13 @@
                     class="mechanical"
                     @click="particulars(item.position.position_id)"
                   >
-                    {{ item.position.position_name }}
+                    <a href="javascript:;">{{ item.position.position_name }}</a>
                   </div>
                   <div class="machan">
                     <div class="machan-aa" style="color: red">
-                      {{ item.position.salary_min }} -{{
+                      {{ item.position.salary_min }}k -{{
                         item.position.salary_max
-                      }}.{{ item.position.salary_unit }}薪
+                      }}k·{{ item.position.salary_unit }}薪
                     </div>
                     <div class="machan-bb">
                       {{ item.job_experience }}
@@ -586,7 +588,7 @@ export default {
   .job {
     height: 230px;
     // background-color: #256efd;
-    margin: 30px 50px 50px 50px;
+    margin: 30px 60px 60px 60px;
     .job-nn {
       height: 100px;
       // background-color: pink;
@@ -594,7 +596,7 @@ export default {
     }
     .job-one {
       height: 100px;
-      width: 80%;
+      width: 98%;
       // background-color: #256efd;
       display: flex;
       .bg {
@@ -627,12 +629,12 @@ export default {
         height: 80px;
         // background-color: aqua;
         .machann {
-          height: 30px;
+          // height: 30px;
           // background-color: red;
-          font-size: 15px;
+          font-size: 14px;
           // padding-left: 20px;
           display: flex;
-          line-height: 30px;
+          // line-height: 30px;
           .machann-sa {
             width: 90px;
             margin-right: 12px;
@@ -689,7 +691,7 @@ export default {
         width: 80px;
         height: 80px;
         // background-color: #256efd;
-        margin-top: 10px;
+        margin-top: 5px;
       }
     }
   }

@@ -9,20 +9,22 @@
       :rules="rules"
     >
       <div class="title-container">
-        <img
+        <div class="registers">立即注册</div>
+        <!-- <img
           alt=""
           src="../../assets/images/logo.png"
           style="width: 230px; height: 70px"
-        />
+        /> -->
       </div>
 
-      <el-form-item prop="mobile" style="background-color: #f6f6f8">
-        <span class="svg-container">
+      <el-form-item prop="mobile">
+        <!-- <span class="svg-container">
           <svg-icon icon-class="user" />
-        </span>
+        </span> -->
         <el-input
           v-model="loginForm.mobile"
           autocomplete="on"
+          class="elInput"
           name="username"
           placeholder="请输入您的手机号"
           tabindex="1"
@@ -30,40 +32,34 @@
         />
       </el-form-item>
       <el-form-item prop="code">
-        <el-row>
+        <!-- <el-row>
           <el-col :span="1">
             <span class="svg-container">
               <svg-icon icon-class="password" />
             </span>
           </el-col>
-          <el-col :span="13">
-            <el-input
-              v-model="loginForm.code"
-              type="text"
-              style="
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                background: #f6f6f8;
-                border-radius: 20px;
-                height: 40px;
-                margin-left: 25px;
-                margin-top: 3px;
-              "
-              placeholder="请输入验证码"
-          /></el-col>
-          <el-col :span="5">
-            <!-- <el-button :disabled="isclick" @click="sendCapte">{{
+          <el-col :span="13"> -->
+        <div class="elInput" style="display: flex">
+          <el-input
+            v-model="loginForm.code"
+            type="text"
+            placeholder="请输入验证码"
+          />
+          <!-- </el-col>
+          <el-col :span="5"> -->
+          <!-- <el-button :disabled="isclick" @click="sendCapte">{{
               sendineer
             }}</el-button> -->
-            <el-button
-              :class="{ 'disabled-style': getCodeBtnDisable }"
-              :disabled="getCodeBtnDisable"
-              style="margin-top: 3px"
-              type="primary"
-              @click="Code()"
-              >{{ codeBtnWord }}</el-button
-            >
-          </el-col>
-        </el-row>
+          <el-button
+            :class="{ 'disabled-style': getCodeBtnDisable }"
+            :disabled="getCodeBtnDisable"
+            type="primary"
+            @click="Code()"
+            >{{ codeBtnWord }}</el-button
+          >
+        </div>
+        <!-- </el-col>
+        </el-row> -->
       </el-form-item>
       <el-tooltip
         v-model="capsTooltip"
@@ -71,10 +67,11 @@
         manual
         placement="right"
       >
-        <el-form-item prop="password" style="background-color: #f6f6f8">
-          <span class="svg-container">
+        <el-form-item prop="password">
+          <!-- <span class="svg-container">
             <svg-icon icon-class="password" />
-          </span>
+          </span> -->
+
           <el-input
             :key="passwordType"
             v-model="loginForm.password"
@@ -83,6 +80,7 @@
             name="password"
             placeholder="请输入密码"
             tabindex="2"
+            class="elInput"
           />
           <span class="show-pwd" @click="showPwd">
             <svg-icon
@@ -91,6 +89,18 @@
           </span>
         </el-form-item>
       </el-tooltip>
+      <el-form-item prop="radio">
+        <el-checkbox-group v-model="loginForm.radio">
+          <el-checkbox label="1" name="type"
+            >我已同意<span style="color: rgb(37, 110, 253)"
+              >《###使用协议》</span
+            >和
+            <span style="color: rgb(37, 110, 253)"
+              >《用户隐私协议》</span
+            ></el-checkbox
+          >
+        </el-checkbox-group>
+      </el-form-item>
 
       <!-- <el-tooltip
         v-model="capsTooltip"
@@ -153,12 +163,27 @@
       <div class="login-btn">
         <el-button
           round
-          style="width: 100%; background-color: #3c69be"
+          style="
+            width: 100%;
+            background-color: rgb(37, 110, 253);
+            color: rgb(255, 255, 255);
+          "
           type="primary"
           @click.native.prevent="Sign"
           >注册
         </el-button>
-        <el-button
+        <div
+          style="
+            width: 100%;
+
+            text-align: center;
+            margin: 30px 0px 50px 0px;
+            font-size: 15px;
+          "
+        >
+          <a href="javascript:;" @click="backLogin">返回登录>></a>
+        </div>
+        <!-- <el-button
           round
           style="
             width: 100%;
@@ -169,7 +194,7 @@
           type="info"
           @click.native.prevent="backLogin"
           >返回登录>>
-        </el-button>
+        </el-button> -->
       </div>
     </el-form>
 
@@ -212,7 +237,8 @@ export default {
         password: '',
         confirm_password: '',
         email: '',
-        code: ''
+        code: '',
+        radio: []
       },
       passwordType: 'password',
       checkPassType: 'password',
@@ -226,8 +252,11 @@ export default {
           { max: 4, message: '长度4字符', trigger: 'blur' }
         ],
         password: [
-          { message: '请输入密码', trigger: 'blur' },
+          { required: true, message: '请输入密码', trigger: 'blur' },
           { validator: validPassword, trigger: 'blur' }
+        ],
+        radio: [
+          { required: true, message: '请勾选后注册', trigger: 'change' }
         ]
       }
     }
@@ -235,13 +264,21 @@ export default {
   computed: {
 
     // 用于校验手机号码格式是否正确
-
+    phoneNumberStyle () {
+      const reg = /^1[3456789]\d{9}$/
+      if (!reg.test(this.loginForm.mobile)) {
+        return false
+      }
+      return true
+    },
     // 控制获取验证码按钮是否可点击
     getCodeBtnDisable: {
       get () {
         if (this.waitTime == 61) {
-          if (this.loginForm.mobile) {
-            return false
+          if (this.phoneNumberStyle) {
+            if (this.loginForm.mobile) {
+              return false
+            }
           }
           return true
         }
@@ -393,40 +430,42 @@ $cursor: #101010;
 
   .el-input {
     display: inline-block;
-    height: 100%;
-    width: 85%;
+    // height: 100%;
+    // width: 85%;
+    // text-align: justify;
+    // text-align-last: justify;
 
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      /*<!--color: $light_gray;-->*/
-      color: #808080;
-      height: 100%;
-      caret-color: $cursor;
+    // input {
+    //   background: transparent;
+    //   border: 0px;
+    //   -webkit-appearance: none;
+    //   border-radius: 0px;
+    //   padding: 12px 5px 12px 15px;
+    //   /*<!--color: $light_gray;-->*/
+    //   color: #808080;
+    //   height: 100%;
+    //   caret-color: $cursor;
 
-      &:-webkit-autofill {
-        // box-shadow: 0 0 0px 1000px $bg inset !important;
-        // -webkit-text-fill-color: $cursor !important;
-        -webkit-text-fill-color: #808090 !important;
-        -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-        background-color: transparent;
-        background-image: none;
-        transition: background-color 50000s ease-in-out 0s;
-      }
-    }
+    //   &:-webkit-autofill {
+    //     // box-shadow: 0 0 0px 1000px $bg inset !important;
+    //     // -webkit-text-fill-color: $cursor !important;
+    //     -webkit-text-fill-color: #808090 !important;
+    //     -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+    //     background-color: transparent;
+    //     background-image: none;
+    //     transition: background-color 50000s ease-in-out 0s;
+    //   }
+    // }
   }
 
-  .el-form-item {
-    height: 10%;
-    width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: #f6f6f8;
-    border-radius: 26px;
-    color: #454545;
-  }
+  // .el-form-item {
+  //   height: 10%;
+  //   width: 100%;
+  //   border: 1px solid rgba(255, 255, 255, 0.1);
+  //   background: #f6f6f8;
+  //   border-radius: 26px;
+  //   color: #454545;
+  // }
 }
 </style>
 
@@ -451,12 +490,13 @@ $light_gray: #eee;
     min-width: 410px;
     /*max-width: 25%;*/
     width: calc(25vw);
-    height: calc(60vh);
-    min-height: 500px;
-    padding: 0px 35px 0;
+    // height: calc(75vh);
+    // min-height: 500px;
+    padding: 0px 50px 0;
     margin: 0 auto;
     overflow: hidden;
     background-color: #ffffff;
+    border-radius: 40px;
 
     .login-btn {
       width: 100%;
@@ -501,7 +541,7 @@ $light_gray: #eee;
 
   .title-container {
     position: relative;
-    height: 23%;
+    height: 15%;
     padding-top: 20px;
     text-align: center;
 
@@ -536,26 +576,25 @@ $light_gray: #eee;
     }
   }
 }
-::v-deep input.el-input__inner {
-  border: none !important;
-  box-shadow: none !important;
+// ::v-deep input.el-input__inner {
+//   border: none !important;
+//   box-shadow: none !important;
 
-  padding: 15px;
-  background-color: #f6f6f6;
-}
-::v-deep input.el-input__inner {
-  border-radius: 100px;
-  // margin-top: 3px;
-}
+//   padding: 15px;
+//   background-color: #f6f6f6;
+// }
+// ::v-deep input.el-input__inner {
+//   border-radius: 100px;
+//   // margin-top: 3px;
+// }
 ::v-deep .el-button.disabled-style[data-v-37dfd6fc] {
   background-color: #f6f6f8;
   color: #0f0f10;
   border: 0;
 }
 ::v-deep .el-button--primary {
-  color: black;
-  background-color: #f6f6f8;
-  border-color: #f2f4f7;
+  color: #fff;
+  background-color: #1890ff;
 }
 .el-button.disabled-style {
   background-color: #eeeeee;
@@ -574,6 +613,82 @@ $light_gray: #eee;
 //   color: #cccccc;
 // }
 ::v-deep .el-input {
-  margin-left: 10px;
+  // margin-left: 10px;
+}
+.registers {
+  width: 100%;
+  // height: 20px;
+  text-align: center;
+  font-size: 20px;
+  margin: 30px 0px;
+}
+::v-deep .el-form-item__content {
+  height: 100%;
+  display: flex;
+}
+.elInput {
+  width: 310px;
+  height: 40px;
+  border: 1px solid rgb(220, 223, 230);
+  border-radius: 5px;
+  .elInput-photo {
+    width: 50px;
+    height: 26px;
+    // background-color: pink;
+    margin-top: 8px;
+    border-right: 1px solid rgb(220, 223, 230);
+    text-align: center;
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+::v-deep input.el-input__inner {
+  // border: 0;
+}
+.el-input__inner {
+  height: 35px !important;
+}
+::v-deep input.el-input__inner {
+  height: 38px;
+}
+// ::v-deep .el-input__icon {
+//   height: 45px;
+// }
+.passw {
+  // background-color: pink;
+  padding-left: 245px;
+  font-size: 13px;
+  color: #d09d8a;
+  line-height: 5px;
+  margin-top: 15px;
+}
+.register {
+  // background-color: pink;
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14.5px;
+  color: #999;
+}
+::v-deep input.el-input__inner {
+  border: 0;
+}
+// .el-button.disabled-style {
+//   background-color: #eeeeee;
+//   color: #cccccc;
+// }
+::v-deep button.el-button.el-button--primary.is-disabled.disabled-style {
+  border: 0;
+  border-radius: 0;
+  border-left: 1px solid rgb(220, 223, 230);
+}
+::v-deep input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+::v-deep .elInput.el-input {
+  height: 40px;
+}
+.login-container .el-form-item {
+  height: 48px;
+  width: 100%;
 }
 </style>

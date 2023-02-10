@@ -24,11 +24,15 @@
                         border-bottom: 1px solid #e6e3ee;
                       "
                     >
-                      <div class="job-mechanical" style="width: 56%">
+                      <div class="job-mechanical" style="width: 54%">
                         <div class="mechanical" style="display: flex">
                           <a href="javascript:;">
                             <div
-                              style="width: 300px; padding-left: 30px"
+                              style="
+                                width: 300px;
+                                padding-left: 30px;
+                                font-size: 14px;
+                              "
                               @click="particulars(item)"
                             >
                               {{ item.fullname }} {{ item.city.second }}·{{
@@ -47,7 +51,7 @@
                         </div>
                         <div class="machan">
                           <div class="machan-aa">
-                            {{ item.salary_min }}k-{{ item.salary_max }}k .
+                            {{ item.salary_min }}k-{{ item.salary_max }}k ·
                             {{ item.salary_unit }}薪
                           </div>
                           <div
@@ -71,7 +75,13 @@
                         </div> -->
                         <div></div>
                       </div>
-                      <div style="width: 35%">
+                      <div
+                        style="
+                          width: 32%;
+
+                          text-align: right;
+                        "
+                      >
                         <a href="javascript:;">
                           <div
                             class="mechanical"
@@ -80,7 +90,10 @@
                             {{ item.enterprise_info.name }}
                           </div>
                         </a>
-                        <div class="machan" style="dispaly: flex">
+                        <div
+                          class="machan"
+                          style="dispaly: flex; justify-content: end"
+                        >
                           <div class="machan-cc">
                             {{ item.enterprise_info.field }}
                           </div>
@@ -96,7 +109,7 @@
                           </div>
                         </div>
                       </div>
-
+                      <div style="width: 5%"></div>
                       <div class="grid-content bg-purple-light">
                         <div class="machan-sss">
                           <img
@@ -211,7 +224,7 @@
                           margin-left: 15px;
                         "
                       >
-                        <div style="width: 55.5%">
+                        <div style="width: 55.4%">
                           <div class="equipment">
                             <div
                               v-for="(itemss, index) in item.jobkeywords_name"
@@ -222,7 +235,7 @@
                             </div>
                           </div>
                         </div>
-                        <div>
+                        <div style="width: 30.4%; text-align: right">
                           <div style="font-size: 11px; color: #878484">
                             {{ item.enterprise_info.tags.toString() }}
                           </div>
@@ -274,7 +287,7 @@
                     @click="part(item.position_info.position_id)"
                   >
                     <div class="record-row">
-                      <div style="font-size: 13px; width: 55%">
+                      <div style="font-size: 13px; width: 75%">
                         {{ item.position_info.name }}
                       </div>
                       <div style="color: red; font-size: 12px">
@@ -506,7 +519,7 @@ export default {
           line-height: 40px;
           // padding-left: 30px;
           color: #256efd;
-          font-weight: 700;
+          // font-weight: 700;
         }
         .image {
           width: 400px;
@@ -519,6 +532,7 @@ export default {
           // border-bottom: 1px solid #e6e3ee;
           display: flex;
           font-size: 13px;
+
           // padding-top: 10px;
           .machan-aa {
             padding: 0px 10px;
@@ -603,11 +617,11 @@ export default {
 .mechanical {
   height: 40px;
   // background-color: #256efd;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 40px;
   // padding-left: 30px;
   color: #256efd;
-  font-weight: 700;
+  // font-weight: 700;
 }
 .machan {
   height: 40px;
@@ -615,6 +629,7 @@ export default {
   // border-bottom: 1px solid #e6e3ee;
   display: flex;
   font-size: 15px;
+  // justify-content: end;
   // padding-top: 10px;
   .machan-aa {
     // padding: 0px 10px;

@@ -257,6 +257,11 @@ export const constantRoutes = [
     }
     ]
   },
+  {
+    name: '我的',
+    path: '/college',
+    component: () => import('@/views/college/index.vue')
+  },
   // 客户端 路由引入
   {
     path: '/clientlayout',
@@ -467,6 +472,17 @@ const createRouter = () => new Router({
   }),
   routes: constantRoutes
 })
+// const router = ({
+//   routes,
+//   scrollBehavior: () => {
+//     // 判断当在登录也是将历史记录删除
+//     if (document.URL.indexOf('/login') > -1) {
+//       // console.log(document.URL)
+//       history.pushState(null, null, document.URL)
+//     }
+//   }
+
+// })
 
 const router = createRouter()
 

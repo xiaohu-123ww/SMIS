@@ -1,5 +1,5 @@
 <template>
-  <div style="hieght: auto">
+  <div style="height: 100%">
     <div class="interview">
       <div class="interviews">
         <div style="display: flex">
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div v-if="list.length !== 0" style="height: 500px">
+    <div v-if="list.length !== 0" :class="{ lists: list.length <= 5 }">
       <div v-if="flag" class="privacy-check" style="margin-top: 50px">
         <div class="privacy-checkbox">
           <el-checkbox
@@ -18,15 +18,15 @@
             style="line-height: 40px"
             @change="checkboxChange"
           ></el-checkbox>
-          <div class="text">全部公司</div>
+          <div class="text" style="font-size: 18px">全部公司</div>
           <el-button type="text" @click="deletechange">删除</el-button>
           <el-button type="text" @click="flag = false">完成</el-button>
         </div>
-        <div class="privacy-box" style="margin-top: 50px">
+        <div class="privacy-box" style="margin-top: 30px">
           <ul>
             <li v-for="item in list" :key="item.eid" style="list-style: none">
               <el-checkbox v-model="item.checked" @change="changeNum(item)">
-                <div class="text" style="font-size: 20px; margin-bottom: 20px">
+                <div class="text" style="font-size: 16px; margin-bottom: 20px">
                   {{ item.ename }}
                 </div>
               </el-checkbox>
@@ -34,7 +34,7 @@
           </ul>
         </div>
         <el-pagination
-          style="margin: 200px 0 0 300px"
+          style="margin: 50px 0 0 300px"
           :current-page="offset"
           :page-sizes="[5, 10, 20]"
           :page-size="limit"
@@ -45,8 +45,8 @@
         >
         </el-pagination>
       </div>
-      <div v-else style="height: 400px">
-        <div class="privacy" style="margin: 50px 0">
+      <div v-else style="height: auto">
+        <div class="privacy" style="margin-top: 30px">
           <div class="text">已屏蔽{{ code }}家公司</div>
           <el-button type="text" class="privacy-bt" @click="checkBox"
             >批量管理</el-button
@@ -63,7 +63,7 @@
           >
         </div>
         <el-pagination
-          style="margin: 200px 0 0 300px"
+          style="margin: 50px 0 0 300px"
           :current-page="offset"
           :page-sizes="[5, 10, 20]"
           :page-size="limit"
@@ -181,7 +181,8 @@ export default {
       const res = await getListDelete(this.job)
       console.log('res', res)
       this.$message.success('删除成功')
-      this.getPrivacyList()
+      // this.getPrivacyList()
+      this.handleCurrentChange()
     },
     changeNum (item) {
       this.list.forEach((item, index) => {
@@ -239,7 +240,7 @@ export default {
   height: auto;
   // background-color: #256efd;
   display: flex;
-  font-size: 20px;
+  font-size: 16px;
   .text {
     width: 90%;
     line-height: 60px;
@@ -311,5 +312,8 @@ export default {
 }
 .bt {
   height: 700px;
+}
+.lists {
+  height: 500px;
 }
 </style>

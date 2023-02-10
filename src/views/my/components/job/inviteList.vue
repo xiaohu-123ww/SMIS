@@ -26,8 +26,8 @@
             }}-{{ item.position.city.third }}]
           </div>
           <div class="machan">
-            <div class="machan-aa">
-              {{ item.position.salary_min }}- {{ item.position.salary_max }} .
+            <div class="machan-aa" style="border-right: 1px solid #e6e3e3">
+              {{ item.position.salary_min }}k- {{ item.position.salary_max }}k ·
               {{ item.position.salary_unit }}薪
             </div>
             <div class="machan-bb" style="border-right: 1px solid #e6e3e3">
@@ -51,7 +51,9 @@
               <div class="machan-cc" style="border-right: 1px solid #e6e3e3">
                 {{ item.position.enterprise.financing_status }}
               </div>
-              <div class="machan-cc">{{ item.position.enterprise.size }}</div>
+              <div class="machan-cc" style="border: 0">
+                {{ item.position.enterprise.size }}人
+              </div>
             </div>
           </div>
           <div
@@ -169,6 +171,7 @@ export default {
   }
   .job-nnkj {
     margin: 30px 0 0 615px;
+    // background-color: pink;
   }
   .job-job {
     height: 130px;
@@ -195,7 +198,7 @@ export default {
         display: flex;
         font-size: 15px;
         .machan-aa {
-          width: 150px;
+          // width: 150px;
           height: 20px;
           // background-color: #256efd;
           border-right: 1px solid #e6e3e3;

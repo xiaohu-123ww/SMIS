@@ -38,13 +38,18 @@
       <div class="job-job">
         <div class="job-mechanical">
           <div class="mechanical" @click="particulars(item)">
-            {{ item.position_info.position_info.position_name }}
-            {{ item.position_info.position_info.city }}
+            <a href="javascript:;">
+              {{ item.position_info.position_info.position_name }}·
+              {{ item.position_info.position_info.city }}
+            </a>
           </div>
           <div class="machan">
-            <div class="machan-aa">
-              {{ item.position_info.position_info.salary_left }}-
-              {{ item.position_info.position_info.salary_right }} .
+            <div
+              class="machan-aa"
+              style="border-right: 1px solid #e6e3e3; padding-right: 10px"
+            >
+              {{ item.position_info.position_info.salary_left }}k-
+              {{ item.position_info.position_info.salary_right }}k·
               {{ item.position_info.position_info.salary_unit }}薪
             </div>
             <div class="machan-bb" style="border-right: 1px solid #e6e3e3">
@@ -61,7 +66,9 @@
               class="mechanical"
               @click="open(item.position_info.enterprise_info.enterprise_id)"
             >
-              {{ item.position_info.enterprise_info.name }}
+              <a href="javascript:;">
+                {{ item.position_info.enterprise_info.name }}</a
+              >
             </div>
             <div class="machan">
               <div class="machan-cc">
@@ -70,8 +77,8 @@
               <div class="machan-cc" style="border-right: 1px solid #e6e3e3">
                 {{ item.position_info.enterprise_info.finance }}
               </div>
-              <div class="machan-cc">
-                {{ item.position_info.enterprise_info.size }}
+              <div class="machan-cc" style="border: 0">
+                {{ item.position_info.enterprise_info.size }}人
               </div>
             </div>
           </div>
@@ -154,7 +161,7 @@ export default {
 .job {
   height: 230px;
   // background-color: #256efd;
-  margin: 30px;
+  margin: 60px;
   .job-nn {
     height: 100px;
     // background-color: pink;
@@ -162,7 +169,7 @@ export default {
   }
   .job-one {
     height: 100px;
-    width: 80%;
+    width: 98%;
     // background-color: #256efd;
     display: flex;
     .bg {
@@ -198,6 +205,7 @@ export default {
         font-size: 15px;
         line-height: 40px;
         padding-left: 20px;
+        margin-top: 10px;
       }
       .machan {
         height: 40px;
@@ -205,7 +213,7 @@ export default {
         display: flex;
         font-size: 15px;
         .machan-aa {
-          width: 150px;
+          // width: 150px;
           height: 20px;
           // background-color: #256efd;
           // border-right: 1px solid #e6e3e3;

@@ -24,8 +24,15 @@
             <!-- <el-radio label="日常练习"></el-radio> -->
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="身份校验" prop="password">
-          <el-input v-model="ruleForm.password"></el-input>
+        <el-form-item label="身份校验" prop="password" style="width: 400px">
+          <el-input
+            v-model="ruleForm.password"
+            :type="passw"
+            autocomplete="off"
+            placeholder="请输入密码"
+          >
+            <i slot="suffix" :class="icon" @click="showPass"></i
+          ></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -48,6 +55,8 @@ export default {
   },
   data () {
     return {
+      passw: 'password',
+      icon: 'el-input__icon el-icon-view',
       ruleForm: {
         type: '',
         password: '',
@@ -83,8 +92,19 @@ export default {
     this.getSafety()
   },
   methods: {
+    showPass () {
+      if (this.passw === 'text') {
+        this.passw = 'password'
+        // 更换图标
+        this.icon = 'el-input__icon el-icon-view'
+      } else {
+        this.passw = 'text'
+        this.icon = 'el-input__icon el-icon-loading'
+      }
+    },
     handleClose (done) {
       this.$emit('reset')
+      this.num()
     },
     // 确定
     submit () {
@@ -95,11 +115,16 @@ export default {
             this.$message.success('该账号还没有绑定手机号，去绑定吧')
             this.$router.push('/safety')
           } else {
+            var url = `SimRobo:${this.ruleForm.username}$${this.ruleForm.password}$${this.ruleForm.identity}$${this.ruleForm.type}`
+            // var url = 'SimRobo:' + this.ruleForm.username
+            // var url1 = this.ruleForm.password
+            // var url2 = this.ruleForm.identity
+            // var url3 = this.ruleForm.type
+            window.open(url, '_blank')
+            console.log(url)
             this.handleClose()
-            var url = `zq://${this.ruleForm.username}${this.ruleForm.password}${this.ruleForm.identity}${this.ruleForm.type}`
-            console.log('url', url)
             //  window.location.href = 'test://123'
-            window.open(url)
+            // window.open('SimRobo:/', '_blank')
             // var  cmd = new ActiveXObject("WScript.Shell");
             // var ws = WScript.CreateObject('WScript.Shell')
             // ws.Run('D:\SimRobo\SimRoboPack\SimRobo.exe ')
@@ -113,6 +138,10 @@ export default {
       this.ruleForm.username = data.phone
 
       // this.list = data
+    },
+    num () {
+      this.ruleForm.type = ''
+      this.ruleForm.password = ''
     }
   }
 };

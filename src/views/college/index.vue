@@ -25,7 +25,9 @@
         </el-submenu>
 
         <el-menu-item index="3"
-          ><a href="https://admin.xiaoe-tech.com/t/login#/wx" target="_blank"
+          ><a
+            href="https://admin.xiaoe-tech.com/t/account/muti_index#/myParticipate"
+            target="_blank"
             >班级学习</a
           ></el-menu-item
         >

@@ -204,7 +204,11 @@
             <a href="javascript:;" @click="register">没有账号？点此去注册>></a>
           </div>
         </div>
-        <!-- <Dialog :sends="sends" @weChatClone="weChatClone" /> -->
+        <Dialog
+          :sends="sends"
+          @weChatClone="weChatClone"
+          @getPhoto="getPhoto"
+        />
         <!-- <Wei v-if="send" /> -->
       </el-form>
       <el-form
@@ -350,7 +354,7 @@
         <social-sign />
       </el-dialog>
     </div>
-    <Wx :wx-state="wxState" @wxReset="wxReset" />
+    <Wx :wx-state="wxState" :openid="openid" @wxReset="wxReset" />
   </div>
 </template>
 
@@ -361,7 +365,7 @@ import { validUsername } from '@/utils/validate'
 import { Captelogin, sendCapte } from '@/api/user'
 import { getverification } from '@/api/my/resume'
 // import Num from './components/weixin.vue'
-import Dialog from './components/dialog.vue'
+import Dialog from './components/qr.vue'
 // import { filter } from 'mock/article'
 import Wx from './components/wx.vue'
 export default {
@@ -389,6 +393,7 @@ export default {
       }
     }
     return {
+      openid: '',
       numState: true,
       wxState: false,
       imgs: '',
@@ -479,6 +484,12 @@ export default {
   },
 
   methods: {
+    getPhoto (i) {
+      console.log('i', i)
+      this.sends = false
+      this.wxState = true
+      this.openid = i
+    },
     wxReset () {
       this.wxState = false
       this.numState = true
@@ -500,10 +511,10 @@ export default {
       //     console.log(error)
       //   })
       // console.log(this.imgs)
-      // this.sends = true
+      this.sends = true
 
-      this.wxState = true
-      this.numState = false
+      // this.wxState = true
+      // this.numState = false
     },
     sendCapte () {
 

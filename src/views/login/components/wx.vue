@@ -1,25 +1,31 @@
 <template>
-  <div v-if="wxState" class="wx_login">
-    <el-form ref="rf" :model="ruleForm" :rules="rules" label-width="25px">
-      <el-form-item prop="mobile" style="border: 0">
-        <!-- <span class="svg-container">
+  <el-dialog
+    title="微信扫码登录"
+    :visible.sync="wxState"
+    width="30%"
+    :show-close="false"
+  >
+    <div class="wx_login">
+      <el-form ref="rf" :model="ruleForm" :rules="rules" label-width="25px">
+        <el-form-item prop="mobile" style="border: 0">
+          <!-- <span class="svg-container">
           <svg-icon icon-class="user" />
         </span> -->
-        <div style="display: flex" class="elInput">
-          <div class="elInput-photo">+86</div>
-          <el-input
-            ref="mobile"
-            v-model="ruleForm.mobile"
-            autocomplete="on"
-            name="username"
-            placeholder="请输入您的手机号"
-            tabindex="1"
-            type="text"
-          />
-        </div>
-      </el-form-item>
-      <el-form-item style="background: none" prop="code">
-        <!-- <el-row>
+          <div style="display: flex" class="elInput">
+            <div class="elInput-photo">+86</div>
+            <el-input
+              ref="mobile"
+              v-model="ruleForm.mobile"
+              autocomplete="on"
+              name="username"
+              placeholder="请输入您的手机号"
+              tabindex="1"
+              type="text"
+            />
+          </div>
+        </el-form-item>
+        <el-form-item style="background: none" prop="code">
+          <!-- <el-row>
           <el-col
             :span="18"
             style="
@@ -31,71 +37,71 @@
               border-radius: 20px;
             "
             > -->
-        <div class="elInput" style="display: flex">
-          <el-input
-            ref="code"
-            v-model="ruleForm.code"
-            type="text"
-            placeholder="请输入验证码"
-          />
-          <!-- <p class="sendCode" :disabled="isclick" @click="sendCapte">
+          <div class="elInput" style="display: flex">
+            <el-input
+              ref="code"
+              v-model="ruleForm.code"
+              type="text"
+              placeholder="请输入验证码"
+            />
+            <!-- <p class="sendCode" :disabled="isclick" @click="sendCapte">
               {{ sendineer }}
             </p> -->
-          <div>
-            <el-button
-              :class="{ 'disabled-style': getCodeBtnDisable }"
-              :disabled="getCodeBtnDisable"
-              style="margin-left: 10px"
-              type="primary"
-              @click="getCode"
-              >{{ codeBtnWord }}</el-button
-            >
+            <div>
+              <el-button
+                :class="{ 'disabled-style': getCodeBtnDisable }"
+                :disabled="getCodeBtnDisable"
+                style="margin-left: 10px"
+                type="primary"
+                @click="getCode"
+                >{{ codeBtnWord }}</el-button
+              >
+            </div>
           </div>
-        </div>
 
-        <!-- </el-form-item> -->
-        <!-- </el-col>
+          <!-- </el-form-item> -->
+          <!-- </el-col>
           <el-col :span="5">
             <el-button ></el-button>
           </el-col>
         </el-row> -->
-      </el-form-item>
-      <el-form-item prop="radio">
-        <el-checkbox-group v-model="ruleForm.radio">
-          <el-checkbox label="1" name="type"
-            >我已同意<span style="color: rgb(37, 110, 253)"
-              >《###使用协议》</span
-            >和
-            <span style="color: rgb(37, 110, 253)"
-              >《用户隐私协议》</span
-            ></el-checkbox
-          >
-        </el-checkbox-group>
-      </el-form-item>
-      <div class="login-btn">
-        <el-button
-          round
-          style="
-            width: 100%;
-            background-color: rgb(37, 110, 253);
-            color: rgb(255, 255, 255);
-          "
-          type="primary"
-          @click.native.prevent="Sign"
-          >立即注册
-        </el-button>
-        <div
-          style="
-            width: 100%;
+        </el-form-item>
+        <el-form-item prop="radio">
+          <el-checkbox-group v-model="ruleForm.radio">
+            <el-checkbox label="1" name="type"
+              >我已同意<span style="color: rgb(37, 110, 253)"
+                >《###使用协议》</span
+              >和
+              <span style="color: rgb(37, 110, 253)"
+                >《用户隐私协议》</span
+              ></el-checkbox
+            >
+          </el-checkbox-group>
+        </el-form-item>
+        <div class="login-btn">
+          <el-button
+            round
+            style="
+              width: 100%;
+              background-color: rgb(37, 110, 253);
+              color: rgb(255, 255, 255);
+            "
+            type="primary"
+            @click.native.prevent="Sign"
+            >立即注册
+          </el-button>
+          <!-- <div
+            style="
+              width: 100%;
 
-            text-align: center;
-            margin: 30px 0px 50px 0px;
-            font-size: 15px;
-          "
-        >
-          <a href="javascript:;" @click="backLogin">返回登录>></a>
-        </div>
-        <!-- <el-button
+              text-align: center;
+              margin: 30px 0px 50px 0px;
+              font-size: 15px;
+            "
+          >
+            <a href="javascript:;" @click="backLogin">返回登录>></a>
+          </div> -->
+          <!-- <el-button
           round
           style="
             width: 100%;
@@ -107,18 +113,23 @@
           @click.native.prevent="backLogin"
           >返回登录>>
         </el-button> -->
-      </div>
-    </el-form>
-  </div>
+        </div>
+      </el-form>
+    </div>
+  </el-dialog>
 </template>
 <script>
 import { getverification, getphoto } from '@/api/my/resume'
 import { string } from 'clipboard'
-
+import { getpassword, getLogin } from '@/api/wx'
+import { getToken, removeToken, setToken } from '@/utils/auth'
 export default {
   props: {
     wxState: {
       type: Boolean
+    },
+    openid: {
+      type: String
     }
 
   },
@@ -138,7 +149,15 @@ export default {
         radio: ''
 
       },
-      mobile: '',
+      mobile: {
+        type: '1',
+        mobile: ''
+      },
+      num: {
+        openid: '',
+        phone: '',
+        code: ''
+      },
 
       rules: {
         mobile: [
@@ -196,6 +215,9 @@ export default {
 
   },
   methods: {
+    handleClose () {
+
+    },
     // 取消
     backLogin () {
       this.$refs.rf.clearValidate()
@@ -208,9 +230,19 @@ export default {
     Sign () {
       this.$refs.rf.validate(async (vaild) => {
         if (vaild) {
-          console.log(this.ruleForm)
-          // const res = await getphoto(this.ruleForm)
-          // console.log('手机号', res)
+          this.num.openid = this.openid
+          this.num.phone = this.ruleForm.mobile
+          this.num.code = this.ruleForm.code
+          console.log(this.num)
+          const res = await getLogin(this.num)
+          console.log('登录', res)
+          if (res.code === 1000) {
+            setToken(res.skey)
+            this.$router.push('/userdash')
+            this.$emit('wxReset')
+          } else {
+            this.$message.success(res.data.msg)
+          }
           // if (res.code === 200) {
           //   this.$message.success('绑定成功')
           //   this.$emit('reset', false, this.ruleForm.mobile)
@@ -226,9 +258,9 @@ export default {
     // 验证码
     async getCode () {
       if (this.ruleForm.mobile) {
-        this.mobile = this.ruleForm.mobile
+        this.mobile.mobile = this.ruleForm.mobile
 
-        const res = await getverification(this.mobile)
+        const res = await getpassword(this.mobile)
 
         if (res.code == 200) {
           this.$message({
@@ -265,13 +297,22 @@ export default {
   min-width: 430px;
   /*max-width: 25%;*/
   width: calc(25vw);
-  height: calc(50vh);
-  min-height: 410px;
-  padding: 90px 35px 0;
+  // height: calc(30vh);
+  min-height: 380px;
+  padding: 50px 30px 0;
   margin: 0 auto;
   overflow: hidden;
   background-color: #ffffff;
   border-radius: 40px;
+}
+::v-deep .el-dialog {
+  display: flex;
+  flex-direction: column;
+  margin: 0 !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 ::v-deep .elInput[data-v-37dfd6fc] {
   width: 310px;
@@ -379,5 +420,12 @@ export default {
 
 ::v-deep element.style {
   margin-left: 25px;
+}
+::v-deep .el-dialog > .el-dialog__body {
+  border-top: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
+}
+::v-deep .el-dialog__title {
+  color: #1657d8;
 }
 </style>

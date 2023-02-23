@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ max: list.length <= 2 }">
     <div class="interview">我的收藏</div>
     <div v-if="ematy">
       <div
@@ -109,5 +109,8 @@ export default {
   color: #256efd;
   font-weight: 600;
   font-size: 20px;
+}
+.max {
+  height: 800px;
 }
 </style>

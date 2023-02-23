@@ -50,7 +50,8 @@
                   <el-row>
                     <el-col :span="12"
                       ><div class="grid">
-                        期望薪资：{{ item.salary_min }} - {{ item.salary_max }}
+                        期望薪资：{{ item.salary_min }}k -
+                        {{ item.salary_max }}k
                       </div></el-col
                     >
                     <el-col :span="12"

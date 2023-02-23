@@ -228,6 +228,7 @@ module.exports = {
     ' vue/no-unused-vars': 'off',
     'require-v-for-key': 'off',
     'no-dupe-keys': 'off',
-    'no-undef': 'off'
+    'no-undef': 'off',
+    'vue/valid-v-bind': 'off'
   }
 }

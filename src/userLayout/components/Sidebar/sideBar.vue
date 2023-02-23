@@ -1,7 +1,11 @@
 <template>
   <div class="side-header">
     <div class="logo">
-      <img src="../../../assets/images/logo.png" @click="dialog" />
+      <img
+        src="../../../assets/images/logo.png"
+        style="cursor: pointer"
+        @click="dialog"
+      />
     </div>
     <el-menu
       :default-active="activeIndex"

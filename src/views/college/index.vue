@@ -1,42 +1,49 @@
 <template>
-  <div>
-    <div class="side-header">
-      <div class="logo" style="width: 25%">
-        <img
-          src="../../assets/images/logo2.png"
-          style="width: 200px"
-          @click="dialog"
-        />
-      </div>
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        text-color="black"
-        style="width: 85%"
-        @select="handleSelect"
-      >
-        <el-menu-item index="1">首页</el-menu-item>
-        <el-submenu index="2">
-          <template slot="title" style="font-size: 16px">选课中心</template>
-          <el-menu-item index="2-1">公开课程</el-menu-item>
-          <el-menu-item index="2-2">校区专属</el-menu-item>
-          <el-menu-item index="2-3">课程包</el-menu-item>
-        </el-submenu>
-
-        <el-menu-item index="3"
-          ><a
-            href="https://admin.xiaoe-tech.com/t/account/muti_index#/myParticipate"
-            target="_blank"
-            >班级学习</a
-          ></el-menu-item
+  <div class="container">
+    <div class="header">
+      <div class="side-header" style="position: relative">
+        <div class="logo">
+          <img
+            src="../../assets/images/logo2.png"
+            style="width: 200px; cursor: pointer"
+            @click="dialog"
+          />
+        </div>
+        <el-menu
+          :default-active="activeIndex"
+          class="el-menu-demo"
+          mode="horizontal"
+          text-color="black"
+          @select="handleSelect"
         >
-        <el-menu-item index="4">题库考试</el-menu-item>
-        <el-menu-item index="5" @click="test">实训考试</el-menu-item>
+          <el-menu-item index="1">首页</el-menu-item>
+          <el-submenu index="2">
+            <template slot="title" style="font-size: 16px">选课中心</template>
+            <el-menu-item index="2-1">公开课程</el-menu-item>
+            <el-menu-item index="2-2">校区专属</el-menu-item>
+            <el-menu-item index="2-3">课程包</el-menu-item>
+          </el-submenu>
 
-        <!-- <Dia :add="add" @handler="handler" /> -->
-      </el-menu>
-      <Navbar style="margin-top: 15px" />
+          <el-menu-item index="3"
+            ><a
+              href="https://admin.xiaoe-tech.com/t/account/muti_index#/myParticipate"
+              target="_blank"
+              >班级学习</a
+            ></el-menu-item
+          >
+          <el-menu-item index="4">题库考试</el-menu-item>
+          <el-menu-item index="5" @click="test">实训考试</el-menu-item>
+
+          <!-- <Dia :add="add" @handler="handler" /> -->
+        </el-menu>
+        <Navbar style="margin-top: 15px" class="logins" />
+      </div>
+      <div>
+        <!-- <img
+          src="../../assets/images/智能智造学院.jpg"
+          style="width: 100%; height: auto; margin-top: 100px"
+        /> -->
+      </div>
     </div>
     <div>
       <img
@@ -60,7 +67,8 @@ export default {
     return {
       add: false,
       activeIndex: '1',
-      dialogVisible: false
+      dialogVisible: false,
+      status: false
       // activeIndex: '首页'
       // routes: [
       //   {
@@ -97,9 +105,57 @@ export default {
 
   },
   created () {
-
+    window.addEventListener('scroll', this.windowScroll)
+    this.$nextTick(() => {
+      // 页面渲染完成后的回调
+      var h =
+        document.documentElement.clientHeight || document.body.clientHeight
+      // console.log(h)
+      // console.log(this.$refs.getheight.offsetHeight);
+      if (this.$refs.getheight.offsetHeight < h) {
+        // console.log(1);
+        this.status = true
+      } else {
+        // console.log(2);
+        this.status = false
+      }
+    })
+  },
+  mounted () {
+    window.addEventListener('scroll', this.windowScroll)
+    this.$nextTick(() => {
+      // 页面渲染完成后的回调
+      var h =
+        document.documentElement.clientHeight || document.body.clientHeight
+      // console.log(h)
+      // console.log(this.$refs.getheight.offsetHeight);
+      if (this.$refs.getheight.offsetHeight < h) {
+        // console.log(1);
+        this.status = true
+      } else {
+        // console.log(2);
+        this.status = false
+      }
+    })
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.windowScroll)
   },
   methods: {
+    windowScroll () {
+      // 滚动条距离页面顶部的距离
+      // 以下写法原生兼容
+      const scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop
+      // console.log(scrollTop == '');
+      if (scrollTop !== '') {
+        this.status = true
+      } else {
+        this.status = false
+      }
+    },
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
     },
@@ -118,7 +174,83 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.container {
+  width: 100%;
+  height: auto;
+  min-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .header {
+    width: 100%;
+    height: 113px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    .logins {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  }
+
+  .main {
+    width: 100%;
+    height: auto;
+    background-color: #fffeff;
+    //align-self: flex-start;
+  }
+}
+
+.containers {
+  width: 100%;
+  height: auto;
+  // min-width: 1555px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .header {
+    width: 100%;
+    height: 113px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    .logins {
+      position: absolute;
+      right: 5px;
+      top: 10px;
+    }
+  }
+
+  .main {
+    width: 100%;
+    height: auto;
+    flex: 1;
+    background-color: #f6f6f8;
+    //align-self: flex-start;
+    //background-color: #f6f6f8;
+  }
+}
+.header {
+  width: 100%;
+  height: 113px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  .logins {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+}
+
 .side-header {
+  // overflow: hidden;
   width: 100%;
   // min-width: 960px;
   display: flex;

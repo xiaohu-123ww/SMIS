@@ -137,8 +137,8 @@
                     >
                       {{ item.position.enterprise.financing_status }}
                     </div>
-                    <div class="machan-cc">
-                      {{ item.position.enterprise.size }}
+                    <div class="machan-cc" style="border: 0">
+                      {{ item.position.enterprise.size }}人
                     </div>
                   </div>
                   <div class="machss" style="font-size: 14px">

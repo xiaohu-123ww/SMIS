@@ -1,159 +1,168 @@
 <template>
   <div class="login-container">
-    <el-form
-      v-show="isuser == true"
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      autocomplete="on"
-      class="login-form"
-      label-position="left"
-    >
-      <div class="title-container">
-        <!-- <img
+    <div v-if="numState">
+      <el-form
+        v-show="isuser == true"
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginRules"
+        autocomplete="on"
+        class="login-form"
+        label-position="left"
+      >
+        <div v-if="send">
+          <div class="title-container">
+            <!-- <img
           alt=""
           src="../../assets/images/logo.png"
           style="width: 230px; height: 70px; margin: 0 auto"
         /> -->
-      </div>
-      <div class="Qiehuan" style="margin-bottom: 20px">
-        <p :class="isuser == true ? 'active' : ''" @click="user">账号登录</p>
-        <p :class="isuser == false ? 'active' : ''" @click="cepateLogin">
-          验证码登录
-        </p>
-      </div>
-      <!-- 验证码登录 -->
-      <el-form-item
-        v-show="isuser == false ? 'active' : ''"
-        prop="mobile"
-        style="background-color: #f6f6f8"
-      >
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="mobile"
-          v-model="loginForm.mobile"
-          autocomplete="on"
-          name="username"
-          placeholder="请输入您的手机号"
-          tabindex="1"
-          type="text"
-        />
-      </el-form-item>
-      <el-form-item
-        v-show="isuser == false ? 'active' : ''"
-        style="background: none"
-        prop="code"
-      >
-        <el-row>
-          <el-col :span="18"
-            ><el-input
-              ref="code"
-              v-model="loginForm.code"
+          </div>
+          <div class="Qiehuan" style="margin-bottom: 20px">
+            <p :class="isuser == true ? 'active' : ''" @click="user">
+              账号登录
+            </p>
+            <p :class="isuser == false ? 'active' : ''" @click="cepateLogin">
+              验证码登录
+            </p>
+          </div>
+          <!-- 验证码登录 -->
+          <el-form-item
+            v-show="isuser == false ? 'active' : ''"
+            prop="mobile"
+            style="background-color: #f6f6f8"
+          >
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input
+              ref="mobile"
+              v-model="loginForm.mobile"
+              autocomplete="on"
+              name="username"
+              placeholder="请输入您的手机号"
+              tabindex="1"
               type="text"
-              style="
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                background: #f6f6f8;
-                border-radius: 20px;
-                height: 52px;
-              "
-              placeholder="请输入验证码"
-          /></el-col>
-          <el-col :span="5">
-            <!-- <el-button :disabled="isclick" @click="sendCapte">{{
+            />
+          </el-form-item>
+          <el-form-item
+            v-show="isuser == false ? 'active' : ''"
+            style="background: none"
+            prop="code"
+          >
+            <el-row>
+              <el-col :span="18"
+                ><el-input
+                  ref="code"
+                  v-model="loginForm.code"
+                  type="text"
+                  style="
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    background: #f6f6f8;
+                    border-radius: 20px;
+                    height: 52px;
+                  "
+                  placeholder="请输入验证码"
+              /></el-col>
+              <el-col :span="5">
+                <!-- <el-button :disabled="isclick" @click="sendCapte">{{
               sendineer
             }}</el-button> -->
-            <el-button
-              :class="{ 'disabled-style': getCodeBtnDisable }"
-              :disabled="getCodeBtnDisable"
-              style="margin-left: 10px"
-              type="primary"
-              @click="getCode"
-              >{{ codeBtnWord }}</el-button
-            >
-          </el-col>
-        </el-row>
-      </el-form-item>
+                <el-button
+                  :class="{ 'disabled-style': getCodeBtnDisable }"
+                  :disabled="getCodeBtnDisable"
+                  style="margin-left: 10px"
+                  type="primary"
+                  @click="getCode"
+                  >{{ codeBtnWord }}</el-button
+                >
+              </el-col>
+            </el-row>
+          </el-form-item>
 
-      <!-- 账号登录 -->
-      <el-form-item
-        v-show="isuser == true ? 'active' : ''"
-        prop="username"
-        label="账号"
-      >
-        <!-- <span class="svg-container">
+          <!-- 账号登录 -->
+          <el-form-item
+            v-show="isuser == true ? 'active' : ''"
+            prop="username"
+            label="账号"
+          >
+            <!-- <span class="svg-container">
           <svg-icon icon-class="user" />
         </span> -->
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          autocomplete="on"
-          name="username"
-          placeholder="请输入您的账号"
-          tabindex="1"
-          type="text"
-          class="elInput"
-        />
-      </el-form-item>
+            <el-input
+              ref="username"
+              v-model="loginForm.username"
+              autocomplete="on"
+              name="username"
+              placeholder="请输入您的账号"
+              tabindex="1"
+              type="text"
+              class="elInput"
+            />
+          </el-form-item>
 
-      <el-tooltip
-        v-show="isuser == true ? 'active' : ''"
-        v-model="capsTooltip"
-        content="Caps lock is On"
-        manual
-        placement="right"
-      >
-        <el-form-item prop="password" label="密码">
-          <!-- <span class="svg-container">
+          <el-tooltip
+            v-show="isuser == true ? 'active' : ''"
+            v-model="capsTooltip"
+            content="Caps lock is On"
+            manual
+            placement="right"
+          >
+            <el-form-item prop="password" label="密码">
+              <!-- <span class="svg-container">
             <svg-icon icon-class="password" />
           </span> -->
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            autocomplete="off"
-            name="password"
-            placeholder="请输入密码"
-            tabindex="2"
-            class="elInput"
-            @blur="capsTooltip = false"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon
-              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-            />
-          </span>
-        </el-form-item>
-      </el-tooltip>
+              <el-input
+                :key="passwordType"
+                ref="password"
+                v-model="loginForm.password"
+                :type="passwordType"
+                autocomplete="off"
+                name="password"
+                placeholder="请输入密码"
+                tabindex="2"
+                class="elInput"
+                @blur="capsTooltip = false"
+              />
+              <span class="show-pwd" @click="showPwd">
+                <svg-icon
+                  :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+                />
+              </span>
+            </el-form-item>
+          </el-tooltip>
 
-      <div class="login-btn">
-        <el-button
-          v-show="isuser == true ? 'active' : ''"
-          :loading="userloading"
-          round
-          style="
-            width: 100%;
+          <div class="login-btn">
+            <el-button
+              v-show="isuser == true ? 'active' : ''"
+              :loading="userloading"
+              round
+              style="
+                width: 100%;
 
-            background-color: rgb(37, 110, 253);
-            color: #fff;
-          "
-          type="primary"
-          @click.native.prevent="UserLogin"
-          >账号登录
-        </el-button>
+                background-color: rgb(37, 110, 253);
+                color: #fff;
+              "
+              type="primary"
+              @click.native.prevent="UserLogin"
+              >账号登录
+            </el-button>
 
-        <el-button
-          v-show="isuser == true ? 'active' : ''"
-          :loading="loading"
-          round
-          style="width: 100%; background-color: rgb(37, 110, 253); color: #fff"
-          type="primary"
-          >微信扫码登录
-        </el-button>
+            <el-button
+              v-show="isuser == true ? 'active' : ''"
+              :loading="loading"
+              round
+              style="
+                width: 100%;
+                background-color: rgb(37, 110, 253);
+                color: #fff;
+              "
+              type="primary"
+              @click="weChat"
+              >微信扫码登录
+            </el-button>
 
-        <!-- <el-button
+            <!-- <el-button
           v-show="isuser == false ? 'active' : ''"
           :loading="userloading"
           round
@@ -168,7 +177,7 @@
           @click.native.prevent="CapteLogin"
           >验证码登录
         </el-button> -->
-        <!-- <el-button
+            <!-- <el-button
           round
           style="
             width: 100%;
@@ -182,71 +191,74 @@
           @click.native.prevent="register"
           >没有账号？点此去注册>>
         </el-button> -->
-      </div>
-      <div
-        style="
-          width: 100%;
+          </div>
+          <div
+            style="
+              width: 100%;
 
-          text-align: center;
-          margin: 50px 0px 50px 0px;
-          font-size: 15px;
-        "
+              text-align: center;
+              margin: 50px 0px 50px 0px;
+              font-size: 15px;
+            "
+          >
+            <a href="javascript:;" @click="register">没有账号？点此去注册>></a>
+          </div>
+        </div>
+        <!-- <Dialog :sends="sends" @weChatClone="weChatClone" /> -->
+        <!-- <Wei v-if="send" /> -->
+      </el-form>
+      <el-form
+        v-show="isuser == false"
+        ref="CapteloginForm"
+        :model="CapteloginForm"
+        :rules="CapteloginRules"
+        autocomplete="on"
+        class="login-form"
+        label-position="left"
       >
-        <a href="javascript:;" @click="register">没有账号？点此去注册>></a>
-      </div>
-    </el-form>
-    <el-form
-      v-show="isuser == false"
-      ref="CapteloginForm"
-      :model="CapteloginForm"
-      :rules="CapteloginRules"
-      autocomplete="on"
-      class="login-form"
-      label-position="left"
-    >
-      <div class="title-container">
-        <!-- <img
+        <div class="title-container">
+          <!-- <img
           alt=""
           src="../../assets/images/logo.png"
           style="width: 230px; height: 70px; margin: 0 auto"
         /> -->
-      </div>
-      <div class="Qiehuan" style="margin-bottom: 20px">
-        <p :class="isuser == true ? 'active' : ''" @click="user">账号登录</p>
-        <p :class="isuser == false ? 'active' : ''" @click="cepateLogin">
-          验证码登录
-        </p>
-      </div>
-      <!-- 验证码登录 -->
-      <el-form-item
-        v-show="isuser == false ? 'active' : ''"
-        prop="mobile"
-        label="手机号"
-        style="border: 0"
-      >
-        <!-- <span class="svg-container">
+        </div>
+        <div class="Qiehuan" style="margin-bottom: 20px">
+          <p :class="isuser == true ? 'active' : ''" @click="user">账号登录</p>
+          <p :class="isuser == false ? 'active' : ''" @click="cepateLogin">
+            验证码登录
+          </p>
+        </div>
+        <!-- 验证码登录 -->
+        <el-form-item
+          v-show="isuser == false ? 'active' : ''"
+          prop="mobile"
+          label="手机号"
+          style="border: 0"
+        >
+          <!-- <span class="svg-container">
           <svg-icon icon-class="user" />
         </span> -->
-        <div style="display: flex" class="elInput">
-          <div class="elInput-photo">+86</div>
-          <el-input
-            ref="mobile"
-            v-model="CapteloginForm.mobile"
-            autocomplete="on"
-            name="username"
-            placeholder="请输入您的手机号"
-            tabindex="1"
-            type="text"
-          />
-        </div>
-      </el-form-item>
-      <el-form-item
-        v-show="isuser == false ? 'active' : ''"
-        style="background: none"
-        prop="code"
-        label="验证码"
-      >
-        <!-- <el-row>
+          <div style="display: flex" class="elInput">
+            <div class="elInput-photo">+86</div>
+            <el-input
+              ref="mobile"
+              v-model="CapteloginForm.mobile"
+              autocomplete="on"
+              name="username"
+              placeholder="请输入您的手机号"
+              tabindex="1"
+              type="text"
+            />
+          </div>
+        </el-form-item>
+        <el-form-item
+          v-show="isuser == false ? 'active' : ''"
+          style="background: none"
+          prop="code"
+          label="验证码"
+        >
+          <!-- <el-row>
           <el-col
             :span="18"
             style="
@@ -258,62 +270,62 @@
               border-radius: 20px;
             "
             > -->
-        <div class="elInput" style="display: flex">
-          <el-input
-            ref="code"
-            v-model="CapteloginForm.code"
-            type="text"
-            placeholder="请输入验证码"
-          />
-          <!-- <p class="sendCode" :disabled="isclick" @click="sendCapte">
+          <div class="elInput" style="display: flex">
+            <el-input
+              ref="code"
+              v-model="CapteloginForm.code"
+              type="text"
+              placeholder="请输入验证码"
+            />
+            <!-- <p class="sendCode" :disabled="isclick" @click="sendCapte">
               {{ sendineer }}
             </p> -->
-          <div>
-            <el-button
-              :class="{ 'disabled-style': getCodeBtnDisable }"
-              :disabled="getCodeBtnDisable"
-              style="margin-left: 10px"
-              type="primary"
-              @click="getCode"
-              >{{ codeBtnWord }}</el-button
-            >
+            <div>
+              <el-button
+                :class="{ 'disabled-style': getCodeBtnDisable }"
+                :disabled="getCodeBtnDisable"
+                style="margin-left: 10px"
+                type="primary"
+                @click="getCode"
+                >{{ codeBtnWord }}</el-button
+              >
+            </div>
           </div>
-        </div>
-        <!-- </el-col>
+          <!-- </el-col>
           <el-col :span="5">
             <el-button ></el-button>
           </el-col>
         </el-row> -->
-      </el-form-item>
+        </el-form-item>
 
-      <div class="login-btn" style="height: 150px">
-        <el-button
-          v-show="isuser == false ? 'active' : ''"
-          :loading="userloading"
-          round
-          style="
-            width: 100%;
+        <div class="login-btn" style="height: 150px">
+          <el-button
+            v-show="isuser == false ? 'active' : ''"
+            :loading="userloading"
+            round
+            style="
+              width: 100%;
 
-            background-color: rgb(37, 110, 253);
-            top: 0;
-            color: #fff;
-          "
-          type="primary"
-          @click.native.prevent="CapteLogin"
-          >验证码登录
-        </el-button>
-        <div
-          style="
-            width: 100%;
+              background-color: rgb(37, 110, 253);
+              top: 0;
+              color: #fff;
+            "
+            type="primary"
+            @click.native.prevent="CapteLogin"
+            >验证码登录
+          </el-button>
+          <div
+            style="
+              width: 100%;
 
-            text-align: center;
-            margin: 30px 0px 50px 0px;
-            font-size: 15px;
-          "
-        >
-          <a href="javascript:;" @click="register">没有账号？点此去注册>></a>
-        </div>
-        <!-- <el-button
+              text-align: center;
+              margin: 30px 0px 50px 0px;
+              font-size: 15px;
+            "
+          >
+            <a href="javascript:;" @click="register">没有账号？点此去注册>></a>
+          </div>
+          <!-- <el-button
           round
           style="
             width: 100%;
@@ -327,25 +339,40 @@
           @click.native.prevent="register"
           >没有账号？点此去注册>>
         </el-button> -->
-      </div>
-    </el-form>
-    <el-dialog :visible.sync="showDialog" title="Or connect with">
-      Can not be simulated on local, so please combine you own business
-      simulation! ! !
-      <br />
-      <br />
-      <br />
-      <social-sign />
-    </el-dialog>
+        </div>
+      </el-form>
+      <el-dialog :visible.sync="showDialog" title="Or connect with">
+        Can not be simulated on local, so please combine you own business
+        simulation! ! !
+        <br />
+        <br />
+        <br />
+        <social-sign />
+      </el-dialog>
+    </div>
+    <Wx :wx-state="wxState" @wxReset="wxReset" />
   </div>
 </template>
 
 <script>
+
+import axios from 'axios'
 import { validUsername } from '@/utils/validate'
 import { Captelogin, sendCapte } from '@/api/user'
 import { getverification } from '@/api/my/resume'
+// import Num from './components/weixin.vue'
+import Dialog from './components/dialog.vue'
+// import { filter } from 'mock/article'
+import Wx from './components/wx.vue'
 export default {
   name: 'Login',
+  components: {
+    Dialog,
+    Wx
+  },
+  // components: {
+  //   Wei
+  // },
   data () {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -362,6 +389,11 @@ export default {
       }
     }
     return {
+      numState: true,
+      wxState: false,
+      imgs: '',
+      sends: false,
+      send: true,
       sendineer: '发送验证码',
       timer: null, // 定时器
       isclick: false,
@@ -392,6 +424,7 @@ export default {
       otherQuery: {},
       codeBtnWord: '获取验证码', // 获取验证码按钮文字
       waitTime: 61 // 获取验证码按钮失效时间
+
     }
   },
   computed: {
@@ -446,6 +479,32 @@ export default {
   },
 
   methods: {
+    wxReset () {
+      this.wxState = false
+      this.numState = true
+    },
+    weChatClone () {
+      this.sends = false
+    },
+
+    weChat () {
+      // this.send = false
+      // var th = this
+      // // console.log('哈哈哈')
+      // axios.get('http://5eba16ef.r3.cpolar.top/getQrCode').then(function (response) { // 成功回调方法（访问后台成功，后台有数据返回，则进入该方法）
+      //   console.log(response)
+      //   console.log(response.data.url)
+      //   th.imgs = response.data.url
+      // })
+      //   .catch(function (error) { // 失败回调方法（访问后台失败，返回失败的信息，则进入该方法）
+      //     console.log(error)
+      //   })
+      // console.log(this.imgs)
+      // this.sends = true
+
+      this.wxState = true
+      this.numState = false
+    },
     sendCapte () {
 
     }, // 发送验证码

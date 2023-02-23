@@ -8,16 +8,22 @@
         >
           <div class="avatar-wrapper">
             <div class="avatar-wrapperL">
-              <el-avatar
-                :src="circurl"
-                style="position: relative; top: 10px; left: 0px"
-              />
+              <a href="javascript:;">
+                <el-avatar
+                  :src="circurl"
+                  style="position: relative; top: 10px; left: 0px"
+                />
+              </a>
               <p class="avatar-wrapper-p">
                 {{ userInfo.fullname ? userInfo.fullname : userInfo.username }}
               </p>
             </div>
             <div class="avatar-wrapperR">
-              <img src="@/assets/images/Grid.png" class="avatar-wrapper-img" />
+              <img
+                src="@/assets/images/Grid.png"
+                class="avatar-wrapper-img"
+                style="cursor: pointer"
+              />
             </div>
           </div>
           <el-dropdown-menu slot="dropdown" style="width: 100px">
@@ -170,7 +176,7 @@ export default {
   // height: 100%;
   // overflow: hidden;
   // position: relative;
-  right: 10px;
+  right: 5px;
   // background: #fff !important;
   .hamburger-container {
     line-height: 46px;

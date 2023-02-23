@@ -193,7 +193,7 @@ export default {
     position: relative;
     .logins {
       position: absolute;
-      right: 90px;
+      right: 10px;
       top: 25px;
     }
   }

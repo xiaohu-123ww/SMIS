@@ -622,10 +622,10 @@ $light_gray: #eee;
   font-size: 20px;
   margin: 30px 0px;
 }
-::v-deep .el-form-item__content {
-  height: 100%;
-  display: flex;
-}
+// ::v-deep .el-form-item__content {
+//   height: 100%;
+//   display: flex;
+// }
 .elInput {
   width: 310px;
   height: 40px;

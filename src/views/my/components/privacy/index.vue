@@ -40,7 +40,7 @@
           v-model="checkAll"
           class="footer-check"
           @change="checkboxChange"
-          >所有与"{{ qw }}"相关的200家企业</el-checkbox
+          >所有与"{{ qw }}"相关的{{ total }}家企业</el-checkbox
         >
         <el-button type="primary" @click="dialog">屏蔽所选企业</el-button>
       </div>

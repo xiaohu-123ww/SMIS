@@ -143,7 +143,9 @@
               <div class="machan-cc" style="border-right: 1px solid #e6e3e3">
                 {{ item.position.enterprise.financing_status }}
               </div>
-              <div class="machan-cc">{{ item.position.enterprise.size }}</div>
+              <div class="machan-cc" style="border: 0">
+                {{ item.position.enterprise.size }}人
+              </div>
             </div>
           </div>
         </div>
@@ -189,7 +191,9 @@ export default {
       this.$router.push({
         path: '/state',
         name: 'state',
-        query: { id: item.id }
+        query: {
+          id: item.position.position_id
+        }
       })
     },
     open (i) {

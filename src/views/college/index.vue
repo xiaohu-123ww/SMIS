@@ -18,7 +18,7 @@
         >
           <el-menu-item index="1">首页</el-menu-item>
           <el-submenu index="2">
-            <template slot="title" style="font-size: 16px">选课中心</template>
+            <template slot="title">选课中心</template>
             <el-menu-item index="2-1">公开课程</el-menu-item>
             <el-menu-item index="2-2">校区专属</el-menu-item>
             <el-menu-item index="2-3">课程包</el-menu-item>
@@ -105,57 +105,57 @@ export default {
 
   },
   created () {
-    window.addEventListener('scroll', this.windowScroll)
-    this.$nextTick(() => {
-      // 页面渲染完成后的回调
-      var h =
-        document.documentElement.clientHeight || document.body.clientHeight
-      // console.log(h)
-      // console.log(this.$refs.getheight.offsetHeight);
-      if (this.$refs.getheight.offsetHeight < h) {
-        // console.log(1);
-        this.status = true
-      } else {
-        // console.log(2);
-        this.status = false
-      }
-    })
+    // window.addEventListener('scroll', this.windowScroll)
+    // this.$nextTick(() => {
+    //   // 页面渲染完成后的回调
+    //   var h =
+    //     document.documentElement.clientHeight || document.body.clientHeight
+    //   // console.log(h)
+    //   // console.log(this.$refs.getheight.offsetHeight);
+    //   if (this.$refs.getheight.offsetHeight < h) {
+    //     // console.log(1);
+    //     this.status = true
+    //   } else {
+    //     // console.log(2);
+    //     this.status = false
+    //   }
+    // })
   },
   mounted () {
-    window.addEventListener('scroll', this.windowScroll)
-    this.$nextTick(() => {
-      // 页面渲染完成后的回调
-      var h =
-        document.documentElement.clientHeight || document.body.clientHeight
-      // console.log(h)
-      // console.log(this.$refs.getheight.offsetHeight);
-      if (this.$refs.getheight.offsetHeight < h) {
-        // console.log(1);
-        this.status = true
-      } else {
-        // console.log(2);
-        this.status = false
-      }
-    })
+    // window.addEventListener('scroll', this.windowScroll)
+    // this.$nextTick(() => {
+    //   // 页面渲染完成后的回调
+    //   var h =
+    //     document.documentElement.clientHeight || document.body.clientHeight
+    //   // console.log(h)
+    //   // console.log(this.$refs.getheight.offsetHeight);
+    //   if (this.$refs.getheight.offsetHeight < h) {
+    //     // console.log(1);
+    //     this.status = true
+    //   } else {
+    //     // console.log(2);
+    //     this.status = false
+    //   }
+    // })
   },
-  beforeDestroy () {
-    window.removeEventListener('scroll', this.windowScroll)
-  },
+  // beforeDestroy () {
+  //   window.removeEventListener('scroll', this.windowScroll)
+  // },
   methods: {
-    windowScroll () {
-      // 滚动条距离页面顶部的距离
-      // 以下写法原生兼容
-      const scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop
-      // console.log(scrollTop == '');
-      if (scrollTop !== '') {
-        this.status = true
-      } else {
-        this.status = false
-      }
-    },
+    // windowScroll () {
+    //   // 滚动条距离页面顶部的距离
+    //   // 以下写法原生兼容
+    //   const scrollTop =
+    //     window.pageYOffset ||
+    //     document.documentElement.scrollTop ||
+    //     document.body.scrollTop
+    //   // console.log(scrollTop == '');
+    //   if (scrollTop !== '') {
+    //     this.status = true
+    //   } else {
+    //     this.status = false
+    //   }
+    // },
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
     },

@@ -25,7 +25,11 @@
         </el-pagination>
       </div>
     </div>
-    <el-empty v-else description="再无收藏列表"></el-empty>
+    <el-empty
+      v-else
+      description="再无收藏列表"
+      style="margin-top: 200px"
+    ></el-empty>
   </div>
 </template>
 <script>

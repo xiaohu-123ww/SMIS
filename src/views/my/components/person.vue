@@ -12,35 +12,39 @@
         <div class="right">
           <div class="right-i">
             <div style="font-size: 22px; font-weight: 600">
-              {{ num.name ? num.name : 'XXXX' }}
+              {{ num.name ? num.name : '姓名' }}
             </div>
             <div style="margin-left: 40px; margin-top: 5px; font-size: 16px">
               {{ num.status }}
             </div>
           </div>
           <div class="right-i">
-            <div v-if="flag === false" class="right-age">{{ num.sex }}</div>
-            <div class="right-age">{{ num.age }}岁</div>
+            <div v-if="flag === false" class="right-age">
+              {{ num.sex ? num.sex : '性别' }}
+            </div>
+            <div class="right-age">
+              {{ num.age ? num.age + '岁' : '未知年龄' }}
+            </div>
             <div v-if="flag === true" class="right-age">
-              {{ num.year ? num.year : '无' }}年
+              {{ num.year ? num.year + '年经验' : '未知工作经验' }}
             </div>
             <div v-if="flag === false" class="right-age">
-              {{ num.year ? num.year : '工作经验' }}年经验
+              {{ num.year ? num.year + '年经验' : '未知工作经验' }}
             </div>
             <div class="right-age" style="border: 0">
-              {{ num.education ? num.education : '学历' }}
+              {{ num.education ? num.education : '未知学历' }}
             </div>
           </div>
           <div v-if="flag === false" class="phone">
             <el-row>
               <el-col :span="9"
                 ><div class="grid-content bg-purple">
-                  {{ num.phone_number }}
+                  {{ num.phone_number ? num.phone_number : '未知电话' }}
                 </div></el-col
               >
               <el-col :span="12"
                 ><div class="grid-content bg-purple">
-                  {{ num.email }}
+                  {{ num.email ? num.email : '未知邮箱' }}
                 </div></el-col
               >
             </el-row>
@@ -204,4 +208,19 @@ export default {
     }
   }
 }
+.el-avatar {
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+  overflow: hidden;
+  color: #fff;
+  background: none;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+}
+// img {
+//   border-radius: 100px;
+// }
 </style>

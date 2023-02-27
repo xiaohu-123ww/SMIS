@@ -205,6 +205,7 @@
           </div>
         </div>
         <Dialog
+          ref="num"
           :sends="sends"
           @weChatClone="weChatClone"
           @getPhoto="getPhoto"
@@ -511,6 +512,8 @@ export default {
       //     console.log(error)
       //   })
       // console.log(this.imgs)
+      // this.sends = true
+      this.$refs.num.createQrcode()
       this.sends = true
 
       // this.wxState = true

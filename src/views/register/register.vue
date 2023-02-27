@@ -90,16 +90,18 @@
         </el-form-item>
       </el-tooltip>
       <el-form-item prop="radio">
-        <el-checkbox-group v-model="loginForm.radio">
-          <el-checkbox label="1" name="type"
-            >我已同意<span style="color: rgb(37, 110, 253)"
-              >《###使用协议》</span
-            >和
-            <span style="color: rgb(37, 110, 253)"
-              >《用户隐私协议》</span
-            ></el-checkbox
-          >
-        </el-checkbox-group>
+        <div style="display: flex">
+          <el-checkbox-group v-model="loginForm.radio">
+            <el-checkbox></el-checkbox>
+          </el-checkbox-group>
+          <div>
+            我已阅读并同意<a
+              href="javascript:;"
+              style="color: rgb(37, 110, 253); text-decoration: underline"
+              >匠才智聘隐私设置</a
+            >
+          </div>
+        </div>
       </el-form-item>
 
       <!-- <el-tooltip
@@ -690,5 +692,9 @@ $light_gray: #eee;
 .login-container .el-form-item {
   height: 48px;
   width: 100%;
+}
+.el-checkbox-group {
+  width: 20px;
+  height: 20px;
 }
 </style>

@@ -8,7 +8,11 @@
       :before-close="handleClose"
     >
       <div class="flex-box">
-        <img :src="tick" alt="" style="width: 300px" />
+        <div
+          style="border: 1px solid rgb(214 209 209); width: 30vh; height: 30vh"
+        >
+          <img :src="tick" alt="" style="width: 100%" />
+        </div>
       </div>
       <div
         style="
@@ -53,7 +57,9 @@ export default {
       tick: '',
       list: {
         code: null
-      }
+      },
+      task: null,
+      state: false
     }
   },
   computed: {
@@ -63,11 +69,12 @@ export default {
     // this.creatQrCode() // 创建二维码
   },
   created () {
-    this.createQrcode()
+    // this.createQrcode()
     this.num()
   },
   methods: {
     handleClose () {
+      clearInterval(this.task)
       this.$emit('weChatClone')
     },
     async createQrcode () {
@@ -75,12 +82,14 @@ export default {
       console.log('微信二维码', data.data)
       this.wx = data.data
       this.tick = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${data.data.ticket}`
-      var task = setInterval(async () => {
+
+      this.task = setInterval(async () => {
         const { data } = await wxTicket(this.wx.login_scene)
         console.log('是否登录', data)
         // this.list = data
 
         if (data.openid !== '' && data.phone !== null) {
+          // clearInterval(this.task)
           this.list.phone = data.phone
           this.list.openid = data.openid
 
@@ -90,16 +99,17 @@ export default {
           console.log('扫码了', this.list, res)
           if (res.code === 1000) {
             setToken(res.skey)
+            // clearInterval(this.task)
             this.$router.push('/userdash')
-            clearInterval(task)
           } else {
             this.$message.success(res.data.msg)
           }
+          clearInterval(this.task)
         } else if (data.openid !== '' && data.phone === null) {
           console.log('1233')
+          clearInterval(this.task)
           this.$emit('getPhoto', data.openid)
           this.$message.success('扫码成功，绑定下手机号吧')
-          clearInterval(task)
         }
       }, 1000)
     },
@@ -136,7 +146,10 @@ export default {
 <style scoped lang="scss">
 .flex-box {
   // background-color: pink;
-  padding: 0px 100px;
+  // padding: 0px 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 ::v-deep .el-dialog > .el-dialog__body {
   border-top: 1px solid #e9e9e9;

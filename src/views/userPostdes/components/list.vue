@@ -237,11 +237,14 @@
         ></el-row
       >
     </div>
+    <!-- <Num :state="state" /> -->
   </div>
 </template>
 <script>
 import disposeImg from '@/utils/disposeImg'
+// import Num from './num.vue'
 export default {
+  // comments: { Num },
   props: {
     inRecruitList: {
       type: Array
@@ -264,7 +267,7 @@ export default {
   },
   data () {
     return {
-
+      state: false
     }
   },
   computed: {
@@ -275,6 +278,8 @@ export default {
   methods: {
     particulars (item) {
       console.log('简历详情', item)
+      // this.state = true
+
       this.$router.push({
         path: '/state',
         name: 'state',

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import 'lib-flexible'
 import Cookies from 'js-cookie'
-
+import Nim from '@/assets/NIM_Web_SDK_v8.9.107'
 import './utils/rem'
 // import 'lib-flexible-computer'
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
@@ -33,7 +33,14 @@ import 'quill/dist/quill.bubble.css'
 import BaiduMap from 'vue-baidu-map'
 import { VueJsonp } from 'vue-jsonp'
 
+import Vant from 'vant'
+import 'vant/lib/index.css'
+
+// import * as RongIMLib from '@rongcloud/imlib-v4'
+// Vue.use(RongIMLib)
 // 全局注册富文本编辑器
+
+Vue.use(Vant)
 Vue.use(VueQuillEditor)
 Vue.use(VueJsonp)
 Vue.use(ElementUI)
@@ -50,7 +57,7 @@ Vue.use(BaiduMap, {
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
-
+Vue.prototype.NIM = Nim.NIM
 Vue.config.productionTip = false
 Vue.prototype.gettalents = gettalents
 Vue.prototype.getseaechlist = getseaechlist

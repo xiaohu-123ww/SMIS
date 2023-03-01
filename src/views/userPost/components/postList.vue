@@ -307,17 +307,19 @@
         </el-row>
       </div>
     </div>
+    <Num :state="state" @res="res" />
   </div>
 </template>
 <script>
 import { getPostList, getbrowsingHistory, getPostListOne } from '@/api/postlist'
 import disposeImg from '@/utils/disposeImg'
 import { constantRoutes } from '@/router'
+import Num from './state.vue'
 export default {
-
+  components: { Num },
   data () {
     return {
-
+      state: false,
       list: ['', '', ''],
       serchList: {
         qw: ''
@@ -355,7 +357,9 @@ export default {
   },
 
   methods: {
-
+    res () {
+      this.state = false
+    },
     handleSizeChange (newSize) {
       console.log('每页条数', newSize)
       this.limit = newSize
@@ -433,11 +437,12 @@ export default {
     },
     particulars (item) {
       console.log('简历详情', item)
-      this.$router.push({
-        path: '/state',
-        name: 'state',
-        query: { id: item.id }
-      })
+      this.state = true
+      // this.$router.push({
+      //   path: '/state',
+      //   name: 'state',
+      //   query: { id: item.id }
+      // })
     },
     part (item) {
       this.$router.push({

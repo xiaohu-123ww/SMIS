@@ -858,4 +858,7 @@ export default {
   font-weight: 700;
   // color: rgb(6, 104, 196);
 }
+// ::v-deep input.el-input__inner {
+//   font-weight: 400;
+// }
 </style>

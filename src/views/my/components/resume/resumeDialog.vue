@@ -134,7 +134,7 @@
           <el-form-item prop="salary_min" style="margin-right: 10px">
             <el-select
               v-model="ruleForm.salary_min"
-              placeholder="2000"
+              placeholder="2k"
               class="money"
             >
               <el-option
@@ -147,15 +147,13 @@
               >
             </el-select>
           </el-form-item>
-
-          <el-col class="line" :span="2" style="color: rgb(194, 194, 204)"
-            >——</el-col
-          >
+          <div style="color: rgb(220, 223, 230); margin-right: 10px">K</div>
+          <div style="color: rgb(220, 223, 230); margin-right: 10px">——</div>
 
           <el-form-item prop="salary_max">
             <el-select
               v-model="ruleForm.salary_max"
-              placeholder="4000"
+              placeholder="4k"
               class="money"
             >
               <el-option
@@ -168,6 +166,7 @@
               >
             </el-select>
           </el-form-item>
+          <div style="color: rgb(220, 223, 230); margin-left: 10px">K</div>
         </div>
       </el-form-item>
       <el-form-item label="工作性质" prop="job_nature">
@@ -278,8 +277,8 @@ export default {
         position_class: ''
 
       },
-      money: ['2000', '4000', '8000', '12000', '16000', '20000', '24000', '28000'],
-      lastMoney: ['4000', '8000', '12000', '16000', '20000', '24000', '28000', '32000'],
+      money: ['2', '4', '8', '12', '16', '20', '24', '28'],
+      lastMoney: ['4', '8', '12', '16', '20', '24', '28', '32'],
       work: [
         {
           id: 1,
@@ -484,7 +483,7 @@ export default {
   width: 500px;
 }
 .money {
-  width: 200px;
+  // width: 220px;
 }
 ::v-deep .el-select-dropdown__item.is-disabled {
   color: rgb(37, 110, 253);

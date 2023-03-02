@@ -45,7 +45,7 @@
                             type="primary"
                             round
                             class="el-bt"
-                            @click="particulars(item)"
+                            @click="communication(item)"
                             >立即沟通</el-button
                           >
                         </div>
@@ -308,6 +308,7 @@
       </div>
     </div>
     <Num :state="state" @res="res" />
+    <Dialog :visible="visible" />
   </div>
 </template>
 <script>
@@ -315,8 +316,9 @@ import { getPostList, getbrowsingHistory, getPostListOne } from '@/api/postlist'
 import disposeImg from '@/utils/disposeImg'
 import { constantRoutes } from '@/router'
 import Num from './state.vue'
+import Dialog from './dialog.vue'
 export default {
-  components: { Num },
+  components: { Num, Dialog },
   data () {
     return {
       state: false,
@@ -340,7 +342,8 @@ export default {
       showTime: false,
       qw: '',
       number: true,
-      text: []
+      text: [],
+      visible: false
     }
   },
   computed: {
@@ -357,6 +360,11 @@ export default {
   },
 
   methods: {
+    // 立即沟通
+    communication () {
+      // this.state = true
+      this.visible = true
+    },
     res () {
       this.state = false
     },
@@ -437,12 +445,12 @@ export default {
     },
     particulars (item) {
       console.log('简历详情', item)
-      this.state = true
-      // this.$router.push({
-      //   path: '/state',
-      //   name: 'state',
-      //   query: { id: item.id }
-      // })
+
+      this.$router.push({
+        path: '/state',
+        name: 'state',
+        query: { id: item.id }
+      })
     },
     part (item) {
       this.$router.push({

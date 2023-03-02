@@ -19,7 +19,7 @@
       </div>
       <div slot="footer"></div>
     </el-dialog>
-    <RongCloud :states="states" />
+    <RongCloud ref="send" :states="states" />
   </div>
 </template>
 
@@ -36,8 +36,9 @@ export default {
   data () {
     return {
       appkey: 'x18ywvqfxzbbc', // 这是我们之前保存的 appkey *重要
-      token: 'LfWddfqXjPDAC0wBYe7EXs46VaBqkAqrId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com', // token 可以多次生成 之前也有介绍过
-      targetId: '131', // 你要给谁发送消息 目标ID
+      // token: 'LfWddfqXjPDAC0wBYe7EXs46VaBqkAqrId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com', // token 可以多次生成 之前也有介绍过
+      token: 'kMZsHnaWejrAC0wBYe7EXlRo5VWDg4aBId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com',
+      targetId: '123', // 你要给谁发送消息 目标ID
       showDatas: [],
       states: false// 初始化信息
     }
@@ -65,9 +66,11 @@ export default {
             userId: userId,
             avatar: avatar
           })
-          _this.$store.commit('SET_TARGETID', _this.targetId) // 保存目标ID
+          _this.$store.commit('SET_TARGETID', _this.targetId)
+          // this.$store.commit('SET_ANSWER', _this.showDatas)// 保存目标ID
           _this.states = true
-          console.log('_this.$store.state.memberInfo', _this.$store.state.num.memberInfo, userId)
+          console.log('_this.$store.state.memberInfo', _this.$store.state.num.memberInfo, userId, _this.showDatas)
+          // this.$refs.send.sendMessage()
           this.$emit('res')
           // _this.$router.push({ name: 'RongCloud' })
         }

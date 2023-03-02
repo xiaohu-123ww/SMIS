@@ -912,7 +912,7 @@ $light_gray: #eee;
 }
 .elInput {
   width: 310px;
-  height: 40px;
+  height: 42px;
   border: 1px solid rgb(220, 223, 230);
   border-radius: 5px;
   .elInput-photo {

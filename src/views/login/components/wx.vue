@@ -316,7 +316,7 @@ export default {
 }
 ::v-deep .elInput[data-v-37dfd6fc] {
   width: 310px;
-  height: 40px;
+  height: 42px;
   border: 1px solid #dcdfe6;
   border-radius: 5px;
 }
@@ -357,7 +357,7 @@ export default {
 }
 .elInput {
   width: 310px;
-  height: 40px;
+  height: 42px;
   border: 1px solid rgb(220, 223, 230);
   border-radius: 5px;
   .elInput-photo {

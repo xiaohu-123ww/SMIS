@@ -37,6 +37,7 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          :picker-options="pickerOptionsStart"
         >
         </el-date-picker>
         <!-- <el-col :span="7">
@@ -95,6 +96,13 @@ export default {
   },
   data () {
     return {
+      pickerOptionsStart: {
+        // 时间不能大于当前时间
+        disabledDate: (time) => {
+          return time.getTime() > Date.now()
+        }
+
+      },
 
       rules: {
         school: [

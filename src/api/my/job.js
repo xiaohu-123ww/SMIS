@@ -86,3 +86,11 @@ export function getRefrssh (id) {
 export function getChatingId (id) {
   return request.post(`/user/chating/${id}/`)
 }
+/**
+ * 企业主页头像上传
+ * @param {*} formData
+ * @returns
+ */
+export function getFirm (formData) {
+  return request.post('/enterprise/input_images/v1.0.1/', formData)
+}

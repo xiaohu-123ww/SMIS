@@ -362,8 +362,8 @@ export default {
   methods: {
     // 立即沟通
     communication () {
-      // this.state = true
-      this.visible = true
+      this.state = true
+      // this.visible = true
     },
     res () {
       this.state = false

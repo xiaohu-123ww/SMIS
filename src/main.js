@@ -22,7 +22,7 @@ import './permission' // permission control
 import './utils/error-log' // error log
 import { getseaechlist, gettag, gettalents } from '@/views/talentSquare/components/mixin'
 import * as filters from './filters' // global filters
-import { constTime, dateFormat, disposeImg, disposeTime, formateDate, handleTree, arrTrans } from './utils/ruoyi'
+import { constTime, dateFormat, disposeImg, disposeTime, formateDate, handleTree, arrTrans, millisecond } from './utils/ruoyi'
 // 导入富文本编辑器
 import VueQuillEditor from 'vue-quill-editor'
 // 导入富文本编辑器的样式
@@ -35,11 +35,13 @@ import { VueJsonp } from 'vue-jsonp'
 
 import Vant from 'vant'
 import 'vant/lib/index.css'
+// import './assets/icons/svg/index'
 
 // import * as RongIMLib from '@rongcloud/imlib-v4'
 // Vue.use(RongIMLib)
 // 全局注册富文本编辑器
-
+// import SvgIcon from '@/components/SvgIcon/index.vue'
+// Vue.component('svg-icon', SvgIcon) // 全局注册SvgIcon
 Vue.use(Vant)
 Vue.use(VueQuillEditor)
 Vue.use(VueJsonp)
@@ -67,6 +69,7 @@ Vue.prototype.disposeImg = disposeImg
 Vue.prototype.arrTrans = arrTrans
 Vue.prototype.formateDate = formateDate
 Vue.prototype.dateFormat = dateFormat
+Vue.prototype.millisecond = millisecond
 
 Vue.prototype.disposeTime = disposeTime
 Vue.prototype.getFullname = getFullname

@@ -229,6 +229,7 @@ module.exports = {
     'require-v-for-key': 'off',
     'no-dupe-keys': 'off',
     'no-undef': 'off',
-    'vue/valid-v-bind': 'off'
+    'vue/valid-v-bind': 'off',
+    ' key-spacing': 'off'
   }
 }

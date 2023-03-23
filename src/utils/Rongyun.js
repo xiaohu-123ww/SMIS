@@ -3,7 +3,40 @@ export const init = (params, addPromptInfo) => {
   var appkey = params.appkey
   var token = params.token
   RongIMClient.init(appkey)
+  // if (!userInfo.token) {
+  //   return false
+  // }
+  // const options = {
+  //   navi: appConfig.appImNav, // 私有部署配置，公有云用户可忽略
+  //   logLevel: 0
+  // }
+  const config = {
+    size: 25,
+    url: '//f2e.cn.ronghub.com/sdk/emoji-48.png',
+    lang: 'en',
+    extension: {
+      dataSource: {
+        u1F914: {
+          // 自定义 u1F914 对应的表情
+          en: 'thinking face', // 英文名称
+          zh: '思考', // 中文名称
+          tag: '🤔', // 原生 Emoji
+          position: '0 0' // 所在背景图位置坐标
+        }
+      },
+      url: '//cdn.ronghub.com/thinking-face.png' // 新增 Emoji 背景图 url
+    }
+  }
+  RongIMLib.RongIMEmoji.init(config)
+  // 私有云初始化
+  // RongIMLib.RongIMClient.init(appConfig.appKey, null, options)
+  var instance = RongIMClient.getInstance()
+
+  // 私有云初始化
+  // RongIMLib.RongIMClient.init(appConfig.appKey, null, options)
+  // var instance = RongIMClient.getInstance()
   RongIMClient.setConnectionStatusListener({
+
     onChanged: function (status) {
       switch (status) {
         case RongIMLib.ConnectionStatus['CONNECTED']:
@@ -51,6 +84,11 @@ export const init = (params, addPromptInfo) => {
       // 判断消息类型
       switch (message.messageType) {
         case RongIMClient.MessageType.TextMessage:
+          // console.log('message', message.content.content)
+          message.content.content = RongIMLib.RongIMEmoji.emojiToHTML(message.content.content)
+          console.log('message', message)
+          message.content.time = message.sentTime
+          // message.content.phone = message.content.content
           store.commit('SET_ANSWER', message.content)
           // message.content.content => 文字内容
           addPromptInfo('新消息 ' + message.targetId + ':' + JSON.stringify(message))

@@ -1,28 +1,19 @@
 <template>
   <div v-if="states" id="rongcloud">
-    <div class="num">
-      <el-dialog
-        id="rongcloud"
-        title="在线沟通"
-        :visible.sync="states"
-        width="width"
-      >
+    <el-dialog title="" :visible.sync="states" width="width">
+      <div class="num">
         <div class="wrapper">
           <Message v-for="(item, index) in answer" :key="index" :data="item" />
         </div>
         <el-input v-model="say" placeholder="请输入"></el-input>
         <el-button @click="sendMessage">发送</el-button>
-        <!-- <div slot="footer" class="send-message">
-        <el-input v-model="say" placeholder="请输入"></el-input>
-        <el-button @click="sendMessage"></el-button>
-      </div> -->
-      </el-dialog>
-    </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 import Message from './Message'
 export default {
   components: {
@@ -35,51 +26,41 @@ export default {
   },
   data () {
     return {
-      say: '', // 消息
-      answer: this.$store.state.num.answer, // 消息列表
-      memberInfo: this.$store.state.num.memberInfo, // 用户信息
-      targetId: this.$store.state.num.targetId// 目标ID
+      say: '',
+      answer: '', // 消息列表
+      memberInfo: '', // 用户信息
+      targetId: '' // 消息
     }
-  },
-  computed: {
-    // ...mapState({
-    //   answer: 'answer', // 消息列表
-    //   memberInfo: 'memberInfo', // 用户信息
-    //   targetId: 'targetId' // 目标ID
-    // })
   },
   watch: {
     answer () {
       this.$nextTick(() => {
-        // const list = document.getElementById('rongcloud')
-        const list = document.getElementsByClassName('num')
-        console.log('list1', list)
-        // list.scrollTo(0, 500)
-        document.documentElement.scrollTop = list.scrollHeight
-        // list.scrollTop = list.scrollHeight
+        const list = document.getElementById('rongcloud')
+        // document.documentElement.scrollTop = list.scrollHeight
         // 如不行，请尝试-> list.scrollTop = list.scrollHeight
       })
     }
   },
   created () {
     this.$nextTick(() => {
-      // const list = document.querySelector('#rongcloud')
-      // list.scrollTo(0, 500)
-      // const list = document.getElementById('rongcloud')
-      const list = document.getElementsByClassName('num')
-      console.log('list2', list)
-      // list.scrollTop = list.scrollHeight
-      document.documentElement.scrollTop = list.scrollHeight
+      const list = document.getElementById('rongcloud')
+      // document.documentElement.scrollTop = list.scrollHeight
       // 如不行，请尝试-> list.scrollTop = list.scrollHeight
     })
   },
+  // computed: {
+  //   ...mapState({
+  //     answer: 'answer', // 消息列表
+  //     memberInfo: 'memberInfo', // 用户信息
+  //     targetId: 'targetId' // 目标ID
+  //   })
+  // },
   methods: {
     onClickLeft () {
       this.$router.go(-1)
     },
     sendMessage () {
       const _this = this
-      console.log('_this.memberInfo', _this.answer)
       _this.answer = this.$store.state.num.answer // 消息列表
       _this.memberInfo = this.$store.state.num.memberInfo // 用户信息
       _this.targetId = this.$store.state.num.targetId// 目标ID
@@ -94,10 +75,7 @@ export default {
             txt: message.content.content,
             headImg: _this.memberInfo.avatar
           }
-
           _this.answer.push(say)
-          // _this.$store.commit('SET_ANSWER', _this.answer)
-          console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
           _this.say = ''
         },
         onError: function (errorCode, message) {
@@ -125,60 +103,6 @@ export default {
           console.log('发送失败: ' + info + errorCode)
         }
       })
-      // RongIMClient.getInstance().getHistoryMessages(conversationType, targetId, -1, 20, {
-      //   onSuccess: function (message) {
-      //     // message 为发送的消息对象并且包含服务器返回的消息唯一 Id 和发送消息时间戳
-      //     const say = {
-      //       css: 'right',
-      //       txt: message.content.content,
-      //       headImg: _this.memberInfo.avatar
-      //     }
-
-      //     _this.answer.push(say)
-      //     // _this.$store.commit('SET_ANSWER', _this.answer)
-      //     console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
-      //     _this.say = ''
-      //   }
-      // })
-      // RongIMClient.getInstance().getHistoryMessages(conversationType, targetId, -1, 10, callback{
-      //   onSuccess: function (message) {
-      //     // message 为发送的消息对象并且包含服务器返回的消息唯一 Id 和发送消息时间戳
-      //     const say = {
-      //       css: 'right',
-      //       txt: message.content.content,
-      //       headImg: _this.memberInfo.avatar
-      //     }
-
-      //     _this.answer.push(say)
-      //     // _this.$store.commit('SET_ANSWER', _this.answer)
-      //     console.log('  _this.answer1213', _this.answer, _this.$store.state.num.answer)
-      //     _this.say = ''
-      //   },
-      //   callback: function (errorCode, message) {
-      //     var info = ''
-      //     switch (errorCode) {
-      //       case RongIMLib.ErrorCode.TIMEOUT:
-      //         info = '超时'
-      //         break
-      //       case RongIMLib.ErrorCode.UNKNOWN:
-      //         info = '未知错误'
-      //         break
-      //       case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
-      //         info = '在黑名单中，无法向对方发送消息'
-      //         break
-      //       case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
-      //         info = '不在讨论组中'
-      //         break
-      //       case RongIMLib.ErrorCode.NOT_IN_GROUP:
-      //         info = '不在群组中'
-      //         break
-      //       case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
-      //         info = '不在聊天室中'
-      //         break
-      //     }
-      //     console.log('发送失败: ' + info + errorCode)
-      //   }
-      // })
     }
   }
 }

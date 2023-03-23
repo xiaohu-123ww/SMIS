@@ -36,11 +36,11 @@ export default {
   data () {
     return {
       appkey: 'x18ywvqfxzbbc', // 这是我们之前保存的 appkey *重要
-      // token: 'LfWddfqXjPDAC0wBYe7EXs46VaBqkAqrId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com', // token 可以多次生成 之前也有介绍过
-      token: 'kMZsHnaWejrAC0wBYe7EXlRo5VWDg4aBId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com',
-      targetId: '123', // 你要给谁发送消息 目标ID
-      showDatas: [],
-      states: false// 初始化信息
+      token: 'LfWddfqXjPDAC0wBYe7EXs46VaBqkAqrId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com', // token 可以多次生成 之前也有介绍过
+      // token: 'kMZsHnaWejrAC0wBYe7EXlRo5VWDg4aBId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com',
+      targetId: '124', // 你要给谁发送消息 目标ID
+      states: false,
+      showDatas: []
     }
   },
   methods: {
@@ -56,7 +56,6 @@ export default {
       ]
 
       // 真实环境是通过登录 后台接口返回的 token 拿到的用户信息  我在这为为了模拟 所以给初始化后的用户随机生成一个头像
-      // const avatar = avatarList[Math.floor(Math.random() * (3 + 1))]
       const avatar = 'https://znzz.tech/loc/static/img/1 (2)_30e4b8e4.jpg'
       _this.showDatas.push(prompt)
       const timer = setInterval(() => {
@@ -66,13 +65,9 @@ export default {
             userId: userId,
             avatar: avatar
           })
-          _this.$store.commit('SET_TARGETID', _this.targetId)
-          // this.$store.commit('SET_ANSWER', _this.showDatas)// 保存目标ID
-          _this.states = true
-          console.log('_this.$store.state.memberInfo', _this.$store.state.num.memberInfo, userId, _this.showDatas)
-          // this.$refs.send.sendMessage()
-          this.$emit('res')
+          _this.$store.commit('SET_TARGETID', _this.targetId) // 保存目标ID
           // _this.$router.push({ name: 'RongCloud' })
+          this.states = true
         }
       }, 500)
     },
@@ -94,6 +89,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// @import "~@/scss/utils";
 .init-button {
   position: fixed !important;
   bottom: vw(30px);

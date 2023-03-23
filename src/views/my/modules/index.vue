@@ -3,7 +3,7 @@
     <el-container class="left">
       <!-- 侧边栏区域 -->
 
-      <el-aside width="300px">
+      <el-aside width="260px">
         <el-menu
           :default-active="$route.path"
           class="el-menu-vertical-demo"
@@ -21,6 +21,7 @@
               v-if="!item.children"
               :key="item.indexPath"
               :index="item.indexPath"
+              style="padding-left: 60px"
               ><i :class="item.icon"></i>{{ item.title }}</el-menu-item
             >
           </template>
@@ -39,15 +40,16 @@ export default {
   data () {
     return {
       menu: [
+
         {
           title: '个人中心',
           indexPath: '/my',
-          icon: 'el-icon-location-outline'
+          icon: 'el-icon-user'
         },
         {
           title: '我的简历',
           indexPath: '/resume',
-          icon: 'el-icon-bank-card'
+          icon: 'el-icon-tickets'
         },
         {
           title: '求职申请',
@@ -57,22 +59,27 @@ export default {
         {
           title: '面试邀约',
           indexPath: '/interview',
-          icon: 'el-icon-bank-card'
+          icon: 'el-icon-data-line'
         },
         {
           title: '我的收藏',
           indexPath: '/collection',
-          icon: 'el-icon-bank-card'
+          icon: 'el-icon-star-off'
         },
         {
           title: '安全中心',
           indexPath: '/safety',
-          icon: 'el-icon-bank-card'
+          icon: 'el-icon-document-copy'
         },
         {
           title: '隐私设置',
           indexPath: '/privacy',
-          icon: 'el-icon-bank-card'
+          icon: 'el-icon-setting'
+        },
+        {
+          title: '互动消息',
+          indexPath: '/communication',
+          icon: 'el-icon-chat-line-square'
         }
       ]
     }
@@ -99,7 +106,8 @@ export default {
   height: 100%;
   // min-width: 800px;
   // max-width: 2000px;
-  margin: 40px auto;
+  margin: 30px auto 10px;
+  // padding-top: 30px;
   background-color: #f4f6f9;
 }
 .left {
@@ -117,5 +125,14 @@ export default {
   flex: 1;
   height: 100%;
   background-color: #fff;
+}
+::v-deep aside.el-aside {
+  background: #fff;
+}
+::v-deep aside {
+  padding: 0;
+}
+::v-deep element.style {
+  padding-left: 60px;
 }
 </style>

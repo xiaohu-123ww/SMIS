@@ -252,6 +252,11 @@ export const constantRoutes = [
           name: '隐私设置',
           path: '/privacy',
           component: () => import('@/views/my/components/privacy.vue')
+        },
+        {
+          name: '互动消息',
+          path: '/communication',
+          component: () => import('@/views/my/components/communication')
         }
       ]
     }

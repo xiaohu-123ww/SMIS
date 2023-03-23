@@ -234,3 +234,25 @@ export function arrTrans (num, arr) { // 一维数组转换为二维数组
   })
   return iconsArr
 }
+
+// 毫秒转换
+export function millisecond (ms) {
+  console.log('ms', ms)
+  const addZero = function (num) {
+    if (parseInt(num) < 10) {
+      num = '0' + num
+    }
+    return num
+  }
+
+  var oDate = new Date(ms)
+  var oYear = oDate.getFullYear()
+  var oMonth = oDate.getMonth() + 1
+  var oDay = oDate.getDate()
+  var oHour = oDate.getHours()
+  var oMin = oDate.getMinutes()
+  var oSen = oDate.getSeconds()
+  var oTime = oYear + '-' + addZero(oMonth) + '-' + addZero(oDay) + ' ' + addZero(oHour) + ':' +
+    addZero(oMin) + ':' + addZero(oSen)
+  // console.log('oTime', oTime)
+}

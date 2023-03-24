@@ -81,7 +81,7 @@
               >未读</el-radio
             >
           </div>
-          <el-button type="text" @click="batch">批量</el-button>
+          <!-- <el-button type="text" @click="batch">批量</el-button> -->
         </div>
         <div class="innerbox" style="" :class="{ tall: !show }">
           <div v-if="show">
@@ -145,14 +145,14 @@
             </div>
           </div>
         </div>
-        <div v-if="show" class="footer" style="display: flex">
+        <!-- <div v-if="show" class="footer" style="display: flex">
           <div style="margin-top: 10px; width: 200px">
             <el-checkbox v-model="checkAll" @change="handleCheckedCitiesChange"
               >全选</el-checkbox
             >
           </div>
           <div>
-            <!-- color: rgb(96, 98, 102) -->
+
             <el-button type="text" style="">删除</el-button>
             <el-button
               type="text"
@@ -161,7 +161,7 @@
               >取消</el-button
             >
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="right">
         <div class="header" style="position: relative; width: 100%">
@@ -323,7 +323,9 @@
             :firsttime="answer[0].time"
             :phones="phones"
             :phone-state="phoneState"
+            :status="status"
             @again="again"
+            @resetChange="resetChange"
           />
         </div>
 
@@ -405,7 +407,7 @@
                   </div> -->
                 </el-upload>
               </span>
-              <Item icon="地图" style="width: 1.2em" />
+              <!-- <Item icon="地图" style="width: 1.2em" /> -->
               <span style="font-size: 19px; color: #8a8a8a; margin: 3px 8px"
                 >|</span
               >
@@ -434,12 +436,12 @@
                   >换电话</span
                 >
               </a>
-              <a href="javascript:;">
+              <!-- <a href="javascript:;">
                 <span class="block">换微信</span>
-              </a>
-              <a href="javascript:;">
+              </a> -->
+              <!-- <a href="javascript:;">
                 <span class="block"><i class="el-icon-time"></i>约面试</span></a
-              >
+              > -->
             </div>
           </div>
           <el-input
@@ -692,7 +694,8 @@ export default {
       nowTime: '',
       nowWeek: '',
       phones: '',
-      phoneState: false
+      phoneState: false,
+      status: false
 
     }
   },
@@ -712,6 +715,9 @@ export default {
     // this.resume()
   },
   methods: {
+    reset () {
+      this.isBackground = true
+    },
     // 上传简历
 
     async resumes () {
@@ -728,6 +734,7 @@ export default {
     again () {
       this.phoneState = true
       // this.phoneNumber()
+      this.reset()
       console.log('nkjno', this.phoneState)
 
       // this.resume()
@@ -805,6 +812,9 @@ export default {
     padlock () {
       this.visible = false
     },
+    resetChange () {
+      this.status = false
+    },
     // 确定发送
     async phoneNumber () {
       const { data } = await getList()
@@ -873,9 +883,12 @@ export default {
                 break
             }
             console.log('发送失败: ' + info + errorCode)
+            this.$message.warning('发送失败，刷新下页面吧')
           }
         })
         this.padlock()
+        this.status = true
+        this.reset()
         // this.isBackground = true
       }
     },
@@ -969,6 +982,7 @@ export default {
                 break
             }
             console.log('发送失败: ' + info + errorCode)
+            this.$message.warning('发送失败，刷新下页面吧')
           }
         })
       } else {
@@ -982,9 +996,10 @@ export default {
     // 常用语
     expressionsClick (text) {
       console.log('text', text)
-      this.say = text
+      // this.say = text
 
-      this.sendMessage()
+      // this.sendMessage()
+      this.sam(text)
       this.$refs.popovers.doClose()
     },
     usernameInput (val) {
@@ -1109,6 +1124,7 @@ export default {
               break
           }
           console.log('发送失败: ' + info + errorCode)
+          this.$message.warning('发送失败，刷新下页面吧')
         }
       })
     },
@@ -1147,9 +1163,9 @@ export default {
       // this.$refs.popoverRef.doClose()
       this.say = this.say + item
     },
-    num () {
-      console.log('13u9')
-    },
+    // num () {
+    //   console.log('13u9')
+    // },
     // 折叠消息
     open () {
       // this.graph = 'el-icon-caret-top'
@@ -1273,6 +1289,7 @@ export default {
               break
           }
           console.log('发送失败: ' + info + errorCode)
+          this.$message.warning('发送失败，刷新下页面吧')
         }
       })
     }
@@ -1601,7 +1618,10 @@ div#el-popover-700 {
   color: #8a8a8a;
 }
 .small {
-  cursor: not-allowed;
+  // cursor: not-allowed;
+  pointer-events: none;
+  background-color: #f2efef;
+  color: #b3a9a9;
 }
 </style>
 

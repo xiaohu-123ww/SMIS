@@ -319,6 +319,9 @@ export default {
     },
     phoneState: {
       type: Boolean
+    },
+    status: {
+      type: Boolean
     }
 
   },
@@ -454,7 +457,7 @@ export default {
       // }
 
       if (reset === true) {
-        if (this.data.css === 'right' && this.phoneState === false) {
+        if (this.data.css === 'right' && this.phoneState === false && this.status === true) {
           this.phoneSum = false
           this.discourse = '请求交换电话已发送'
           // this.phone = true
@@ -462,7 +465,7 @@ export default {
           this.phoneSum = true
           // this.phone = false
         }
-        if (this.data.css === 'left' && this.phoneState === false) {
+        if (this.data.css === 'left' && this.phoneState === false && this.status === false) {
           this.phoneSums = true
         } else {
           this.phoneSums = false
@@ -716,7 +719,7 @@ export default {
     async ascertain () {
       this.cancel()
       this.phoneSums = false
-
+      localStorage.setItem('condition', true)
       this.$emit('again')
       console.log('jahhah')
       const { data } = await getList()
@@ -781,6 +784,7 @@ export default {
                 break
             }
             console.log('发送失败: ' + info + errorCode)
+            this.$message.warning('发送失败，刷新下页面吧')
           }
         })
 
@@ -791,6 +795,10 @@ export default {
     cancel () {
       this.is_commite = true
       this.isActive = true
+      // 刷新页面
+      // this.$router.go(0)
+      this.$emit('again')
+      // localStorage.setItem('condition', false)
     },
     // 确定接受简历
     fileUploading () {

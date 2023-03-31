@@ -74,17 +74,17 @@
         </div>
         <div class="state">
           <div style="width: 85%; margin-top: 12px">
-            <el-radio
+            <!-- <el-radio
               v-model="radio"
               label="1"
               @click.native.prevent="radioClick(radio)"
               >未读</el-radio
-            >
+            > -->
           </div>
           <!-- <el-button type="text" @click="batch">批量</el-button> -->
         </div>
         <div class="innerbox" style="" :class="{ tall: !show }">
-          <div v-if="show">
+          <!-- <div v-if="show">
             <ul>
               <li v-for="item in list" :key="item.id">
                 <el-checkbox
@@ -116,31 +116,38 @@
                 </el-checkbox>
               </li>
             </ul>
-          </div>
+          </div> -->
+          <div v-if="show" class="textnum">暂无30天内联系人</div>
           <div v-if="!show" style="margin-bottom: 30px">
             <div
               v-for="item in list"
               :key="item.id"
               class="box"
-              style="width: 280px"
+              style="width: 305px"
               :class="{ bg: count === item.id }"
-              @click="tinct(item.id)"
+              @click="
+                tinct(item.id, item.candidate_info.uid, item.hr_info.uid, item)
+              "
             >
               <div class="img">
                 <img
-                  :src="item.img"
+                  :src="`https://znzz.tech/loc/${item.hr_info.avatar}`"
                   alt=""
                   style="width: 40px; height: 40px; border-radius: 100px"
                 />
-                <div class="texte">{{ item.text }}</div>
+                <!-- 未读消息几条 -->
+                <!-- <div class="texte"></div> -->
               </div>
 
               <div style="padding-left: 10px; font-size: 13px">
                 <div>
-                  <span style="padding-right: 10px">{{ item.name }}</span
-                  ><span>{{ item.job }}</span>
+                  <span style="padding-right: 10px">{{
+                    item.hr_info.name
+                  }}</span
+                  ><span>{{ item.position.position_name }}</span>
                 </div>
-                <div style="margin-top: 3px">{{ item.content }}</div>
+                <!-- 最新消息 -->
+                <!-- <div style="margin-top: 3px">{{ item.content }}</div> -->
               </div>
             </div>
           </div>
@@ -164,25 +171,52 @@
         </div> -->
       </div>
       <div class="right">
-        <div class="header" style="position: relative; width: 100%">
-          <div style="width: 80%">
-            <div>
-              <span style="margin-right: 10px; font-size: 17px">韩磊</span>
-              <Item icon="nan" style="width: 0.8em" />
-              <span style="margin-left: 10px; color: rgb(254, 135, 110)"
-                >刚刚活跃</span
-              >
-            </div>
-            <div style="margin-top: 12px">
-              <span class="age" style="padding-left: 0px">22岁</span>
-              <span class="age">23年应届生</span>
-              <span class="age">本科</span>
-              <span class="age" style="border: 0; color: rgb(15, 171, 172)"
-                >背景调查</span
-              >
+        <div
+          v-if="messageTxt"
+          style="
+            height: 100%;
+            height: 100%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <div>
+            <img
+              src="../../../assets/images/互动消息.png"
+              alt=""
+              style="width: 250px; hieght: 100px"
+            />
+            <div style="font-size: 15px; color: #636567">
+              与您进行过沟通的 Boss 都会在左侧列表中显示
             </div>
           </div>
-          <div style="margin-top: 17px; width: 30%">
+        </div>
+        <div v-if="!messageTxt">
+          <div class="header" style="position: relative; width: 100%">
+            <div style="width: 80%">
+              <div>
+                <span style="margin-right: 10px; font-size: 17px">{{
+                  hr.name
+                }}</span>
+                <Item :icon="hr.sex === 1 ? 'nan' : 'nv'" style="width: 15px" />
+                <span style="margin-left: 10px; color: rgb(254, 135, 110)">{{
+                  hr.state
+                }}</span>
+              </div>
+              <div style="margin-top: 12px">
+                <span class="age" style="padding-left: 0px">{{
+                  hr.company
+                }}</span>
+                <!-- <span class="age">23年应届生</span>
+                <span class="age">本科</span>
+                <span class="age" style="border: 0; color: rgb(15, 171, 172)"
+                  >背景调查</span
+                > -->
+              </div>
+            </div>
+            <!-- <div style="margin-top: 17px; width: 30%">
             <el-button class="Btn" icon="el-icon-document">在线简历</el-button>
             <el-button
               class="Btn"
@@ -190,10 +224,10 @@
               icon="el-icon-paperclip"
               >附件简历</el-button
             >
+          </div> -->
           </div>
-        </div>
-        <!-- <div v-if="openDown" style="background-color: pink;position:relative">123</div> -->
-        <!-- <div v-if="openDown" style="margin: 15px 17px; font-size: 13px">
+          <!-- <div v-if="openDown" style="background-color: pink;position:relative">123</div> -->
+          <!-- <div v-if="openDown" style="margin: 15px 17px; font-size: 13px">
           <div style="margin-bottom: 5px">
             <Item icon="点" style="font-size: 15px" />
             <span style="color: rgb(163 149 149); margin-right: 20px">
@@ -230,7 +264,7 @@
             <span style="margin-right: 20px">唯捷创芯精测科技·财务实习生</span>
           </div>
         </div> -->
-        <div
+          <!-- <div
           style="
             position: absolute;
             top: 100px;
@@ -303,80 +337,81 @@
               ></i>
             </div>
           </div>
-        </div>
-        <div>
-          <!-- <RongCloud ref="send" /> -->
-        </div>
-        <div
-          style="
-            height: 390px;
-            border-bottom: 1px solid #e6e3e3;
-            overflow-y: auto;
-          "
-          class="innerboxs"
-        >
-          <Message
-            v-for="(item, index) in answer"
-            :key="index"
-            :data="item"
-            :index="index"
-            :firsttime="answer[0].time"
-            :phones="phones"
-            :phone-state="phoneState"
-            :status="status"
-            @again="again"
-            @resetChange="resetChange"
-          />
-        </div>
-
-        <div class="chatIcon">
+        </div> -->
           <div>
-            <div style="display: flex">
-              <el-popover
-                ref="popoverRef"
-                placement="top-start"
-                width="400"
-                trigger="click"
-                class="emoBox"
-                style="width: 20px; margin-right: 10px"
-              >
-                <div class="emotionList">
-                  <a
-                    v-for="(item, index) in emojList"
-                    :key="index"
-                    href="javascript:void(0);"
-                    rel="external nofollow"
-                    class="emotionItem"
-                    @click="checkedEmoji(item.symbol, item.emoji)"
-                    v-html="item.node.outerHTML"
-                  ></a>
-                </div>
-                <div slot="reference">
-                  <Item icon="微笑" style="width: 1.2em" @click="num" />
-                </div>
-              </el-popover>
-              <el-popover
-                ref="popovers"
-                placement="top-start"
-                width="420"
-                trigger="click"
-                class="emoBoxs"
-                style="margin-right: 10px"
-              >
-                <div class="frequent-expressions">
-                  <div class="frequent">常用语</div>
-                  <a href="javascript:;">
-                    <div
-                      v-for="item in expressions"
-                      :key="item.id"
-                      class="frequent"
-                      style="font-size: 15px"
-                      @click="expressionsClick(item.text)"
-                    >
-                      {{ item.text | ellipsis }}
-                    </div>
-                  </a>
-                  <!-- <a
+            <!-- <RongCloud ref="send" /> -->
+          </div>
+          <div
+            style="
+              height: 390px;
+              border-bottom: 1px solid #e6e3e3;
+              overflow-y: auto;
+            "
+            class="innerboxs"
+          >
+            <Message
+              v-for="(item, index) in answer"
+              :key="index"
+              :data="item"
+              :index="index"
+              :firsttime="answer[0].time"
+              :phones="phones"
+              :phone-state="phoneState"
+              :status="status"
+              @again="again"
+              @resetChange="resetChange"
+              @file="file"
+            />
+          </div>
+
+          <div class="chatIcon">
+            <div>
+              <div style="display: flex">
+                <el-popover
+                  ref="popoverRef"
+                  placement="top-start"
+                  width="400"
+                  trigger="click"
+                  class="emoBox"
+                  style="width: 20px; margin-right: 10px"
+                >
+                  <div class="emotionList">
+                    <a
+                      v-for="(item, index) in emojList"
+                      :key="index"
+                      href="javascript:void(0);"
+                      rel="external nofollow"
+                      class="emotionItem"
+                      @click="checkedEmoji(item.symbol, item.emoji)"
+                      v-html="item.node.outerHTML"
+                    ></a>
+                  </div>
+                  <div slot="reference">
+                    <Item icon="微笑" style="width: 1.2em" @click="num" />
+                  </div>
+                </el-popover>
+                <el-popover
+                  ref="popovers"
+                  placement="top-start"
+                  width="420"
+                  trigger="click"
+                  class="emoBoxs"
+                  style="margin-right: 10px"
+                >
+                  <div class="frequent-expressions">
+                    <div class="frequent">常用语</div>
+                    <a href="javascript:;">
+                      <div
+                        v-for="item in expressions"
+                        :key="item.id"
+                        class="frequent"
+                        style="font-size: 15px"
+                        @click="expressionsClick(item.text)"
+                      >
+                        {{ item.text | ellipsis }}
+                      </div>
+                    </a>
+                    <!-- <a
                     v-for="(item, index) in emojList"
                     :key="index"
                     href="javascript:void(0);"
@@ -385,35 +420,35 @@
                     @click="checkedEmoji(item.symbol, item.emoji)"
                     v-html="item.node.outerHTML"
                   ></a> -->
-                </div>
-                <div slot="reference">
-                  <Item icon="常" style="width: 1.2em" @click="num" />
-                </div>
-              </el-popover>
-              <span style="margin-right: 10px">
-                <!-- <Item icon="添加" /> -->
-                <el-upload
-                  class="upload-demo"
-                  action="#"
-                  :show-file-list="false"
-                  :before-upload="handleInfoPic"
-                  :http-request="testUpload"
-                  :on-success="uploadSuccess"
-                  accept=".png,.jpeg,.jpg"
-                >
-                  <Item icon="添加" />
-                  <!-- <div slot="tip" class="el-upload__tip">
+                  </div>
+                  <div slot="reference">
+                    <Item icon="常" style="width: 1.2em" @click="num" />
+                  </div>
+                </el-popover>
+                <span style="margin-right: 10px">
+                  <!-- <Item icon="添加" /> -->
+                  <el-upload
+                    class="upload-demo"
+                    action="#"
+                    :show-file-list="false"
+                    :before-upload="handleInfoPic"
+                    :http-request="testUpload"
+                    :on-success="uploadSuccess"
+                    accept=".png,.jpeg,.jpg"
+                  >
+                    <Item icon="添加" />
+                    <!-- <div slot="tip" class="el-upload__tip">
                     只能上传jpg/png文件，且不超过500kb
                   </div> -->
-                </el-upload>
-              </span>
-              <!-- <Item icon="地图" style="width: 1.2em" /> -->
-              <span style="font-size: 19px; color: #8a8a8a; margin: 3px 8px"
+                  </el-upload>
+                </span>
+                <!-- <Item icon="地图" style="width: 1.2em" /> -->
+                <!-- <span style="font-size: 19px; color: #8a8a8a; margin: 3px 8px"
                 >|</span
-              >
-              <a href="javascript:;">
-                <span class="block" @click="resumes">
-                  <!-- <el-upload
+              > -->
+                <a href="javascript:;">
+                  <span class="block" @click="resumes">
+                    <!-- <el-upload
                     class="upload-demo"
                     action="#"
                     :on-preview="handlePreview"
@@ -424,53 +459,81 @@
                     accept=".pdf,.doc,.docx"
                     :auto-upload="false"
                   > -->
-                  发简历
-                  <!-- </el-upload> -->
-                </span>
-              </a>
-              <a href="javascript:;">
-                <span
-                  class="block"
-                  :class="{ small: isBackground }"
-                  @click="phoneChange"
-                  >换电话</span
-                >
-              </a>
-              <!-- <a href="javascript:;">
+                    发简历
+                    <!-- </el-upload> -->
+                  </span>
+                </a>
+                <a href="javascript:;">
+                  <!-- <span
+                    class="block"
+                    :class="{ small: isBackground }"
+                    @click="phoneChange"
+                    >换电话</span
+                  > -->
+                </a>
+                <!-- <a href="javascript:;">
                 <span class="block">换微信</span>
               </a> -->
-              <!-- <a href="javascript:;">
+                <!-- <a href="javascript:;">
                 <span class="block"><i class="el-icon-time"></i>约面试</span></a
               > -->
+              </div>
             </div>
-          </div>
-          <el-input
-            id="textarea"
-            v-model="say"
-            class="chatText"
-            resize="none"
-            type="textarea"
-            rows="5"
-            @keyup.enter.native="sendMessage"
-            @input="usernameInput"
-          >
-          </el-input>
-        </div>
-        <div style="display: flex">
-          <div style="width: 90%"></div>
-          <div>
-            <el-button
-              type="primary"
-              style="
-                width: 50px;
-                height: 23px;
-                font-size: 12px;
-                padding: 2px 0px 0px 2px;
-              "
-              :disabled="say === ''"
-              @click="sendMessage"
-              >发送</el-button
+            <!--     @keyup.enter.native="send"   -->
+            <el-input
+              id="textarea"
+              v-model="say"
+              class="chatText"
+              resize="none"
+              type="textarea"
+              rows="5"
+              @input="usernameInput"
             >
+            </el-input>
+          </div>
+          <div style="display: flex">
+            <div style="width: 88%"></div>
+            <div>
+              <el-button
+                v-if="changeColor === 1"
+                type="primary"
+                style="
+                  width: 50px;
+                  height: 23px;
+                  font-size: 12px;
+                  padding: 2px 0px 0px 2px;
+                "
+                :disabled="enterText || say === ''"
+                @click="sendMessage"
+                >感兴趣</el-button
+              >
+              <el-button
+                v-if="changeColor === 1"
+                type="primary"
+                style="
+                  width: 50px;
+                  height: 23px;
+                  font-size: 12px;
+                  padding: 2px 0px 0px 2px;
+                "
+                :disabled="enterText || say === ''"
+                @click="sendMessage"
+                >不合适</el-button
+              >
+              <el-button
+                v-if="changeColor !== 1"
+                type="primary"
+                style="
+                  width: 50px;
+                  height: 23px;
+                  font-size: 12px;
+                  padding: 2px 0px 0px 2px;
+                "
+                :disabled="enterText || say === ''"
+                @click="sendMessage"
+                >发送</el-button
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -489,6 +552,9 @@ import Safety from './communication/dialog.vue'
 import { getCv } from '@/api/my/resume'
 
 import { getList } from '@/api/my/safety'
+import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject } from '@/api/Rongyun.js'
+import { getChatingId } from '@/api/my/job.js'
+
 var appData = RongIMLib.RongIMEmoji.list
 export default {
   components: { Item, Message, Safety },
@@ -530,16 +596,16 @@ export default {
         }
       ],
       emojList: [],
-      appkey: 'x18ywvqfxzbbc', // 这是我们之前保存的 appkey *重要
+      appkey: '', // 这是我们之前保存的 appkey *重要
       // token: 'LfWddfqXjPDAC0wBYe7EXs46VaBqkAqrId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com', // token 可以多次生成 之前也有介绍过
-      token: 'kMZsHnaWejrAC0wBYe7EXlRo5VWDg4aBId2b4bcqU5I=@dl0v.cn.rongnav.com;dl0v.cn.rongcfg.com',
+      token: '',
       faceList: [],
       textarea: '',
       graph: 'el-icon-caret-bottom',
       openDown: false,
       checkAll: '',
       count: '',
-      show: false,
+      show: true,
       changeColor: 1,
       ematy: true,
       text: '',
@@ -562,128 +628,7 @@ export default {
         label: '人事'
       }],
       list: [
-        {
-          id: 1,
-          img: 'https://znzz.tech/loc/static/img/1 (2)_30e4b8e4.jpg',
-          name: '韩磊',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 1,
-          checked: ''
 
-        },
-        {
-          id: 2,
-          img: 'https://img2.baidu.com/it/u=3618236253,1028428296&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '晓梅',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 2,
-          checked: ''
-        },
-        {
-          id: 3,
-          img: 'https://img2.baidu.com/it/u=1035356506,3713698341&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-          name: '张雅诗',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 3,
-          checked: ''
-        },
-        {
-          id: 4,
-          img: 'https://img2.baidu.com/it/u=2015865969,3401990894&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=546',
-          name: '张萌',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 4,
-          checked: ''
-        },
-        {
-          id: 5,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '吴媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        },
-        {
-          id: 6,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        },
-        {
-          id: 7,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '吴媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        },
-        {
-          id: 8,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '吴媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        }, {
-          id: 9,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '吴媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        }, {
-          id: 10,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '吴媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        }, {
-          id: 11,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '吴媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        }, {
-          id: 12,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '吴媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        }, {
-          id: 13,
-          img: 'https://img0.baidu.com/it/u=2514336285,1350279655&fm=253&fmt=auto&app=138&f=JPEG?w=501&h=500',
-          name: '吴媛媛',
-          job: '出纳',
-          content: '面试地点我可以接受',
-          text: 5,
-          checked: ''
-
-        }
       ],
       say: '', // 消息
       answer: this.$store.state.num.answer, // 消息列表
@@ -695,7 +640,23 @@ export default {
       nowWeek: '',
       phones: '',
       phoneState: false,
-      status: false
+      status: false,
+      showDatas: [],
+      messageTxt: true,
+      rongYun: {
+        sender_class: 0, // 0-求职者；1-hr
+        sender_uid: 0,
+        receiver_class: 1, // 同上
+        receiver_uid: 0
+      },
+      hr: {
+        name: '',
+        sex: '',
+        state: '',
+        company: '',
+        id: ''
+      },
+      enterText: true
 
     }
   },
@@ -703,6 +664,7 @@ export default {
 
   },
   mounted () {
+    this.initRongCloud()
     // for (const i in appData) {
     //   console.log('appData', appData)
     //   this.emojList.push(appData[i].char)
@@ -711,10 +673,29 @@ export default {
 
   created () {
     // this.sendMessage()
+    // this.initRongCloud()
     this.emojList = appData
+    this.helloChange()
     // this.resume()
   },
+
   methods: {
+    async file () {
+      console.log('同意交换简历')
+      const res = await getChatingId(this.hr.id)
+      console.log('发送简历', res)
+      if (res.code === 200) {
+        this.$message.success('已发送至hr邮箱')
+      } else {
+        this.$message.warning(res.data.msg)
+      }
+    },
+    // send () {
+    //   console.log('123', this.say)
+    //   if (this.say) {
+    //     this.sendMessage()
+    //   }
+    // },
     reset () {
       this.isBackground = true
     },
@@ -736,77 +717,10 @@ export default {
       // this.phoneNumber()
       this.reset()
       console.log('nkjno', this.phoneState)
-
-      // this.resume()
-      // const _this = this
-      // // _this.answer = JSON.parse(localStorage.getItem('answer')) // 消息列表
-      // _this.answer = this.$store.state.num.answer // 消息列表
-      // _this.memberInfo = this.$store.state.num.memberInfo // 用户信息
-      // _this.targetId = this.$store.state.num.targetId// 目标ID
-      // var msg = new RongIMLib.TextMessage({ content: _this.phone, extra: _this.memberInfo.avatar })
-      // console.log('msg', msg)
-      // var conversationType = RongIMLib.ConversationType.PRIVATE // 单聊, 其他会话选择相应的消息类型即可
-      // var targetId = this.targetId // 目标 Id
-      // RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
-      //   onSuccess: function (message) {
-      //     console.log('message', message)
-      //     // message 为发送的消息对象并且包含服务器返回的消息唯一 Id 和发送消息时间戳
-      //     const say = {
-      //       css: 'left',
-      //       txt: _this.phone,
-      //       headImg: _this.memberInfo.avatar,
-      //       time: _this.nowTime
-
-      //       // condition: 'false'
-
-      //     }
-      //     console.log('_this.memberInfo', say, message.content.content)
-      //     _this.answer.push(say)
-      //     // _this.$store.commit('SET_ANSWER', _this.answer)
-      //     // localStorage.setItem('answer', JSON.stringify(_this.answer))
-      //     // _this.$store.commit('SET_ANSWER', _this.answer)
-      //     console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
-      //     _this.image = ''
-      //     _this.say = ''
-      //   },
-      //   onError: function (errorCode, message) {
-      //     var info = ''
-      //     switch (errorCode) {
-      //       case RongIMLib.ErrorCode.TIMEOUT:
-      //         info = '超时'
-      //         break
-      //       case RongIMLib.ErrorCode.UNKNOWN:
-      //         info = '未知错误'
-      //         break
-      //       case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
-      //         info = '在黑名单中，无法向对方发送消息'
-      //         break
-      //       case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
-      //         info = '不在讨论组中'
-      //         break
-      //       case RongIMLib.ErrorCode.NOT_IN_GROUP:
-      //         info = '不在群组中'
-      //         break
-      //       case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
-      //         info = '不在聊天室中'
-      //         break
-      //     }
-      //     console.log('发送失败: ' + info + errorCode)
-      //   }
-      // })
     },
     // 交换电话
     phoneChange () {
       this.visible = true
-      // const salary = localStorage.getItem('phone')
-      // console.log('salary', salary)
-      // if (salary) {
-      //   this.isBackground = true
-      //   this.visible = false
-      //   this.$message.success('已发送过此请求')
-      // } else {
-      //   this.visible = true
-      // }
     },
     // 取消发送
     padlock () {
@@ -834,10 +748,10 @@ export default {
         _this.answer = this.$store.state.num.answer // 消息列表
         _this.memberInfo = this.$store.state.num.memberInfo // 用户信息
         _this.targetId = this.$store.state.num.targetId// 目标ID
-        var msg = new RongIMLib.TextMessage({ content: _this.phones, extra: _this.memberInfo.avatar })
+        var msg = new RongIMLib.TextMessage({ content: _this.phones, extra: _this.memberInfo.img })
         console.log('msg', msg)
         var conversationType = RongIMLib.ConversationType.PRIVATE // 单聊, 其他会话选择相应的消息类型即可
-        var targetId = this.targetId // 目标 Id
+        var targetId = _this.targetId // 目标 Id
         RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
           onSuccess: function (message) {
             console.log('message', message)
@@ -845,7 +759,7 @@ export default {
             const say = {
               css: 'right',
               txt: message.content.content,
-              headImg: _this.memberInfo.avatar,
+              headImg: _this.memberInfo.img,
               time: _this.nowTime
 
               // condition: 'false'
@@ -931,32 +845,171 @@ export default {
         this.images = false
         this.resume()
         const _this = this
+        const targetId = _this.$store.state.num.targetId
+        var conversationType = RongIMLib.ConversationType.PRIVATE
+        // 创建一个 ImageMessage 对象
+        var imageMessage = RongIMLib.ImageMessage.obtain('图片', _this.image)
+
+        // 创建一个消息对象
+        var message = {
+          content: imageMessage,
+          conversationType: conversationType,
+          targetId: targetId
+        }
+        console.log('233', targetId, imageMessage, message)
+
+        // 发送图片消息
+        RongIMClient.getInstance().sendMessage(conversationType, targetId, message.content, {
+          onSuccess: function (message) {
+            console.log('Send image message successfully.', message)
+            const say = {
+              css: 'right',
+              imageUri: message.content.imageUri,
+              content: message.content.content,
+              headImg: _this.$store.state.num.memberInfo.img,
+              messageName: message.content.messageName,
+              time: _this.nowTime
+
+              // condition: 'false'
+
+            }
+            // _this.answer.push(say)
+            _this.answer.push(say)
+            _this.image = ''
+            console.log(say, _this.answer)
+          },
+          onError: function (errorCode, message) {
+            console.log('Send image message error: ' + errorCode)
+          }
+        })
+      } else {
+        this.message.error(res.data.msg)
+      }
+    },
+    uploadSuccess (res, file, fileList) {
+      console.log(res, file, fileList)
+      this.image = URL.createObjectURL(file.raw)
+    },
+    // 常用语
+    expressionsClick (text) {
+      console.log('text', text)
+      // this.say = text
+
+      // this.sendMessage()
+      this.sam(text)
+      this.$refs.popovers.doClose()
+    },
+    usernameInput (val) {
+      if (val.replace(/(^\s*)|(\s*$)/g, '') === '' || val === '') {
+        console.log('未输入或者输入为空格')
+        this.enterText = true
+      } else {
+        console.log('输入：', val)
+        this.enterText = false
+      }
+    },
+    // 消息
+    onClickLeft () {
+      this.$router.go(-1)
+    },
+    addPromptInfo (prompt, userId = null) {
+      //
+      console.log(12113)
+      console.log('prompt', prompt, userId)
+      const _this = this
+
+      // const avatarList = [
+      //   'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4100987808,2324741924&fm=26&gp=0.jpg',
+      //   'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2988245209,2476612762&fm=26&gp=0.jpg',
+      //   'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4259300811,497831842&fm=26&gp=0.jpg',
+      //   'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3684587473,1286660191&fm=26&gp=0.jpg',
+      //   'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2884107401,3797902000&fm=26&gp=0.jpg'
+      // ]
+
+      // 真实环境是通过登录 后台接口返回的 token 拿到的用户信息  我在这为为了模拟 所以给初始化后的用户随机生成一个头像
+      // const avatar = avatarList[Math.floor(Math.random() * (3 + 1))]
+      // const avatar = 'https://znzz.tech/loc/static/img/1 (2)_30e4b8e4.jpg'
+      _this.showDatas.push(prompt)
+      const timer = setInterval(() => {
+        if (userId) {
+          clearInterval(timer) // 路由跳转后销毁定时器
+          _this.$store.commit('SET_UserId', { // 保存用户信息
+            userId: userId,
+            avatar: _this.$store.state.num.memberInfo.img
+          })
+          // _this.$store.commit('SET_TARGETID', _this.targetId)
+          // this.$store.commit('SET_ANSWER', _this.showDatas)// 保存目标ID
+          _this.states = true
+          console.log('_this.$store.state.memberInfo', _this.$store.state.num.memberInfo, userId, _this.showDatas)
+          // this.$refs.send.sendMessage()
+
+          this.num()
+          // this.$emit('res')
+
+          // _this.$router.push({ name: 'RongCloud' })
+        }
+      }, 500)
+    },
+    initRongCloud () {
+      var appkey = this.$store.state.num.appkey
+      var token = this.$store.state.num.memberInfo.token
+      if (!appkey || !token) {
+        // alert('appkey 和 token 不能为空')
+      } else {
+        // 这个init 是我们之前撸的 `utils.js`
+        init({
+          appkey: appkey,
+          token: token
+        }, this.addPromptInfo)
+      }
+    },
+    sendMessage () {
+      // this.say = this.say.replace(/^\s+|\s+$/gm, '')
+      this.initRongCloud()
+      this.resume()
+      this.phoneState = false
+      if (this.say !== '') {
+        const _this = this
+        // _this.initRongCloud()
         // _this.answer = JSON.parse(localStorage.getItem('answer')) // 消息列表
         _this.answer = this.$store.state.num.answer // 消息列表
         _this.memberInfo = this.$store.state.num.memberInfo // 用户信息
         _this.targetId = this.$store.state.num.targetId// 目标ID
-        var msg = new RongIMLib.TextMessage({ content: _this.image, extra: _this.memberInfo.avatar })
+        console.log('_this.memberInfo', _this.memberInfo)
+        console.log('_this.say', _this.say)
+        // var msg = {}
+        // if (this.image !== '') {
+        //   // _this.say = this.image
+        //   // msg = new RongIMLib.TextMessage({ content: _this.image, extra: _this.memberInfo.avatar })
+        //   console.log('msg', msg)
+        // } else {
+        //   msg = new RongIMLib.TextMessage({ content: _this.say, extra: _this.memberInfo.avatar })
+        // }
+        // _this.say = RongIMLib.RongIMEmoji.symbolToEmoji(_this.say)
+        console.log('this.say', _this.say)
+        var msg = new RongIMLib.TextMessage({ content: _this.say, extra: _this.memberInfo.img })
         var conversationType = RongIMLib.ConversationType.PRIVATE // 单聊, 其他会话选择相应的消息类型即可
-        var targetId = this.targetId // 目标 Id
+        var targetId = this.$store.state.num.targetId// 目标 Id
         RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
           onSuccess: function (message) {
             // message 为发送的消息对象并且包含服务器返回的消息唯一 Id 和发送消息时间戳
+            console.log('message', message)
             const say = {
               css: 'right',
               txt: message.content.content,
-              headImg: _this.memberInfo.avatar,
-              time: _this.nowTime
+              headImg: _this.memberInfo.img,
+              time: _this.nowTime,
+              messageName: 'TextMessage'
 
               // condition: 'false'
 
             }
             console.log('_this.memberInfo', say, message.content.content)
             _this.answer.push(say)
+            localStorage.setItem('answer', JSON.stringify(_this.answer))
             // _this.$store.commit('SET_ANSWER', _this.answer)
-            // localStorage.setItem('answer', JSON.stringify(_this.answer))
-            // _this.$store.commit('SET_ANSWER', _this.answer)
-            console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
-            _this.image = ''
+            // console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
+
             _this.say = ''
           },
           onError: function (errorCode, message) {
@@ -982,151 +1035,10 @@ export default {
                 break
             }
             console.log('发送失败: ' + info + errorCode)
-            this.$message.warning('发送失败，刷新下页面吧')
+            // this.$message.warning('发送失败，刷新下页面吧')
           }
         })
-      } else {
-        this.message.error(res.data.msg)
       }
-    },
-    uploadSuccess (res, file, fileList) {
-      console.log(res, file, fileList)
-      this.image = URL.createObjectURL(file.raw)
-    },
-    // 常用语
-    expressionsClick (text) {
-      console.log('text', text)
-      // this.say = text
-
-      // this.sendMessage()
-      this.sam(text)
-      this.$refs.popovers.doClose()
-    },
-    usernameInput (val) {
-      console.log('val', val)
-    },
-    // 消息
-    onClickLeft () {
-      this.$router.go(-1)
-    },
-    addPromptInfo (prompt, userId = null) {
-      const _this = this
-
-      // const avatarList = [
-      //   'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4100987808,2324741924&fm=26&gp=0.jpg',
-      //   'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2988245209,2476612762&fm=26&gp=0.jpg',
-      //   'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4259300811,497831842&fm=26&gp=0.jpg',
-      //   'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3684587473,1286660191&fm=26&gp=0.jpg',
-      //   'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2884107401,3797902000&fm=26&gp=0.jpg'
-      // ]
-
-      // 真实环境是通过登录 后台接口返回的 token 拿到的用户信息  我在这为为了模拟 所以给初始化后的用户随机生成一个头像
-      // const avatar = avatarList[Math.floor(Math.random() * (3 + 1))]
-      const avatar = 'https://znzz.tech/loc/static/img/1 (2)_30e4b8e4.jpg'
-      _this.showDatas.push(prompt)
-      const timer = setInterval(() => {
-        if (userId) {
-          clearInterval(timer) // 路由跳转后销毁定时器
-          _this.$store.commit('SET_MEMBER', { // 保存用户信息
-            userId: userId,
-            avatar: avatar
-          })
-          _this.$store.commit('SET_TARGETID', _this.targetId)
-          // this.$store.commit('SET_ANSWER', _this.showDatas)// 保存目标ID
-          _this.states = true
-          console.log('_this.$store.state.memberInfo', _this.$store.state.num.memberInfo, userId, _this.showDatas)
-          // this.$refs.send.sendMessage()
-
-          this.num()
-          // this.$emit('res')
-
-          // _this.$router.push({ name: 'RongCloud' })
-        }
-      }, 500)
-    },
-    initRongCloud () {
-      var appkey = this.appkey
-      var token = this.token
-      if (!appkey || !token) {
-        alert('appkey 和 token 不能为空')
-      } else {
-        // 这个init 是我们之前撸的 `utils.js`
-        init({
-          appkey: appkey,
-          token: token
-        })
-      }
-    },
-    sendMessage () {
-      this.resume()
-      this.phoneState = false
-      const _this = this
-      // _this.initRongCloud()
-      // _this.answer = JSON.parse(localStorage.getItem('answer')) // 消息列表
-      _this.answer = this.$store.state.num.answer // 消息列表
-      _this.memberInfo = this.$store.state.num.memberInfo // 用户信息
-      _this.targetId = this.$store.state.num.targetId// 目标ID
-      console.log('_this.memberInfo', _this.answer)
-      console.log('_this.say', _this.say)
-      // var msg = {}
-      // if (this.image !== '') {
-      //   // _this.say = this.image
-      //   // msg = new RongIMLib.TextMessage({ content: _this.image, extra: _this.memberInfo.avatar })
-      //   console.log('msg', msg)
-      // } else {
-      //   msg = new RongIMLib.TextMessage({ content: _this.say, extra: _this.memberInfo.avatar })
-      // }
-      // _this.say = RongIMLib.RongIMEmoji.symbolToEmoji(_this.say)
-      console.log('this.say', _this.say)
-      var msg = new RongIMLib.TextMessage({ content: _this.say, extra: _this.memberInfo.avatar })
-      var conversationType = RongIMLib.ConversationType.PRIVATE // 单聊, 其他会话选择相应的消息类型即可
-      var targetId = this.targetId // 目标 Id
-      RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
-        onSuccess: function (message) {
-          // message 为发送的消息对象并且包含服务器返回的消息唯一 Id 和发送消息时间戳
-          const say = {
-            css: 'right',
-            txt: message.content.content,
-            headImg: _this.memberInfo.avatar,
-            time: _this.nowTime
-
-            // condition: 'false'
-
-          }
-          console.log('_this.memberInfo', say, message.content.content)
-          _this.answer.push(say)
-          localStorage.setItem('answer', JSON.stringify(_this.answer))
-          // _this.$store.commit('SET_ANSWER', _this.answer)
-          // console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
-          _this.image = ''
-          _this.say = ''
-        },
-        onError: function (errorCode, message) {
-          var info = ''
-          switch (errorCode) {
-            case RongIMLib.ErrorCode.TIMEOUT:
-              info = '超时'
-              break
-            case RongIMLib.ErrorCode.UNKNOWN:
-              info = '未知错误'
-              break
-            case RongIMLib.ErrorCode.REJECTED_BY_BLACKLIST:
-              info = '在黑名单中，无法向对方发送消息'
-              break
-            case RongIMLib.ErrorCode.NOT_IN_DISCUSSION:
-              info = '不在讨论组中'
-              break
-            case RongIMLib.ErrorCode.NOT_IN_GROUP:
-              info = '不在群组中'
-              break
-            case RongIMLib.ErrorCode.NOT_IN_CHATROOM:
-              info = '不在聊天室中'
-              break
-          }
-          console.log('发送失败: ' + info + errorCode)
-          this.$message.warning('发送失败，刷新下页面吧')
-        }
-      })
     },
     sendInfo () {
       console.log(1313)
@@ -1153,6 +1065,7 @@ export default {
       return
     },
     checkedEmoji (symbol, item) {
+      this.enterText = false
       console.log('this.emojList', symbol)
       // this.stat.sendMsgVal += RongIMLib.RongIMEmoji.symbolToEmoji(symbol) // 表情包需要RongIMLib.RongIMEmoji.symbolToEmoji解析
       // this.emojiShow = false
@@ -1182,10 +1095,29 @@ export default {
     // 批量
     batch () {
       this.show = true
-    }, // 边框
-    tinct (i) {
-      console.log('i', i)
+    },
+    // 边框 点击每一个联系人
+    async tinct (i, sender, receiver, item) {
+      console.log('i', i, sender, receiver)
       this.count = i
+      this.rongYun.sender_uid = sender
+      this.rongYun.receiver_uid = receiver
+      const res = await getRongyun(this.rongYun)
+      console.log(res.code)
+      if (res.code === 200) {
+        console.log(res.data.receiver, res.data.sender)
+        this.$store.commit('SET_MEMBER', res.data.sender)
+        this.$store.commit('SET_TARGETID', res.data.receiver.uid)
+        this.hr.name = item.hr_info.name
+        this.hr.sex = item.hr_info.sex
+        this.hr.state = item.hr_info.online_status
+        this.hr.company = item.position.enterprise.enterprise_name
+        this.hr.id = item.id
+        this.messageTxt = false
+        this.initRongCloud()
+      } else {
+        this.$message.success(res.data.msg)
+      }
     },
     // 未读
     radioClick (e) {
@@ -1196,22 +1128,92 @@ export default {
         this.radio = '1'
       }
     },
-    helloChange () {
+    // 新招呼
+    async helloChange () {
       this.changeColor = 1
       // this.emojList = appData
       console.log('appData', appData)
+      const res = await getpreChat()
+      console.log('新招呼', res)
+      if (res.data.results.length === 0) {
+        console.log('没有联系人')
+        this.show = true
+        this.messageTxt = true
+      } else {
+        console.log('有人找')
+        this.answer = []
+        this.list = res.data.results
+        console.log(this.list)
+        this.show = false
+      }
     },
-    haveIntentionTo () {
+    // 未回复
+    async haveIntentionTo () {
       this.changeColor = 2
+      const res = await getInterest()
+      console.log('未回复', res)
+      if (res.data.results.length === 0) {
+        console.log('没有联系人')
+        this.show = true
+        this.messageTxt = true
+      } else {
+        console.log('有人找')
+        this.answer = []
+        this.list = res.data.results
+        console.log(this.list)
+        this.show = false
+      }
     },
-    inCommunicationC () {
+    // 沟通中
+    async inCommunicationC () {
       this.changeColor = 3
+      const res = await getComming()
+      console.log('沟通中', res)
+      if (res.data.results.length === 0) {
+        console.log('没有联系人')
+        this.show = true
+        this.messageTxt = true
+      } else {
+        console.log('有人找')
+        this.answer = []
+        this.list = res.data.results
+        console.log(this.list)
+        this.show = false
+      }
     },
-    posted () {
+    // 已约面
+    async posted () {
       this.changeColor = 4
+      const res = await getPosted()
+      console.log('已约面', res)
+      if (res.data.results.length === 0) {
+        console.log('没有联系人')
+        this.show = true
+        this.messageTxt = true
+      } else {
+        console.log('有人找')
+        this.answer = []
+        this.list = res.data.results
+        console.log(this.list)
+        this.show = false
+      }
     },
-    inappropriate () {
+    // 不合适
+    async inappropriate () {
       this.changeColor = 5
+      const res = await getReject()
+      console.log('不合适', res)
+      if (res.data.results.length === 0) {
+        console.log('没有联系人')
+        this.show = true
+        this.messageTxt = true
+      } else {
+        console.log('有人找')
+        this.answer = []
+        this.list = res.data.results
+        console.log(this.list)
+        this.show = false
+      }
     },
     num () {
 
@@ -1240,10 +1242,10 @@ export default {
       _this.answer = this.$store.state.num.answer // 消息列表
       _this.memberInfo = this.$store.state.num.memberInfo // 用户信息
       _this.targetId = this.$store.state.num.targetId// 目标ID
-      var msg = new RongIMLib.TextMessage({ content: num, extra: _this.memberInfo.avatar })
+      var msg = new RongIMLib.TextMessage({ content: num, extra: _this.memberInfo.img })
       console.log('msg', msg)
       var conversationType = RongIMLib.ConversationType.PRIVATE // 单聊, 其他会话选择相应的消息类型即可
-      var targetId = this.targetId // 目标 Id
+      var targetId = _this.targetId // 目标 Id
       RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
         onSuccess: function (message) {
           console.log('message', message)
@@ -1251,8 +1253,9 @@ export default {
           const say = {
             css: 'right',
             txt: message.content.content,
-            headImg: _this.memberInfo.avatar,
-            time: _this.nowTime
+            headImg: _this.memberInfo.img,
+            time: _this.nowTime,
+            messageName: 'TextMessage'
 
             // condition: 'false'
 
@@ -1379,7 +1382,9 @@ export default {
     display: flex;
     .age {
       padding: 0px 10px;
-      border-right: 1px solid #e6e3e3;
+      font-size: 13px;
+      // color: #256efd;
+      // border-right: 1px solid #e6e3e3;
     }
   }
   .icons {
@@ -1416,8 +1421,17 @@ export default {
 // }
 .innerbox {
   margin-top: 10px;
-  height: 450px;
+  height: 500px;
   overflow-y: auto;
+  .textnum {
+    height: 100%;
+    width: 100%;
+    // background-color: pink;
+    font-size: 15px;
+    line-height: 500px;
+    text-align: center;
+    color: #636567;
+  }
 
   .box {
     height: 70px;
@@ -1495,7 +1509,7 @@ export default {
   height: 600px;
 }
 ::v-deep svg.svg-icon {
-  width: 0.8em;
+  width: 20px;
   // padding: 0px 10px;
 }
 .Btn {

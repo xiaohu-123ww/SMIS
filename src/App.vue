@@ -29,11 +29,11 @@ export default {
   created () {
     // this.start()
     // this.Rong()
-    this.timers = window.setInterval(() => {
-      this.Rong()
-      // setTimeout(this.start(), 0)
-      // 每三分钟执行 6000*10 * 3
-    }, 300)
+    // this.timers = window.setInterval(() => {
+    //   this.Rong()
+    //   // setTimeout(this.start(), 0)
+    //   // 每三分钟执行 6000*10 * 3
+    // }, 300)
     this.timer = window.setInterval(() => {
       this.start()
       // setTimeout(this.start(), 0)

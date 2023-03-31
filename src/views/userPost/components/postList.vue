@@ -45,7 +45,7 @@
                             type="primary"
                             round
                             class="el-bt"
-                            @click="communication(item)"
+                            @click="communication(item.hr, item.id)"
                             >立即沟通</el-button
                           >
                         </div>
@@ -313,10 +313,13 @@
 </template>
 <script>
 import { getPostList, getbrowsingHistory, getPostListOne } from '@/api/postlist'
+import { getInterests } from '@/api/particulars'
 import disposeImg from '@/utils/disposeImg'
 import { constantRoutes } from '@/router'
 import Num from './state.vue'
 import Dialog from './dialog.vue'
+import { getRongyun } from '@/api/Rongyun.js'
+import { getList } from '@/api/my/my'
 export default {
   components: { Num, Dialog },
   data () {
@@ -343,7 +346,13 @@ export default {
       qw: '',
       number: true,
       text: [],
-      visible: false
+      visible: false,
+      rongYun: {
+        sender_class: 0, // 0-求职者；1-hr
+        sender_uid: 0,
+        receiver_class: 1, // 同上
+        receiver_uid: 0
+      }
     }
   },
   computed: {
@@ -360,10 +369,29 @@ export default {
   },
 
   methods: {
+
     // 立即沟通
-    communication () {
-      this.state = true
+    async communication (item, id) {
+      // this.state = true
       // this.visible = true
+
+      console.log('hr', item)
+      const { data } = await getList()
+      console.log('用户id', data)
+      this.rongYun.sender_uid = data.user_id
+      this.rongYun.receiver_uid = item
+      console.log(' this.rongYun', this.rongYun)
+      const res = await getRongyun(this.rongYun)
+      console.log(res.code)
+      if (res.code === 200) {
+        console.log(res.data.receiver, res.data.sender)
+        this.$store.commit('SET_MEMBER', res.data.sender)
+        this.$store.commit('SET_TARGETID', res.data.receiver.uid)
+        const { data } = await getInterests(id)
+        console.log('意向', data)
+      } else {
+        this.$message.success(res.data.msg)
+      }
     },
     res () {
       this.state = false

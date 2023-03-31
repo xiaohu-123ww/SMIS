@@ -84,7 +84,7 @@ export const init = (params, addPromptInfo) => {
       // 判断消息类型
       switch (message.messageType) {
         case RongIMClient.MessageType.TextMessage:
-          // console.log('message', message.content.content)
+          console.log('message', message)
           message.content.content = RongIMLib.RongIMEmoji.emojiToHTML(message.content.content)
           console.log('message', message)
           message.content.time = message.sentTime
@@ -97,15 +97,34 @@ export const init = (params, addPromptInfo) => {
           // message.content.content => 格式为 AMR 的音频 base64
           break
         case RongIMClient.MessageType.ImageMessage:
+          console.log('图片', message)
+          message.content.time = message.sentTime
+          store.commit('SET_ANSWER', message.content)
           // message.content.content => 图片缩略图 base64
           // message.content.imageUri => 原图 URL
           break
         case RongIMClient.MessageType.LocationMessage:
+          console.log('位置', message)
+          message.content.time = message.sentTime
+          store.commit('SET_ANSWER', message.content)
+          // if (message.content instanceof RongIMLib.LocationMessage) {
+          //   var locationMessage = message.content
+          //   var latitude = locationMessage.lat
+          //   var longitude = locationMessage.lng
+          //   var poiName = locationMessage.poi
+          //   console.log('Received location message: latitude=' + latitude + ', longitude=' + longitude + ', poiName=' + poiName)
+          // } else {
+          //   console.log('Received message: ' + message.content)
+          // }
+
           // message.content.latiude => 纬度
           // message.content.longitude => 经度
           // message.content.content => 位置图片 base64
           break
         case RongIMClient.MessageType.RichContentMessage:
+          console.log('message', message)
+          message.content.time = message.sentTime
+          store.commit('SET_ANSWER', message.content)
           // message.content.content => 文本消息内容
           // message.content.imageUri => 图片 base64
           // message.content.url => 原图 URL

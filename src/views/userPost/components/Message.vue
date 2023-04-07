@@ -352,14 +352,21 @@
                   display: flex;
                 "
               >
-                <div style="width: 23%; line-height: 60px; padding-left: 20px">
+                <div style="width: 23%; line-height: 65px; padding-left: 20px">
                   <i
-                    class="el-icon-tickets"
+                    :class="
+                      data.imageUri
+                        ? 'el-icon-phone-outline'
+                        : 'el-icon-tickets'
+                    "
                     style="font-size: 25px; color: #898181"
                   ></i>
                 </div>
-                <div style="line-height: 50px">
+                <div v-if="resumeVisible" style="margin-top: 15px">
                   {{ data.content }}
+                </div>
+                <div v-if="phoneVisible" style="margin-top: 20px">
+                  {{ name }}:{{ data.imageUri }}
                 </div>
               </div>
               <div style="display: flex">
@@ -397,7 +404,19 @@
         <div class="time">请求发送简历已发送</div>
       </div> -->
           </div>
-          <div v-if="fileTrue">提示:简历已发送至hr的邮箱</div>
+          <div
+            v-if="filetrue"
+            style="
+              width: 108%;
+              height: 50px;
+              text-align: center;
+              line-height: 70px;
+              color: #7e7a7a;
+              font-size: 13px;
+            "
+          >
+            {{ titleText }}
+          </div>
         </div>
       </div>
       <div v-if="data.css === 'right' && data.messageName === 'TextMessage'">
@@ -412,7 +431,7 @@
                 style="width: 80px; height: 80px"
                 @click="imageSmall(picture)"
             /></span> -->
-              <span v-if="texts" class="textarea" v-html="text"></span>
+              <span class="textarea" v-html="text"></span>
             </div>
             <!-- <div v-if="phoneState" class="message">
             <div
@@ -509,12 +528,20 @@ export default {
     },
     status: {
       type: Boolean
+    },
+    filetrue: {
+      type: Boolean
+    },
+    name: {
+      type: String
     }
 
   },
   data () {
     return {
-      fileTrue: false,
+      resumeVisible: true,
+      phoneVisible: false,
+      // fileTrue: false,
       ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK',
       center: { lng: 0, lat: 0 },
       zoom: 0,
@@ -543,7 +570,8 @@ export default {
       commite: false,
       fileTest: '',
       map: null,
-      link: ''
+      link: '',
+      titleText: ''
 
     }
   },
@@ -599,9 +627,9 @@ export default {
         this.center.lat = this.data.latitude
       }
 
-      if (this.data.headImg === undefined || this.data.headImg === null) {
-        this.data.headImg = this.$store.state.num.list.avatar
-      }
+      // if (this.data.headImg === undefined || this.data.headImg === null) {
+      //   this.data.headImg = this.$store.state.num.list.avatar
+      // }
       // 判断是否是图片
       var msg = 'https://znzz.tech/loc/static/img/'
 
@@ -628,48 +656,48 @@ export default {
         console.log(777, this.text)
         // this.images = false
       }
-      var file = 'https://znzz.tech/loc/static/files/'
-      if (this.map !== 'object' && this.data.txt !== undefined) {
-        var files = this.data.txt.slice(0, 35)
-      }
-      console.log('file', file)
+      // var file = 'https://znzz.tech/loc/static/files/'
+      // if (this.map !== 'object' && this.data.txt !== undefined) {
+      //   var files = this.data.txt.slice(0, 35)
+      // }
+      // console.log('file', file)
 
-      if (files === file) {
-        console.log(123124)
-        this.fileTest = this.data.txt
-        this.phoneSum = false
-        this.fileChange = true
-        this.discourse = '发送简历请求已发送'
-        this.phoneSums = true
-        this.information = false
-        // this.texts = false
-        // this.images = true
+      // if (files === file) {
+      //   console.log(123124)
+      //   this.fileTest = this.data.txt
+      //   this.phoneSum = false
+      //   this.fileChange = true
+      //   this.discourse = '发送简历请求已发送'
+      //   this.phoneSums = true
+      //   this.information = false
+      //   // this.texts = false
+      //   // this.images = true
 
-        // this.picture = this.data.txt
+      //   // this.picture = this.data.txt
 
-        // console.log(this.picture)
-        // this.images = true
-      } else {
-        this.phoneSum = true
-        this.fileChange = false
-        this.information = true
-        // this.images = false
-        // this.texts = true
-        // this.text = this.data.txt
-        // console.log(777)
-        // this.images = false
-      }
+      //   // console.log(this.picture)
+      //   // this.images = true
+      // } else {
+      //   this.phoneSum = true
+      //   this.fileChange = false
+      //   this.information = true
+      //   // this.images = false
+      //   // this.texts = true
+      //   // this.text = this.data.txt
+      //   // console.log(777)
+      //   // this.images = false
+      // }
 
-      console.log('123', num, this.data.txt)
+      // console.log('123', num, this.data.txt)
       const time = this.data.time + ''
-      const all = 0
-      const reg = /^1[3456789]\d{9}$/
-      var reset = false
-      if (!reg.test(this.data.txt)) {
-        reset = false
-      } else {
-        reset = true
-      }
+      // const all = 0
+      // const reg = /^1[3456789]\d{9}$/
+      // var reset = false
+      // if (!reg.test(this.data.txt)) {
+      //   reset = false
+      // } else {
+      //   reset = true
+      // }
       // 判断是否是第一次发送
       // if (!reset) {
       //   console.log('2134')
@@ -677,21 +705,21 @@ export default {
       //   this.phone = true
       // }
 
-      if (reset === true) {
-        if (this.data.css === 'right' && this.phoneState === false && this.status === true) {
-          this.phoneSum = false
-          this.discourse = '请求交换电话已发送'
-          // this.phone = true
-        } else {
-          this.phoneSum = true
-          // this.phone = false
-        }
-        if (this.data.css === 'left' && this.phoneState === false && this.status === false) {
-          this.phoneSums = true
-        } else {
-          this.phoneSums = false
-        }
-      }
+      // if (reset === true) {
+      //   if (this.data.css === 'right' && this.phoneState === false && this.status === true) {
+      //     this.phoneSum = false
+      //     this.discourse = '请求交换电话已发送'
+      //     // this.phone = true
+      //   } else {
+      //     this.phoneSum = true
+      //     // this.phone = false
+      //   }
+      //   if (this.data.css === 'left' && this.phoneState === false && this.status === false) {
+      //     this.phoneSums = true
+      //   } else {
+      //     this.phoneSums = false
+      //   }
+      // }
       // if (this.data.css === 'right' && this.data.txt !== '') {
       //   console.log('hahhah')
       //   this.phoneSum = false
@@ -1028,8 +1056,19 @@ export default {
     // 确定接受简历
     fileUploading () {
       this.uploading()
-      this.fileTrue = true
-      this.$emit('file')
+      // this.fileTrue = true
+      // this.$emit('file')
+      if (this.data.imageUri) {
+        this.phoneVisible = true
+        this.resumeVisible = false
+        this.$emit('file', true)
+        this.titleText = '提示：手机号已发送至hr'
+      } else {
+        this.$emit('file', false)
+         this.phoneVisible = false
+        this.resumeVisible = false
+        this.titleText = '提示：简历已发送至hr的邮箱'
+      }
       // document.body.removeChild(downloadLink)
     },
     uploading () {

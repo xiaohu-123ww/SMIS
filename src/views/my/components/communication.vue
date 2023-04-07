@@ -196,24 +196,82 @@
         <div v-if="!messageTxt">
           <div class="header" style="position: relative; width: 100%">
             <div style="width: 80%">
-              <div>
-                <span style="margin-right: 10px; font-size: 17px">{{
-                  hr.name
-                }}</span>
-                <Item :icon="hr.sex === 1 ? 'nan' : 'nv'" style="width: 15px" />
-                <span style="margin-left: 10px; color: rgb(254, 135, 110)">{{
-                  hr.state
-                }}</span>
+              <div style="display: flex">
+                <div style="width: 69%" @click="handleOpen">
+                  <a href="javascript:;">
+                    <span style="margin-right: 9px; font-size: 17px">{{
+                      hr.name
+                    }}</span></a
+                  >
+                  <Item
+                    :icon="hr.sex === 1 ? 'nan' : 'nv'"
+                    style="width: 15px"
+                  />
+                  <span style="margin-left: 10px; color: rgb(254, 135, 110)">{{
+                    hr.state
+                  }}</span>
+                </div>
+                <div style="font-size: 15px" @click="particulars">
+                  沟通职位：<a href="javascript:;"
+                    ><span style="color: rgb(37, 110, 253)">{{
+                      resumeData.fullname
+                    }}</span></a
+                  >
+                </div>
               </div>
-              <div style="margin-top: 12px">
-                <span class="age" style="padding-left: 0px">{{
-                  hr.company
-                }}</span>
-                <!-- <span class="age">23年应届生</span>
-                <span class="age">本科</span>
-                <span class="age" style="border: 0; color: rgb(15, 171, 172)"
-                  >背景调查</span
-                > -->
+              <div style="display: flex">
+                <div
+                  style="
+                    margin-top: 9px;
+                    width:69%
+                    font-size: 13px;
+                  "
+                >
+                  <span>{{ resumeData.fullname }}</span
+                  ><span
+                    >[{{ resumeData.work_city.first }} ·
+                    {{ resumeData.work_city.second }} ·
+                    {{ resumeData.work_city.third }}]</span
+                  >
+                </div>
+                <div style="margin-top: 10px; font-size: 13px">
+                  {{ hr.company }}
+                </div>
+              </div>
+              <div style="display: flex">
+                <div style="margin-top: 9px; font-size: 13px; width: 69%">
+                  <span
+                    style="
+                      color: red;
+                      padding-right: 5px;
+                      border-right: 1px solid #e6e3e3;
+                    "
+                    >{{ resumeData.salary_min }}k-{{ resumeData.salary_max }}k
+                    ·{{ resumeData.salary_unit }}薪</span
+                  >
+                  <span
+                    style="border-right: 1px solid #e6e3e3; padding: 0px 5px"
+                    >{{ resumeData.job_experience.name }}</span
+                  >
+                  <!-- education -->
+                  <span style="padding: 0px 5px">{{
+                    resumeData.education.name
+                  }}</span>
+                </div>
+                <div style="margin-top: 9px; font-size: 13px">
+                  <span
+                    style="padding-right: 5px; border-right: 1px solid #e6e3e3"
+                    >{{ resumeData.enterprise_info.field.field_name }}</span
+                  >
+                  <span
+                    style="border-right: 1px solid #e6e3e3; padding: 0px 5px"
+                    >{{ resumeData.enterprise_info.finance }}</span
+                  >
+                  <!-- education -->
+                  <span style="padding: 0px 5px"
+                    >{{ resumeData.enterprise_info.size }}人</span
+                  >
+                </div>
               </div>
             </div>
             <!-- <div style="margin-top: 17px; width: 30%">
@@ -358,6 +416,8 @@
               :phones="phones"
               :phone-state="phoneState"
               :status="status"
+              :filetrue="filetrue"
+              :name="name"
               @again="again"
               @resetChange="resetChange"
               @file="file"
@@ -552,8 +612,9 @@ import Safety from './communication/dialog.vue'
 import { getCv } from '@/api/my/resume'
 
 import { getList } from '@/api/my/safety'
-import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject } from '@/api/Rongyun.js'
+import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange } from '@/api/Rongyun.js'
 import { getChatingId } from '@/api/my/job.js'
+import { getParticulars } from '@/api/particulars'
 
 var appData = RongIMLib.RongIMEmoji.list
 export default {
@@ -570,6 +631,7 @@ export default {
   },
   data () {
     return {
+      filetrue: false,
       isBackground: false,
       numList: '',
       visible: false,
@@ -656,7 +718,9 @@ export default {
         company: '',
         id: ''
       },
-      enterText: true
+      enterText: true,
+      name: '',
+      resumeData: {}
 
     }
   },
@@ -680,14 +744,93 @@ export default {
   },
 
   methods: {
-    async file () {
+    handleOpen () {
+      console.log('1233333')
+      this.$router.push({
+        path: '/postdes',
+        name: 'postdes',
+        query: { id: this.resumeData.enterprise_info.enterprise_id }
+      })
+    },
+    particulars () {
+      this.$router.push({
+        path: '/state',
+        name: 'state',
+        query: { id: this.resumeData.id }
+      })
+    },
+    async file (i) {
       console.log('同意交换简历')
-      const res = await getChatingId(this.hr.id)
-      console.log('发送简历', res)
-      if (res.code === 200) {
-        this.$message.success('已发送至hr邮箱')
+      if (i === true) {
+        console.log('电话', this.hr.id)
+        var id = this.hr.id
+        const res = await getPhoneChange(id)
+        console.log('交换手机', res)
+        this.filetrue = true
+        const { data } = await getList()
+
+        console.log('安全中心', data)
+        if (data.phone === '' || data.phone === null) {
+          this.$message.success('未绑定手机号，去绑定吧')
+        } else {
+          // this.resume()
+          this.phoneState = false
+          this.phones = data.phone
+          const _this = this
+          // 创建 RichContentMessage 对象
+          var title = '电话申请'
+          var description = 'hr请求你的简历是否同意？'
+
+          // var imageUrl = 'http://www.rongcloud.cn/images/logo.png'
+          var url = this.phones
+
+          var richContentMessage = RongIMLib.RichContentMessage.obtain(title, description, url)
+          var targetId = this.$store.state.num.targetId
+          // var conversationType = RongIMLib.ConversationType.PRIVATE
+          // 创建消息对象
+          var message = {
+            content: richContentMessage,
+            conversationType: RongIMLib.ConversationType.PRIVATE,
+            targetId: targetId
+          }
+
+          // 发送消息
+          RongIMClient.getInstance().sendMessage(RongIMLib.ConversationType.PRIVATE, targetId, message.content, {
+            onSuccess: function (message) {
+              console.log('Send RichContentMessage successfully.', message)
+              const say = {
+                css: 'right',
+                title: message.content.title,
+                content: message.content.content,
+                headImg: _this.$store.state.num.memberInfo.img,
+
+                messageName: message.content.messageName,
+                time: _this.nowTime
+
+                // condition: 'false'
+
+              }
+              _this.answer.push(say)
+              console.log(say, _this.answer)
+            },
+            onError: function (errorCode, message) {
+              console.log('Send RichContentMessage error: ' + errorCode)
+            }
+          })
+        }
       } else {
-        this.$message.warning(res.data.msg)
+        console.log('简历')
+        const res = await getChatingId(this.hr.id)
+        console.log('发送简历', res)
+        if (res.code === 200) {
+          this.$message.success('已发送至hr邮箱')
+          this.filetrue = true
+          var text = '对方已同意简历申请，简历已发送至您的邮箱，请注意查收'
+          this.sam(text)
+        } else {
+          this.filetrue = false
+          this.$message.warning(res.data.msg)
+        }
       }
     },
     // send () {
@@ -1098,12 +1241,17 @@ export default {
     },
     // 边框 点击每一个联系人
     async tinct (i, sender, receiver, item) {
-      console.log('i', i, sender, receiver)
+      console.log('i', i, sender, receiver, item)
       this.count = i
       this.rongYun.sender_uid = sender
       this.rongYun.receiver_uid = receiver
+      this.name = item.hr_info.name
       const res = await getRongyun(this.rongYun)
       console.log(res.code)
+      const { data } = await getParticulars(item.position.position_id
+      )
+      console.log('简历', data)
+      this.resumeData = data
       if (res.code === 200) {
         console.log(res.data.receiver, res.data.sender)
         this.$store.commit('SET_MEMBER', res.data.sender)
@@ -1141,7 +1289,7 @@ export default {
         this.messageTxt = true
       } else {
         console.log('有人找')
-        this.answer = []
+        // this.answer = []
         this.list = res.data.results
         console.log(this.list)
         this.show = false
@@ -1158,7 +1306,7 @@ export default {
         this.messageTxt = true
       } else {
         console.log('有人找')
-        this.answer = []
+        // this.answer = []
         this.list = res.data.results
         console.log(this.list)
         this.show = false
@@ -1175,7 +1323,7 @@ export default {
         this.messageTxt = true
       } else {
         console.log('有人找')
-        this.answer = []
+        // this.answer = []
         this.list = res.data.results
         console.log(this.list)
         this.show = false
@@ -1192,7 +1340,7 @@ export default {
         this.messageTxt = true
       } else {
         console.log('有人找')
-        this.answer = []
+        // this.answer = []
         this.list = res.data.results
         console.log(this.list)
         this.show = false
@@ -1209,7 +1357,7 @@ export default {
         this.messageTxt = true
       } else {
         console.log('有人找')
-        this.answer = []
+        // this.answer = []
         this.list = res.data.results
         console.log(this.list)
         this.show = false
@@ -1351,7 +1499,7 @@ export default {
 }
 .num {
   width: 100%;
-  height: 600px;
+  height: 620px;
 
   padding-top: 30px;
   position: relative;
@@ -1374,7 +1522,7 @@ export default {
   width: 75%;
   .header {
     width: 100%;
-    height: 70px;
+    height: 90px;
     // background-color: pink;
     font-size: 12px;
     padding-left: 20px;
@@ -1506,7 +1654,7 @@ export default {
   // overflow: hidden !important;
 }
 .tall {
-  height: 600px;
+  height: 535px;
 }
 ::v-deep svg.svg-icon {
   width: 20px;

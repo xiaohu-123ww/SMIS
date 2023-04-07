@@ -3,7 +3,9 @@ const state = {
   targetId: '', // 目标ID
   answer: [],
   appkey: 'x18ywvqfxypqc',
-  list: {}// 消息列表
+  list: {},
+  senderUserId: '' // 消息列表
+
 }
 const mutations = {
   SET_MEMBER (state, memberInfo) {
@@ -30,12 +32,20 @@ const mutations = {
       longitude: playload.longitude,
       poi: playload.poi,
       title: playload.title,
-      content: playload.content
+      content: playload.content,
+      senderUserId: playload.senderUserId
 
       // 头像
     }
     state.answer.push(say)
     // localStorage.setItem('answer', JSON.stringify(state.answer))
+  },
+  SET_STATE (state, playload) {
+    state.answer = playload
+  },
+  SET_senderUserId (state, targetId) {
+    state.senderUserId = targetId
+    // localStorage.setItem('targetId', state.targetId)
   }
 }
 export default {

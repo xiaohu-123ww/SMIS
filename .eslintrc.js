@@ -230,6 +230,7 @@ module.exports = {
     'no-dupe-keys': 'off',
     'no-undef': 'off',
     'vue/valid-v-bind': 'off',
-    ' key-spacing': 'off'
+    ' key-spacing': 'off',
+    'no-redeclare': 'off'
   }
 }

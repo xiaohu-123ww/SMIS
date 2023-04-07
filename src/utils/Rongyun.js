@@ -88,8 +88,10 @@ export const init = (params, addPromptInfo) => {
           message.content.content = RongIMLib.RongIMEmoji.emojiToHTML(message.content.content)
           console.log('message', message)
           message.content.time = message.sentTime
+          message.content.senderUserId = message.senderUserId
           // message.content.phone = message.content.content
           store.commit('SET_ANSWER', message.content)
+          store.commit('SET_senderUserId', message.senderUserId)
           // message.content.content => 文字内容
           addPromptInfo('新消息 ' + message.targetId + ':' + JSON.stringify(message))
           break

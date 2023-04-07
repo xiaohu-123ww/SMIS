@@ -42,3 +42,13 @@ export function getReject () {
   return request.get('/user/im-list/rejected/')
 }
 
+/**
+ * /**
+ * 确定交换手机号
+ */
+
+export function getPhoneChange (id) {
+  // return request.put('/user/phone-exchange/', id)
+  return request.put(`/user/phone-exchange/?comm_id=${id}`)
+}
+

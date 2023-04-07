@@ -106,7 +106,7 @@ export default {
   height: 100%;
   // min-width: 800px;
   // max-width: 2000px;
-  margin: 30px auto 10px;
+  margin: 30px auto 20px;
   // padding-top: 30px;
   background-color: #f4f6f9;
 }
@@ -134,5 +134,11 @@ export default {
 }
 ::v-deep element.style {
   padding-left: 60px;
+}
+::v-deep aside {
+  margin-bottom: 0px;
+}
+::v-deep .el-main {
+  padding: 20px 20px 0px;
 }
 </style>

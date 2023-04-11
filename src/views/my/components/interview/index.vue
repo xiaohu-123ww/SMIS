@@ -30,6 +30,7 @@
             <p>面试地点：{{ statusList.address }}</p>
             <p style="padding-left: 14px">联系人：{{ statusList.contactor }}</p>
             <p>联系电话：{{ statusList.contact }}</p>
+            <p v-if="statusList.notice">注意事项：{{ statusList.notice }}</p>
           </div>
         </div>
         <!-- <span
@@ -96,6 +97,7 @@
   </div>
 </template>
 <script>
+import { getResults } from '@/api/my/interview'
 export default {
   props: {
     show: {
@@ -125,7 +127,15 @@ export default {
       pass: false,
       reject: false,
       all: false,
-      hold: false
+      hold: false,
+      receive: {
+        result: 'receive', // //接受“receive”；拒绝“reject”
+        interview_id: 0
+      },
+      reject: {
+        result: 'reject', // //接受“receive”；拒绝“reject”
+        interview_id: 0
+      }
 
     }
   },
@@ -164,10 +174,10 @@ export default {
       const res = await getResults(this.receive)
       console.log('res', res)
       if (res.code === 200) {
-        this.$message.success('操作成功')
+        this.$message.success(res.data.msg)
         this.$emit('reset', false)
       } else {
-        this.$message.error('失败')
+        this.$message.error(res.data.msg)
       }
     },
     // 拒绝
@@ -176,10 +186,10 @@ export default {
       const res = await getResults(this.reject)
       console.log('res', res)
       if (res.code === 200) {
-        this.$message.success('操作成功')
+        this.$message.success(res.data.msg)
         this.$emit('reset', false)
       } else {
-        this.$message.error('失败')
+        this.$message.error(res.data.msg)
       }
     }
 

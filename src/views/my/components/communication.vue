@@ -418,9 +418,22 @@
               :status="status"
               :filetrue="filetrue"
               :name="name"
+              :titletext="titletext"
+              :filetrues="filetrues"
+              :wetfiletrue="wetfiletrue"
+              :commite="commite"
+              :commites="commites"
+              :commitess="commitess"
+              :interviews="interviews"
+              :interviewtrue="interviewtrue"
               @again="again"
               @resetChange="resetChange"
               @file="file"
+              @wetChat="wetChat"
+              @fileterNum="fileterNum"
+              @fileterNums="fileterNums"
+              @fileterNumss="fileterNumss"
+              @interviewSubmit="interviewSubmit"
             />
           </div>
 
@@ -599,9 +612,23 @@
       </div>
     </div>
     <Safety :visible="visible" @padlock="padlock" @phoneNumber="phoneNumber" />
+    <WetChat
+      :wetchatvisible="wetchatvisible"
+      @wetcancel="wetcancel"
+      @wetExchange="wetExchange"
+    />
+    <WetNumbers
+      :wetnumber="wetnumber"
+      :wechatnumber="wechatnumber"
+      @wetSubmit="wetSubmit"
+      @wetExchange="wetExchange"
+      @wetresumeSend="wetresumeSend"
+    />
   </div>
 </template>
 <script>
+import WetChat from './wechat/wechat.vue'
+import WetNumbers from './wechat/WeNumber.vue'
 import Item from '@/layout/components/Sidebar/Item.vue'
 import Message from '@/views/userPost/components/Message.vue'
 import { init } from '@/utils/Rongyun.js'
@@ -612,13 +639,13 @@ import Safety from './communication/dialog.vue'
 import { getCv } from '@/api/my/resume'
 
 import { getList } from '@/api/my/safety'
-import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange } from '@/api/Rongyun.js'
+import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange, getWetChat, getWetChange } from '@/api/Rongyun.js'
 import { getChatingId } from '@/api/my/job.js'
 import { getParticulars } from '@/api/particulars'
 
 var appData = RongIMLib.RongIMEmoji.list
 export default {
-  components: { Item, Message, Safety },
+  components: { Item, Message, Safety, WetChat, WetNumbers },
   filters: {
     // 超过20位显示 ...
     ellipsis: function (value) {
@@ -631,6 +658,10 @@ export default {
   },
   data () {
     return {
+      // 微信
+      wetchatvisible: false,
+      wechatnumber: '',
+      wetnumber: false,
       filetrue: false,
       isBackground: false,
       numList: '',
@@ -720,7 +751,15 @@ export default {
       },
       enterText: true,
       name: '',
-      resumeData: {}
+      resumeData: {},
+      titletext: '',
+      filetrues: false,
+      wetfiletrue: false,
+      commite: false,
+      commites: false,
+      commitess: false,
+      interviews: false,
+      interviewtrue: false
 
     }
   },
@@ -744,6 +783,21 @@ export default {
   },
 
   methods: {
+    // 邀面试
+    interviewSubmit () {
+      this.interviews = true
+      this.titletext = '提示：已接受面试'
+      this.interviewtrue = true
+    },
+    fileterNum () {
+      this.commite = true
+    },
+    fileterNums () {
+      this.commites = true
+    },
+    fileterNumss () {
+      this.commitess = true
+    },
     handleOpen () {
       console.log('1233333')
       this.$router.push({
@@ -759,14 +813,98 @@ export default {
         query: { id: this.resumeData.id }
       })
     },
+    // 微信绑定及更换
+    async wetExchange (wechat) {
+      console.log('wetchat', wechat)
+      const { data } = await getWetChatChange(wechat)
+      console.log('微信绑定', data)
+      this.wetresumeSend()
+      // this.wetcancel()
+    },
+    // 微信
+    async wetresumeSend (wechat) {
+      // this.filetrue = false
+      // this.titletext = ''
+      this.commitess = true
+      this.titletext = '提示：微信号已发送至hr'
+      this.filetrue = true
+      console.log(wechat)
+      var id = this.hr.id
+      const res = await getWetChange(id)
+      console.log('同意交换微信', res)
+
+      this.resume()
+      const _this = this
+      // 创建 RichContentMessage 对象
+      var title = '微信申请'
+      var description = '已同意交换微信号？'
+      // var imageUrl = 'http://www.rongcloud.cn/images/logo.png'
+      var url = wechat
+
+      var richContentMessage = RongIMLib.RichContentMessage.obtain(title, description, url)
+      const targetId = _this.$store.state.num.targetId
+      // var conversationType = RongIMLib.ConversationType.PRIVATE
+      // 创建消息对象
+      var message = {
+        content: richContentMessage,
+        conversationType: RongIMLib.ConversationType.PRIVATE,
+        targetId: targetId
+      }
+
+      // 发送消息
+      RongIMClient.getInstance().sendMessage(RongIMLib.ConversationType.PRIVATE, targetId, message.content, {
+        onSuccess: function (message) {
+          console.log('Send RichContentMessage successfully.', message)
+          const say = {
+            css: 'right',
+            title: message.content.title,
+            content: message.content.content,
+            headImg: _this.$store.state.num.memberInfo.img,
+
+            messageName: message.content.messageName,
+            time: _this.nowTime
+
+            // condition: 'false'
+
+          }
+          _this.answer.push(say)
+          console.log(say, _this.answer)
+        },
+        onError: function (errorCode, message) {
+          console.log('Send RichContentMessage error: ' + errorCode)
+        }
+      })
+    },
+    wetSubmit () {
+      this.wetnumber = false
+    },
+    // 取消微信绑定
+    wetcancel () {
+      this.wetchatvisible = false
+    },
+    // 同意交换微信
+    async wetChat () {
+      const res = await getWetChat()
+      console.log('微信', res)
+      if (res.data.wechat === '' || res.data.wechat === null) {
+        this.$message.success('未绑定微信！')
+        this.wetchatvisible = true
+      } else {
+        this.wechatnumber = res.data.wechat
+        this.wetnumber = true
+      }
+    },
+    // 同意交换简历及电话
     async file (i) {
       console.log('同意交换简历')
+      // this.filetrue = false
+      // this.titletext = ''
       if (i === true) {
         console.log('电话', this.hr.id)
         var id = this.hr.id
         const res = await getPhoneChange(id)
         console.log('交换手机', res)
-        this.filetrue = true
+
         const { data } = await getList()
 
         console.log('安全中心', data)
@@ -774,12 +912,15 @@ export default {
           this.$message.success('未绑定手机号，去绑定吧')
         } else {
           // this.resume()
+          this.titletext = '提示：手机号已发送至hr'
+          this.commite = true
+          this.filetrue = true
           this.phoneState = false
           this.phones = data.phone
           const _this = this
           // 创建 RichContentMessage 对象
           var title = '电话申请'
-          var description = 'hr请求你的简历是否同意？'
+          var description = '已同意交换手机号？'
 
           // var imageUrl = 'http://www.rongcloud.cn/images/logo.png'
           var url = this.phones
@@ -824,11 +965,13 @@ export default {
         console.log('发送简历', res)
         if (res.code === 200) {
           this.$message.success('已发送至hr邮箱')
-          this.filetrue = true
+          this.commites = true
+          this.titletext = '提示：简历已发送至hr的邮箱'
+          this.filetrues = true
           var text = '对方已同意简历申请，简历已发送至您的邮箱，请注意查收'
           this.sam(text)
         } else {
-          this.filetrue = false
+          this.filetrues = false
           this.$message.warning(res.data.msg)
         }
       }

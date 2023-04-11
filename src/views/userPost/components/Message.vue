@@ -309,7 +309,11 @@
         </a>
       </div>
       <div
-        v-if="data.css === 'left' && data.messageName === 'RichContentMessage'"
+        v-if="
+          data.css === 'left' &&
+          data.messageName === 'RichContentMessage' &&
+          data.title === '电话申请'
+        "
       >
         <div v-if="phoneSum">
           <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
@@ -354,17 +358,14 @@
               >
                 <div style="width: 23%; line-height: 65px; padding-left: 20px">
                   <i
-                    :class="
-                      data.imageUri
-                        ? 'el-icon-phone-outline'
-                        : 'el-icon-tickets'
-                    "
+                    class="el-icon-tickets"
                     style="font-size: 25px; color: #898181"
                   ></i>
                 </div>
                 <div v-if="resumeVisible" style="margin-top: 15px">
                   {{ data.content }}
                 </div>
+
                 <div v-if="phoneVisible" style="margin-top: 20px">
                   {{ name }}:{{ data.imageUri }}
                 </div>
@@ -392,7 +393,7 @@
                     border-radius: 0;
                   "
                   class="bg"
-                  :class="{ active: isActive }"
+                  :class="{ active: commite }"
                   :disabled="commite"
                   @click="uploading"
                   >取消</el-button
@@ -415,10 +416,351 @@
               font-size: 13px;
             "
           >
-            {{ titleText }}
+            {{ titletext }}
           </div>
         </div>
       </div>
+      <div
+        v-if="
+          data.css === 'left' &&
+          data.messageName === 'RichContentMessage' &&
+          data.title === '简历申请'
+        "
+      >
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message left">
+            <el-avatar
+              size="small"
+              :src="
+                data.headImg ? data.headImg : this.$store.state.num.list.avatar
+              "
+            ></el-avatar>
+            <div
+              style="
+                height: 115px;
+                background-color: #fff;
+                width: 250px;
+                border: 1px solid #e6e3e3;
+                border-radius: 10px;
+                font-size: 13px;
+              "
+            >
+              <div
+                style="
+                  height: 25px;
+                  width: 250px;
+                  text-align: center;
+                  border-bottom: 1px solid rgb(230, 227, 227);
+                  font-weight: 800;
+                  color: rgb(24, 144, 255);
+                  line-height: 25px;
+                "
+              >
+                {{ data.title }}
+              </div>
+              <div
+                style="
+                  height: 60px;
+                  border-bottom: 1px solid #e6e3e3;
+
+                  color: black;
+                  display: flex;
+                "
+              >
+                <div style="width: 23%; line-height: 65px; padding-left: 20px">
+                  <i
+                    class="el-icon-phone-outline"
+                    style="font-size: 25px; color: #898181"
+                  ></i>
+                </div>
+                <div v-if="resumeVisible" style="margin-top: 15px">
+                  {{ data.content }}
+                </div>
+
+                <div v-if="phoneVisible" style="margin-top: 20px">
+                  {{ name }}:{{ data.imageUri }}
+                </div>
+              </div>
+              <div style="display: flex">
+                <el-button
+                  type="text"
+                  style="
+                    width: 50%;
+                    height: 28px;
+                    line-height: 5px;
+                    border-radius: 0;
+                    border-right: 1px solid #e6e3e3;
+                  "
+                  :disabled="commites"
+                  @click="fileUploading"
+                  >确定</el-button
+                >
+                <el-button
+                  type="text"
+                  style="
+                    width: 50%;
+                    height: 28px;
+                    line-height: 5px;
+                    border-radius: 0;
+                  "
+                  class="bg"
+                  :class="{ active: commites }"
+                  :disabled="commites"
+                  @click="uploadings"
+                  >取消</el-button
+                >
+              </div>
+            </div>
+
+            <!-- <div v-if="fileChange">
+        <div class="time">请求发送简历已发送</div>
+      </div> -->
+          </div>
+          <div
+            v-if="filetrues"
+            style="
+              width: 108%;
+              height: 50px;
+              text-align: center;
+              line-height: 70px;
+              color: #7e7a7a;
+              font-size: 13px;
+            "
+          >
+            {{ titletext }}
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="
+          data.css === 'left' &&
+          data.messageName === 'RichContentMessage' &&
+          data.title === '微信申请'
+        "
+      >
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message left">
+            <el-avatar
+              size="small"
+              :src="
+                data.headImg ? data.headImg : this.$store.state.num.list.avatar
+              "
+            ></el-avatar>
+            <div
+              style="
+                height: 115px;
+                background-color: #fff;
+                width: 250px;
+                border: 1px solid #e6e3e3;
+                border-radius: 10px;
+                font-size: 13px;
+              "
+            >
+              <div
+                style="
+                  height: 25px;
+                  width: 250px;
+                  text-align: center;
+                  border-bottom: 1px solid rgb(230, 227, 227);
+                  font-weight: 800;
+                  color: rgb(24, 144, 255);
+                  line-height: 25px;
+                "
+              >
+                {{ data.title }}
+              </div>
+              <div
+                style="
+                  height: 60px;
+                  border-bottom: 1px solid #e6e3e3;
+
+                  color: black;
+                  display: flex;
+                "
+              >
+                <div style="width: 23%; line-height: 65px; padding-left: 20px">
+                  <img
+                    v-if="data.title === '微信申请'"
+                    src="../../../assets/images/weixin.png"
+                    alt=""
+                    style="width: 28px"
+                  />
+                </div>
+                <div
+                  v-if="resumeVisible && data.title !== '面试邀约'"
+                  style="margin-top: 15px"
+                >
+                  {{ data.content }}
+                </div>
+
+                <div v-if="phoneVisible" style="margin-top: 20px">
+                  {{ name }}:{{ data.imageUri }}
+                </div>
+              </div>
+              <div style="display: flex">
+                <el-button
+                  type="text"
+                  style="
+                    width: 50%;
+                    height: 28px;
+                    line-height: 5px;
+                    border-radius: 0;
+                    border-right: 1px solid #e6e3e3;
+                  "
+                  :disabled="commitess"
+                  @click="wetUploading"
+                  >确定</el-button
+                >
+                <el-button
+                  type="text"
+                  style="
+                    width: 50%;
+                    height: 28px;
+                    line-height: 5px;
+                    border-radius: 0;
+                  "
+                  class="bg"
+                  :class="{ active: commitess }"
+                  :disabled="commitess"
+                  @click="uploadingWet"
+                  >取消</el-button
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            v-if="wetfiletrue"
+            style="
+              width: 108%;
+              height: 50px;
+              text-align: center;
+              line-height: 70px;
+              color: #7e7a7a;
+              font-size: 13px;
+            "
+          >
+            {{ titletext }}
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="
+          data.css === 'left' &&
+          data.messageName === 'RichContentMessage' &&
+          data.title === '面试邀约'
+        "
+      >
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message left">
+            <el-avatar
+              size="small"
+              :src="
+                data.headImg ? data.headImg : this.$store.state.num.list.avatar
+              "
+            ></el-avatar>
+            <div
+              style="
+                height: 115px;
+                background-color: #fff;
+                width: 250px;
+                border: 1px solid #e6e3e3;
+                border-radius: 10px;
+                font-size: 13px;
+              "
+            >
+              <div
+                style="
+                  height: 25px;
+                  width: 250px;
+                  text-align: center;
+                  border-bottom: 1px solid rgb(230, 227, 227);
+                  font-weight: 800;
+                  color: rgb(24, 144, 255);
+                  line-height: 25px;
+                "
+              >
+                {{ data.title }}
+              </div>
+              <div
+                style="
+                  height: 60px;
+                  border-bottom: 1px solid #e6e3e3;
+
+                  color: black;
+                  display: flex;
+                "
+              >
+                <div style="width: 23%; line-height: 65px; padding-left: 20px">
+                  <i
+                    class="el-icon-time"
+                    style="font-size: 25px; color: #898181"
+                  ></i>
+                </div>
+
+                <div style="margin-top: 15px">
+                  hr邀请您参加面试您是否同意？
+                  <a href="javascript:;" title="点击查看邀约详情">
+                    <div style="margin-top: 5px">
+                      职位：
+                      <span
+                        style="color: rgb(24, 144, 255)"
+                        @click="interviewsRet(data.imageUri.interviewer)"
+                        >{{ data.content }}</span
+                      >
+                    </div></a
+                  >
+                </div>
+              </div>
+              <div style="display: flex">
+                <el-button
+                  type="text"
+                  style="
+                    width: 50%;
+                    height: 28px;
+                    line-height: 5px;
+                    border-radius: 0;
+                    border-right: 1px solid #e6e3e3;
+                  "
+                  :disabled="interviews"
+                  @click="interviewsRetNum(data.imageUri.interviewer)"
+                  >确定</el-button
+                >
+                <el-button
+                  type="text"
+                  style="
+                    width: 50%;
+                    height: 28px;
+                    line-height: 5px;
+                    border-radius: 0;
+                  "
+                  class="bg"
+                  :class="{ active: interviews }"
+                  :disabled="interviews"
+                  @click="interviewsLoading(data.imageUri.interviewer)"
+                  >取消</el-button
+                >
+              </div>
+            </div>
+          </div>
+          <div
+            v-if="interviewtrue"
+            style="
+              width: 108%;
+              height: 50px;
+              text-align: center;
+              line-height: 70px;
+              color: #7e7a7a;
+              font-size: 13px;
+            "
+          >
+            {{ titletext }}
+          </div>
+        </div>
+      </div>
+
       <div v-if="data.css === 'right' && data.messageName === 'TextMessage'">
         <div v-if="phoneSum">
           <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
@@ -500,6 +842,156 @@
         </div>
         <div slot="footer"></div>
       </el-dialog>
+      <Interview
+        ref="Interview"
+        :show="show"
+        :status-list="statusList"
+        @reset="reset"
+        @reset1="reset1"
+      />
+      <!-- <div
+        v-if="
+          data.css === 'left' &&
+          data.messageName === 'RichContentMessage' &&
+          data.title === '简历申请'
+        "
+      >
+        <div v-if="phoneSum">
+          <div v-if="monthDay" class="time">{{ month }} {{ data.time }}</div>
+          <div class="message left">
+            <el-avatar
+              size="small"
+              :src="
+                data.headImg ? data.headImg : this.$store.state.num.list.avatar
+              "
+            ></el-avatar>
+            <div
+              style="
+                height: 115px;
+                background-color: #fff;
+                width: 250px;
+                border: 1px solid #e6e3e3;
+                border-radius: 10px;
+                font-size: 13px;
+              "
+            >
+              <div
+                style="
+                  height: 25px;
+                  width: 250px;
+                  text-align: center;
+                  border-bottom: 1px solid rgb(230, 227, 227);
+                  font-weight: 800;
+                  color: rgb(24, 144, 255);
+                  line-height: 25px;
+                "
+              >
+                {{ data.title }}
+              </div>
+              <div
+                style="
+                  height: 60px;
+                  border-bottom: 1px solid #e6e3e3;
+
+                  color: black;
+                  display: flex;
+                "
+              >
+                <div style="width: 23%; line-height: 65px; padding-left: 20px">
+                  <i
+                    v-if="
+                      data.title !== '微信申请' && data.title !== '面试邀约'
+                    "
+                    :class="
+                      data.imageUri
+                        ? 'el-icon-phone-outline'
+                        : 'el-icon-tickets'
+                    "
+                    style="font-size: 25px; color: #898181"
+                  ></i>
+                  <i
+                    v-if="data.title === '面试邀约'"
+                    class="el-icon-time"
+                    style="font-size: 25px; color: #898181"
+                  ></i>
+                  <img
+                    v-if="data.title === '微信申请'"
+                    src="../../../assets/images/weixin.png"
+                    alt=""
+                    style="width: 28px"
+                  />
+                </div>
+                <div
+                  v-if="resumeVisible && data.title !== '面试邀约'"
+                  style="margin-top: 15px"
+                >
+                  {{ data.content }}
+                </div>
+                <div
+                  v-if="resumeVisible && data.title === '面试邀约'"
+                  style="margin-top: 15px"
+                >
+                  hr邀请您参加面试您是否同意？
+                  <a href="javascript:;" title="点击查看邀约详情">
+                    <div style="margin-top: 5px">
+                      职位：
+                      <span style="color: rgb(24, 144, 255)">{{
+                        data.content
+                      }}</span>
+                    </div></a
+                  >
+                </div>
+                <div v-if="phoneVisible" style="margin-top: 20px">
+                  {{ name }}:{{ data.imageUri }}
+                </div>
+              </div>
+              <div style="display: flex">
+                <el-button
+                  type="text"
+                  style="
+                    width: 50%;
+                    height: 28px;
+                    line-height: 5px;
+                    border-radius: 0;
+                    border-right: 1px solid #e6e3e3;
+                  "
+                  :disabled="commite"
+                  @click="fileUploading"
+                  >确定</el-button
+                >
+                <el-button
+                  type="text"
+                  style="
+                    width: 50%;
+                    height: 28px;
+                    line-height: 5px;
+                    border-radius: 0;
+                  "
+                  class="bg"
+                  :class="{ active: isActive }"
+                  :disabled="commite"
+                  @click="uploading"
+                  >取消</el-button
+                >
+              </div>
+            </div>
+
+     </div>
+          <div
+            v-if="filetrue"
+            style="
+              width: 108%;
+              height: 50px;
+              text-align: center;
+              line-height: 70px;
+              color: #7e7a7a;
+              font-size: 13px;
+            "
+          >
+            {{ titletext }}
+          </div>
+        </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -509,10 +1001,14 @@ import { filterAsyncRoutes } from '@/store/modules/permission'
 import { number } from 'echarts/lib/export'
 import { getList } from '@/api/my/safety'
 import { getChatingId } from '@/api/my/job'
+import Item from '@/layout/components/Sidebar/Item.vue'
+import Interview from '@/views/my/components/interview/index.vue'
+import { getLists } from '@/api/my/interview'
 export default {
   emojiToHtml: function (message) {
     return RongIMLib.RongIMEmoji.emojiToHTML(message)
   },
+  components: { Item, Interview },
   props: {
     data: {
       type: Object
@@ -532,13 +1028,39 @@ export default {
     filetrue: {
       type: Boolean
     },
+    filetrues: {
+      type: Boolean
+    },
     name: {
       type: String
+    },
+    titletext: {
+      type: String
+    },
+    wetfiletrue: {
+      type: Boolean
+    },
+    commite: {
+      type: Boolean
+    },
+    commites: {
+      type: Boolean
+    },
+    commitess: {
+      type: Boolean
+    },
+    interviews: {
+      type: Boolean
+    },
+    interviewtrue: {
+      type: Boolean
     }
 
   },
   data () {
     return {
+      statusList: {},
+      show: false,
       resumeVisible: true,
       phoneVisible: false,
       // fileTrue: false,
@@ -564,14 +1086,18 @@ export default {
       information: true,
       portrait: '',
       is_commite: false,
-      isActive: false,
+      // isActive: false,
+      // isActives: false,
+      // isActivess: false,
       fileChange: false,
       discourse: '',
-      commite: false,
+      // commite: false,
+      // commites: false,
+      // commitess: false,
       fileTest: '',
       map: null,
-      link: '',
-      titleText: ''
+      link: ''
+      // titleText: ''
 
     }
   },
@@ -596,6 +1122,7 @@ export default {
     this.list()
   },
   mounted () {
+    // this.$emit('fileterNum')
     // this.list()
     // console.log('this.data', this.data)
   },
@@ -1058,22 +1585,61 @@ export default {
       this.uploading()
       // this.fileTrue = true
       // this.$emit('file')
+      // if (this.data.title === '简历申请' || this.data.title === '电话申请') {
       if (this.data.imageUri) {
         this.phoneVisible = true
         this.resumeVisible = false
         this.$emit('file', true)
-        this.titleText = '提示：手机号已发送至hr'
+        // this.titleText = '提示：手机号已发送至hr'
       } else {
         this.$emit('file', false)
-         this.phoneVisible = false
-        this.resumeVisible = false
-        this.titleText = '提示：简历已发送至hr的邮箱'
+        this.resumeVisible = true
+        // this.phoneVisible = false
+        // this.resumeVisible = false
+        // this.titleText = '提示：简历已发送至hr的邮箱'
       }
+      // } else if (this.data.title === '微信申请') {
+      //   console.log('微信')
+      //   this.phoneVisible = true
+      //   this.resumeVisible = false
+      //   this.$emit('wetChat')
+      // } else if (this.data.title === '面试邀约') {
+
+      // }
       // document.body.removeChild(downloadLink)
     },
+    wetUploading () {
+      this.phoneVisible = true
+      this.resumeVisible = false
+      this.$emit('wetChat')
+    },
     uploading () {
-      this.commite = true
-      this.isActive = true
+      this.$emit('fileterNum')
+    },
+    uploadings () {
+      this.$emit('fileterNums')
+    },
+    uploadingWet () {
+      this.$emit('fileterNumss')
+    },
+    async interviewsRet (id) {
+      const { data } = await getLists(id)
+      console.log('面试详情', data)
+      this.statusList = data
+      this.show = true
+    },
+    interviewsRetNum (id) {
+      this.$refs.Interview.receiveChange(id)
+      this.$emit('interviewSubmit')
+    },
+    interviewsLoading (id) {
+      this.$refs.Interview.rejectChange(id)
+    },
+    reset () {
+      this.show = false
+    },
+    reset1 () {
+      this.show = false
     }
 
   }

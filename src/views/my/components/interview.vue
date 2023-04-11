@@ -438,6 +438,7 @@ export default {
       }
     },
     async dispose (name, id) {
+      console.log(id)
       const { data } = await getLists(id)
       console.log('简历详情', data)
       this.statusList = data

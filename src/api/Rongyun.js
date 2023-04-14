@@ -78,3 +78,11 @@ export function getWetChange (id) {
   return request.put(`/user/wechat-exchange/?comm_id=${id}`)
 }
 
+/**
+ * 用户
+ *
+ */
+export function getListUid () {
+  return request.get('/user/user_data/')
+}
+

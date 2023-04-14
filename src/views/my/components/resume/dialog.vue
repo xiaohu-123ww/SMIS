@@ -162,6 +162,7 @@
             :before-upload="beforeAvatarUpload"
             :on-success="handleAvatarSuccess"
             :show-file-list="false"
+            accept=".png,.jpeg,.jpg"
             action="http://1.13.8.165/user/edit_selfinfo/"
             class="avatar-uploader"
           >

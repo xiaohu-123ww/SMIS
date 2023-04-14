@@ -59,6 +59,7 @@ service.interceptors.response.use(
       console.log(tokenInvalidFlag)
       if (tokenInvalidFlag === 0 || tokenInvalidFlag === '0' || tokenInvalidFlag === null) {
         setTokenInvalidFlag(1)
+
         MessageBox.confirm('当前登录已过期 请重新登录', '提示', {
           confirmButtonText: '确定', // 确认按钮的文字显示
           type: 'warning',
@@ -71,6 +72,10 @@ service.interceptors.response.use(
             //  ("500");
             location.reload()
             router.push('/')
+            RongIMClient.getInstance().logout()
+            store.commit('ANSWERS', [])
+            store.commit('MEMBER', {})
+            store.commit('UserId', {})
             removeToken()
           })
         })

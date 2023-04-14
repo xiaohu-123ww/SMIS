@@ -81,6 +81,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import { getPersonalinfo, personal } from '../../../api/user'
 import { getToken } from '@/utils/auth'
 import disposeImg from '@/utils/disposeImg'
+import { removeToken } from '@/utils/auth'
 export default {
   components: {},
   data () {
@@ -160,6 +161,11 @@ export default {
     },
     async logout () {
       await this.$store.dispatch('user/logout')
+      await RongIMClient.getInstance().logout()
+      await this.$store.commit('ANSWERS', [])
+      await this.$store.commit('MEMBER', {})
+      await this.$store.commit('UserId', {})
+      removeToken()
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }

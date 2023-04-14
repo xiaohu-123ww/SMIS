@@ -187,7 +187,7 @@ export default {
       console.log('res', res)
       if (res.code === 200) {
         this.$message.success(res.data.msg)
-        this.$emit('reset', false)
+        this.$emit('reset1', false)
       } else {
         this.$message.error(res.data.msg)
       }

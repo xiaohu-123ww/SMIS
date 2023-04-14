@@ -88,6 +88,7 @@ export const init = (params, addPromptInfo) => {
           message.content.content = RongIMLib.RongIMEmoji.emojiToHTML(message.content.content)
           console.log('message', message)
           message.content.time = message.sentTime
+          message.content.targetId = message.senderUserId
           message.content.senderUserId = message.senderUserId
           // message.content.phone = message.content.content
           store.commit('SET_ANSWER', message.content)
@@ -101,6 +102,7 @@ export const init = (params, addPromptInfo) => {
         case RongIMClient.MessageType.ImageMessage:
           console.log('图片', message)
           message.content.time = message.sentTime
+          message.content.targetId = message.senderUserId
           store.commit('SET_ANSWER', message.content)
           // message.content.content => 图片缩略图 base64
           // message.content.imageUri => 原图 URL
@@ -108,6 +110,7 @@ export const init = (params, addPromptInfo) => {
         case RongIMClient.MessageType.LocationMessage:
           console.log('位置', message)
           message.content.time = message.sentTime
+          message.content.targetId = message.senderUserId
           store.commit('SET_ANSWER', message.content)
           // if (message.content instanceof RongIMLib.LocationMessage) {
           //   var locationMessage = message.content
@@ -126,6 +129,7 @@ export const init = (params, addPromptInfo) => {
         case RongIMClient.MessageType.RichContentMessage:
           console.log('message', message)
           message.content.time = message.sentTime
+          message.content.targetId = message.senderUserId
           store.commit('SET_ANSWER', message.content)
           // message.content.content => 文本消息内容
           // message.content.imageUri => 图片 base64

@@ -33,19 +33,26 @@ const mutations = {
       poi: playload.poi,
       title: playload.title,
       content: playload.content,
-      senderUserId: playload.senderUserId
+      senderUserId: playload.senderUserId,
+      targetId: playload.targetId
 
       // 头像
     }
     state.answer.push(say)
     // localStorage.setItem('answer', JSON.stringify(state.answer))
   },
-  SET_STATE (state, playload) {
+  ANSWERS (state, playload) {
     state.answer = playload
   },
   SET_senderUserId (state, targetId) {
     state.senderUserId = targetId
     // localStorage.setItem('targetId', state.targetId)
+  },
+  MEMBER (state, playload) {
+    state.memberInfo = playload
+  },
+  UserId (state, playload) {
+    state.list = playload
   }
 }
 export default {

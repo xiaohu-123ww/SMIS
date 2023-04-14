@@ -23,7 +23,7 @@
             <div class="project">
               <Project />
             </div>
-            <div class="personal-details">
+            <div>
               <Credentials />
             </div>
           </div></div

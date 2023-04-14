@@ -138,7 +138,8 @@
           v-model="ruleForm.salary_max"
           class="box"
           maxlength="10"
-        ></el-input>
+        ></el-input
+        ><span style="margin-left: 10px; color: rgb(220, 223, 230)">K</span>
       </el-form-item>
       <el-form-item label="工作描述" prop="job_desc">
         <el-input

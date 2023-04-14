@@ -214,7 +214,7 @@
                 <div style="font-size: 15px" @click="particulars">
                   沟通职位：<a href="javascript:;"
                     ><span style="color: rgb(37, 110, 253)">{{
-                      resumeData.fullname
+                      resumeData.position.position_name
                     }}</span></a
                   >
                 </div>
@@ -227,11 +227,15 @@
                     font-size: 13px;
                   "
                 >
-                  <span>{{ resumeData.fullname }}</span
+                  <span>{{ resumeData.position.position_name }}</span
                   ><span
-                    >[{{ resumeData.work_city.first }} ·
-                    {{ resumeData.work_city.second }} ·
-                    {{ resumeData.work_city.third }}]</span
+                    >[{{
+                      resumeData.position.city[0] === ''
+                        ? resumeData.position.city[1]
+                        : resumeData.position.city[0]
+                    }}
+                    · {{ resumeData.position.city[1] }} ·
+                    {{ resumeData.position.city[2] }}]</span
                   >
                 </div>
                 <div style="margin-top: 10px; font-size: 13px">
@@ -246,30 +250,31 @@
                       padding-right: 5px;
                       border-right: 1px solid #e6e3e3;
                     "
-                    >{{ resumeData.salary_min }}k-{{ resumeData.salary_max }}k
-                    ·{{ resumeData.salary_unit }}薪</span
+                    >{{ resumeData.position.salary_min }}k-{{
+                      resumeData.position.salary_max
+                    }}k ·{{ resumeData.position.salary_unit }}薪</span
                   >
                   <span
                     style="border-right: 1px solid #e6e3e3; padding: 0px 5px"
-                    >{{ resumeData.job_experience.name }}</span
+                    >{{ resumeData.position.job_experience }}</span
                   >
                   <!-- education -->
                   <span style="padding: 0px 5px">{{
-                    resumeData.education.name
+                    resumeData.position.education
                   }}</span>
                 </div>
                 <div style="margin-top: 9px; font-size: 13px">
                   <span
                     style="padding-right: 5px; border-right: 1px solid #e6e3e3"
-                    >{{ resumeData.enterprise_info.field.field_name }}</span
+                    >{{ resumeData.position.enterprise.enterprise_field }}</span
                   >
                   <span
                     style="border-right: 1px solid #e6e3e3; padding: 0px 5px"
-                    >{{ resumeData.enterprise_info.finance }}</span
+                    >{{ resumeData.position.enterprise.financing_status }}</span
                   >
                   <!-- education -->
                   <span style="padding: 0px 5px"
-                    >{{ resumeData.enterprise_info.size }}人</span
+                    >{{ resumeData.position.enterprise.size }}人</span
                   >
                 </div>
               </div>
@@ -434,57 +439,58 @@
               @fileterNums="fileterNums"
               @fileterNumss="fileterNumss"
               @interviewSubmit="interviewSubmit"
+              @interviewsubmits="interviewsubmits"
             />
           </div>
-
-          <div class="chatIcon">
-            <div>
-              <div style="display: flex">
-                <el-popover
-                  ref="popoverRef"
-                  placement="top-start"
-                  width="400"
-                  trigger="click"
-                  class="emoBox"
-                  style="width: 20px; margin-right: 10px"
-                >
-                  <div class="emotionList">
-                    <a
-                      v-for="(item, index) in emojList"
-                      :key="index"
-                      href="javascript:void(0);"
-                      rel="external nofollow"
-                      class="emotionItem"
-                      @click="checkedEmoji(item.symbol, item.emoji)"
-                      v-html="item.node.outerHTML"
-                    ></a>
-                  </div>
-                  <div slot="reference">
-                    <Item icon="微笑" style="width: 1.2em" @click="num" />
-                  </div>
-                </el-popover>
-                <el-popover
-                  ref="popovers"
-                  placement="top-start"
-                  width="420"
-                  trigger="click"
-                  class="emoBoxs"
-                  style="margin-right: 10px"
-                >
-                  <div class="frequent-expressions">
-                    <div class="frequent">常用语</div>
-                    <a href="javascript:;">
-                      <div
-                        v-for="item in expressions"
-                        :key="item.id"
-                        class="frequent"
-                        style="font-size: 15px"
-                        @click="expressionsClick(item.text)"
-                      >
-                        {{ item.text | ellipsis }}
-                      </div>
-                    </a>
-                    <!-- <a
+          <div v-if="changeColor !== 1">
+            <div class="chatIcon">
+              <div>
+                <div style="display: flex">
+                  <el-popover
+                    ref="popoverRef"
+                    placement="top-start"
+                    width="400"
+                    trigger="click"
+                    class="emoBox"
+                    style="width: 20px; margin-right: 10px"
+                  >
+                    <div class="emotionList">
+                      <a
+                        v-for="(item, index) in emojList"
+                        :key="index"
+                        href="javascript:void(0);"
+                        rel="external nofollow"
+                        class="emotionItem"
+                        @click="checkedEmoji(item.symbol, item.emoji)"
+                        v-html="item.node.outerHTML"
+                      ></a>
+                    </div>
+                    <div slot="reference">
+                      <Item icon="微笑" style="width: 1.2em" @click="num" />
+                    </div>
+                  </el-popover>
+                  <el-popover
+                    ref="popovers"
+                    placement="top-start"
+                    width="420"
+                    trigger="click"
+                    class="emoBoxs"
+                    style="margin-right: 10px"
+                  >
+                    <div class="frequent-expressions">
+                      <div class="frequent">常用语</div>
+                      <a href="javascript:;">
+                        <div
+                          v-for="item in expressions"
+                          :key="item.id"
+                          class="frequent"
+                          style="font-size: 15px"
+                          @click="expressionsClick(item.text)"
+                        >
+                          {{ item.text | ellipsis }}
+                        </div>
+                      </a>
+                      <!-- <a
                     v-for="(item, index) in emojList"
                     :key="index"
                     href="javascript:void(0);"
@@ -493,119 +499,95 @@
                     @click="checkedEmoji(item.symbol, item.emoji)"
                     v-html="item.node.outerHTML"
                   ></a> -->
-                  </div>
-                  <div slot="reference">
-                    <Item icon="常" style="width: 1.2em" @click="num" />
-                  </div>
-                </el-popover>
-                <span style="margin-right: 10px">
-                  <!-- <Item icon="添加" /> -->
-                  <el-upload
-                    class="upload-demo"
-                    action="#"
-                    :show-file-list="false"
-                    :before-upload="handleInfoPic"
-                    :http-request="testUpload"
-                    :on-success="uploadSuccess"
-                    accept=".png,.jpeg,.jpg"
-                  >
-                    <Item icon="添加" />
-                    <!-- <div slot="tip" class="el-upload__tip">
+                    </div>
+                    <div slot="reference">
+                      <Item icon="常" style="width: 1.2em" @click="num" />
+                    </div>
+                  </el-popover>
+                  <span style="margin-right: 10px">
+                    <!-- <Item icon="添加" /> -->
+                    <el-upload
+                      class="upload-demo"
+                      action="#"
+                      :show-file-list="false"
+                      :before-upload="handleInfoPic"
+                      :http-request="testUpload"
+                      :on-success="uploadSuccess"
+                      accept=".png,.jpeg,.jpg"
+                    >
+                      <Item icon="添加" />
+                      <!-- <div slot="tip" class="el-upload__tip">
                     只能上传jpg/png文件，且不超过500kb
                   </div> -->
-                  </el-upload>
-                </span>
-                <!-- <Item icon="地图" style="width: 1.2em" /> -->
-                <!-- <span style="font-size: 19px; color: #8a8a8a; margin: 3px 8px"
-                >|</span
-              > -->
-                <a href="javascript:;">
-                  <span class="block" @click="resumes">
-                    <!-- <el-upload
-                    class="upload-demo"
-                    action="#"
-                    :on-preview="handlePreview"
-                    multiple
-                    :limit="1"
-                    :on-exceed="handleExceed"
-                    :file-list="numList"
-                    accept=".pdf,.doc,.docx"
-                    :auto-upload="false"
-                  > -->
-                    发简历
-                    <!-- </el-upload> -->
+                    </el-upload>
                   </span>
-                </a>
-                <a href="javascript:;">
-                  <!-- <span
+                  <!-- <Item icon="地图" style="width: 1.2em" /> -->
+                  <span style="font-size: 19px; color: #8a8a8a; margin: 3px 8px"
+                    >|</span
+                  >
+                  <el-button
+                    v-if="hrPhone"
                     class="block"
-                    :class="{ small: isBackground }"
-                    @click="phoneChange"
-                    >换电话</span
-                  > -->
-                </a>
-                <!-- <a href="javascript:;">
-                <span class="block">换微信</span>
-              </a> -->
-                <!-- <a href="javascript:;">
-                <span class="block"><i class="el-icon-time"></i>约面试</span></a
-              > -->
+                    style="background-color: #fff"
+                  >
+                    换电话
+                  </el-button>
+                </div>
+              </div>
+              <!--      @keyup.enter.native="usernameInput(say)"   -->
+              <el-input
+                id="textarea"
+                v-model="say"
+                class="chatText"
+                resize="none"
+                type="textarea"
+                rows="5"
+                @input="usernameInput"
+                @keyup.enter.native="usernameInputs(say)"
+              >
+              </el-input>
+            </div>
+            <div style="display: flex">
+              <div style="width: 88%"></div>
+              <div>
+                <el-button
+                  v-if="changeColor !== 1"
+                  type="primary"
+                  style="
+                    width: 50px;
+                    height: 23px;
+                    font-size: 12px;
+                    padding: 2px 0px 0px 2px;
+                  "
+                  :disabled="enterText || say === ''"
+                  @click="sendMessage"
+                  >发送</el-button
+                >
               </div>
             </div>
-            <!--     @keyup.enter.native="send"   -->
-            <el-input
-              id="textarea"
-              v-model="say"
-              class="chatText"
-              resize="none"
-              type="textarea"
-              rows="5"
-              @input="usernameInput"
-            >
-            </el-input>
           </div>
-          <div style="display: flex">
-            <div style="width: 88%"></div>
-            <div>
+          <div v-if="changeColor === 1" style="">
+            <div style="margin: 30px 300px; width: 100%">
+              <div style="font-size: 15px; color: rgb(163, 149, 149)">
+                点击“可以聊”展开新的聊天，并可以解锁交互微信、交换联系方式
+              </div>
+              <!--  @click="chat(information.comm_info.comm_id)" -->
               <el-button
-                v-if="changeColor === 1"
-                type="primary"
+                type="danger"
                 style="
-                  width: 50px;
-                  height: 23px;
-                  font-size: 12px;
-                  padding: 2px 0px 0px 2px;
+                  margin: 10px 200px;
+                  background-color: #f78989;
+                  color: #fff;
                 "
-                :disabled="enterText || say === ''"
-                @click="sendMessage"
-                >感兴趣</el-button
+                @click="likeChange(information.id)"
+                >可以聊</el-button
               >
-              <el-button
-                v-if="changeColor === 1"
-                type="primary"
-                style="
-                  width: 50px;
-                  height: 23px;
-                  font-size: 12px;
-                  padding: 2px 0px 0px 2px;
-                "
-                :disabled="enterText || say === ''"
-                @click="sendMessage"
+              <!--   @click="reject(information.comm_info.comm_id)" -->
+              <!-- <el-button
+                type="danger"
+                style="background-color: #f78989; color: #fff"
                 >不合适</el-button
-              >
-              <el-button
-                v-if="changeColor !== 1"
-                type="primary"
-                style="
-                  width: 50px;
-                  height: 23px;
-                  font-size: 12px;
-                  padding: 2px 0px 0px 2px;
-                "
-                :disabled="enterText || say === ''"
-                @click="sendMessage"
-                >发送</el-button
-              >
+              > -->
             </div>
           </div>
         </div>
@@ -627,6 +609,7 @@
   </div>
 </template>
 <script>
+import { getInterestsLike } from '@/api/my/job'
 import WetChat from './wechat/wechat.vue'
 import WetNumbers from './wechat/WeNumber.vue'
 import Item from '@/layout/components/Sidebar/Item.vue'
@@ -639,7 +622,7 @@ import Safety from './communication/dialog.vue'
 import { getCv } from '@/api/my/resume'
 
 import { getList } from '@/api/my/safety'
-import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange, getWetChat, getWetChange } from '@/api/Rongyun.js'
+import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange, getWetChat, getWetChange, getListUid } from '@/api/Rongyun.js'
 import { getChatingId } from '@/api/my/job.js'
 import { getParticulars } from '@/api/particulars'
 
@@ -658,6 +641,7 @@ export default {
   },
   data () {
     return {
+      information: {},
       // 微信
       wetchatvisible: false,
       wechatnumber: '',
@@ -759,7 +743,14 @@ export default {
       commites: false,
       commitess: false,
       interviews: false,
-      interviewtrue: false
+      interviewtrue: false,
+      hrPhone: '',
+      rongYuns: {
+        sender_class: 0, // 0-求职者；1-hr
+        sender_uid: 0,
+        receiver_class: 1, // 同上
+        receiver_uid: 1
+      }
 
     }
   },
@@ -767,7 +758,7 @@ export default {
 
   },
   mounted () {
-    this.initRongCloud()
+    // this.initRongCloud()
     // for (const i in appData) {
     //   console.log('appData', appData)
     //   this.emojList.push(appData[i].char)
@@ -778,16 +769,41 @@ export default {
     // this.sendMessage()
     // this.initRongCloud()
     this.emojList = appData
+    this.initialize()
     this.helloChange()
     // this.resume()
   },
 
   methods: {
+    // 用户登录创建链接数据处理
+    async initialize () {
+      const { data } = await getListUid()
+      console.log('用户id', data)
+      this.rongYuns.sender_uid = data.user_id
+      const res = await getRongyun(this.rongYuns)
+      console.log('信息', res)
+      this.$store.commit('SET_MEMBER', res.data.sender)
+      this.$store.commit('SET_TARGETID', res.data.receiver.uid)
+      this.initRongCloud()
+    },
+    // 感兴趣
+    async likeChange (id) {
+      const res = await getInterestsLike(id)
+      console.log('感兴趣', res)
+      this.$message.success('以添加到沟通列表')
+      // this.$emit('like')
+      this.inCommunicationC()
+    },
     // 邀面试
+    // 接受面试
     interviewSubmit () {
       this.interviews = true
       this.titletext = '提示：已接受面试'
       this.interviewtrue = true
+    },
+    // 拒绝面试
+    interviewsubmits () {
+      this.interviews = true
     },
     fileterNum () {
       this.commite = true
@@ -803,14 +819,16 @@ export default {
       this.$router.push({
         path: '/postdes',
         name: 'postdes',
-        query: { id: this.resumeData.enterprise_info.enterprise_id }
+        query: {
+          id: this.resumeData.position.enterprise.enterprise_id
+        }
       })
     },
     particulars () {
       this.$router.push({
         path: '/state',
         name: 'state',
-        query: { id: this.resumeData.id }
+        query: { id: this.resumeData.position.position_id }
       })
     },
     // 微信绑定及更换
@@ -862,7 +880,8 @@ export default {
             headImg: _this.$store.state.num.memberInfo.img,
 
             messageName: message.content.messageName,
-            time: _this.nowTime
+            time: _this.nowTime,
+            targetId: message.senderUserId
 
             // condition: 'false'
 
@@ -904,6 +923,7 @@ export default {
         var id = this.hr.id
         const res = await getPhoneChange(id)
         console.log('交换手机', res)
+        this.hrPhone = res.data.phone
 
         const { data } = await getList()
 
@@ -946,7 +966,8 @@ export default {
                 headImg: _this.$store.state.num.memberInfo.img,
 
                 messageName: message.content.messageName,
-                time: _this.nowTime
+                time: _this.nowTime,
+                targetId: message.senderUserId
 
                 // condition: 'false'
 
@@ -1046,7 +1067,8 @@ export default {
               css: 'right',
               txt: message.content.content,
               headImg: _this.memberInfo.img,
-              time: _this.nowTime
+              time: _this.nowTime,
+              targetId: message.senderUserId
 
               // condition: 'false'
 
@@ -1154,7 +1176,8 @@ export default {
               content: message.content.content,
               headImg: _this.$store.state.num.memberInfo.img,
               messageName: message.content.messageName,
-              time: _this.nowTime
+              time: _this.nowTime,
+              targetId: message.senderUserId
 
               // condition: 'false'
 
@@ -1192,6 +1215,17 @@ export default {
       } else {
         console.log('输入：', val)
         this.enterText = false
+        // this.sendMessage()
+      }
+    },
+    usernameInputs (val) {
+      if (val.replace(/(^\s*)|(\s*$)/g, '') === '' || val === '') {
+        console.log('未输入或者输入为空格')
+        this.enterText = true
+      } else {
+        console.log('输入：', val)
+        this.enterText = false
+        this.sendMessage()
       }
     },
     // 消息
@@ -1251,7 +1285,7 @@ export default {
     },
     sendMessage () {
       // this.say = this.say.replace(/^\s+|\s+$/gm, '')
-      this.initRongCloud()
+      // this.initRongCloud()
       this.resume()
       this.phoneState = false
       if (this.say !== '') {
@@ -1285,7 +1319,8 @@ export default {
               txt: message.content.content,
               headImg: _this.memberInfo.img,
               time: _this.nowTime,
-              messageName: 'TextMessage'
+              messageName: 'TextMessage',
+              targetId: message.senderUserId
 
               // condition: 'false'
 
@@ -1389,12 +1424,18 @@ export default {
       this.rongYun.sender_uid = sender
       this.rongYun.receiver_uid = receiver
       this.name = item.hr_info.name
+      this.information = item
       const res = await getRongyun(this.rongYun)
       console.log(res.code)
-      const { data } = await getParticulars(item.position.position_id
-      )
-      console.log('简历', data)
-      this.resumeData = data
+      // const { data } = await getParticulars(item.position.position_id
+      // )
+      // console.log('简历', data)
+      // if (data.id !== '') {
+      this.resumeData = item
+      // } else {
+      //   this.messageTxt = true
+      // }
+
       if (res.code === 200) {
         console.log(res.data.receiver, res.data.sender)
         this.$store.commit('SET_MEMBER', res.data.sender)
@@ -1405,9 +1446,10 @@ export default {
         this.hr.company = item.position.enterprise.enterprise_name
         this.hr.id = item.id
         this.messageTxt = false
-        this.initRongCloud()
+        // this.initRongCloud()
       } else {
         this.$message.success(res.data.msg)
+        this.messageTxt = true
       }
     },
     // 未读
@@ -1426,6 +1468,7 @@ export default {
       console.log('appData', appData)
       const res = await getpreChat()
       console.log('新招呼', res)
+      this.messageTxt = true
       if (res.data.results.length === 0) {
         console.log('没有联系人')
         this.show = true
@@ -1443,6 +1486,7 @@ export default {
       this.changeColor = 2
       const res = await getInterest()
       console.log('未回复', res)
+      this.messageTxt = true
       if (res.data.results.length === 0) {
         console.log('没有联系人')
         this.show = true
@@ -1460,6 +1504,7 @@ export default {
       this.changeColor = 3
       const res = await getComming()
       console.log('沟通中', res)
+      this.messageTxt = true
       if (res.data.results.length === 0) {
         console.log('没有联系人')
         this.show = true
@@ -1477,6 +1522,7 @@ export default {
       this.changeColor = 4
       const res = await getPosted()
       console.log('已约面', res)
+      this.messageTxt = true
       if (res.data.results.length === 0) {
         console.log('没有联系人')
         this.show = true
@@ -1494,6 +1540,7 @@ export default {
       this.changeColor = 5
       const res = await getReject()
       console.log('不合适', res)
+      this.messageTxt = true
       if (res.data.results.length === 0) {
         console.log('没有联系人')
         this.show = true
@@ -1546,7 +1593,8 @@ export default {
             txt: message.content.content,
             headImg: _this.memberInfo.img,
             time: _this.nowTime,
-            messageName: 'TextMessage'
+            messageName: 'TextMessage',
+            targetId: message.senderUserId
 
             // condition: 'false'
 
@@ -1909,15 +1957,21 @@ div#el-popover-700 {
 .block {
   width: 60px;
   height: 20px;
-  // background-color: pink;
-  font-size: 11px;
-  margin-top: 5px;
-  text-align: center;
-  line-height: 20px;
+  font-size: 12px;
+  padding: 1px 0px 0px 2px;
+  margin-top: 8px;
   border: 1px solid #d3cccc;
+  background-color: #fff;
+  // display: inline-block;
+  // width: 60px;
+  // height: 20px;
+  // // background-color: pink;
+  // font-size: 11px;
+  // // margin-top: 1px;
+  // text-align: center;
+  // line-height: 20px;
+  // border: 1px solid #d3cccc;
   color: #8a8a8a;
-  margin-right: 8px;
-  border-radius: 5px;
 }
 ::v-deep .el-upload:focus {
   color: #8a8a8a;

@@ -1096,7 +1096,8 @@ export default {
       // commitess: false,
       fileTest: '',
       map: null,
-      link: ''
+      link: '',
+      uid: ''
       // titleText: ''
 
     }
@@ -1629,17 +1630,22 @@ export default {
       this.show = true
     },
     interviewsRetNum (id) {
+      this.uid = id
       this.$refs.Interview.receiveChange(id)
       this.$emit('interviewSubmit')
     },
     interviewsLoading (id) {
+      this.uid = id
       this.$refs.Interview.rejectChange(id)
+      this.$emit('interviewsubmits')
     },
     reset () {
       this.show = false
+      this.interviewsRetNum(this.uid)
     },
     reset1 () {
       this.show = false
+      this.interviewsLoading(this.uid)
     }
 
   }

@@ -39,11 +39,7 @@
           <router-link to="/paymentcenter">
             <el-dropdown-item>支付中心</el-dropdown-item>
           </router-link>
-          <a
-            v-if="bel"
-            href="https://znzz.tech/admin"
-            target="_blank"
-          >
+          <a v-if="bel" href="https://znzz.tech/admin" target="_blank">
             <el-dropdown-item>后台管理</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="amend">
@@ -59,14 +55,15 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-import Breadcrumb from '@/components/Breadcrumb';
-import Hamburger from '@/components/Hamburger';
-import ErrorLog from '@/components/ErrorLog';
-import Screenfull from '@/components/Screenfull';
-import SizeSelect from '@/components/SizeSelect';
-import Search from '@/components/HeaderSearch';
-import { enterprisePage } from '@/api/enterprise';
+import { mapGetters, mapMutations } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import ErrorLog from '@/components/ErrorLog'
+import Screenfull from '@/components/Screenfull'
+import SizeSelect from '@/components/SizeSelect'
+import Search from '@/components/HeaderSearch'
+import { enterprisePage } from '@/api/enterprise'
+import { removeToken } from '@/utils/auth'
 export default {
   components: {
     Breadcrumb,
@@ -76,10 +73,10 @@ export default {
     SizeSelect,
     Search
   },
-  data() {
+  data () {
     return {
       bel: false
-    };
+    }
   },
   computed: {
     ...mapGetters([
@@ -89,32 +86,35 @@ export default {
       'navbar'
     ])
   },
-  created() {
+  created () {
     enterprisePage().then(res => {
       // console.log(res.data);
       if (res.data.user.is_active == true && res.data.user.is_staff == true) {
         // console.log(1);
 
-        this.bel = true;
+        this.bel = true
       } else {
         // console.log(2);
-        this.bel = false;
+        this.bel = false
       }
-    });
+    })
   },
   methods: {
     ...mapMutations('navbar', ['toCompany', 'flagChange']),
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar');
+    toggleSideBar () {
+      this.$store.dispatch('app/toggleSideBar')
     },
-    async logout() {
-      await this.$store.dispatch('user/logout');
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+    async logout () {
+      await this.$store.dispatch('user/logout')
+      console.log('退出登录')
+      // await this.$store.commit('ANSWERS', [])
+      removeToken()
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     // 跳转到企业信息
-    toCompanyInfo() {
-      this.$router.push({ path: '/qiyeindex' });
-      this.toCompany();
+    toCompanyInfo () {
+      this.$router.push({ path: '/qiyeindex' })
+      this.toCompany()
     }
   }
 };

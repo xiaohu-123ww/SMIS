@@ -15,7 +15,11 @@
           class="demo-ruleForm"
         >
           <el-form-item label="微信号" prop="wetchat">
-            <el-input v-model="wetchat.wetchat" style="width: 300px"></el-input>
+            <el-input
+              v-model="wetchat.wetchat"
+              style="width: 300px"
+              disabled
+            ></el-input>
             <div v-if="red" style="color: red; font-size: 12px">
               *查看微信号是否正确
             </div>
@@ -54,14 +58,7 @@ export default {
 
     }
   },
-  mounted () {
-    // this.dialogBeforeClose()
-    // this.$message.success('未绑定微信！')
-  },
   computed: {
-
-  },
-  created () {
 
   },
   watch: {
@@ -69,6 +66,13 @@ export default {
       console.log('newVal', newVal)
       this.wetchat.wetchat = newVal
     }
+  },
+  mounted () {
+    // this.dialogBeforeClose()
+    // this.$message.success('未绑定微信！')
+  },
+  created () {
+
   },
   methods: {
     // 取消
@@ -80,8 +84,8 @@ export default {
     wetChatResume () {
       this.$refs.ruleForm.validate((vaild) => {
         if (vaild) {
-          console.log('微信绑定', this.wetchat.wetchat)
-          this.$emit('wetExchange', this.wetchat.wetchat)
+          console.log('微信绑定')
+          this.$emit('wetExchanges')
           this.dialogBeforeClose()
         } else {
           // this.red = false

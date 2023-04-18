@@ -36,7 +36,7 @@
             :class="{ bt: changeColor === 4 }"
             @click="posted"
           >
-            已约面
+            已投递
           </div></el-col
         >
 
@@ -413,11 +413,11 @@
             class="innerboxs"
           >
             <Message
-              v-for="(item, index) in answer"
+              v-for="(item, index) in answers"
               :key="index"
               :data="item"
               :index="index"
-              :firsttime="answer[0].time"
+              :firsttime="answers[0].time"
               :phones="phones"
               :phone-state="phoneState"
               :status="status"
@@ -431,15 +431,24 @@
               :commitess="commitess"
               :interviews="interviews"
               :interviewtrue="interviewtrue"
+              :phone-change-true="phoneChangeTrue"
+              :wechat-change-true="wechatChangeTrue"
+              :resume-change-true="resumeChangeTrue"
+              :interview-change-true="interviewChangeTrue"
+              :position-id="positionId"
+              @interviewsubmits="interviewsubmits"
               @again="again"
+              @interviewSubmit="interviewSubmit"
               @resetChange="resetChange"
               @file="file"
+              @fileterNumss="fileterNumss"
               @wetChat="wetChat"
               @fileterNum="fileterNum"
               @fileterNums="fileterNums"
-              @fileterNumss="fileterNumss"
-              @interviewSubmit="interviewSubmit"
-              @interviewsubmits="interviewsubmits"
+              @phonechangeOne="phonechangeOne"
+              @resumechangeOne="resumechangeOne"
+              @wetchangeOne="wetchangeOne"
+              @interviewchangeOnne="interviewchangeOnne"
             />
           </div>
           <div v-if="changeColor !== 1">
@@ -526,11 +535,20 @@
                     >|</span
                   >
                   <el-button
-                    v-if="hrPhone"
+                    v-if="phoneChangeTrue"
                     class="block"
                     style="background-color: #fff"
+                    @click="changePhone"
                   >
-                    换电话
+                    电话
+                  </el-button>
+                  <el-button
+                    v-if="wechatChangeTrue"
+                    class="block"
+                    style="background-color: #fff"
+                    @click="changeWet"
+                  >
+                    微信
                   </el-button>
                 </div>
               </div>
@@ -605,6 +623,7 @@
       @wetSubmit="wetSubmit"
       @wetExchange="wetExchange"
       @wetresumeSend="wetresumeSend"
+      @wetExchanges="wetExchanges"
     />
   </div>
 </template>
@@ -622,7 +641,7 @@ import Safety from './communication/dialog.vue'
 import { getCv } from '@/api/my/resume'
 
 import { getList } from '@/api/my/safety'
-import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange, getWetChat, getWetChange, getListUid } from '@/api/Rongyun.js'
+import { getRongyun, getpreChat, getInterest, getComming, getPosted, getReject, getPhoneChange, getWetChat, getWetChange, getListUid, getWetChatChange, getPhoneChanges, getWetNumber } from '@/api/Rongyun.js'
 import { getChatingId } from '@/api/my/job.js'
 import { getParticulars } from '@/api/particulars'
 
@@ -641,6 +660,10 @@ export default {
   },
   data () {
     return {
+      phoneChangeTrue: false,
+      wechatChangeTrue: false,
+      resumeChangeTrue: false,
+      interviewChangeTrue: false,
       information: {},
       // 微信
       wetchatvisible: false,
@@ -750,19 +773,36 @@ export default {
         sender_uid: 0,
         receiver_class: 1, // 同上
         receiver_uid: 1
-      }
+      },
+      answers: {},
+      positionId: 0
 
     }
   },
   computed: {
 
   },
+  watch: {
+    '$store.state.num.answer': {
+      handler: function (newVal, oldVal) {
+        console.log('11231', newVal, oldVal)
+        const target = this.$store.state.num.targetId
+        const answerList = newVal
+        this.answers = answerList.filter(function (item, index) { return item.targetId === target })
+        sessionStorage.setItem('answerList', JSON.stringify(newVal))
+      }
+    }
+  },
   mounted () {
+    // window.addEventListener('beforeunload', this.handleBeforeUnload)
     // this.initRongCloud()
     // for (const i in appData) {
     //   console.log('appData', appData)
     //   this.emojList.push(appData[i].char)
     // }
+  },
+  beforeDestroy () {
+    // window.removeEventListener('beforeunload', this.handleBeforeUnload)
   },
 
   created () {
@@ -775,6 +815,56 @@ export default {
   },
 
   methods: {
+    async changePhone () {
+      const { data } = await getPhoneChanges(this.positionId)
+      console.log('手机号', data)
+      this.$notify({
+        title: this.hr.name,
+        message: '手机号：' + data.phone,
+        offset: 100,
+        type: 'success'
+      })
+    },
+
+    async changeWet () {
+      const { data } = await getWetNumber(this.positionId)
+      console.log('微信号', data)
+      this.$notify({
+        title: this.hr.name,
+        message: '微信号：' + data.wechat,
+        offset: 100,
+        type: 'success'
+      })
+    },
+    phonechangeOne () {
+      this.titletext = '提示：手机号已发送至hr'
+      this.commite = true
+      this.filetrue = true
+    },
+    resumechangeOne () {
+      this.commites = true
+      this.titletext = '提示：简历已发送至hr的邮箱'
+      this.filetrues = true
+    },
+    wetchangeOne () {
+      this.commitess = true
+      this.titletext = '提示：微信号已发送至hr'
+      this.wetfiletrue = true
+    },
+    interviewchangeOnne () {
+      this.interviews = true
+      this.titletext = '提示：您接受面试，请按时参加'
+      this.interviewtrue = true
+    },
+
+    // handleBeforeUnload (event) {
+    //   // 在这里处理页面刷新事件
+    //   console.log('页面正在刷新')
+
+    //   // 如果需要在页面刷新时显示一个确认对话框，可以这样做：
+    //   // event.preventDefault()
+    //   // event.returnValue = ''
+    // },
     // 用户登录创建链接数据处理
     async initialize () {
       const { data } = await getListUid()
@@ -783,7 +873,7 @@ export default {
       const res = await getRongyun(this.rongYuns)
       console.log('信息', res)
       this.$store.commit('SET_MEMBER', res.data.sender)
-      this.$store.commit('SET_TARGETID', res.data.receiver.uid)
+      // this.$store.commit('SET_TARGETID', res.data.receiver.uid)
       this.initRongCloud()
     },
     // 感兴趣
@@ -798,8 +888,11 @@ export default {
     // 接受面试
     interviewSubmit () {
       this.interviews = true
-      this.titletext = '提示：已接受面试'
+      this.titletext = '提示：您接受面试，请按时参加'
       this.interviewtrue = true
+      var text = '我已接受面试，会准时参加'
+      this.sam(text)
+      this.posted()
     },
     // 拒绝面试
     interviewsubmits () {
@@ -831,21 +924,26 @@ export default {
         query: { id: this.resumeData.position.position_id }
       })
     },
+    wetExchanges () {
+      this.wetchatvisible = true
+    },
     // 微信绑定及更换
     async wetExchange (wechat) {
+      // this.wetnumber = false
+      // this.wetchatvisible = true
       console.log('wetchat', wechat)
       const { data } = await getWetChatChange(wechat)
       console.log('微信绑定', data)
-      this.wetresumeSend()
-      // this.wetcancel()
+      this.wetresumeSend(wechat)
     },
     // 微信
     async wetresumeSend (wechat) {
+      console.log('wechat', wechat)
       // this.filetrue = false
       // this.titletext = ''
       this.commitess = true
       this.titletext = '提示：微信号已发送至hr'
-      this.filetrue = true
+      this.wetfiletrue = true
       console.log(wechat)
       var id = this.hr.id
       const res = await getWetChange(id)
@@ -881,13 +979,14 @@ export default {
 
             messageName: message.content.messageName,
             time: _this.nowTime,
-            targetId: message.senderUserId
+            targetId: message.targetId
 
             // condition: 'false'
 
           }
           _this.answer.push(say)
-          console.log(say, _this.answer)
+          _this.answers.push(say)
+          console.log(say, _this.answer, _this.answers)
         },
         onError: function (errorCode, message) {
           console.log('Send RichContentMessage error: ' + errorCode)
@@ -967,13 +1066,14 @@ export default {
 
                 messageName: message.content.messageName,
                 time: _this.nowTime,
-                targetId: message.senderUserId
+                targetId: message.targetId
 
                 // condition: 'false'
 
               }
               _this.answer.push(say)
-              console.log(say, _this.answer)
+              _this.answers.push(say)
+              console.log(say, _this.answer, _this.answers)
             },
             onError: function (errorCode, message) {
               console.log('Send RichContentMessage error: ' + errorCode)
@@ -1068,7 +1168,7 @@ export default {
               txt: message.content.content,
               headImg: _this.memberInfo.img,
               time: _this.nowTime,
-              targetId: message.senderUserId
+              targetId: message.targetId
 
               // condition: 'false'
 
@@ -1078,7 +1178,8 @@ export default {
             // _this.$store.commit('SET_ANSWER', _this.answer)
             // localStorage.setItem('answer', JSON.stringify(_this.answer))
             // _this.$store.commit('SET_ANSWER', _this.answer)
-            console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
+            _this.answers.push(say)
+            console.log(say, _this.answer, _this.answers)
             _this.image = ''
             _this.say = ''
           },
@@ -1177,13 +1278,15 @@ export default {
               headImg: _this.$store.state.num.memberInfo.img,
               messageName: message.content.messageName,
               time: _this.nowTime,
-              targetId: message.senderUserId
+              targetId: message.targetId
 
               // condition: 'false'
 
             }
             // _this.answer.push(say)
             _this.answer.push(say)
+            _this.answers.push(say)
+            console.log(say, _this.answer, _this.answers)
             _this.image = ''
             console.log(say, _this.answer)
           },
@@ -1320,14 +1423,16 @@ export default {
               headImg: _this.memberInfo.img,
               time: _this.nowTime,
               messageName: 'TextMessage',
-              targetId: message.senderUserId
+              targetId: message.targetId
 
               // condition: 'false'
 
             }
             console.log('_this.memberInfo', say, message.content.content)
             _this.answer.push(say)
-            localStorage.setItem('answer', JSON.stringify(_this.answer))
+            _this.answers.push(say)
+            console.log(say, _this.answer, _this.answers)
+            // localStorage.setItem('answer', JSON.stringify(_this.answer))
             // _this.$store.commit('SET_ANSWER', _this.answer)
             // console.log('  _this.answer', _this.answer, _this.$store.state.num.answer)
 
@@ -1419,12 +1524,18 @@ export default {
     },
     // 边框 点击每一个联系人
     async tinct (i, sender, receiver, item) {
+      this.answers = []
       console.log('i', i, sender, receiver, item)
       this.count = i
       this.rongYun.sender_uid = sender
       this.rongYun.receiver_uid = receiver
       this.name = item.hr_info.name
       this.information = item
+      this.phoneChangeTrue = item.is_phone_exchanged
+      this.resumeChangeTrue = item.is_cv_exchanged
+      this.wechatChangeTrue = item.is_wechat_exchanged
+      this.interviewChangeTrue = item.is_interviewed
+
       const res = await getRongyun(this.rongYun)
       console.log(res.code)
       // const { data } = await getParticulars(item.position.position_id
@@ -1437,15 +1548,35 @@ export default {
       // }
 
       if (res.code === 200) {
-        console.log(res.data.receiver, res.data.sender)
-        this.$store.commit('SET_MEMBER', res.data.sender)
-        this.$store.commit('SET_TARGETID', res.data.receiver.uid)
-        this.hr.name = item.hr_info.name
-        this.hr.sex = item.hr_info.sex
-        this.hr.state = item.hr_info.online_status
-        this.hr.company = item.position.enterprise.enterprise_name
-        this.hr.id = item.id
-        this.messageTxt = false
+        if (item.position.position_status === 2) {
+          console.log(res.data.receiver, res.data.sender)
+          this.$store.commit('SET_MEMBER', res.data.sender)
+          this.$store.commit('SET_TARGETID', res.data.receiver.uid)
+          const target = this.$store.state.num.targetId
+          var answerList = []
+          if (this.$store.state.num.answer.length === 0) {
+            console.log(JSON.parse(sessionStorage.getItem('answerList')))
+            answerList = JSON.parse(sessionStorage.getItem('answerList'))
+          } else {
+            answerList = this.$store.state.num.answer
+          }
+          if (answerList !== null) {
+            this.answers = answerList.filter(function (item, index) { return item.targetId === target })
+          }
+
+          console.log('answers', this.answers)
+          this.hr.name = item.hr_info.name
+          this.hr.sex = item.hr_info.sex
+          this.hr.state = item.hr_info.online_status
+          this.hr.company = item.position.enterprise.enterprise_name
+          this.hr.id = item.id
+          this.positionId = item.id
+          this.messageTxt = false
+        } else {
+          this.messageTxt = true
+          this.$message.success('该职位已下线！')
+        }
+
         // this.initRongCloud()
       } else {
         this.$message.success(res.data.msg)
@@ -1594,13 +1725,15 @@ export default {
             headImg: _this.memberInfo.img,
             time: _this.nowTime,
             messageName: 'TextMessage',
-            targetId: message.senderUserId
+            targetId: message.targetId
 
             // condition: 'false'
 
           }
           console.log('_this.memberInfo', say, message.content.content)
           _this.answer.push(say)
+          _this.answers.push(say)
+          console.log(say, _this.answer, _this.answers)
           // _this.$store.commit('SET_ANSWER', _this.answer)
           // localStorage.setItem('answer', JSON.stringify(_this.answer))
           // _this.$store.commit('SET_ANSWER', _this.answer)
@@ -1959,7 +2092,7 @@ div#el-popover-700 {
   height: 20px;
   font-size: 12px;
   padding: 1px 0px 0px 2px;
-  margin-top: 8px;
+  margin-top: 6px;
   border: 1px solid #d3cccc;
   background-color: #fff;
   // display: inline-block;

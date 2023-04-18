@@ -86,3 +86,26 @@ export function getListUid () {
   return request.get('/user/user_data/')
 }
 
+/**
+ * 是否交换手机号
+ */
+
+export function getPhoneChanges (id) {
+  return request.get('/enterprise/view-phone/', {
+    params: {
+      comm_id: id
+    }
+  })
+}
+/**
+ * 是否交换微信号
+ */
+
+export function getWetNumber (id) {
+  return request.get('/enterprise/view-wechat/', {
+    params: {
+      comm_id: id
+    }
+  })
+}
+

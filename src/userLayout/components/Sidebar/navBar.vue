@@ -165,6 +165,7 @@ export default {
       await this.$store.commit('ANSWERS', [])
       await this.$store.commit('MEMBER', {})
       await this.$store.commit('UserId', {})
+      await sessionStorage.removeItem('answerList')
       removeToken()
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }

@@ -38,7 +38,7 @@ export function getInRecruit (id, data, limit, offset) {
  *感兴趣
  */
 export function getInterests (id) {
-  return request.post(`/user/interests/${id}/`)
+  return request.post(`/user/interests/v1.0.1/${id}/`)
 }
 
 // 收藏

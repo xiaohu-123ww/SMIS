@@ -387,8 +387,12 @@ export default {
         console.log(res.data.receiver, res.data.sender)
         this.$store.commit('SET_MEMBER', res.data.sender)
         this.$store.commit('SET_TARGETID', res.data.receiver.uid)
-        const { data } = await getInterests(id)
-        console.log('意向', data)
+        const res1 = await getInterests(id)
+        if (res1.code === 200) {
+          this.$router.push('/communication')
+        } else {
+          this.$message.success(res1.data.msg)
+        }
       } else {
         this.$message.success(res.data.msg)
       }

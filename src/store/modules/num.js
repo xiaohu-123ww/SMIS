@@ -1,24 +1,24 @@
 const state = {
   memberInfo: {}, // 用户信息
   targetId: '', // 目标ID
-  answer: [],
+  answer: [], // 消息列表
   appkey: 'x18ywvqfxypqc',
-  list: {},
+  list: {}, // 消息列表
   senderUserId: '' // 消息列表
 
 }
 const mutations = {
   SET_MEMBER (state, memberInfo) {
     state.memberInfo = memberInfo
-    // localStorage.setItem('memberInfo', JSON.stringify(state.memberInfo))
+    // sessionStorage.setItem('memberInfos', JSON.stringify(state.memberInfo))
   },
   SET_UserId (state, memberInfo) {
     state.list = memberInfo
-    // localStorage.setItem('memberInfo', JSON.stringify(state.memberInfo))
+    // sessionStorage.setItem('lists', JSON.stringify(state.memberInfo))
   },
   SET_TARGETID (state, targetId) {
     state.targetId = targetId
-    localStorage.setItem('targetId', state.targetId)
+    // sessionStorage.setItem('targetIds', state.targetId)
   },
   SET_ANSWER (state, playload) {
     const say = {
@@ -39,7 +39,12 @@ const mutations = {
       // 头像
     }
     state.answer.push(say)
-    // localStorage.setItem('answer', JSON.stringify(state.answer))
+    // sessionStorage.setItem('lists', JSON.stringify(state.memberInfo))
+    // 将动态数组转换为 JSON 字符串
+    // const jsonString = JSON.stringify(state.answer)
+
+    // // 将 JSON 字符串存储到 localStorage
+    // window.sessionStorage.setItem('answer', JSON.stringify(state.answer))
   },
   ANSWERS (state, playload) {
     state.answer = playload

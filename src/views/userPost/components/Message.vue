@@ -478,9 +478,9 @@
                   {{ data.content }}
                 </div>
 
-                <div v-if="phoneVisible" style="margin-top: 20px">
+                <!-- <div v-if="phoneVisible" style="margin-top: 20px">
                   {{ name }}:{{ data.imageUri }}
-                </div>
+                </div> -->
               </div>
               <div style="display: flex">
                 <el-button
@@ -589,13 +589,13 @@
                   />
                 </div>
                 <div
-                  v-if="resumeVisible && data.title !== '面试邀约'"
+                  v-if="resumeVisibles && data.title !== '面试邀约'"
                   style="margin-top: 15px"
                 >
                   {{ data.content }}
                 </div>
 
-                <div v-if="phoneVisible" style="margin-top: 20px">
+                <div v-if="phoneVisibles" style="margin-top: 20px">
                   {{ name }}:{{ data.imageUri }}
                 </div>
               </div>
@@ -725,7 +725,7 @@
                     border-right: 1px solid #e6e3e3;
                   "
                   :disabled="interviews"
-                  @click="interviewsRetNum(data.imageUri.interviewer)"
+                  @click="interviewsRetNum()"
                   >确定</el-button
                 >
                 <el-button
@@ -739,7 +739,7 @@
                   class="bg"
                   :class="{ active: interviews }"
                   :disabled="interviews"
-                  @click="interviewsLoading(data.imageUri.interviewer)"
+                  @click="interviewsLoading()"
                   >取消</el-button
                 >
               </div>
@@ -1054,6 +1054,25 @@ export default {
     },
     interviewtrue: {
       type: Boolean
+    },
+    //  phoneChangeTrue: false,
+    //   wechatChangeTrue: false,
+    //   resumeChangeTrue: false,
+    //   interviewChangeTrue: false,
+    phoneChangeTrue: {
+      type: Boolean
+    },
+    wechatChangeTrue: {
+      type: Boolean
+    },
+    resumeChangeTrue: {
+      type: Boolean
+    },
+    interviewChangeTrue: {
+      type: Boolean
+    },
+    positionId: {
+      type: Number
     }
 
   },
@@ -1063,6 +1082,8 @@ export default {
       show: false,
       resumeVisible: true,
       phoneVisible: false,
+      resumeVisibles: true,
+      phoneVisibles: false,
       // fileTrue: false,
       ak: 'ZrI2HTuyRbAXHDuci4xowYtUOepEzMmK',
       center: { lng: 0, lat: 0 },
@@ -1139,6 +1160,36 @@ export default {
       this.zoom = 15
     },
     list () {
+      // 消息判断
+      if (this.data.css === 'left' &&
+        this.data.messageName === 'RichContentMessage' &&
+        this.data.title === '电话申请' && this.phoneChangeTrue === true) {
+        console.log('电话已确认')
+        this.phoneVisible = true
+        this.resumeVisible = false
+        this.$emit('phonechangeOne')
+        // phonechangeOne
+        // resumechangeOne
+        // wetchangeOne
+        // interviewchangeOnne
+      }
+      if (this.data.css === 'left' &&
+        this.data.messageName === 'RichContentMessage' &&
+        this.data.title === '简历申请' && this.resumeChangeTrue === true) {
+        this.$emit('resumechangeOne')
+      }
+      if (this.data.css === 'left' &&
+        this.data.messageName === 'RichContentMessage' &&
+        this.data.title === '微信申请' && this.wechatChangeTrue === true) {
+        this.phoneVisibles = true
+        this.resumeVisibles = false
+        this.$emit('wetchangeOne')
+      }
+      if (this.data.css === 'left' &&
+        this.data.messageName === 'RichContentMessage' &&
+        this.data.title === '面试邀约' && this.interviewChangeTrue === true) {
+        this.$emit('interviewchangeOnne')
+      }
       // 判断地图
       this.map = typeof (this.data.txt)
       // console.log(map)
@@ -1594,7 +1645,7 @@ export default {
         // this.titleText = '提示：手机号已发送至hr'
       } else {
         this.$emit('file', false)
-        this.resumeVisible = true
+        // this.resumeVisible = true
         // this.phoneVisible = false
         // this.resumeVisible = false
         // this.titleText = '提示：简历已发送至hr的邮箱'
@@ -1610,8 +1661,8 @@ export default {
       // document.body.removeChild(downloadLink)
     },
     wetUploading () {
-      this.phoneVisible = true
-      this.resumeVisible = false
+      this.phoneVisibles = true
+      this.resumeVisibles = false
       this.$emit('wetChat')
     },
     uploading () {
@@ -1631,12 +1682,12 @@ export default {
     },
     interviewsRetNum (id) {
       this.uid = id
-      this.$refs.Interview.receiveChange(id)
+      this.$refs.Interview.receiveChange(this.positionId)
       this.$emit('interviewSubmit')
     },
     interviewsLoading (id) {
       this.uid = id
-      this.$refs.Interview.rejectChange(id)
+      this.$refs.Interview.rejectChange(this.positionId)
       this.$emit('interviewsubmits')
     },
     reset () {

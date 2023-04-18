@@ -54,12 +54,14 @@ export default {
     // this.dialogBeforeClose()
     // this.$message.success('未绑定微信！')
   },
+  // eslint-disable-next-line vue/order-in-components
   computed: {
 
   },
   created () {
 
   },
+  // eslint-disable-next-line vue/order-in-components
   watch: {
     wechatnumber (newVal, oldVal) {
       console.log('newVal', newVal)

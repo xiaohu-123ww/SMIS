@@ -75,6 +75,15 @@ Vue.prototype.disposeTime = disposeTime
 Vue.prototype.getFullname = getFullname
 Vue.prototype.constTime = constTime
 Vue.prototype.EventBus = EventBus
+// Vue.config.productionTip = false
+// window.addEventListener('beforeunload', (event) => {
+//   console.log('页面正在刷新')
+
+//   // 如果需要在页面刷新时显示一个确认对话框，可以这样做：
+//   // event.preventDefault()
+//   // event.returnValue = ''
+// })
+
 // console.log = console.warn = () => { }
 new Vue({
   el: '#app',

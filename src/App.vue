@@ -26,6 +26,12 @@ export default {
       showDatas: []
     }
   },
+  mounted () {
+    // window.addEventListener('beforeunload', this.handleBeforeUnload)
+  },
+  beforeDestroy () {
+    // window.removeEventListener('beforeunload', this.handleBeforeUnload)
+  },
   created () {
     // this.start()
     // this.Rong()
@@ -41,6 +47,14 @@ export default {
     }, 300000)
   },
   methods: {
+    // handleBeforeUnload (event) {
+    //   // 在这里处理页面刷新事件
+    //   console.log('页面正在刷新')
+
+    //   // 如果需要在页面刷新时显示一个确认对话框，可以这样做：
+    //   event.preventDefault()
+    //   event.returnValue = ''
+    // },
     async start () {
       console.log('token', this.$store.getters.token)
       if (this.$store.getters.token) {

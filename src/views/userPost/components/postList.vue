@@ -424,11 +424,13 @@ export default {
       this.searchingList = i
 
       this.loading = true
+      this.showTime = false
       const { data } = await getPostList(i, this.limit)
       console.log('本页查询列表数据', data)
       this.jobListings = data.results
       this.total = data.count
       this.loading = false
+      this.showTime = true
     },
     // 列表数据
     async getPostList () {

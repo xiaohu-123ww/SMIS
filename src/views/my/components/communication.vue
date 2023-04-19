@@ -55,7 +55,7 @@
       <div class="left">
         <div style="display: flex">
           <div style="width: 85%">
-            <el-select v-model="text" placeholder="全部职位" style="width: 98%">
+            <!-- <el-select v-model="text" placeholder="全部职位" style="width: 98%">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -63,17 +63,17 @@
                 :value="item.value"
               >
               </el-option>
-            </el-select>
+            </el-select> -->
           </div>
           <div>
-            <el-button
+            <!-- <el-button
               icon="el-icon-search"
               style="height: 33px; width: 35px; padding: 3px 0px 0px 3px"
-            ></el-button>
+            ></el-button> -->
           </div>
         </div>
         <div class="state">
-          <div style="width: 85%; margin-top: 12px">
+          <div style="width: 85%">
             <!-- <el-radio
               v-model="radio"
               label="1"
@@ -1892,7 +1892,7 @@ export default {
 //   }
 // }
 .innerbox {
-  margin-top: 10px;
+  // margin-top: 10px;
   height: 500px;
   overflow-y: auto;
   .textnum {

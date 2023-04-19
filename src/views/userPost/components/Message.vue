@@ -707,8 +707,8 @@
                       职位：
                       <span
                         style="color: rgb(24, 144, 255)"
-                        @click="interviewsRet(data.imageUri.interviewer)"
-                        >{{ data.content }}</span
+                        @click="interviewsRet(data.imageUri.interview_id)"
+                        >{{ data.imageUri.content }}</span
                       >
                     </div></a
                   >
@@ -1682,21 +1682,21 @@ export default {
     },
     interviewsRetNum (id) {
       this.uid = id
-      this.$refs.Interview.receiveChange(this.positionId)
+      this.$refs.Interview.receiveChange(id)
       this.$emit('interviewSubmit')
     },
     interviewsLoading (id) {
       this.uid = id
-      this.$refs.Interview.rejectChange(this.positionId)
+      this.$refs.Interview.rejectChange(id)
       this.$emit('interviewsubmits')
     },
     reset () {
       this.show = false
-      this.interviewsRetNum(this.uid)
+      // this.interviewsRetNum(this.uid)
     },
     reset1 () {
       this.show = false
-      this.interviewsLoading(this.uid)
+      // this.interviewsLoading(this.uid)
     }
 
   }

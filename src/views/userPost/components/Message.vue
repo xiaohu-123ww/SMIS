@@ -663,7 +663,7 @@
             ></el-avatar>
             <div
               style="
-                height: 115px;
+                height: 85px;
                 background-color: #fff;
                 width: 250px;
                 border: 1px solid #e6e3e3;
@@ -714,7 +714,7 @@
                   >
                 </div>
               </div>
-              <div style="display: flex">
+              <!-- <div style="display: flex">
                 <el-button
                   type="text"
                   style="
@@ -742,7 +742,7 @@
                   @click="interviewsLoading()"
                   >取消</el-button
                 >
-              </div>
+              </div> -->
             </div>
           </div>
           <div
